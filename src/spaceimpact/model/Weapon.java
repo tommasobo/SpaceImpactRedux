@@ -12,14 +12,14 @@ public interface Weapon {
 	/** Shoot a Projectile
 	 * 
 	 * create and shoot a new Projectile
-	 * 
+	 * @return projectile A new projective object
 	 */
-	void shoot();
+	Projectile shoot();
 	
 	/** Enhance weapon capabilities
 	 * 
 	 * @param damageincrement Projectiles damage
-	 * @param shootingfrequency How many projectiles can shoot in one tick
+	 * @param projectilesvelocity Velocity of shooted projectiles
 	 */
-	void enhance(int damageincrement, int shootingfrequency);	
+	void enhance(int damageincrement, double projectilesvelocity);	
 }

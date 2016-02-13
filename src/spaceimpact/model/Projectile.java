@@ -1,5 +1,11 @@
 package spaceimpact.model;
 
+/** Projectile
+ * <br>
+ * Spawned when an entity shoot, damage and velocity are defined by the weapon that shoot it.
+ * 
+ * @author Davide
+ */
 public class Projectile implements Entity {
 
 	private final int damage;
@@ -27,7 +33,6 @@ public class Projectile implements Entity {
 
 	@Override
 	public Boolean collideWith(Entity otherEntity) {
-
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -38,4 +43,8 @@ public class Projectile implements Entity {
 		this.location.setY(this.location.getY() + this.location.getY() * velocity);
 	}
 
+	@Override
+	public void setLocation(Location location) {
+		this.location = location;	
+	}
 }

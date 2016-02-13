@@ -1,4 +1,5 @@
 syntax: glob
 *.class
-*/bin/*
-*/doc/*
+*.ucls
+*bin/*
+*doc/*
