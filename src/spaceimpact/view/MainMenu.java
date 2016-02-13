@@ -11,10 +11,12 @@ import javafx.stage.Stage;
 
 public class MainMenu extends Application {
 
-    private Button newGame;
-    private Button highScores;
-    private Button options;
-    private Button exit;
+    private Stage window;
+    private Button newGame = new Button("New Game");
+    private Button highScores = new Button ("High Scores");
+    private Button options = new Button("Options");
+    private final Button info = new Button("Info");
+    private Button exit = new Button("Exit");
 
     public static void main(String[] args) {
         launch(args);
@@ -22,25 +24,23 @@ public class MainMenu extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Menu");
-        
-        newGame = new Button();
-        highScores = new Button();
-        options = new Button();
-        exit = new Button();
+        this.window = primaryStage;
+        window.setTitle("Menu");
+        window.setOnCloseRequest(e -> {
+            e.consume();
+            this.closeProgram();
+        });
 
-        VBox vbox = new VBox(newGame, highScores, options, exit);
+        VBox vbox = new VBox(newGame, highScores, options, info, exit);
         vbox.setPrefWidth(150);
         vbox.setAlignment(Pos.CENTER);
 
-        newGame.setText("New Game");
         newGame.setMinWidth(vbox.getPrefWidth());
-        highScores.setText("High Scores");
         highScores.setMinWidth(vbox.getPrefWidth());
-        options.setText("Options");
         options.setMinWidth(vbox.getPrefWidth());
-        exit.setText("Exit");
+        info.setMinWidth(vbox.getPrefWidth());
         exit.setMinWidth(vbox.getPrefWidth());
+        this.exit.setOnAction(e -> this.closeProgram());
         
         vbox.setSpacing(10);
         vbox.setPadding(new Insets(20));
@@ -48,8 +48,15 @@ public class MainMenu extends Application {
         layout.getChildren().add(vbox);
         
         Scene scene = new Scene(layout, 500, 450);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        window.setScene(scene);
+        window.show();
+    }
+    
+    private void closeProgram() {
+        Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to exit the game?");
+        if (answer) {
+            window.close();
+        }
     }
 
 }
