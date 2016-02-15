@@ -4,6 +4,7 @@ import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.geometry.*;
 
 public class ConfirmBox {
@@ -13,6 +14,7 @@ public class ConfirmBox {
 
     public static boolean display(String title, String message) {
         Stage window = new Stage();
+        window.getIcons().add(new Image("file:res/alert.png"));
         window.setResizable(false);
         window.centerOnScreen();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -47,6 +49,7 @@ public class ConfirmBox {
         layout.getChildren().addAll(label, layoutButton);
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout);
+        scene.getStylesheets().add("style.css");
         window.setScene(scene);
         window.showAndWait();
 

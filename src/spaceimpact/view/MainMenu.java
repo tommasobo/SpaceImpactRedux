@@ -4,8 +4,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -14,30 +12,26 @@ public class MainMenu{
 
     private static final int WIDTH = 800;
     private static final int HEIGHT = 800;
+    private static final int WIDTH_LOGO = 600;
+    private static final int HEIGHT_LOGO = 200;
+    private static final int BUTTON_WIDTH = 250;
     
     private Stage mainWindow;
+    private final Logo logo = new Logo(WIDTH_LOGO, HEIGHT_LOGO);
     private final Button newGame = new Button("New Game");
     private final Button highScores = new Button ("High Scoress");
     private final Button options = new Button("Options");
     private final Button info = new Button("Info");
     private final Button exit = new Button("Exit");
 
-    public void display(Stage mainWindow) throws Exception {
-        //Font.loadFont(MainMenu.class.getResource("space_invaders.ttf").toExternalForm(), 10);
-        
+    public void display(Stage mainWindow) throws Exception {        
         this.mainWindow = mainWindow;
-        mainWindow.setTitle("Menu");
-        
-        Image image = new Image("logo.png");
-        ImageView iv1 = new ImageView();
-        iv1.setImage(image);
-        iv1.setFitHeight(250);
-        iv1.setFitWidth(650);
+        this.mainWindow.setTitle("Menu");
         
         final StackPane logoBox = new StackPane();
         logoBox.setAlignment(Pos.TOP_CENTER);
-        logoBox.getChildren().add(iv1);
-        logoBox.setPadding(new Insets(40));
+        logoBox.getChildren().add(this.logo.getLogo());
+        logoBox.setPadding(new Insets(60));
         
         mainWindow.setOnCloseRequest(e -> {
             e.consume();
@@ -45,7 +39,7 @@ public class MainMenu{
         });
 
         final VBox vbox = new VBox(newGame, highScores, options, info, exit);
-        vbox.setPrefWidth(200);
+        vbox.setPrefWidth(BUTTON_WIDTH);
         vbox.setAlignment(Pos.BOTTOM_CENTER);
 
         this.newGame.setMinWidth(vbox.getPrefWidth());
@@ -62,11 +56,13 @@ public class MainMenu{
         this.exit.setId("dark-blue");
         
         vbox.setSpacing(10);
-        vbox.setPadding(new Insets(200));
+        vbox.setPadding(new Insets(170));
         final StackPane layout = new StackPane();
         layout.getChildren().addAll(logoBox, vbox);
         
+        layout.setId("mainPane");
         final Scene scene = new Scene(layout, WIDTH, HEIGHT);
+        
         scene.getStylesheets().add("style.css");
         
         this.mainWindow.setScene(scene);
