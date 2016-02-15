@@ -1,6 +1,5 @@
 package spaceimpact.view;
 
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,7 +8,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -55,6 +53,7 @@ public class MainMenu{
         this.highScores.setMinWidth(vbox.getPrefWidth());
         this.options.setMinWidth(vbox.getPrefWidth());
         this.info.setMinWidth(vbox.getPrefWidth());
+        this.info.setOnAction(e -> InfoBox.display("Info Box"));
         this.exit.setMinWidth(vbox.getPrefWidth());
         this.exit.setOnAction(e -> this.closeProgram());
         
@@ -76,7 +75,7 @@ public class MainMenu{
     }
     
     private void closeProgram() {
-        Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to exit the game?");
+        final Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to exit the game?");
         if (answer) {
             this.mainWindow.close();
         }
