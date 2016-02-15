@@ -24,21 +24,21 @@ public class MainMenu{
     private final Button exit = new Button("Exit");
 
     public void display(Stage mainWindow) throws Exception {
-        Font.loadFont(MainMenu.class.getResource("space_invaders.ttf").toExternalForm(), 10);
+        //Font.loadFont(MainMenu.class.getResource("space_invaders.ttf").toExternalForm(), 10);
         
         this.mainWindow = mainWindow;
         mainWindow.setTitle("Menu");
         
-        Image image = new Image("logo.jpg");
+        Image image = new Image("logo.png");
         ImageView iv1 = new ImageView();
         iv1.setImage(image);
-        iv1.setFitHeight(200);
-        iv1.setFitWidth(600);
+        iv1.setFitHeight(250);
+        iv1.setFitWidth(650);
         
         final StackPane logoBox = new StackPane();
         logoBox.setAlignment(Pos.TOP_CENTER);
         logoBox.getChildren().add(iv1);
-        logoBox.setPadding(new Insets(60));
+        logoBox.setPadding(new Insets(40));
         
         mainWindow.setOnCloseRequest(e -> {
             e.consume();
@@ -46,16 +46,21 @@ public class MainMenu{
         });
 
         final VBox vbox = new VBox(newGame, highScores, options, info, exit);
-        vbox.setPrefWidth(180);
+        vbox.setPrefWidth(200);
         vbox.setAlignment(Pos.BOTTOM_CENTER);
 
         this.newGame.setMinWidth(vbox.getPrefWidth());
+        this.newGame.setId("dark-blue");
         this.highScores.setMinWidth(vbox.getPrefWidth());
+        this.highScores.setId("dark-blue");
         this.options.setMinWidth(vbox.getPrefWidth());
+        this.options.setId("dark-blue");
         this.info.setMinWidth(vbox.getPrefWidth());
         this.info.setOnAction(e -> InfoBox.display("Info Box"));
+        this.info.setId("dark-blue");
         this.exit.setMinWidth(vbox.getPrefWidth());
         this.exit.setOnAction(e -> this.closeProgram());
+        this.exit.setId("dark-blue");
         
         vbox.setSpacing(10);
         vbox.setPadding(new Insets(200));
@@ -63,7 +68,7 @@ public class MainMenu{
         layout.getChildren().addAll(logoBox, vbox);
         
         final Scene scene = new Scene(layout, WIDTH, HEIGHT);
-        scene.getStylesheets().add("spaceimpact/view/style.css");
+        scene.getStylesheets().add("style.css");
         
         this.mainWindow.setScene(scene);
         this.mainWindow.setHeight(HEIGHT);

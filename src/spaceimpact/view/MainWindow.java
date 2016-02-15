@@ -26,11 +26,12 @@ public class MainWindow extends Application{
         this.mainMenu.display(this.mainWindow);
         
         Image image = new Image("icon.jpg");
+        
         ImageView iv1 = new ImageView();
         iv1.setImage(image);
         iv1.setFitHeight(200);
         iv1.setFitWidth(600);
-        
+
         this.mainWindow.setHeight(HEIGHT);
         this.mainWindow.setWidth(WIDTH);
         this.mainWindow.setTitle("Space Impact Redux");

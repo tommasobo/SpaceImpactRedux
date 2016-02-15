@@ -35,7 +35,7 @@ public class InfoBox {
         //Add buttons
         root.getChildren().addAll(layout,descLayout);
         Scene scene = new Scene(root);
-        scene.getStylesheets().add("spaceimpact/view/style.css");
+        scene.getStylesheets().add("style.css");
         window.setScene(scene);
         window.showAndWait();
     }
