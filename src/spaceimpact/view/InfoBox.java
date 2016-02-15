@@ -2,6 +2,8 @@ package spaceimpact.view;
 
 import javafx.stage.*;
 import javafx.scene.*;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.geometry.*;
@@ -9,32 +11,45 @@ import javafx.geometry.*;
 public class InfoBox {
 
     public static void display(String title) {
-        Stage window = new Stage();
+        final Stage window = new Stage();
+        window.getIcons().add(new Image("file:res/info.png"));
         window.setResizable(false);
         window.centerOnScreen();
-        window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setMinWidth(400);
         window.setMinHeight(600);
-        Pane root = new Pane();
         
-        Text label = new Text();
+        final Logo logo = new Logo(280,70);
+        
+        final Text label = new Text();
         label.setText("Developed and Created by");
         label.setId("titleInfo");
-        Text developers = new Text();
-        developers.setText("Tommaso Bonato, Nicola Cielo, Davide Giacomini");
-
-        VBox layout = new VBox(10);
-        StackPane descLayout = new StackPane();
         
-        layout.getChildren().addAll(label, developers);
+        final VBox listDeveloper = new VBox(10);
+        final Label view = new Label("Tommaso Bonato (View)");
+        view.setId("whiteText");
+        final Label model = new Label("Davide Giacomini (Model)");
+        model.setId("whiteText");
+        final Label controller = new Label("Nicola Cielo (Controller)");
+        controller.setId("whiteText");
+        
+        listDeveloper.getStylesheets().add("style.css");
+        listDeveloper.setAlignment(Pos.CENTER);
+        listDeveloper.setId("whiteText");
+        listDeveloper.setPadding(new Insets(10));
+        listDeveloper.getChildren().addAll(view, model, controller);
+
+        final VBox layout = new VBox(10);
+        final StackPane descLayout = new StackPane();
+        
+        layout.getChildren().addAll(logo.getLogo(), label, listDeveloper);
         layout.setSpacing(10);
         layout.setPadding(new Insets(8));
         layout.setAlignment(Pos.TOP_CENTER);
 
-        //Add buttons
-        root.getChildren().addAll(layout,descLayout);
-        Scene scene = new Scene(root);
+        descLayout.getChildren().addAll(layout);
+        descLayout.setId("infoPane");
+        final Scene scene = new Scene(descLayout);
         scene.getStylesheets().add("style.css");
         window.setScene(scene);
         window.showAndWait();
