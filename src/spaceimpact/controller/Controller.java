@@ -5,12 +5,15 @@ import java.util.List;
 import spaceimpact.utilities.Pair;
 
 public class Controller implements ControllerInterface {
-
+	private static final String HS_FILENAME = "hiscores";
+	private static final int HS_NSCORES = 10;
+	
+	
 	private final HighScoresManager hsManager;
 	
 	
 	private Controller() {
-		this.hsManager = new HighScoresManager();
+		this.hsManager = new HighScoresManager(Controller.HS_FILENAME, Controller.HS_NSCORES);
 	}
 	
 	
