@@ -8,7 +8,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class MainMenu{
@@ -18,7 +17,7 @@ public class MainMenu{
     
     private Stage mainWindow;
     private final Button newGame = new Button("New Game");
-    private final Button highScores = new Button ("High Scores");
+    private final Button highScores = new Button ("High Scoress");
     private final Button options = new Button("Options");
     private final Button info = new Button("Info");
     private final Button exit = new Button("Exit");
