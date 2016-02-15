@@ -27,13 +27,7 @@ public class Debris implements Entity {
 	}
 	
 	@Override
-	public Boolean collideWith(Entity otherEntity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void Update() {
+	public void update() {
 		this.location.setX(this.location.getX() + this.location.getX() * velocity);
 		this.location.setY(this.location.getY() + this.location.getY() * velocity);	
 	}
