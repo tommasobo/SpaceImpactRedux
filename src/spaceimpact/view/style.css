@@ -1,0 +1,10 @@
+.root {
+	-fx-background-color: white;
+	-fx-font-size: 15pt;
+	-fx-font-family: space_invaders;
+}
+
+@font-face {
+    font-family: Delicious;
+    src: url("space_invaders.ttf");
+}
