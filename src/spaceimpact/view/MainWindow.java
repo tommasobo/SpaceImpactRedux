@@ -1,6 +1,7 @@
 package spaceimpact.view;
 
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -10,8 +11,6 @@ public class MainWindow extends Application{
     private static final int HEIGHT = 800;
     
     private Stage mainWindow;
-    private final MainMenu mainMenu = new MainMenu();
-    
     
     public static void main(final String[] args) {
         launch(args);
@@ -20,16 +19,30 @@ public class MainWindow extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.mainWindow = primaryStage;
-        mainWindow.setTitle("Menu");
         this.mainWindow.getIcons().add(new Image("file:res/icon.png"));
-        
-        this.mainMenu.display(this.mainWindow);
-
         this.mainWindow.setHeight(HEIGHT);
         this.mainWindow.setWidth(WIDTH);
         this.mainWindow.setTitle("Space Impact Redux");
         this.mainWindow.centerOnScreen();
         this.mainWindow.setResizable(false);
+        
+        this.mainWindow.setOnCloseRequest(e -> {
+            e.consume();
+            this.closeProgram();
+        });
+        
+        this.setScene(MainMenu.get(this.mainWindow));
         this.mainWindow.show();
+    }
+    
+    public void setScene(final Scene scene) {
+        this.mainWindow.setScene(scene);
+    }
+    
+    private void closeProgram() {
+        final Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to exit the game?");
+        if (answer) {
+            this.mainWindow.close();
+        }
     }
 }
