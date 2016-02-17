@@ -10,7 +10,6 @@ public class Controller implements ControllerInterface {
 	private static final String HS_FILENAME = "hiscores";
 	private static final int HS_NSCORES = 10;
 	private static final int FPS = 30;
-	private static Controller c;
 	
 	private final HighScoresManager hsManager;
 	private Optional<GameLoop> gl;
@@ -19,7 +18,6 @@ public class Controller implements ControllerInterface {
 		this.hsManager = new HighScoresManager(Controller.HS_FILENAME, Controller.HS_NSCORES);
 		this.gl = Optional.empty();
 	}
-	
 	
 	@Override
 	public void startGameLoop() throws IllegalStateException {
@@ -43,8 +41,12 @@ public class Controller implements ControllerInterface {
 		return this.hsManager.getScores();
 	}
 
+	/**
+	 * Start a new application
+	 */
 	public static void main(String args[]) {
-		Controller.c = new Controller();
+		Controller c = new Controller();
+		//crea la view passando c come parametro
 	}
 	
 }
