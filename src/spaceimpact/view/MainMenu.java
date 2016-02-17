@@ -41,7 +41,10 @@ public class MainMenu extends Scene{
         this.newGame.setId("dark-blue");
         this.highScores.setMinWidth(vbox.getPrefWidth());
         this.highScores.setId("dark-blue");
-        this.highScores.setOnAction(e -> mainStage.setScene(HighScores.get(MainMenu.mainStage))); //Modificare
+        this.highScores.setOnAction(e -> {
+            //HighScores.setController(controller);
+            mainStage.setScene(HighScores.get(MainMenu.mainStage));
+        }); //Modificare
         this.options.setMinWidth(vbox.getPrefWidth());
         this.options.setId("dark-blue");
         this.options.setOnAction(e -> mainStage.setScene(Options.get(MainMenu.mainStage))); //Modificare
