@@ -10,13 +10,8 @@ public class MainWindow extends Application{
     
     private static final int WIDTH = 800;
     private static final int HEIGHT = 800;
-    private static ControllerInterface c;
     
     private final Stage mainWindow = new Stage();
-    
-    public static void main(final String[] args) {
-        launch(args);
-    }
 
     @Override
     public void start(Stage primaryStage){
@@ -45,9 +40,5 @@ public class MainWindow extends Application{
         if (answer) {
             this.mainWindow.close();
         }
-    }
-
-    public static void setController(ControllerInterface controller) {
-        c = controller;   
     }
 }
