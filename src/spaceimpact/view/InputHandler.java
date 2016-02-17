@@ -8,14 +8,14 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import spaceimpact.utilities.Input;
 
-public class InputHandler implements EventHandler<KeyEvent>, InputHandlerInterface{
+public class InputHandler implements EventHandler<KeyEvent> {
     
-    private static InputHandlerInterface INPUTHANDLER = null ;
+    private static InputHandler INPUTHANDLER = null ;
     private final List<Input> listInput = new LinkedList<Input>();
 
     private InputHandler() {};
     
-    public static InputHandlerInterface getInputHandler() {
+    public static InputHandler getInputHandler() {
         if (INPUTHANDLER == null) {
             synchronized ( InputHandler.class) {
                 if (INPUTHANDLER == null) {
@@ -26,7 +26,6 @@ public class InputHandler implements EventHandler<KeyEvent>, InputHandlerInterfa
         return INPUTHANDLER ;
     }
     
-    @Override
     public List<Input> getInput() {
         final List<Input> defensiveListInput = new LinkedList<>(this.listInput);
         this.listInput.clear();
