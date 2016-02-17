@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import spaceimpact.utilities.Pair;
+import spaceimpact.view.View;
 
 public class Controller implements ControllerInterface {
 	private static final String HS_FILENAME = "hiscores";
@@ -46,7 +47,7 @@ public class Controller implements ControllerInterface {
 	 */
 	public static void main(String args[]) {
 		Controller c = new Controller();
-		//crea la view passando c come parametro
+		View v = new View(c);
 	}
 	
 }
