@@ -19,9 +19,9 @@ import spaceimpact.utilities.Pair;
 
 /** A manager for HighScores. It can save/load the data to/from the filesystem.
  */
-class HighScoresManager {
+public class HighScoresManager {
 	
-	private static final boolean REPORT_ERRORS_ON_WRITE=true; // For debug purposes
+	private static final boolean REPORT_ERRORS_ON_WRITE=true; // For debug and other purposes
 	
 	private final String filename; // where to save highscores
 	private final int numMaxScores; // how many highscores will be saved
@@ -33,7 +33,7 @@ class HighScoresManager {
 	 * @param fileName The name of the file used for writing/reading scores
 	 * @param nscores The number of highscores saved
 	 */
-	HighScoresManager(String fileName, int nscores) {
+	public HighScoresManager(String fileName, int nscores) {
 		this.cache = Optional.empty();
 		this.filename = fileName;
 		this.editedNotSaved = false;
@@ -45,7 +45,7 @@ class HighScoresManager {
 	 * 
 	 * @return The list of highscores (may be empty, it's a defensive copy)
 	 */
-	List<Pair<String, Integer>> getScores() {
+	public List<Pair<String, Integer>> getScores() {
 		if (!this.cache.isPresent()) {
 			loadData();
 		}
@@ -59,7 +59,7 @@ class HighScoresManager {
 	 * 
 	 * @param p The new highscore
 	 */
-	void addScore(Pair<String, Integer> p) {
+	public void addScore(Pair<String, Integer> p) {
 		if (!this.cache.isPresent()) {
 			loadData();
 		}
@@ -71,13 +71,21 @@ class HighScoresManager {
 		this.cache = Optional.of(list);
 	}
 	
+	/**
+	 * Removes all previous HighScores 
+	 */
+	public void emptyScores() {
+		this.cache = Optional.of(new LinkedList<Pair<String, Integer>>());
+		this.editedNotSaved = true;
+	}
+	
 	/** Saves the currently cached data to disc. To minimize write on disc it's advised
-	 * to save only if really necessary.
+	 * to save only if necessary.
 	 * 
 	 * @throws IllegalStateException If there's no cached data, or if it's already saved
 	 * @throws IOException If unable to save data on disc
 	 */
-	void saveData() throws IllegalStateException, IOException {
+	public void saveData() throws IllegalStateException, IOException {
 		if (!this.cache.isPresent() || !this.editedNotSaved) {
 			if (HighScoresManager.REPORT_ERRORS_ON_WRITE) {
 				throw new IllegalStateException();
