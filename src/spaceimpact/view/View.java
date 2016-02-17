@@ -1,10 +1,14 @@
 package spaceimpact.view;
 
-import spaceimpact.controller.ControllerInterface;
+import java.util.List;
 
-public class View {
+import spaceimpact.controller.ControllerInterface;
+import spaceimpact.utilities.Input;
+
+public class View implements ViewInterface{
 
     private static ControllerInterface c;
+    private final InputHandler inputHandler = InputHandler.getInputHandler();
     
     public View(ControllerInterface controller) {
         this.setController(controller);
@@ -17,5 +21,9 @@ public class View {
     
     public static ControllerInterface getController() {
         return c;
+    }
+        
+    public List<Input> getInput() {
+        return this.inputHandler.getInput();
     }
 }

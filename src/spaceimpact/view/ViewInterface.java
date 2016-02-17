@@ -4,7 +4,7 @@ import java.util.List;
 
 import spaceimpact.utilities.Input;
 
-public interface InputHandlerInterface {
+public interface ViewInterface {
 
     List<Input> getInput();
 
