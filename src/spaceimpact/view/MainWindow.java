@@ -10,15 +10,14 @@ public class MainWindow extends Application{
     private static final int WIDTH = 800;
     private static final int HEIGHT = 800;
     
-    private Stage mainWindow;
+    private final Stage mainWindow = new Stage();
     
     public static void main(final String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        this.mainWindow = primaryStage;
+    public void start(Stage primaryStage){
         this.mainWindow.getIcons().add(new Image("file:res/icon.png"));
         this.mainWindow.setHeight(HEIGHT);
         this.mainWindow.setWidth(WIDTH);
@@ -28,7 +27,7 @@ public class MainWindow extends Application{
         
         this.mainWindow.setOnCloseRequest(e -> {
             e.consume();
-            this.closeProgram();
+            closeProgram();
         });
         
         this.setScene(MainMenu.get(this.mainWindow));
