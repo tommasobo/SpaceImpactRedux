@@ -3,40 +3,30 @@ package spaceimpact.view;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.geometry.*;
 
-public class HighScores extends Scene{
+public class Options extends Scene{
     
     private static final int WIDTH_LOGO_HIGHSCORS = 450;
     private static final int HEIGTH_LOGO_HIGHSCORES = 150;
     
-    private static final HighScores mainScene = new HighScores();
+    private static Options mainScene = new Options();
     private static Stage mainStage;
 
-    public HighScores() {
+    public Options() {
         super(new StackPane());
 
         final Logo logo = new Logo(WIDTH_LOGO_HIGHSCORS,HEIGTH_LOGO_HIGHSCORES);
             
         final Text label = new Text();
-        label.setText("High Scores");
-        label.setId("highScores");
+        label.setText("Options");
+        label.setId("options");
             
-        final VBox listHighScores = new VBox(10);
-        for (int i = 0; i < 5; i++) { // Modificare con controller
-            listHighScores.getChildren().add(new Label(i+1 +"° - LOLOLOL"));
-        }
-            
-        listHighScores.getStylesheets().add("style.css");
-        listHighScores.setAlignment(Pos.CENTER);
-        listHighScores.setId("whiteText");
-        listHighScores.setPadding(new Insets(10));
-
         final VBox layout = new VBox(10);
         final Button back = new Button("Go back");
+            
         back.setId("dark-blue");
         final StackPane bottomLayout = new StackPane();
         bottomLayout.setPadding(new Insets(0, 0, 100, 0));
@@ -44,7 +34,8 @@ public class HighScores extends Scene{
         bottomLayout.setAlignment(Pos.BOTTOM_CENTER);
         final StackPane descLayout = new StackPane();
             
-        layout.getChildren().addAll(logo.getLogo(), label, listHighScores);
+            
+        layout.getChildren().addAll(logo.getLogo(), label);
         layout.setSpacing(10);
         layout.setPadding(new Insets(8));
         layout.setAlignment(Pos.TOP_CENTER);
@@ -56,9 +47,9 @@ public class HighScores extends Scene{
         back.setOnAction(e -> mainStage.setScene(MainMenu.get(mainStage)));       
     }
 
-    public static HighScores get(Stage mainWindow){
+    public static Options get(Stage mainWindow){
         mainStage = mainWindow;
-        mainStage.setTitle("Space Impact Redux - High Scores");  
+        mainStage.setTitle("Space Impact Redux - Options");
         return mainScene;
     }
 
