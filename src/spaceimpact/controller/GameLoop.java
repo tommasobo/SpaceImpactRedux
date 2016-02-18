@@ -3,7 +3,6 @@ package spaceimpact.controller;
 import java.util.LinkedList;
 import java.util.List;
 
-import spaceimpact.model.EntityType;
 import spaceimpact.model.Location;
 import spaceimpact.model.Model;
 import spaceimpact.model.ModelInterface;
@@ -24,7 +23,7 @@ public class GameLoop extends Thread {
 
 	/**
 	 * Constructor for GameLoop
-	 * 
+	 *
 	 * @param fps
 	 *            The number of frames per second
 	 */
@@ -56,10 +55,13 @@ public class GameLoop extends Thread {
 			final long startTime = System.currentTimeMillis();
 			final List<Pair<String, Location>> toDraw = new LinkedList<>();
 			this.model.getEntitiesToDraw().forEach(e -> {
-				if (e.getID() == EntityType.Spaceship) {
-					toDraw.add(new Pair<>(resFolder + "Player.png", e.getLocation()));
-				}
+				/*
+				 * if (e.getID() == EntityType.Spaceship) { toDraw.add(new
+				 * Pair<>(resFolder + "Player.png", e.getLocation())); }
+				 */
 			});
+			toDraw.add(new Pair<>(resFolder + "Player", this.model.getPlayerLocation()));
+
 			final Thread t = new Thread() {
 				@Override
 				public void run() {
