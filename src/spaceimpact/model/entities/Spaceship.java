@@ -1,6 +1,7 @@
-package spaceimpact.model;
+package spaceimpact.model.entities;
 
 import spaceimpact.utilities.Input;
+import spaceimpact.model.Location;
 
 /** Spaceship (User controlled)
  * <br>
@@ -8,7 +9,7 @@ import spaceimpact.utilities.Input;
  * @author Davide
  */
 public class Spaceship extends LivingEntity {
-	
+		
 	/*CONSTRUCTORS*/
 	
 	/** Spaceship's Constructor (Maximum Life, Velocity)<br>
@@ -69,6 +70,8 @@ public class Spaceship extends LivingEntity {
 		this.location = location;
 	}
 
+	/* METHODS */
+	
 	/** Move the entity in the specified direction
 	 * @param movetype Enum utilities.Input that define in which direction the spaceship must move
 	 */
@@ -86,5 +89,12 @@ public class Spaceship extends LivingEntity {
 		} else {
 			throw new IllegalArgumentException();
 		}
+	}
+
+	/** Getter method to get remaining shield
+	 * @return amount of remaining shield as integer
+	 */
+	public int getRemainingShield() {
+		return this.currentshield;
 	}
 }

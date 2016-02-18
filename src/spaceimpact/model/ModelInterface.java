@@ -1,7 +1,7 @@
 package spaceimpact.model;
 
 import java.util.List;
-
+import spaceimpact.model.entities.Entity;
 import spaceimpact.utilities.Input;
 
 /**Interface for a generic model
@@ -9,8 +9,26 @@ import spaceimpact.utilities.Input;
  * The "main" method is inside the Controller class.
  */
 public interface ModelInterface {
-
-	/** Return the full list of entities
+	
+	/** Return player spaceship life
+	 * 
+	 * @return integer as current player's life. 
+	 */
+	int getPlayerLife();
+	
+	/** Return player spaceship shield
+	 * 
+	 * @return integer as current player's shield. 
+	 */
+	int getPlayerShield();
+		
+	/** Return player location
+	 * 
+	 * @return Location as current player's location. 
+	 */
+	Location getPlayerLocation();
+	
+	/** Return the full list of entities except for player
 	 * 
 	 * @return List<model.Entity> entire collection of entities currently active in the model 
 	 */

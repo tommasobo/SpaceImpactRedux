@@ -1,4 +1,4 @@
-package spaceimpact.model;
+package spaceimpact.model.entities;
 
 /** 
  * Weapon Interface
