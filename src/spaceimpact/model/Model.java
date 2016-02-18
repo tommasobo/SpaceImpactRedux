@@ -2,6 +2,7 @@ package spaceimpact.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import spaceimpact.utilities.Input;
 
 /** 
@@ -69,7 +70,6 @@ public class Model implements ModelInterface {
 		
 		entitylist.add(player);
 		entitylist.addAll(enemylist);
-		entitylist.addAll(enemylist);
 		entitylist.addAll(debrislist);
 		entitylist.addAll(playerprojectilelist);
 		entitylist.addAll(enemiesprojectilelist);
@@ -78,7 +78,7 @@ public class Model implements ModelInterface {
 	}
 
 	@Override
-	public void informInputs(List<Input> userinputs) {
+	public void informInputs(List<Input> userinputs) throws IllegalStateException {
 		if (player == null) {
 			throw new IllegalStateException();
 		}		
