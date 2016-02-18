@@ -15,7 +15,6 @@ public class HighScores extends Scene{
     private static final int HEIGTH_LOGO_HIGHSCORES = 150;
     
     private static final HighScores mainScene = new HighScores();
-    //private static ControllerInterface controller;
     private static Stage mainStage;
 
     public HighScores() {
@@ -44,11 +43,20 @@ public class HighScores extends Scene{
 
         final VBox layout = new VBox(10);
         final Button back = new Button("Go back");
-        back.setId("dark-blue");
+        final Button reset = new Button ("Reset HighScores");
         final StackPane bottomLayout = new StackPane();
-        bottomLayout.setPadding(new Insets(0, 0, 100, 0));
-        bottomLayout.getChildren().add(back);
+        final HBox bottomBox = new HBox();
+        
+        reset.setId("dark-blue");
+        back.setId("dark-blue");
+        
         bottomLayout.setAlignment(Pos.BOTTOM_CENTER);
+        bottomLayout.setPadding(new Insets(0, 0, 100, 0));
+        bottomBox.setSpacing(15);
+        bottomBox.setAlignment(Pos.BOTTOM_CENTER);
+        bottomBox.getChildren().addAll(back, reset);
+        bottomLayout.getChildren().add(bottomBox);
+        
         final StackPane descLayout = new StackPane();
             
         layout.getChildren().addAll(logo.getLogo(), label, listHighScores);
