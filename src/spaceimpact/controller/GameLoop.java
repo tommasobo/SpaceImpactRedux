@@ -65,7 +65,7 @@ public class GameLoop extends Thread {
 			final Thread t = new Thread() {
 				@Override
 				public void run() {
-					// ordina la stampa a video dei dati passando toDraw
+					GameLoop.this.view.draw(toDraw);
 				}
 			};
 			t.start();
