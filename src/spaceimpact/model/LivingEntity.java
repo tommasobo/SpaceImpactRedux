@@ -159,8 +159,8 @@ public abstract class LivingEntity implements Entity{
 		
 	@Override
 	public void update() {
-		this.location.setX(this.location.getX() + delta * velocity);
-		this.location.setY(this.location.getY() + delta * velocity);	
+		this.location.setX(this.location.getX() + this.location.getX() * velocity);
+		this.location.setY(this.location.getY() + this.location.getY() * velocity);	
 	}
 	
 	@Override
