@@ -70,7 +70,6 @@ public class Model implements ModelInterface {
 		
 		entitylist.add(player);
 		entitylist.addAll(enemylist);
-		entitylist.addAll(enemylist);
 		entitylist.addAll(debrislist);
 		entitylist.addAll(playerprojectilelist);
 		entitylist.addAll(enemiesprojectilelist);

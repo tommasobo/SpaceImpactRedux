@@ -1,16 +1,21 @@
 package spaceimpact.model;
 
-import java.util.Objects;
-
 public class WeaponImpl implements Weapon {
 
+	private final EntityType parentID;
 	private int damage;
-	private double projectilesvelocity;
+	private double projectilesvelocity = 0.5;
 	private Location location;
 	
+	public WeaponImpl(final EntityType shooter, final Location location, final int damage) {
+		this.parentID = shooter;
+		this.location = location;
+		this.damage = damage;
+	}
+	
 	@Override
-	public Projectile shoot(final EntityType parentID) {
-		return new Projectile(Objects.requireNonNull(parentID), location, projectilesvelocity, damage);
+	public Projectile shoot() {
+		return new Projectile(this.parentID, location, projectilesvelocity, damage);
 	}
 
 	@Override

@@ -30,7 +30,7 @@ public abstract class LivingEntity implements Entity{
 	/** Shoot with the current Weapon
 	*/
 	public void attack(){
-		this.weapon.shoot(this.getID());
+		this.weapon.shoot();
 	}
 	
 	/** Absorb damage
