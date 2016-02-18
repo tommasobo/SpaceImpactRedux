@@ -2,11 +2,15 @@ package spaceimpact.view;
 
 import javafx.stage.*;
 import spaceimpact.controller.ControllerInterface;
+import spaceimpact.utilities.Pair;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+
+import java.util.List;
+
 import javafx.geometry.*;
 
 public class HighScores extends Scene{
@@ -26,12 +30,14 @@ public class HighScores extends Scene{
         label.setId("highScores");
                   
         final VBox listHighScores = new VBox(10);
-        if (View.getController().getCurrentHighScores().isEmpty()) {
+        
+        final List<Pair<String, Integer>> listScores = View.getController().getCurrentHighScores();
+        if (listScores.isEmpty()) {
             listHighScores.getChildren().add(new Label("No HighScores yet"));
         } else {
-            for (int i = 0; i < View.getController().getCurrentHighScores().size(); i++) { 
+            for (int i = 0; i < listScores.size(); i++) { 
                 final Label player = new Label();
-                player.setText(i + View.getController().getCurrentHighScores().get(i).getFirst() + View.getController().getCurrentHighScores().get(i).getSecond());
+                player.setText(i + listScores.get(i).getFirst() + listScores.get(i).getSecond());
                 listHighScores.getChildren().add(player);
             }
         }    
