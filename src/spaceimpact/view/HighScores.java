@@ -77,14 +77,10 @@ public class HighScores extends Scene{
         back.setOnAction(e -> mainStage.setScene(MainMenu.get(mainStage)));       
     }
 
-    public static HighScores get(Stage mainWindow){
+    public static Scene get(Stage mainWindow){
         mainStage = mainWindow;
         mainStage.setTitle("Space Impact Redux - High Scores");  
         return mainScene;
     }
-    
-    /*public static void setController(ControllerInterface controlle) {
-        controller = controlle;
-    }*/
 
 }

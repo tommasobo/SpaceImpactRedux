@@ -17,8 +17,7 @@ import spaceimpact.utilities.Pair;
 
 public class GameScreen extends Scene {
     
-    private static GameScreen mainScene = new GameScreen();
-    private static Stage mainStage;
+    private Stage mainStage;
     private final InputHandler inputHandler = InputHandler.getInputHandler();
     private final DrawEntities drawEntities = new DrawEntities();
 
@@ -60,10 +59,10 @@ public class GameScreen extends Scene {
         drawEntities.draw(this, listEntities);
     }
     
-    public static GameScreen get(Stage mainWindow){
+    public GameScreen get(Stage mainWindow){
         mainStage = mainWindow;
         mainStage.setTitle("Space Impact Redux");
-        return mainScene;
+        return this;
     }
 
 }
