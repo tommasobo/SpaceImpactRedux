@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import java.awt.Rectangle;
 
 public class Test {
-	
 
 	@org.junit.Test
 	public void testCollision() {

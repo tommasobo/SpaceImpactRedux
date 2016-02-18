@@ -1,5 +1,7 @@
 package spaceimpact.model;
 
+import java.util.Objects;
+
 public class WeaponImpl implements Weapon {
 
 	private int damage;
@@ -7,8 +9,8 @@ public class WeaponImpl implements Weapon {
 	private Location location;
 	
 	@Override
-	public Projectile shoot() {
-		return new Projectile(location, projectilesvelocity, damage);
+	public Projectile shoot(final EntityType parentID) {
+		return new Projectile(Objects.requireNonNull(parentID), location, projectilesvelocity, damage);
 	}
 
 	@Override
@@ -16,5 +18,4 @@ public class WeaponImpl implements Weapon {
 		this.damage += damageincrement;
 		this.projectilesvelocity += shootingfrequency;
 	}
-
 }
