@@ -7,17 +7,16 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.StrokeLineCap;
 import javafx.stage.Stage;
 
 public class GameScreen extends Scene {
     
     private static GameScreen mainScene = new GameScreen();
     private static Stage mainStage;
+    private final InputHandler inputHandler = InputHandler.getInputHandler();
+    private final DrawEntities drawEntities = new DrawEntities();
 
     public GameScreen() {
         super(new StackPane());
@@ -49,9 +48,12 @@ public class GameScreen extends Scene {
         
         topLayout.getChildren().addAll(playerImgView, hpBox);
         topLayout.setId("gameScreen");
-        //this.setOnKeyPressed(InputHandler);
-        
+        this.setOnKeyPressed(inputHandler);     
         this.setRoot(topLayout);
+    }
+    
+    public void drawOnScreen() {
+        drawEntities.draw(this);
     }
     
     public static GameScreen get(Stage mainWindow){
