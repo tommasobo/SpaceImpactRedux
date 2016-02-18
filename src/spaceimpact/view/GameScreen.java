@@ -4,11 +4,13 @@ import java.util.List;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -18,11 +20,15 @@ import spaceimpact.utilities.Pair;
 public class GameScreen extends Scene {
     
     private Stage mainStage;
+    private final Group root = new Group();
+    private final Pane backgroundLayer = new Pane();
     private final InputHandler inputHandler = InputHandler.getInputHandler();
     private final DrawEntities drawEntities = new DrawEntities();
 
     public GameScreen() {
         super(new StackPane());
+          
+        backgroundLayer.setMinSize(800, 800);
         
         final Image playerImg = new Image("icon.png");
         final ImageView playerImgView = new ImageView();
@@ -51,12 +57,15 @@ public class GameScreen extends Scene {
         
         topLayout.getChildren().addAll(playerImgView, hpBox);
         topLayout.setId("gameScreen");
-        this.setOnKeyPressed(inputHandler);     
-        this.setRoot(topLayout);
+        
+        root.getChildren().addAll(backgroundLayer, topLayout);
+        
+        //this.setOnKeyPressed(inputHandler);     
+        this.setRoot(root);
     }
     
     public void drawOnScreen(List<Pair<String, Location>> listEntities) {
-        drawEntities.draw(this, listEntities);
+        drawEntities.draw(this.backgroundLayer, listEntities);
     }
     
     public GameScreen get(Stage mainWindow){
