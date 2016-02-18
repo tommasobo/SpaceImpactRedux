@@ -2,10 +2,9 @@ package spaceimpact.controller;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
-
 import spaceimpact.utilities.Pair;
 import spaceimpact.view.View;
+import spaceimpact.view.ViewInterface;
 
 public class Controller implements ControllerInterface {
         private static final String HS_FILENAME = "hiscores";
@@ -14,6 +13,7 @@ public class Controller implements ControllerInterface {
         
         private final HighScoresManager hsManager;
         private Optional<GameLoop> gl;
+        private ViewInterface view;
         
         private Controller() {
                 this.hsManager = new HighScoresManager(Controller.HS_FILENAME, Controller.HS_NSCORES);
@@ -25,10 +25,9 @@ public class Controller implements ControllerInterface {
                 this.gl.ifPresent(g -> {
                         throw new IllegalStateException();
                 });
-                GameLoop game = new GameLoop(Controller.FPS);
+                GameLoop game = new GameLoop(Controller.FPS, this.view);
                 this.gl = Optional.of(game);
                 game.start();
-                
         }
 
         @Override
@@ -47,7 +46,7 @@ public class Controller implements ControllerInterface {
          */
         public static void main(String args[]) {
                 Controller c = new Controller();
-                View v = new View(c);
+                c.view = new View(c);
         }
         
 }

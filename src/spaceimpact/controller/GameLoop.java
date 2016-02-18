@@ -1,5 +1,7 @@
 package spaceimpact.controller;
 
+import spaceimpact.view.ViewInterface;
+
 /**
  *A "clock" for the game. As an animation, a game is composed of "frames": 
  *every second the GameLoop will generate a fixed number of frames. The
@@ -9,14 +11,16 @@ public class GameLoop extends Thread {
 		
 	private volatile boolean stopped;
 	private final long ticLenght;
+	private final ViewInterface view;
 	
 	/**
 	 * Constructor for GameLoop
 	 * @param fps The number of frames per second
 	 */
-	public GameLoop(int fps) {
+	public GameLoop(int fps, ViewInterface view) {
 		this.stopped = false;
 		this.ticLenght = 1 / fps;
+		this.view = view;
 	}
 	
 	/**
@@ -45,6 +49,7 @@ public class GameLoop extends Thread {
 			};
 			t.start();
 			// chiama metodo del model che aggiorna il tic
+			//      (parametro this.view.getInput();)
 			try {
 				t.join();
 				long timeSpent = System.currentTimeMillis() - startTime;
