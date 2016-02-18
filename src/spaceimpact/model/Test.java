@@ -1,6 +1,7 @@
 package spaceimpact.model;
 
 import static org.junit.Assert.*;
+import spaceimpact.model.entities.*;
 import java.awt.Rectangle;
 
 public class Test {

@@ -1,4 +1,6 @@
-package spaceimpact.model;
+package spaceimpact.model.entities;
+
+import spaceimpact.model.Location;
 
 /** Enemy (AI Controlled)
  * <br>
