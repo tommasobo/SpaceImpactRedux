@@ -8,11 +8,14 @@ package spaceimpact.model;
  */
 public class Projectile implements Entity {
 
+	private final EntityType ID = EntityType.Projectile;
+	private final EntityType parentID; //EntityType that has shooted it
 	private final int damage;
 	private Location location;
 	private final double velocity;
 	
-	public Projectile(final Location startinglocation, final double velocity, final int damage) {
+	public Projectile(final EntityType parentID, final Location startinglocation, final double velocity, final int damage) {
+		this.parentID = parentID;
 		this.damage = damage;
 		this.location = startinglocation;
 		this.velocity = velocity;
@@ -33,12 +36,21 @@ public class Projectile implements Entity {
 
 	@Override
 	public void update() {
-		this.location.setX(this.location.getX() + this.location.getX() * velocity);
-		this.location.setY(this.location.getY() + this.location.getY() * velocity);
+		this.location.setX(this.location.getX() + delta * velocity);
+		this.location.setY(this.location.getY() + delta * velocity);
 	}
 
 	@Override
 	public void setLocation(Location location) {
 		this.location = location;	
+	}
+	
+	@Override
+	public EntityType getID() {
+		return ID;
+	}
+	
+	public EntityType getParentID() {
+		return parentID;
 	}
 }

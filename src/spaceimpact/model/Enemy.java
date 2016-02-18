@@ -18,6 +18,7 @@ public class Enemy extends LivingEntity {
 	 * @param velocity Enemy's Velocity
 	*/
 	public Enemy(int maxlife, double velocity){
+		super.ID = EntityType.Enemy;
 		this.currentlife = maxlife;
 		this.maxlife = maxlife;
 		this.velocity = velocity;

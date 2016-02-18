@@ -12,9 +12,10 @@ public interface Weapon {
 	/** Shoot a Projectile
 	 * 
 	 * create and shoot a new Projectile
+	 * @param parentID EntityType of the entity that has shooted
 	 * @return projectile A new projective object
 	 */
-	Projectile shoot();
+	Projectile shoot(EntityType parentID);
 	
 	/** Enhance weapon capabilities
 	 * 

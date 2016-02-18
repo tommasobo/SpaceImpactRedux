@@ -8,9 +8,10 @@ package spaceimpact.model;
  */
 public class Debris implements Entity {
 
+	private final EntityType ID = EntityType.Debris; //entity type identifier
 	private Location location; //current position
 	private final double velocity; //current velocity
-	
+
 	public Debris(final Location startinglocation, final double velocity) {
 		this.location = startinglocation;
 		this.velocity = velocity;
@@ -28,7 +29,12 @@ public class Debris implements Entity {
 	
 	@Override
 	public void update() {
-		this.location.setX(this.location.getX() + this.location.getX() * velocity);
-		this.location.setY(this.location.getY() + this.location.getY() * velocity);	
+		this.location.setX(this.location.getX() + delta * velocity);
+		this.location.setY(this.location.getY() + delta * velocity);	
+	}
+
+	@Override
+	public EntityType getID() {
+		return ID;
 	}
 }

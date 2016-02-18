@@ -1,13 +1,13 @@
 package spaceimpact.model;
 
-import java.awt.Rectangle;
-
 /** General Entity Interface
  * 
  * @author Davide
  *
  */
 public interface Entity {
+	
+	static final double delta = 0.001;
 	
 	/** Getter method for Location
 	 * @return Location
@@ -44,4 +44,8 @@ public interface Entity {
 	 */
 	void update();
 	
+	/** Get ID of the current entity
+	 * @return entitytype the identifier of the type of this entity.
+	 */
+	EntityType getID();
 }

@@ -15,6 +15,7 @@ package spaceimpact.model;
  */
 public abstract class LivingEntity implements Entity{
 
+	protected EntityType ID; //entityType
 	protected Location location; //current position
 	protected int currentlife; //current life
 	protected int maxlife; //max life 
@@ -29,7 +30,7 @@ public abstract class LivingEntity implements Entity{
 	/** Shoot with the current Weapon
 	*/
 	public void attack(){
-		this.weapon.shoot();
+		this.weapon.shoot(this.getID());
 	}
 	
 	/** Absorb damage
@@ -158,7 +159,12 @@ public abstract class LivingEntity implements Entity{
 		
 	@Override
 	public void update() {
-		this.location.setX(this.location.getX() + this.location.getX() * velocity);
-		this.location.setY(this.location.getY() + this.location.getY() * velocity);
+		this.location.setX(this.location.getX() + delta * velocity);
+		this.location.setY(this.location.getY() + delta * velocity);	
+	}
+	
+	@Override
+	public EntityType getID() {
+		return this.ID;
 	}
 }
