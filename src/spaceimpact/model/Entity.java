@@ -7,8 +7,6 @@ package spaceimpact.model;
  */
 public interface Entity {
 	
-	static final double delta = 0.001;
-	
 	/** Getter method for Location
 	 * @return Location
 	 */

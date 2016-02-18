@@ -72,15 +72,15 @@ public class Spaceship extends LivingEntity {
 	/** Move the entity in the specified direction
 	 * @param movetype Enum utilities.Input that define in which direction the spaceship must move
 	 */
-	public void moveOrAttack(final Input movetype) {
+	public void moveOrAttack(final Input movetype) throws IllegalArgumentException {
 		if (movetype.equals(Input.A)) { //move left
-			this.location.setX(this.location.getX() - delta * velocity);
+			this.location.setX(this.location.getX() - this.location.getX() * velocity);
 		} else if (movetype.equals(Input.W)) { //move up
-			this.location.setY(this.location.getY() + delta * velocity);
+			this.location.setY(this.location.getY() + this.location.getY() * velocity);
 		} else if (movetype.equals(Input.S)) { //move right
-			this.location.setX(this.location.getX() + delta * velocity);
+			this.location.setX(this.location.getX() + this.location.getX() * velocity);
 		} else if (movetype.equals(Input.D)) { //move down
-			this.location.setY(this.location.getY() - delta * velocity);
+			this.location.setY(this.location.getY() - this.location.getY() * velocity);
 		} else if (movetype.equals(Input.SPACE)) {
 			this.attack();
 		} else {

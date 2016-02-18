@@ -1,6 +1,7 @@
 package spaceimpact.model;
 
 import java.util.List;
+
 import spaceimpact.utilities.Input;
 
 /**Interface for a generic model
