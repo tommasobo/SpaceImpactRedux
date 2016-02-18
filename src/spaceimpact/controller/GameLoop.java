@@ -16,10 +16,18 @@ import spaceimpact.view.ViewInterface;
  */
 public class GameLoop extends Thread {
 
-	private volatile boolean stopped;
+	/**
+	 * Enum describing the possible states of the GameLoop
+	 */
+	private enum Status {
+		READY, RUNNING, PAUSED, KILLED;
+	}
+
+	private volatile Status status;
 	private final long ticLenght;
 	private final ViewInterface view;
 	private final ModelInterface model;
+	private final Object lock;
 
 	/**
 	 * Constructor for GameLoop
@@ -28,17 +36,31 @@ public class GameLoop extends Thread {
 	 *            The number of frames per second
 	 */
 	public GameLoop(final int fps, final ViewInterface view) {
-		this.stopped = false;
+		this.status = Status.READY;
 		this.ticLenght = 1 / fps;
 		this.view = view;
 		this.model = new Model();
+		this.lock = new Object();
 	}
 
 	/**
 	 * Causes the GameLoop to stop even if the game didn't reach an end.
 	 */
 	public void abort() {
-		this.stopped = true;
+		synchronized (this.lock) {
+			this.status = Status.KILLED;
+		}
+	}
+
+	/**
+	 * Causes the GameLoop to pause.
+	 */
+	public void pause() {
+		synchronized (this.lock) {
+			if (this.status == Status.RUNNING) {
+				this.status = Status.PAUSED;
+			}
+		}
 	}
 
 	/**
@@ -49,9 +71,19 @@ public class GameLoop extends Thread {
 	 */
 	@Override
 	public void run() {
+		this.status = Status.RUNNING;
 		final String sep = System.getProperty("file.separator");
 		final String resFolder = sep + "res" + sep + "Entities" + sep;
-		while (!this.stopped) {
+		while (this.status != Status.KILLED) {
+			synchronized (this.lock) {
+				if (this.status == Status.PAUSED) {
+					try {
+						this.wait();
+					} catch (final InterruptedException e1) {
+						this.status = Status.KILLED;
+					}
+				}
+			}
 			final long startTime = System.currentTimeMillis();
 			final List<Pair<String, Location>> toDraw = new LinkedList<>();
 			this.model.getEntitiesToDraw().forEach(e -> {
@@ -78,7 +110,20 @@ public class GameLoop extends Thread {
 					Thread.sleep(this.ticLenght - timeSpent);
 				}
 			} catch (final InterruptedException ex1) {
-				this.stopped = true;
+				this.status = Status.KILLED;
+			}
+		}
+		// operazioni una volta ucciso il gameloop
+	}
+
+	/**
+	 * Causes the GameLoop to resume.
+	 */
+	public void unPause() {
+		synchronized (this.lock) {
+			if (this.status == Status.PAUSED) {
+				this.status = Status.RUNNING;
+				this.notify();
 			}
 		}
 	}
