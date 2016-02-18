@@ -1,65 +1,67 @@
 package spaceimpact.utilities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javafx.scene.image.Image;
-import java.util.*;
 
 /**
- * Class used to read an image from file. It contains already the most
- * important icons of the game. It is designed using Singleton pattern.
+ * Class used to read an image from file. It contains already the most important
+ * icons of the game. It is designed using Singleton pattern.
  *
  * @author Tommaso Bonato
  */
 public class ImageLoader {
+	private static final String SEP = System.getProperty("file.separator");
+	private static final String LOGO = ImageLoader.SEP + "res" + ImageLoader.SEP + "icon.jpg";
 
-        private static final String LOGO = "/res/icon.jpg";
+	private static ImageLoader IMAGELOADER = null;
 
-        private Map<String, Image> imagesMap = new HashMap<>();
-        private static ImageLoader IMAGELOADER = null;
-        
+	/**
+	 * Returns the current Singleton instance of the ImageLoader. If it's the
+	 * first call, this creates a new instance.
+	 *
+	 * @return the current Singleton instance of the ImageLoader.
+	 */
+	public static ImageLoader getLoader() {
+		if (ImageLoader.IMAGELOADER == null) {
+			ImageLoader.IMAGELOADER = new ImageLoader();
+		}
+		return ImageLoader.IMAGELOADER;
+	}
 
-        /**
-         * Creates a new ImageLoader.
-         */
-        private ImageLoader() {
-                this.imagesMap = new HashMap<>();
-                this.imagesMap.put(LOGO, this.getImageFromPath(LOGO));
-        }
+	private Map<String, Image> imagesMap = new HashMap<>();
 
-        /**
-         * Returns the current Singleton instance of the ImageLoader.
-         * If it's the first call, this creates a new instance.
-         *
-         * @return the current Singleton instance of the ImageLoader.
-         */
-        public static ImageLoader getLoader() {
-                if (IMAGELOADER == null) {
-                    IMAGELOADER = new ImageLoader();
-                }
-                return IMAGELOADER;
-        }
+	/**
+	 * Creates a new ImageLoader.
+	 */
+	private ImageLoader() {
+		this.imagesMap = new HashMap<>();
+		this.imagesMap.put(ImageLoader.LOGO, this.getImageFromPath(ImageLoader.LOGO));
+	}
 
-        /**
-         * Returns the logo of the game.
-         * 
-         * @return an Image representing the logo of the game
-         */
-        public Image getLogoImage() {
-                return this.imagesMap.get(LOGO);
-        }
+	/**
+	 * Given the path, it adds the image to the map and returns it.
+	 * 
+	 * @param path
+	 *            - The path of the image.
+	 * @return Image found in that path.
+	 */
+	public Image getImageFromPath(final String path) {
+		if (!this.imagesMap.containsKey(path)) {
+			final Image image = new Image(this.getClass().getResourceAsStream(path));
+			this.imagesMap.put(path, image);
+		}
+		return this.imagesMap.get(path);
+	}
 
-
-        /**
-         * Given the path, it adds the image to the map and returns it.
-         * 
-         * @param path - The path of the image.
-         * @return Image found in that path.
-         */
-        public Image getImageFromPath(String path) {
-            if (!this.imagesMap.containsKey(path)) {
-                Image image  = new Image(this.getClass().getResourceAsStream(path));
-                this.imagesMap.put(path, image);
-            }
-            return this.imagesMap.get(path);
-        }
+	/**
+	 * Returns the logo of the game.
+	 * 
+	 * @return an Image representing the logo of the game
+	 */
+	public Image getLogoImage() {
+		return this.imagesMap.get(ImageLoader.LOGO);
+	}
 
 }
