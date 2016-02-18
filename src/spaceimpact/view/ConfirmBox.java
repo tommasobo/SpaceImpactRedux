@@ -10,10 +10,10 @@ import javafx.geometry.*;
 public class ConfirmBox {
 
     //Create variable
-    static boolean answer;
+    private static boolean answer;
 
     public static boolean display(String title, String message) {
-        Stage window = new Stage();
+        final Stage window = new Stage();
         window.getIcons().add(new Image("file:res/alert.png"));
         window.setResizable(false);
         window.centerOnScreen();
@@ -37,8 +37,8 @@ public class ConfirmBox {
             window.close();
         });
 
-        VBox layout = new VBox(10);
-        HBox layoutButton = new HBox(50);
+        final VBox layout = new VBox(10);
+        final HBox layoutButton = new HBox(50);
         
         layoutButton.getChildren().addAll(yesButton, noButton);
         layoutButton.setSpacing(10);
@@ -48,7 +48,7 @@ public class ConfirmBox {
         //Add buttons
         layout.getChildren().addAll(label, layoutButton);
         layout.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(layout);
+        final Scene scene = new Scene(layout);
         scene.getStylesheets().add("style.css");
         window.setScene(scene);
         window.showAndWait();
