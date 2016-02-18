@@ -1,5 +1,7 @@
 package spaceimpact.view;
 
+import java.util.List;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,6 +12,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import spaceimpact.model.Location;
+import spaceimpact.utilities.Pair;
 
 public class GameScreen extends Scene {
     
@@ -52,8 +56,8 @@ public class GameScreen extends Scene {
         this.setRoot(topLayout);
     }
     
-    public void drawOnScreen() {
-        drawEntities.draw(this);
+    public void drawOnScreen(List<Pair<String, Location>> listEntities) {
+        drawEntities.draw(this, listEntities);
     }
     
     public static GameScreen get(Stage mainWindow){
