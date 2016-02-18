@@ -33,7 +33,10 @@ public class HighScoresManager {
 	 * @param fileName The name of the file used for writing/reading scores
 	 * @param nscores The number of highscores saved
 	 */
-	public HighScoresManager(String fileName, int nscores) {
+	public HighScoresManager(String fileName, int nscores) throws IllegalArgumentException {
+		if (nscores <= 0 || fileName.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
 		this.cache = Optional.empty();
 		this.filename = fileName;
 		this.editedNotSaved = false;
@@ -111,9 +114,11 @@ public class HighScoresManager {
 	private void loadData() {
 		List<Pair<String, Integer>> list = new LinkedList<>();
 		try (DataInputStream in = new DataInputStream(new FileInputStream(this.filename))) {
-			String name = in.readUTF();
-			Integer score = new Integer(in.readInt());
-			list.add(new Pair<String, Integer>(name, score));
+			while (true) {
+				String name = in.readUTF();
+				Integer score = new Integer(in.readInt());
+				list.add(new Pair<String, Integer>(name, score));
+			}
 		} catch (Exception ex) {}
 		sortList(list);
 		if (removeExcessScores(list)) {
@@ -128,11 +133,11 @@ public class HighScoresManager {
 	 * @return True if the list was modified, False otherwise
 	 */
 	private boolean removeExcessScores(List<Pair<String, Integer>> l) {
-		boolean ret = (l.size() > this.numMaxScores);
+		boolean changed = (l.size() > this.numMaxScores);
 		while (l.size() > this.numMaxScores) {
 			l.remove(this.numMaxScores);
 		}
-		return ret;
+		return changed;
 	}
 	
 	/**
@@ -142,18 +147,5 @@ public class HighScoresManager {
 	private void sortList(List<Pair<String, Integer>> l) {
 		Collections.sort(l, (a, b) -> b.getSecond() - a.getSecond());
 	}
-
-	/**
-	 * (Override) Saves the data to disc if necessary, then calls super.finalize().
-	 * This method is called when the Garbage Collector removes HighScoresManager
-	 */
-	@Override
-	protected void finalize() throws Throwable {
-		if (this.editedNotSaved) {
-			saveData();
-		}
-		super.finalize();
-	}
-	
 	
 }
