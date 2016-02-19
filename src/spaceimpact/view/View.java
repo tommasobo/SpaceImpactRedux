@@ -12,7 +12,7 @@ public class View implements ViewInterface {
 
 	private static ControllerInterface c;
 	private final InputHandler inputHandler = InputHandler.getInputHandler();
-	private GameScreen gameScreen;
+	private GameScreen gameScreen = null;
 
 	public View(final ControllerInterface controller) {
 		this.setController(controller);
@@ -28,7 +28,7 @@ public class View implements ViewInterface {
 
 	@Override
 	public void startView() {
-		Application.launch(MainWindow.class);
+	    Application.launch(MainWindow.class);
 	}
 
 	@Override
@@ -39,7 +39,9 @@ public class View implements ViewInterface {
 
 	@Override
 	public void draw(final List<Pair<String, Location>> listEntities) {
-		this.gameScreen = new GameScreen();
-		this.gameScreen.drawOnScreen(listEntities);
+	    if (gameScreen == null) {
+	        this.gameScreen = new GameScreen();
+	    }
+	    this.gameScreen.drawOnScreen(listEntities);
 	}
 }
