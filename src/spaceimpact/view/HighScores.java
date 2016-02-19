@@ -1,7 +1,6 @@
 package spaceimpact.view;
 
 import javafx.stage.*;
-import spaceimpact.controller.ControllerInterface;
 import spaceimpact.utilities.Pair;
 import javafx.scene.*;
 import javafx.scene.control.Button;

@@ -10,11 +10,11 @@ import javafx.stage.Stage;
 
 public class MainMenu extends Scene{
 
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 800;
-    private static final int WIDTH_LOGO = 600;
-    private static final int HEIGHT_LOGO = 200;
-    private static final int BUTTON_WIDTH = 250;
+    private static final double WIDTH = 800;
+    private static final double HEIGHT = 800;
+    private static final double WIDTH_LOGO = 600;
+    private static final double HEIGHT_LOGO = 200;
+    private static final double BUTTON_WIDTH = 250;
     
     private static final MainMenu mainScene = new MainMenu();
     private static Stage mainStage;
