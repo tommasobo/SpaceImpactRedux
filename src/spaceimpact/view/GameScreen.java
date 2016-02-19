@@ -65,7 +65,7 @@ public class GameScreen extends Scene {
     }
     
     public void drawOnScreen(List<Pair<String, Location>> listEntities) {
-        drawEntities.draw(this.backgroundLayer, listEntities);
+        //drawEntities.draw(this.backgroundLayer, listEntities);
     }
     
     public GameScreen get(Stage mainWindow){
