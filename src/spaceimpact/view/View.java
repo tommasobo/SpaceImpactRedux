@@ -15,7 +15,6 @@ public class View implements ViewInterface{
     
     public View(ControllerInterface controller) {
         this.setController(controller);
-        MainWindow.launch(MainWindow.class); 
     }
 
     private synchronized void setController(ControllerInterface controller) {
@@ -24,6 +23,10 @@ public class View implements ViewInterface{
     
     public static ControllerInterface getController() {
         return c;
+    }
+    
+    public void startView() {
+        MainWindow.launch(MainWindow.class); 
     }
 
     @Override

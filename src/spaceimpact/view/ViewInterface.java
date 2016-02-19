@@ -11,5 +11,7 @@ public interface ViewInterface {
     List<Input> getInput();
 
     void draw(List<Pair<String, Location>> listEntities);
+    
+    void startView();
 
 }

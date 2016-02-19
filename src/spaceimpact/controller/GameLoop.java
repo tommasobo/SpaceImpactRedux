@@ -86,6 +86,7 @@ public class GameLoop extends Thread {
 					}
 				};
 				t.start();
+				System.out.println(this.view.getInput());
 				this.model.informInputs(this.view.getInput());
 				this.model.updateAll();
 				try {
