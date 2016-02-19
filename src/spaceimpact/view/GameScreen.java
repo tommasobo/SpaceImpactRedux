@@ -19,7 +19,8 @@ import spaceimpact.utilities.Pair;
 
 public class GameScreen extends Scene {
     
-    private static final int WIDTH_GAME = 1420;
+    private static final int WIDTH_GAME = 1280;
+    private static final int HEIGHT_GAME = 720;
     
     private Stage mainStage;
     private final Group root = new Group();
@@ -74,6 +75,7 @@ public class GameScreen extends Scene {
     public GameScreen get(Stage mainWindow){
         mainStage = mainWindow;
         mainStage.setWidth(WIDTH_GAME);
+        mainStage.setHeight(HEIGHT_GAME);
         mainStage.centerOnScreen();
         mainStage.setTitle("Space Impact Redux");
         return this;
