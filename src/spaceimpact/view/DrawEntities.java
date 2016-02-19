@@ -2,7 +2,6 @@ package spaceimpact.view;
 
 import java.util.List;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import spaceimpact.model.Location;
@@ -22,7 +21,6 @@ public class DrawEntities {
 			iv.setFitHeight(50);
 			iv.setFitWidth(60);
 			layer.getChildren().add(iv);
-			System.out.println("X:" + p.getSecond().getX() + " Y:" + p.getSecond().getY());
 			// TODO Make screenheight a param!
 			iv.setX(p.getSecond().getX() * 800);
 			iv.setY(p.getSecond().getY() * 800);

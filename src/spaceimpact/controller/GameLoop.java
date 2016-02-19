@@ -81,12 +81,10 @@ public class GameLoop extends Thread {
 				final Thread t = new Thread() {
 					@Override
 					public void run() {
-					        System.out.println(toDraw);
 						GameLoop.this.view.draw(toDraw);
 					}
 				};
 				t.start();
-				System.out.println(this.view.getInput());
 				this.model.informInputs(this.view.getInput());
 				this.model.updateAll();
 				try {
