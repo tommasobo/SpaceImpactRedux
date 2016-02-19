@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="spaceimpact.model.entities.Projectile" project="SpaceImpact" 
     file="/SpaceImpact/src/spaceimpact/model/entities/Projectile.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="189" width="219" x="1637" y="471"/>    
+    <position height="-1" width="-1" x="1734" y="494"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="true" protected="true" private="false" static="true"/>      
@@ -57,15 +57,15 @@
   </interface>  
   <interface id="7" language="java" name="spaceimpact.model.ModelInterface" project="SpaceImpact" 
     file="/SpaceImpact/src/spaceimpact/model/ModelInterface.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="171" width="179" x="728" y="471"/>    
+    <position height="-1" width="-1" x="729" y="558"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="true" protected="true" private="false" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="8" language="java" name="spaceimpact.model.entities.WeaponImpl" project="SpaceImpact" 
-    file="/SpaceImpact/src/spaceimpact/model/entities/WeaponImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="8" language="java" name="spaceimpact.model.entities.Weapon" project="SpaceImpact" 
+    file="/SpaceImpact/src/spaceimpact/model/entities/Weapon.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="117" width="199" x="1398" y="471"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -82,8 +82,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </enumeration>  
-  <interface id="10" language="java" name="spaceimpact.model.entities.Weapon" project="SpaceImpact" 
-    file="/SpaceImpact/src/spaceimpact/model/entities/Weapon.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="10" language="java" name="spaceimpact.model.entities.WeaponInterface" project="SpaceImpact" 
+    file="/SpaceImpact/src/spaceimpact/model/entities/WeaponInterface.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="99" width="145" x="1219" y="934"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -119,160 +119,227 @@
     </display>  
   </class>  
   <association id="14">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="15" name="ID"/>      
-      <multiplicity id="16" minimum="0" maximum="1"/>    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="15" name="location">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="16" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="9" navigable="true"/>    
+    <end type="TARGET" refId="12" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="17">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="10"/>  
-  </realization>  
-  <realization id="18">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="6"/>  
-  </realization>  
-  <generalization id="19">    
+  <association id="17">    
+    <bendpoint x="958" y="471"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="18" name="player">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="19" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="20">    
     <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="2"/>  
   </generalization>  
-  <generalization id="20">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="2"/>  
-  </generalization>  
   <association id="21">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="22" name="parentID"/>      
-      <multiplicity id="23" minimum="0" maximum="1"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="22" name="enemiesprojectilelist">        
+        <position height="18" width="106" x="1475" y="401"/>      
+      </attribute>      
+      <multiplicity id="23" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="1584" y="403"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="9" navigable="true"/>    
+    <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <realization id="24">    
-    <end type="SOURCE" refId="1"/>    
+    <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="6"/>  
   </realization>  
   <association id="25">    
     <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="26" name="weapon"/>      
-      <multiplicity id="27" minimum="0" maximum="1"/>    
+      <attribute id="26" name="weapon">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="27" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="10" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="28">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="29" name="ID"/>      
-      <multiplicity id="30" minimum="0" maximum="1"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="29" name="location">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="30" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="9" navigable="true"/>    
+    <end type="TARGET" refId="12" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="31">    
-    <bendpoint x="958" y="471"/>    
+    <bendpoint x="1619" y="337"/>    
     <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="32" name="player"/>      
-      <multiplicity id="33" minimum="0" maximum="1"/>    
+      <attribute id="32" name="playerprojectilelist">        
+        <position height="18" width="96" x="1644" y="343"/>      
+      </attribute>      
+      <multiplicity id="33" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="1744" y="345"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
+    <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="34">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="35" name="location"/>      
-      <multiplicity id="36" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="12" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="37">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="6"/>  
-  </realization>  
-  <association id="38">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="39" name="debrislist"/>      
-      <multiplicity id="40" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="41">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="42" name="location"/>      
-      <multiplicity id="43" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="12" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="44">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="45" name="parentID"/>      
-      <multiplicity id="46" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="9" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="47">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="48" name="location"/>      
-      <multiplicity id="49" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="12" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="50">    
+  <realization id="34">    
     <end type="SOURCE" refId="5"/>    
     <end type="TARGET" refId="7"/>  
   </realization>  
-  <association id="51">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="52" name="playerprojectilelist"/>      
-      <multiplicity id="53" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="54">    
-    <bendpoint x="937" y="471"/>    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="55" name="enemylist"/>      
-      <multiplicity id="56" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="11" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="57">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="58" name="enemiesprojectilelist"/>      
-      <multiplicity id="59" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="60">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="61" name="ID"/>      
-      <multiplicity id="62" minimum="0" maximum="1"/>    
+  <realization id="35">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="6"/>  
+  </realization>  
+  <association id="36">    
+    <bendpoint x="1795" y="906"/>    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="37" name="ID">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="38" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="9" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="63">    
-    <bendpoint x="979" y="471"/>    
+  <association id="39">    
+    <bendpoint x="935" y="856"/>    
     <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="64" name="deadentities"/>      
-      <multiplicity id="65" minimum="0" maximum="2147483647"/>    
+      <attribute id="40" name="deadentities">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="41" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="1017" y="910"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="66">    
+  <association id="42">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="43" name="debrislist">        
+        <position height="18" width="53" x="1206" y="440"/>      
+      </attribute>      
+      <multiplicity id="44" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="1268" y="443"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="45">    
     <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="67" name="location"/>      
-      <multiplicity id="68" minimum="0" maximum="1"/>    
+      <attribute id="46" name="location">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="47" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="48">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="49" name="ID">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="50" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="51">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="10"/>  
+  </realization>  
+  <realization id="52">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="6"/>  
+  </realization>  
+  <association id="53">    
+    <bendpoint x="1826" y="972"/>    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="54" name="parentID">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="55" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="56">    
+    <bendpoint x="937" y="471"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="57" name="enemylist">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="58" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="59">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="60" name="parentID">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="61" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="62">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="63" name="ID">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="64" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="65">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <association id="66">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="67" name="location">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="68" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="12" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
