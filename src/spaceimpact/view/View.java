@@ -10,38 +10,38 @@ import spaceimpact.utilities.Pair;
 
 public class View implements ViewInterface {
 
-	private static ControllerInterface c;
-	private final InputHandler inputHandler = InputHandler.getInputHandler();
-	private GameScreen gameScreen = null;
+        private static ControllerInterface c;
+        private final InputHandler inputHandler = InputHandler.getInputHandler();
+        private static GameScreen gameScreen;
 
-	public View(final ControllerInterface controller) {
-		this.setController(controller);
-	}
+        public View(final ControllerInterface controller) {
+                this.setController(controller);
+        }
 
-	private synchronized void setController(final ControllerInterface controller) {
-		View.c = controller;
-	}
+        private synchronized void setController(final ControllerInterface controller) {
+                View.c = controller;
+        }
 
-	public static ControllerInterface getController() {
-		return View.c;
-	}
+        public static ControllerInterface getController() {
+                return View.c;
+        }
 
-	@Override
-	public void startView() {
-	    Application.launch(MainWindow.class);
-	}
+        @Override
+        public void startView() {
+            Application.launch(MainWindow.class);
+        }
 
-	@Override
-	public List<Input> getInput() {
-		System.out.println("CIAO" + this.inputHandler.getInput());
-		return this.inputHandler.getInput();
-	}
+        @Override
+        public List<Input> getInput() {
+                return this.inputHandler.getInput();
+        }
 
-	@Override
-	public void draw(final List<Pair<String, Location>> listEntities) {
-	    if (gameScreen == null) {
-	        this.gameScreen = new GameScreen();
-	    }
-	    this.gameScreen.drawOnScreen(listEntities);
-	}
+        @Override
+        public void draw(final List<Pair<String, Location>> listEntities) {
+            gameScreen.drawOnScreen(listEntities);
+        }
+        
+        public static void setGameScreen(GameScreen gamescreen) {
+            gameScreen = gamescreen;
+        }
 }
