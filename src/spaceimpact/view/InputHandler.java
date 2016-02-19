@@ -30,6 +30,7 @@ public class InputHandler implements EventHandler<KeyEvent> {
         if (this.listInput == null) {
             this.listInput = new LinkedList<>();
         }
+        System.out.println(this.listInput);
         final List<Input> defensiveListInput = this.listInput;
         this.listInput = new LinkedList<>();
         return defensiveListInput;

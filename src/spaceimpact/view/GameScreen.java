@@ -24,6 +24,7 @@ public class GameScreen extends Scene {
 	private Stage mainStage;
 	private final Group root = new Group();
 	private final Pane backgroundLayer = new Pane();
+	private final InputHandler inputHandler = InputHandler.getInputHandler();
 	private final DrawEntities drawEntities = new DrawEntities();
 
 	public GameScreen() {
@@ -59,7 +60,7 @@ public class GameScreen extends Scene {
 		topLayout.setId("gameScreen");
 
 		this.root.getChildren().addAll(this.backgroundLayer, topLayout);
-
+		this.setOnKeyPressed(inputHandler);
 		this.setRoot(this.root);
 	}
 
