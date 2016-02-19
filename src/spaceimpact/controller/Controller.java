@@ -1,5 +1,6 @@
 package spaceimpact.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,6 +62,15 @@ public class Controller implements ControllerInterface {
 		final Controller c = new Controller();
 		c.view = new View(c);
 		c.view.startView();
+	}
+
+	@Override
+	public void emptyHighScores() {
+		this.hsManager.emptyScores();
+		try {
+			this.hsManager.saveData();
+		} catch (IllegalStateException | IOException e) {
+		}
 	}
 
 }
