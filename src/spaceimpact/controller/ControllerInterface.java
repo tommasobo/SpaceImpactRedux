@@ -28,6 +28,11 @@ public interface ControllerInterface {
 	List<Pair<String, Integer>> getCurrentHighScores();
 
 	/**
+	 * Clears the list of highscores
+	 */
+	void emptyHighScores();
+
+	/**
 	 * Starts the "GameLoop" (launch new game)
 	 *
 	 * @throws IllegalStateException
@@ -38,7 +43,7 @@ public interface ControllerInterface {
 	/**
 	 * Pauses the "GameLoop" (game pause). If the game is already paused nothing
 	 * happens.
-	 * 
+	 *
 	 * @throws IllegalStateException
 	 *             If no game is running
 	 */
@@ -46,7 +51,7 @@ public interface ControllerInterface {
 
 	/**
 	 * Resumes a paused "GameLoop". If the game is not paused nothing happens.
-	 * 
+	 *
 	 * @throws IllegalStateException
 	 *             If no game is running
 	 */
