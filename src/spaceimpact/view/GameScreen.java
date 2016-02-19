@@ -31,7 +31,7 @@ public class GameScreen extends Scene {
 	public GameScreen() {
 		super(new StackPane());
 
-		View.getController().startGameLoop();
+
 		this.backgroundLayer.setMinSize(800, 800);
 		final Image playerImg = new Image("icon.png");
 		final ImageView playerImgView = new ImageView();

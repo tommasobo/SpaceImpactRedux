@@ -40,6 +40,7 @@ public class MainMenu extends Scene{
         this.newGame.setMinWidth(vbox.getPrefWidth());
         this.newGame.setId("dark-blue");
         this.newGame.setOnAction(e -> {
+            View.getController().startGameLoop();
             final GameScreen gameScreen = new GameScreen();
             mainStage.setScene(gameScreen.get(mainStage));
         });
