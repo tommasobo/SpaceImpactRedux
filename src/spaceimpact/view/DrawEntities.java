@@ -2,6 +2,7 @@ package spaceimpact.view;
 
 import java.util.List;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import spaceimpact.model.Location;
@@ -26,7 +27,6 @@ public class DrawEntities {
 			iv.setX(p.getSecond().getX() * 800);
 			iv.setY(p.getSecond().getY() * 800);
 		});
-
 	}
 
 }

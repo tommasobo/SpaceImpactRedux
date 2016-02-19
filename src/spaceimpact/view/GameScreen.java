@@ -1,7 +1,6 @@
 package spaceimpact.view;
 
 import java.util.List;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -25,12 +24,10 @@ public class GameScreen extends Scene {
 	private Stage mainStage;
 	private final Group root = new Group();
 	private final Pane backgroundLayer = new Pane();
-	private final InputHandler inputHandler = InputHandler.getInputHandler();
 	private final DrawEntities drawEntities = new DrawEntities();
 
 	public GameScreen() {
 		super(new StackPane());
-
 
 		this.backgroundLayer.setMinSize(800, 800);
 		final Image playerImg = new Image("icon.png");
@@ -63,7 +60,6 @@ public class GameScreen extends Scene {
 
 		this.root.getChildren().addAll(this.backgroundLayer, topLayout);
 
-		// this.setOnKeyPressed(inputHandler);
 		this.setRoot(this.root);
 	}
 
