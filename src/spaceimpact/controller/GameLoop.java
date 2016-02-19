@@ -95,6 +95,7 @@ public class GameLoop extends Thread {
 			final Thread t = new Thread() {
 				@Override
 				public void run() {
+				        System.out.println("safas");
 					GameLoop.this.view.draw(toDraw);
 				}
 			};

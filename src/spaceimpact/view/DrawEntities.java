@@ -21,8 +21,9 @@ public class DrawEntities {
 			iv.setFitHeight(50);
 			iv.setFitWidth(60);
 			layer.getChildren().add(iv);
-			iv.setX(p.getSecond().getX());
-			iv.setY(p.getSecond().getY());
+			System.out.println("X:" + p.getSecond().getX() + " Y:" + p.getSecond().getY());
+			iv.setX(p.getSecond().getX()*9);
+			iv.setY(p.getSecond().getY()*9);
 		});
 
 	}
