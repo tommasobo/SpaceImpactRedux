@@ -27,7 +27,6 @@ public class GameLoop extends Thread {
 	private final long ticLenght;
 	private final ViewInterface view;
 	private final ModelInterface model;
-	private final Object lock;
 
 	/**
 	 * Constructor for GameLoop
@@ -37,29 +36,24 @@ public class GameLoop extends Thread {
 	 */
 	public GameLoop(final int fps, final ViewInterface view) {
 		this.status = Status.READY;
-		this.ticLenght = 1 / fps;
+		this.ticLenght = 1000 / fps;
 		this.view = view;
 		this.model = new Model();
-		this.lock = new Object();
 	}
 
 	/**
 	 * Causes the GameLoop to stop even if the game didn't reach an end.
 	 */
 	public void abort() {
-		synchronized (this.lock) {
-			this.status = Status.KILLED;
-		}
+		this.status = Status.KILLED;
 	}
 
 	/**
-	 * Causes the GameLoop to pause.
+	 * Causes the GameLoop to pause. If it's not running, nothing happens
 	 */
 	public void pause() {
-		synchronized (this.lock) {
-			if (this.status == Status.RUNNING) {
-				this.status = Status.PAUSED;
-			}
+		if (this.status == Status.RUNNING) {
+			this.status = Status.PAUSED;
 		}
 	}
 
@@ -73,57 +67,46 @@ public class GameLoop extends Thread {
 	public void run() {
 		this.status = Status.RUNNING;
 		while (this.status != Status.KILLED) {
-			synchronized (this.lock) {
-				if (this.status == Status.PAUSED) {
-					try {
-						this.wait();
-					} catch (final InterruptedException e1) {
-						this.status = Status.KILLED;
-					}
-				}
-			}
-			final long startTime = System.currentTimeMillis();
-			final List<Pair<String, Location>> toDraw = new LinkedList<>();
-			this.model.getEntitiesToDraw().forEach(e -> {
-				/*
-				 * if (e.getID() == EntityType.Spaceship) { toDraw.add(new
-				 * Pair<>(resFolder + "Player.png", e.getLocation())); }
-				 */
-			});
-			toDraw.add(new Pair<>("/Entities/Player.png", this.model.getPlayerLocation()));
+			if (this.status == Status.RUNNING) {
+				final long startTime = System.currentTimeMillis();
+				final List<Pair<String, Location>> toDraw = new LinkedList<>();
+				this.model.getEntitiesToDraw().forEach(e -> {
+					/*
+					 * if (e.getID() == EntityType.Spaceship) { toDraw.add(new
+					 * Pair<>(resFolder + "Player.png", e.getLocation())); }
+					 */
+				});
+				toDraw.add(new Pair<>("/Entities/Player.png", this.model.getPlayerLocation()));
 
-			final Thread t = new Thread() {
-				@Override
-				public void run() {
-				        System.out.println("safas");
-					GameLoop.this.view.draw(toDraw);
+				final Thread t = new Thread() {
+					@Override
+					public void run() {
+						GameLoop.this.view.draw(toDraw);
+					}
+				};
+				t.start();
+				this.model.informInputs(this.view.getInput());
+				this.model.updateAll();
+				try {
+					t.join();
+					final long timeSpent = System.currentTimeMillis() - startTime;
+					if (timeSpent < this.ticLenght) {
+						Thread.sleep(this.ticLenght - timeSpent);
+					}
+				} catch (final InterruptedException ex1) {
+					this.status = Status.KILLED;
 				}
-			};
-			t.start();
-			this.model.informInputs(this.view.getInput());
-			this.model.updateAll();
-			try {
-				t.join();
-				final long timeSpent = System.currentTimeMillis() - startTime;
-				if (timeSpent < this.ticLenght) {
-					Thread.sleep(this.ticLenght - timeSpent);
-				}
-			} catch (final InterruptedException ex1) {
-				this.status = Status.KILLED;
 			}
 		}
 		// operazioni una volta ucciso il gameloop
 	}
 
 	/**
-	 * Causes the GameLoop to resume.
+	 * Causes the GameLoop to resume. If it wasn't paused nothing happens.
 	 */
 	public void unPause() {
-		synchronized (this.lock) {
-			if (this.status == Status.PAUSED) {
-				this.status = Status.RUNNING;
-				this.notify();
-			}
+		if (this.status == Status.PAUSED) {
+			this.status = Status.RUNNING;
 		}
 	}
 
