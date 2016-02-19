@@ -11,7 +11,7 @@ import spaceimpact.utilities.Input;
 public class InputHandler implements EventHandler<KeyEvent> {
     
     private static InputHandler INPUTHANDLER = null ;
-    private final List<Input> listInput = new LinkedList<Input>();
+    private List<Input> listInput = null;
 
     private InputHandler() {};
     
@@ -27,8 +27,11 @@ public class InputHandler implements EventHandler<KeyEvent> {
     }
     
     public List<Input> getInput() {
-        final List<Input> defensiveListInput = new LinkedList<>(this.listInput);
-        this.listInput.clear();
+        if (this.listInput == null) {
+            this.listInput = new LinkedList<>();
+        }
+        final List<Input> defensiveListInput = this.listInput;
+        this.listInput = new LinkedList<>();
         return defensiveListInput;
     }
     

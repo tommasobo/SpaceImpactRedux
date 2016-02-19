@@ -81,6 +81,7 @@ public class GameLoop extends Thread {
 				final Thread t = new Thread() {
 					@Override
 					public void run() {
+					        System.out.println(toDraw);
 						GameLoop.this.view.draw(toDraw);
 					}
 				};
