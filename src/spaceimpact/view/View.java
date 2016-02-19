@@ -28,6 +28,7 @@ public class View implements ViewInterface{
 
     @Override
     public List<Input> getInput() {
+        System.out.println("CIAO" + this.inputHandler.getInput());
         return this.inputHandler.getInput();
     }
     

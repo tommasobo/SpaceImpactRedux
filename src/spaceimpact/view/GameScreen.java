@@ -19,6 +19,8 @@ import spaceimpact.utilities.Pair;
 
 public class GameScreen extends Scene {
     
+    private static final int WIDTH_GAME = 1420;
+    
     private Stage mainStage;
     private final Group root = new Group();
     private final Pane backgroundLayer = new Pane();
@@ -28,6 +30,7 @@ public class GameScreen extends Scene {
     public GameScreen() {
         super(new StackPane());
           
+        View.getController().startGameLoop();
         backgroundLayer.setMinSize(800, 800);
         
         final Image playerImg = new Image("icon.png");
@@ -65,11 +68,13 @@ public class GameScreen extends Scene {
     }
     
     public void drawOnScreen(List<Pair<String, Location>> listEntities) {
-        //drawEntities.draw(this.backgroundLayer, listEntities);
+        drawEntities.draw(this.backgroundLayer, listEntities);
     }
     
     public GameScreen get(Stage mainWindow){
         mainStage = mainWindow;
+        mainStage.setWidth(WIDTH_GAME);
+        mainStage.centerOnScreen();
         mainStage.setTitle("Space Impact Redux");
         return this;
     }
