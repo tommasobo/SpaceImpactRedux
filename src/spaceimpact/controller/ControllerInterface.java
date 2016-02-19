@@ -35,4 +35,20 @@ public interface ControllerInterface {
 	 */
 	void startGameLoop() throws IllegalStateException;
 
+	/**
+	 * Pauses the "GameLoop" (game pause). If the game is already paused nothing
+	 * happens.
+	 * 
+	 * @throws IllegalStateException
+	 *             If no game is running
+	 */
+	void pauseGameLoop() throws IllegalStateException;
+
+	/**
+	 * Resumes a paused "GameLoop". If the game is not paused nothing happens.
+	 * 
+	 * @throws IllegalStateException
+	 *             If no game is running
+	 */
+	void resumeGameLoop() throws IllegalStateException;
 }

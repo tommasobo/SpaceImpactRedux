@@ -42,6 +42,18 @@ public class Controller implements ControllerInterface {
 		return this.hsManager.getScores();
 	}
 
+	@Override
+	public void pauseGameLoop() throws IllegalStateException {
+		this.gl.orElseThrow(() -> new IllegalStateException());
+		this.gl.get().pause();
+	}
+
+	@Override
+	public void resumeGameLoop() throws IllegalStateException {
+		this.gl.orElseThrow(() -> new IllegalStateException());
+		this.gl.get().unPause();
+	}
+
 	/**
 	 * Start a new application
 	 */
