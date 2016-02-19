@@ -13,12 +13,12 @@ public final class Logo {
     private final Image image = new Image("logo.png");
     private final ImageView iv1 = new ImageView();
     
-    public Logo(final int width, final int heigth) {
+    public Logo(final double width, final double heigth) {
         iv1.setImage(image);
         iv1.setFitHeight(heigth);
         iv1.setFitWidth(width);
     }
-    
+
     public ImageView getLogo() {
         return this.iv1;
     }

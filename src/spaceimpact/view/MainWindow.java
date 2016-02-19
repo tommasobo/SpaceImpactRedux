@@ -4,12 +4,11 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import spaceimpact.controller.ControllerInterface;
 
 public class MainWindow extends Application{
     
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 800;
+    private static final double WIDTH = 800;
+    private static final double HEIGHT = 800;
     
     private final Stage mainWindow = new Stage();
 
@@ -24,6 +23,7 @@ public class MainWindow extends Application{
         
         this.mainWindow.setOnCloseRequest(e -> {
             e.consume();
+            View.getController().pauseGameLoop();
             closeProgram();
         });
         
@@ -38,7 +38,10 @@ public class MainWindow extends Application{
     private void closeProgram() {
         final Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to exit the game?");
         if (answer) {
+            View.getController().abortGameLoop();
             this.mainWindow.close();
+        } else {
+            View.getController().resumeGameLoop();
         }
     }
 }

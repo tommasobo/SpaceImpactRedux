@@ -18,8 +18,8 @@ import spaceimpact.utilities.Pair;
 
 public class GameScreen extends Scene {
 
-	private static final int WIDTH_GAME = 1280;
-	private static final int HEIGHT_GAME = 720;
+	private static final double WIDTH_GAME = 1280;
+	private static final double HEIGHT_GAME = 720;
 
 	private Stage mainStage;
 	private final Group root = new Group();
@@ -65,7 +65,7 @@ public class GameScreen extends Scene {
 	}
 
 	public void drawOnScreen(final List<Pair<String, Location>> listEntities) {
-		this.drawEntities.draw(this.backgroundLayer, listEntities);
+		this.drawEntities.draw(this.backgroundLayer, listEntities, HEIGHT_GAME);
 	}
 
 	public GameScreen get(final Stage mainWindow) {
