@@ -72,8 +72,6 @@ public class GameLoop extends Thread {
 	@Override
 	public void run() {
 		this.status = Status.RUNNING;
-		final String sep = System.getProperty("file.separator");
-		final String resFolder = sep + "res" + sep + "Entities" + sep;
 		while (this.status != Status.KILLED) {
 			synchronized (this.lock) {
 				if (this.status == Status.PAUSED) {
@@ -92,7 +90,7 @@ public class GameLoop extends Thread {
 				 * Pair<>(resFolder + "Player.png", e.getLocation())); }
 				 */
 			});
-			toDraw.add(new Pair<>(resFolder + "Player", this.model.getPlayerLocation()));
+			toDraw.add(new Pair<>("/Entities/Player.png", this.model.getPlayerLocation()));
 
 			final Thread t = new Thread() {
 				@Override

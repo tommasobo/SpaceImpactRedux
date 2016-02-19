@@ -13,7 +13,7 @@ import javafx.scene.image.Image;
  */
 public class ImageLoader {
 	private static final String SEP = System.getProperty("file.separator");
-	private static final String LOGO = ImageLoader.SEP + "res" + ImageLoader.SEP + "icon.jpg";
+	private static final String LOGO = "icon.png";
 
 	private static ImageLoader IMAGELOADER = null;
 
@@ -37,27 +37,27 @@ public class ImageLoader {
 	 */
 	private ImageLoader() {
 		this.imagesMap = new HashMap<>();
-		this.imagesMap.put(ImageLoader.LOGO, this.getImageFromPath(ImageLoader.LOGO));
+		System.out.println(ImageLoader.LOGO);
+		this.getImageFromPath(ImageLoader.LOGO);
 	}
 
 	/**
 	 * Given the path, it adds the image to the map and returns it.
-	 * 
+	 *
 	 * @param path
 	 *            - The path of the image.
 	 * @return Image found in that path.
 	 */
 	public Image getImageFromPath(final String path) {
 		if (!this.imagesMap.containsKey(path)) {
-			final Image image = new Image(this.getClass().getResourceAsStream(path));
-			this.imagesMap.put(path, image);
+			this.imagesMap.put(path, new Image("file:res/" + path));
 		}
 		return this.imagesMap.get(path);
 	}
 
 	/**
 	 * Returns the logo of the game.
-	 * 
+	 *
 	 * @return an Image representing the logo of the game
 	 */
 	public Image getLogoImage() {
