@@ -91,6 +91,7 @@ public class GameLoop extends Thread {
 					t.join();
 					final long timeSpent = System.currentTimeMillis() - startTime;
 					if (timeSpent < this.ticLenght) {
+						System.out.println("Time usage: " + (((double) 100 * timeSpent) / this.ticLenght) + "%");
 						Thread.sleep(this.ticLenght - timeSpent);
 					}
 				} catch (final InterruptedException ex1) {
