@@ -24,6 +24,10 @@ public class TestGameLoop {
 		public void draw(final List<Pair<String, Location>> listEntities) {
 			TestGameLoop.this.var++;
 		}
+
+		@Override
+		public void startView() {
+		}
 	};
 
 	// Test GameLoop start and stop
