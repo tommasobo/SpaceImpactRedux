@@ -22,8 +22,9 @@ public class DrawEntities {
 			iv.setFitWidth(60);
 			layer.getChildren().add(iv);
 			System.out.println("X:" + p.getSecond().getX() + " Y:" + p.getSecond().getY());
-			iv.setX(p.getSecond().getX()*9);
-			iv.setY(p.getSecond().getY()*9);
+			// TODO Make screenheight a param!
+			iv.setX(p.getSecond().getX() * 800);
+			iv.setY(p.getSecond().getY() * 800);
 		});
 
 	}
