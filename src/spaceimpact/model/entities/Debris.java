@@ -2,21 +2,31 @@ package spaceimpact.model.entities;
 
 import spaceimpact.model.Location;
 
-/** Debris
+/** 
+ * Debris Class
  * <br>
  * Spawned when an entity dies, has a limited amount of life defined by a countdown
- * 
  * @author Davide
  */
 public class Debris implements Entity {
 
 	private final EntityType ID = EntityType.Debris; //entity type identifier
 	private Location location; //current position
-	private final double velocity; //current velocity
+	private int countdown; //current countdown to death
+	private boolean isalive;
 
-	public Debris(final Location startinglocation, final double velocity) {
+	public Debris(final Location startinglocation, final int countdown) {
+		this.isalive = true;
 		this.location = startinglocation;
-		this.velocity = velocity;
+		this.countdown = countdown;
+	}
+	
+	/**
+	 * Indicates the current life state of the debris
+	 * @return boolean that indicates if the debris needs to be deleted or not
+	 */
+	public boolean isAlive() {
+		return this.isalive;
 	}
 		
 	@Override
@@ -28,15 +38,17 @@ public class Debris implements Entity {
 	public void setLocation(Location location) {
 		this.location = location;
 	}
-	
-	@Override
-	public void update() {
-		this.location.setX(this.location.getX() + this.location.getX() * velocity);
-		this.location.setY(this.location.getY() + this.location.getY() * velocity);	
-	}
-
+			
 	@Override
 	public EntityType getID() {
 		return ID;
+	}
+	
+	@Override
+	public void update() {
+		this.countdown--;
+		if (this.countdown <= 0) {
+			this.isalive = false;
+		}
 	}
 }

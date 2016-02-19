@@ -2,24 +2,27 @@ package spaceimpact.model.entities;
 
 import spaceimpact.model.Location;
 
-/** General Entity Interface
- * 
+/** 
+ * General Entity Interface
+ * <br>
  * @author Davide
- *
  */
 public interface Entity {
 	
-	/** Getter method for Location
+	/** 
+	 * Getter method for Location
 	 * @return Location
 	 */
 	Location getLocation();
-	
-	/** Setter method for entity location
-	 * @param location Current entity location
+		
+	/** 
+	 * Setter method for entity location
+	 * @param location new entity location
 	 */
 	void setLocation(final Location location);
-			
-	/** Verify if there is a collision between the current .
+				
+	/** 
+	 * Verify if there is a collision between the current .
 	 * @param otherEntity	First entity.
 	 * @return true if collide, otherwise false.
 	 */
@@ -40,11 +43,13 @@ public interface Entity {
 		return false;
 	}
 		
-	/** Move the entity for 1 tick
+	/** 
+	 * Move the entity for 1 tick
 	 */
 	void update();
 	
-	/** Get ID of the current entity
+	/** 
+	 * Get ID of the current entity
 	 * @return entitytype the identifier of the type of this entity.
 	 */
 	EntityType getID();

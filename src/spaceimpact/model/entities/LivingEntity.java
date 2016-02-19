@@ -2,7 +2,8 @@ package spaceimpact.model.entities;
 
 import spaceimpact.model.Location;
 
-/** Living Entity
+/** 
+ * Living Entity
  * <br>
  * <b>location</b> as current location<br>
  * <b>currentlife</b> as the current life amount<br>
@@ -11,56 +12,44 @@ import spaceimpact.model.Location;
  * <b>maxshield</b> as the maximum shield value reachable<br>
  * <b>velocity</b> as the amount of movement in a tick<br>
  * <b>isalive</b> as the state of the spaceship<br>
+ * <b>direction</b> as the current direction of the entity<br>
+ * <b>ID</b> as the entity type<br>
  * <b>weapon</b> as the current equipped weapon<br>
  * 
  * @author Davide
  */
 public abstract class LivingEntity implements Entity{
 
+	protected Direction direction; //current entity direction
 	protected EntityType ID; //entityType
 	protected Location location; //current position
-	protected int currentlife; //current life
-	protected int maxlife; //max life 
-	protected int currentshield; //current shield
-	protected int maxshield; //max shield
-	protected double velocity; //how much the entity moves in a tick
-	protected boolean isalive; //determine if spaceship is alive or dead
-	protected Weapon weapon; //current weapon
+	protected int currentlife = 0; //current life
+	protected int maxlife = 0; //max life 
+	protected int currentshield = 0; //current shield
+	protected int maxshield = 0; //max shield
+	protected double velocity = 0; //how much the entity moves in a tick
+	protected boolean isalive = true; //determine if spaceship is alive or dead
+	protected WeaponInterface weapon; //current weapon
 		
 	/*ACTIONS*/
 	
-	/** Shoot with the current Weapon
+	/** 
+	 * Shoot with the current Weapon
+	 * <br>
+	 * If current weapon is null ignore the command.
 	*/
-	public void attack(){
-		this.weapon.shoot();
-	}
-	
-	/** Absorb damage
-	 * 
-	 * The damage is decrease by the currentshield value.
-	 * 
-	 * @param damage Amount of damage as integer
-	 * @return damage Amount of remaining damage as integer (maybe some of it was absorbed by the shield)
-	 * @throws IllegalArgumentException If damage value is negative
-	*/
-	public int looseShield(int damage){
-		
-		int filtereddamage = damage - currentshield;
-		
-		currentshield -= damage;
-		
-		if (currentshield < 0) {
-			currentshield = 0;
+	public void attack() {
+		if (this.weapon != null) {
+			this.weapon.shoot(this.direction);			
 		}
-					
-		return filtereddamage;
 	}
 	
-	/** Damage the entity life
-	 * 
+	/** 
+	 * Damage the entity life
+	 * <br>
 	 * Decrease current life by the amount of input damage. If currentlife goes below or equal to 0 then 
 	 * isalive boolean is set to false and the ship is dead.
-	 * 
+	 * <br>
 	 * @param damage Amount of damage as integer
 	 * @throws IllegalArgumentException If damage value is negative
 	*/
@@ -77,11 +66,33 @@ public abstract class LivingEntity implements Entity{
 		}			
 	}
 
-	/** Increment entity life
-	 * 
+	/** 
+	 * Absorb damage
+	 * <br>
+	 * The damage is decrease by the currentshield value.
+	 * <br>
+	 * @param damage Amount of damage as integer
+	 * @return damage Amount of remaining damage as integer (maybe some of it was absorbed by the shield)
+	 * @throws IllegalArgumentException If damage value is negative
+	*/
+	public int looseShield(int damage){
+		
+		int filtereddamage = damage - currentshield;
+		
+		currentshield -= damage;
+		
+		if (currentshield < 0) {
+			currentshield = 0;
+		}
+					
+		return filtereddamage;
+	}
+		
+	/** 
+	 * Increment entity life
+	 * <br>
 	 * Increase current life by the increment amount. If currentlife is greater than the maxlife value then 
 	 * the currentlife is set to maxlife.
-	 * 
 	 * @param increment Amount of life to add as integer
 	 * @throws IllegalArgumentException If increment value is negative
 	*/
@@ -98,10 +109,9 @@ public abstract class LivingEntity implements Entity{
 	}
 		
 	/** Increment entity shield
-	 * 
+	 * <br>
 	 * Increase current shield by the increment amount. If currentshield is greater than the maxshield then 
 	 * the currentshield is set to maxshield.
-	 * 
 	 * @param increment Amount of shield to add as integer
 	 * @throws IllegalArgumentException If increment value is negative
 	*/
@@ -119,25 +129,36 @@ public abstract class LivingEntity implements Entity{
 	
 	/*SETTERS*/
 	
-	/** Setter for Entity Weapon
+	/** 
+	 * Setter for Entity Weapon
 	 * @param weapon Weapon to equip
 	*/
-	public void setWeapon(final Weapon weapon) {
+	public void setWeapon(final WeaponInterface weapon) {
 		this.weapon = weapon;
 	}
 			
-	/** Setter method for entity shield
+	/** 
+	 * Setter method for entity shield
 	 * @param maxvalueshield the maximum shield value
 	 */
 	public void setShield(final int maxvalueshield) {		
 		this.maxshield = maxvalueshield;
 	}
 	
-	/** Setter method for entity velocity
+	/** 
+	 * Setter method for entity velocity
 	 * @param velocity velocity of the entity as double
 	 */
 	public void setVelocity(final double velocity) {
 		this.velocity = velocity;
+	}
+	
+	/** 
+	 * Setter method for entity direction
+	 * @param direction as new entity direction
+	 */
+	public void setDirection(Direction direction) {
+		this.direction = direction;	
 	}
 	
 	@Override
@@ -147,26 +168,35 @@ public abstract class LivingEntity implements Entity{
 	
 	/*GETTERS*/
 		
-	/** Getter method to get remaining life
+	/** 
+	 * Getter method to get remaining life
 	 * @return amount of remaining life as integer
 	 */
 	public int getRemainingLife() {
 		return this.currentlife;
+	}
+		
+	/** 
+	 * Getter method for Direction
+	 * @return Direction
+	 */
+	public Direction getDirection() {
+		return this.direction;	
 	}
 	
 	@Override	
 	public Location getLocation() {
 		return this.location;
 	}
-		
-	@Override
-	public void update() {
-		this.location.setX(this.location.getX() + this.location.getX() * velocity);
-		this.location.setY(this.location.getY() + this.location.getY() * velocity);	
-	}
-	
+				
 	@Override
 	public EntityType getID() {
 		return this.ID;
 	}
+	
+	@Override
+	public void update() {		
+		this.direction.moveLocation(this.location, this.velocity);
+	}
 }
+

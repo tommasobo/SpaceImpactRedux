@@ -5,9 +5,7 @@ import java.awt.Rectangle;
 /** <i>Location</i> 
  * <p>
  * Point in a cartesian plane with x and y values.
- * 
  * @author Davide
- *
  */
 public class Location {
 	
@@ -17,9 +15,9 @@ public class Location {
 		
 	/** Costructor with params
 	 * Set location with input parameters
-	 * 
 	 * @param x abscissa value
 	 * @param y ordinate value
+	 * @param area Rectagle as the area occupied by the entity
 	 */
 	public Location(final double x, final double y, final Rectangle area) {		
 		this.x = x;
