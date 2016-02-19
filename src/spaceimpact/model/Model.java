@@ -1,5 +1,6 @@
 package spaceimpact.model;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import spaceimpact.model.entities.*;
 import java.util.List;
@@ -34,7 +35,7 @@ public class Model implements ModelInterface {
      * Inizializate all collections
      */
     public Model() {
-    	player = new Spaceship(100, 0.1); 
+    	player = new Spaceship(100, 0.1, new Location(0.5,0.5, new Rectangle(10,10)), Direction.N); 
     	enemylist = new ArrayList<>();
     	debrislist = new ArrayList<>();
     	playerprojectilelist = new ArrayList<>();
