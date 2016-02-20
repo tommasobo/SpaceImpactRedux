@@ -1,6 +1,8 @@
 package spaceimpact.model.entities;
 
+import spaceimpact.model.Direction;
 import spaceimpact.model.Location;
+import spaceimpact.model.spawners.WeaponInterface;
 
 /** 
  * Enemy (AI Controlled) Class

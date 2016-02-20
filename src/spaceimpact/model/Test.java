@@ -2,6 +2,8 @@ package spaceimpact.model;
 
 import static org.junit.Assert.*;
 import spaceimpact.model.entities.*;
+import spaceimpact.model.spawners.Weapon;
+
 import java.awt.Rectangle;
 
 /**
@@ -27,5 +29,8 @@ public class Test {
 		assertFalse(ship.getID().equals(enemy.getID()));
 		assertTrue(ship.getID().equals(EntityType.Spaceship));
 		ship.setWeapon(new Weapon(ship.getID(), ship.getLocation(), 5));
+		
+		System.out.println(ship.toString());
+		System.out.println(enemy.toString());
 	}
 }

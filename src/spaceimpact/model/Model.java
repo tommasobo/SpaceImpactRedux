@@ -63,17 +63,51 @@ public class Model implements ModelInterface {
 
 	@Override
 	public void informInputs(List<Input> userinputs) throws IllegalStateException {
-		if (player == null) {
-			throw new IllegalStateException();
+		if (player == null || userinputs == null) {
+			throw new IllegalStateException("player or userinput are NULL!!");
 		}		
-		userinputs.forEach(x -> player.moveOrAttack(x));	
-	}
-
+		userinputs.forEach(x -> { 
+			if (x.equals(Input.SPACE)) {
+				playerprojectilelist.add(player.attack());
+			} else {
+				player.move(x);	
+			}
+		});
+	}	
+	
 	@Override
 	public void updateAll() {
-		// TODO Auto-generated method stub
-		//aggiorna tutte le entita' in tutte le liste e controlla collisioni (solo se necessario)  
-		//se un nemico è morto causa proiettile player allora aumenta gli score del giocatore
+		
+		//move all entities
+		enemylist.forEach((x) -> x.update());
+		playerprojectilelist.forEach((x) -> x.update());
+		enemiesprojectilelist.forEach((x) -> x.update());	
+		debrislist.forEach((x) -> x.update());
+		
+		//control collisions
+		
+		//player projectiles with enemy
+		playerprojectilelist.forEach(x -> enemylist.forEach(y -> {
+			if (x.collideWith(y)) { 
+				//spawn debris in the dead location of the enemy
+				deadentities.add(y);
+				deadentities.add(x);
+				playerscores += 10;
+			} 
+		}));
+		
+		//enemy projectiles with player
+		enemiesprojectilelist.forEach(x -> {
+			if (x.collideWith(player)) {			
+				player.looseLife(x.getDamage());			
+				if (!player.isAlive()) {
+					//spawn debris in the dead location of the enemy
+					gameisover = true;
+					deadentities.add(player);
+					deadentities.add(x);
+				}				
+			} 
+		});
 	}
 
 	

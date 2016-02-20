@@ -1,4 +1,7 @@
-package spaceimpact.model.entities;
+package spaceimpact.model.spawners;
+
+import spaceimpact.model.Direction;
+import spaceimpact.model.entities.Projectile;
 
 /** 
  * Weapon Interface

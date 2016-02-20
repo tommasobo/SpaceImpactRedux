@@ -51,4 +51,10 @@ public class Debris implements Entity {
 			this.isalive = false;
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return "[ " + this.ID + " -> X: " + this.location.getX() + 
+				" | Y: " + this.location.getY() + " ]";		
+	}
 }
