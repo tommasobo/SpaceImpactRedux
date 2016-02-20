@@ -1,5 +1,6 @@
 package spaceimpact.view;
 
+import java.awt.Rectangle;
 import java.util.List;
 
 import javafx.scene.image.ImageView;
@@ -20,11 +21,11 @@ public class DrawEntities {
 		listEntities.forEach(p -> {
 			final ImageView iv = new ImageView(this.imgl.getImageFromPath(p.getFirst()));
 			iv.setPreserveRatio(true);
-			iv.setFitHeight(heightGame / 10);
+			final Rectangle area = p.getSecond().getArea();
+			iv.setFitHeight((heightGame * area.getHeight()) / 100);
 			layer.getChildren().add(iv);
-			iv.setX(p.getSecond().getX() * heightGame);
-			iv.setY(p.getSecond().getY() * heightGame);
+			iv.setX((p.getSecond().getX() - (area.getWidth() / 200)) * heightGame);
+			iv.setY((p.getSecond().getY() - (area.getHeight() / 200)) * heightGame);
 		});
 	}
-
 }

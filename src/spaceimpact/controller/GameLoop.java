@@ -71,16 +71,12 @@ public class GameLoop extends Thread {
 			if (this.status == Status.RUNNING) {
 				final long startTime = System.currentTimeMillis();
 				final List<Pair<String, Location>> toDraw = new LinkedList<>();
-				
-				//add player
 				toDraw.add(new Pair<>("/Entities/Player.png", this.model.getPlayerLocation()));
-				//add other entities
 				this.model.getEntitiesToDraw().forEach(e -> {
 					if (e.getID() == EntityType.Projectile) {
-						toDraw.add(new Pair<>("/Entities/Projectile/beam_blue.png", e.getLocation()));
+						toDraw.add(new Pair<>("/Entities/Projectiles/beam_blue.png", e.getLocation()));
 					}
-				});				
-							
+				});
 				final Thread t = new Thread() {
 					@Override
 					public void run() {
@@ -94,7 +90,7 @@ public class GameLoop extends Thread {
 					t.join();
 					final long timeSpent = System.currentTimeMillis() - startTime;
 					if (timeSpent < this.ticLenght) {
-						double usage = (((double) 100 * timeSpent) / this.ticLenght);
+						final double usage = (((double) 100 * timeSpent) / this.ticLenght);
 						if (usage > 0) {
 							System.out.println("Time usage: " + (((double) 100 * timeSpent) / this.ticLenght) + "%");
 						}
