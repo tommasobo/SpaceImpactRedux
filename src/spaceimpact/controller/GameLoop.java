@@ -6,6 +6,7 @@ import java.util.List;
 import spaceimpact.model.Location;
 import spaceimpact.model.Model;
 import spaceimpact.model.ModelInterface;
+import spaceimpact.model.entities.EntityType;
 import spaceimpact.utilities.Pair;
 import spaceimpact.view.ViewInterface;
 
@@ -71,13 +72,14 @@ public class GameLoop extends Thread {
 				final long startTime = System.currentTimeMillis();
 				final List<Pair<String, Location>> toDraw = new LinkedList<>();
 				this.model.getEntitiesToDraw().forEach(e -> {
-					/*
-					 * if (e.getID() == EntityType.Spaceship) { toDraw.add(new
-					 * Pair<>(resFolder + "Player.png", e.getLocation())); }
-					 */
+					if (e.getID() == EntityType.Spaceship) {
+						toDraw.add(new Pair<>("/Entities/Player.png", e.getLocation()));
+						System.out.println(e.toString());
+					} else if (e.getID() == EntityType.Projectile) {
+						toDraw.add(new Pair<>("/Entities/Projectile/beam_blue.png", e.getLocation()));
+					}
 				});
 				toDraw.add(new Pair<>("/Entities/Player.png", this.model.getPlayerLocation()));
-
 				final Thread t = new Thread() {
 					@Override
 					public void run() {
