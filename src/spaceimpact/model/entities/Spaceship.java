@@ -90,15 +90,15 @@ public class Spaceship extends LivingEntity {
 	 */
 	public void move(final Input movetype) throws IllegalArgumentException {
 		if (movetype.equals(Input.A)) { //move left
-			this.direction = Direction.E;
+			this.direction = Direction.W;
 			this.update();
 		} else if (movetype.equals(Input.W)) { //move up
 			this.direction = Direction.N;
 			this.update();
-		} else if (movetype.equals(Input.S)) { //move right
+		} else if (movetype.equals(Input.D)) { //move right
 			this.direction = Direction.E;
 			this.update();
-		} else if (movetype.equals(Input.D)) { //move down
+		} else if (movetype.equals(Input.S)) { //move down
 			this.direction = Direction.S;
 			this.update();		
 		} else {

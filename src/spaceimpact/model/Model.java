@@ -3,6 +3,8 @@ package spaceimpact.model;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import spaceimpact.model.entities.*;
+import spaceimpact.model.spawners.Weapon;
+
 import java.util.List;
 
 import spaceimpact.utilities.Input;
@@ -35,7 +37,8 @@ public class Model implements ModelInterface {
      * Inizializate all collections
      */
     public Model() {
-    	player = new Spaceship(100, 0.1, new Location(0.5,0.5, new Rectangle(10,10)), Direction.N); 
+    	Location tmp = new Location(0.1,0.5, new Rectangle(10,10));
+    	player = new Spaceship(100, 0.05, tmp, Direction.E, 100, new Weapon(EntityType.Spaceship, tmp, 10)); 
     	enemylist = new ArrayList<>();
     	debrislist = new ArrayList<>();
     	playerprojectilelist = new ArrayList<>();
@@ -69,8 +72,13 @@ public class Model implements ModelInterface {
 		userinputs.forEach(x -> { 
 			if (x.equals(Input.SPACE)) {
 				playerprojectilelist.add(player.attack());
+				System.out.println("Pressed: " + x);
+				System.out.println(player.toString());
+				System.out.println(playerprojectilelist.get(0).toString());
 			} else {
 				player.move(x);	
+				System.out.println("Pressed: " + x);
+				System.out.println(player.toString());
 			}
 		});
 	}	
@@ -78,36 +86,42 @@ public class Model implements ModelInterface {
 	@Override
 	public void updateAll() {
 		
+		System.out.println("Updating all entities...");
+		
 		//move all entities
-		enemylist.forEach((x) -> x.update());
-		playerprojectilelist.forEach((x) -> x.update());
-		enemiesprojectilelist.forEach((x) -> x.update());	
-		debrislist.forEach((x) -> x.update());
+		enemylist.forEach((x) -> { x.update(); System.out.println(x);} );	
+		playerprojectilelist.forEach((x) -> { x.update(); System.out.println(x);} );		
+		enemiesprojectilelist.forEach((x) -> { x.update(); System.out.println(x);} );	
+		debrislist.forEach((x) -> { x.update(); System.out.println(x);} );
 		
 		//control collisions
 		
 		//player projectiles with enemy
-		playerprojectilelist.forEach(x -> enemylist.forEach(y -> {
-			if (x.collideWith(y)) { 
-				//spawn debris in the dead location of the enemy
-				deadentities.add(y);
-				deadentities.add(x);
-				playerscores += 10;
-			} 
-		}));
+		if (enemylist.size() > 0 && playerprojectilelist.size() > 0) {
+			playerprojectilelist.forEach(x -> enemylist.forEach(y -> {
+				if (x.collideWith(y)) { 
+					//spawn debris in the dead location of the enemy
+					deadentities.add(y);
+					deadentities.add(x);
+					playerscores += 10;
+				} 
+			}));
+		}
 		
 		//enemy projectiles with player
-		enemiesprojectilelist.forEach(x -> {
-			if (x.collideWith(player)) {			
-				player.looseLife(x.getDamage());			
-				if (!player.isAlive()) {
-					//spawn debris in the dead location of the enemy
-					gameisover = true;
-					deadentities.add(player);
-					deadentities.add(x);
-				}				
-			} 
-		});
+		if (enemiesprojectilelist.size() > 0) {
+			enemiesprojectilelist.forEach(x -> {
+				if (x.collideWith(player)) {			
+					player.looseLife(x.getDamage());			
+					if (!player.isAlive()) {
+						//spawn debris in the dead location of the enemy
+						gameisover = true;
+						deadentities.add(player);
+						deadentities.add(x);
+					}				
+				} 	
+			});
+		}
 	}
 
 	
