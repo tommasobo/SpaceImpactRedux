@@ -46,7 +46,7 @@ public abstract class LivingEntity implements Entity{
 		if (this.weapon == null) {
 			throw new IllegalStateException("Entity " + this.ID + " cannot shoot without a gun.");			
 		}
-		return this.weapon.shoot(this.direction);
+		return this.weapon.shoot();
 	}
 	
 	/** 

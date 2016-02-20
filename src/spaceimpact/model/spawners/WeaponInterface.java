@@ -14,10 +14,9 @@ public interface WeaponInterface {
 	/** Shoot a Projectile
 	 * <br>
 	 * Create and shoot a new Projectile
-	 * @param direction of the projectile
 	 * @return A new projective object
 	 */
-	Projectile shoot(Direction direction);
+	Projectile shoot();
 	
 	/** Enhance weapon capabilities
 	 * <br>

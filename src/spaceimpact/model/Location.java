@@ -12,6 +12,16 @@ public class Location {
 	private double x;
 	private double y;
 	private Rectangle area;
+	
+	/** Costructor with one parameters
+	 * Create a new Location with the same fields as the input Location
+	 * @param loc input location
+	 */
+	public Location(final Location loc) {	
+		this.x = loc.x;
+		this.y = loc.y;
+		this.area = new Rectangle(loc.area);
+	}
 		
 	/** Costructor with params
 	 * Set location with input parameters

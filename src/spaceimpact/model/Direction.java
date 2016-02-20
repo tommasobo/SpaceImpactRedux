@@ -20,13 +20,13 @@ public enum Direction {
 	
 	public void moveLocation(Location loc, double v) {
 		if (this.equals(Direction.N)) {
-			loc.setY(loc.getY() - loc.getY() * v); 
+			loc.setY(loc.getY() - v); 
 		} else if (this.equals(Direction.S)) {
-			loc.setY(loc.getY() + loc.getY() * v); 
+			loc.setY(loc.getY() + v); 
 		} else if (this.equals(Direction.E)) {
-			loc.setX(loc.getX() + loc.getX() * v); 
+			loc.setX(loc.getX() + v); 
 		} else if (this.equals(Direction.W)) {
-			loc.setX(loc.getX() - loc.getX() * v); 
+			loc.setX(loc.getX() - v); 
 		}
 	};
 }

@@ -104,5 +104,19 @@ public class Spaceship extends LivingEntity {
 		} else {
 			throw new IllegalArgumentException();
 		}
+		
+		//spaceship game screen boundaries control
+		if (this.location.getX() < 0) {
+			this.location.setX(0);
+		}
+		if (this.location.getY() > 0.85) {
+			this.location.setY(0.85);
+		}
+		if(this.location.getY() < 0) {
+			this.location.setY(0);
+		}
+		if (this.location.getX() > 1.65) {
+			this.location.setX(1.65);
+		}
 	}
 }
