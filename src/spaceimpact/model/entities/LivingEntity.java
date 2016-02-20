@@ -1,6 +1,8 @@
 package spaceimpact.model.entities;
 
+import spaceimpact.model.Direction;
 import spaceimpact.model.Location;
+import spaceimpact.model.spawners.WeaponInterface;
 
 /** 
  * Living Entity
@@ -32,16 +34,19 @@ public abstract class LivingEntity implements Entity{
 	protected WeaponInterface weapon; //current weapon
 		
 	/*ACTIONS*/
-	
+		
 	/** 
 	 * Shoot with the current Weapon
 	 * <br>
 	 * If current weapon is null ignore the command.
+	 * @return projectile Shooted projectile
+	 * @throws IllegalStateException if no weapon is defined
 	*/
-	public void attack() {
-		if (this.weapon != null) {
-			this.weapon.shoot(this.direction);			
+	public Projectile attack() throws IllegalStateException {
+		if (this.weapon == null) {
+			throw new IllegalStateException("Entity " + this.ID + " cannot shoot without a gun.");			
 		}
+		return this.weapon.shoot(this.direction);
 	}
 	
 	/** 
@@ -53,7 +58,7 @@ public abstract class LivingEntity implements Entity{
 	 * @param damage Amount of damage as integer
 	 * @throws IllegalArgumentException If damage value is negative
 	*/
-	public void looseLife(final int damage){
+	public void looseLife(final int damage) throws IllegalArgumentException {
 		if (damage < 0) {
 			throw new IllegalArgumentException("The entity cannot receive a negative value of damage");
 		}
@@ -115,7 +120,7 @@ public abstract class LivingEntity implements Entity{
 	 * @param increment Amount of shield to add as integer
 	 * @throws IllegalArgumentException If increment value is negative
 	*/
-	public void acquireShield(final int increment){
+	public void acquireShield(final int increment) throws IllegalArgumentException {
 		if (increment < 0) {
 			throw new IllegalArgumentException("The entity cannot acquire negative amount of shield");
 		}
@@ -168,6 +173,14 @@ public abstract class LivingEntity implements Entity{
 	
 	/*GETTERS*/
 		
+	/**
+	 * Control if the entity is alive
+	 * @return isalive If false then the entity is dead.
+	 */
+	public boolean isAlive() {
+		return this.isalive;
+	}
+	
 	/** 
 	 * Getter method to get remaining life
 	 * @return amount of remaining life as integer
@@ -197,6 +210,16 @@ public abstract class LivingEntity implements Entity{
 	@Override
 	public void update() {		
 		this.direction.moveLocation(this.location, this.velocity);
+	}
+	
+	@Override
+	public String toString() {
+		if (this.ID.equals(EntityType.Spaceship)){
+			Spaceship tmp = (Spaceship) this;
+			return "[ " + tmp.ID + " -> X: " + tmp.location.getX() + " | Y: " + tmp.location.getY() + " | Direction: " + tmp.getDirection() + " | Life: " + tmp.getRemainingLife() + " | Shield: " + tmp.getRemainingShield() + " ]";			
+		} else {
+			return "[ " + this.ID + " -> X: " + this.location.getX() + " | Y: " + this.location.getY() + " | Direction: " + this.getDirection() + " | Life: " + this.getRemainingLife() + " ]";		
+		}
 	}
 }
 

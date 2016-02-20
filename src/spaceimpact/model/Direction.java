@@ -1,6 +1,4 @@
-package spaceimpact.model.entities;
-
-import spaceimpact.model.Location;
+package spaceimpact.model;
 
 /**
  * Enumeration for the 4 possible directions of the entities

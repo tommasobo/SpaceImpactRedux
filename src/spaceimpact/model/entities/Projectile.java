@@ -1,5 +1,6 @@
 package spaceimpact.model.entities;
 
+import spaceimpact.model.Direction;
 import spaceimpact.model.Location;
 
 /** 
@@ -58,5 +59,14 @@ public class Projectile implements Entity {
 	@Override
 	public EntityType getID() {
 		return ID;
+	}
+	
+	@Override
+	public String toString() {
+		return "[ " + this.ID + " -> X: " + this.location.getX() + 
+				" | Y: " + this.location.getY() + " | Direction: " + 
+				this.direction + " | Velocity: " + this.velocity + 
+				" | Damage: " + this.damage + " | WhoShooted: " + 
+				this.parentID + " ]";		
 	}
 }
