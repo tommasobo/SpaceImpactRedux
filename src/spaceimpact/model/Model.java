@@ -22,9 +22,8 @@ public class Model implements ModelInterface {
 	
 	boolean gameisover = false; //boolean to see if the game is running or ended
 	int playerscores = 0; //current player scores
-	
+	private double globalvelocity = 0; //constant for entities velocity
 	Spaceship player = null; //nave del giocatore
-	
 	List<Enemy> enemylist = null; //lista di nemici
 	List<Debris> debrislist = null; //lista detriti o elementi visivi, asteroidi e altro
 	List<Projectile> playerprojectilelist = null; //lista proiettili giocatore
@@ -36,9 +35,12 @@ public class Model implements ModelInterface {
     /**
      * Inizializate all collections
      */
-    public Model() {
-    	Location tmp = new Location(0.1,0.5, new Rectangle(10,10));
-    	player = new Spaceship(100, 0.05, tmp, Direction.E, 100, new Weapon(EntityType.Spaceship, tmp, 10)); 
+    public Model(final int framerate) {
+    	
+    	this.globalvelocity = (double)(1 /(double)(2 * framerate));
+    	
+    	Location tmp = new Location(0.1, 0.5, new Rectangle(10,10));	
+    	player = new Spaceship(100, globalvelocity, tmp, Direction.E, 100, new Weapon(EntityType.Spaceship, tmp, 10, globalvelocity * 1.2)); 
     	enemylist = new ArrayList<>();
     	debrislist = new ArrayList<>();
     	playerprojectilelist = new ArrayList<>();
@@ -74,7 +76,6 @@ public class Model implements ModelInterface {
 				playerprojectilelist.add(player.attack());
 				System.out.println("Pressed: " + x);
 				System.out.println(player.toString());
-				System.out.println(playerprojectilelist.get(0).toString());
 			} else {
 				player.move(x);	
 				System.out.println("Pressed: " + x);
@@ -85,9 +86,7 @@ public class Model implements ModelInterface {
 	
 	@Override
 	public void updateAll() {
-		
-		System.out.println("Updating all entities...");
-		
+				
 		//move all entities
 		enemylist.forEach((x) -> { x.update(); System.out.println(x);} );	
 		playerprojectilelist.forEach((x) -> { x.update(); System.out.println(x);} );		

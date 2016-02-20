@@ -39,7 +39,7 @@ public class GameLoop extends Thread {
 		this.status = Status.READY;
 		this.ticLenght = 1000 / fps;
 		this.view = view;
-		this.model = new Model();
+		this.model = new Model(fps);
 	}
 
 	/**

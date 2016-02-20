@@ -26,7 +26,6 @@ public class Spawner implements SpawnerInterface {
 	
 	/**
 	 * Constructor
-	 * 
 	 */
 	public Spawner(EntityType type, int max) {
 		this.spawnedentitiescount = 0;
