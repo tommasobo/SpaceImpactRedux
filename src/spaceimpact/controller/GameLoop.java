@@ -75,6 +75,8 @@ public class GameLoop extends Thread {
 				this.model.getEntitiesToDraw().forEach(e -> {
 					if (e.getID() == EntityType.Projectile) {
 						toDraw.add(new Pair<>("/Entities/Projectiles/beam_blue.png", e.getLocation()));
+					} else if (e.getID() == EntityType.Enemy) {
+						toDraw.add(new Pair<>("/Entities/Enemies/C15.png", e.getLocation()));
 					}
 				});
 				final Thread t = new Thread() {
