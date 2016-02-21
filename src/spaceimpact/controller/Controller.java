@@ -75,7 +75,10 @@ public class Controller implements ControllerInterface {
 
 	@Override
 	public boolean isGameLoopRunning() {
-		return this.gl.isPresent();
+		if (!this.gl.isPresent()) {
+			return false;
+		}
+		return this.gl.get().isRunning();
 	}
 
 }
