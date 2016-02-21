@@ -72,10 +72,10 @@ public class GameScreen extends Scene {
 		hpBox.getChildren().addAll(this.hp, this.shields, this.score);
 		hpBox.setAlignment(Pos.CENTER);
 		hpBox.setId("hpBox");
-		hpBox.setMinWidth(200);
-		hpBox.setMaxSize(270, 50);
+		hpBox.setMinWidth(300);
+		hpBox.setMaxSize(300, 50);
 		hpBox.setMinHeight(50);
-		hpBox.setPadding(new Insets(4));
+		hpBox.setPadding(new Insets(0,4,4,4));
 
 		topLayout.getChildren().add(hpBox);
 		topBox.setId("gameScreen");
