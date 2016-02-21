@@ -80,8 +80,17 @@ public class MainMenu extends Scene{
     
     private void closeProgram() {
         final Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to exit the game?");
+        if (View.getController().isGameLoopRunning()) {
+            if (answer) {
+                View.getController().abortGameLoop();
+                System.out.println("CACCA");
+                mainStage.close();
+            } else {
+                View.getController().resumeGameLoop();
+            }
+        }
         if (answer) {
-            MainMenu.mainStage.close();
+            mainStage.close();
         }
     }
 
