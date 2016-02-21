@@ -11,8 +11,14 @@ import spaceimpact.model.entities.EntityType;
 
 /**
  * Spawner implementation
- * <b>
- * <b>
+ * <br>
+ * <b>spawnedentitiescount</b> Number of total entities spawned by the spawner
+ * <b>maxspawnableentities</b> Number of maximum spawnable entities
+ * <b>typetospawn</b> Entity type to spawn
+ * <b>spawnedetitiesvelocity</b> Velocity of the spawned entities
+ * <b>entityarea</b> Area occupied by the spawned entities
+ * <b>entitiesdamage</b> Entities Projectiles damage
+ * <b>cooldownentityweapon</b> Cooldown time of the entityweapon
  * @author Davide
  */
 public class Spawner implements SpawnerInterface<Enemy> {
@@ -23,6 +29,7 @@ public class Spawner implements SpawnerInterface<Enemy> {
 	private double spawnedetitiesvelocity = 0.1;	
 	private Area entityarea = null;
 	private int entitiesdamage = 0;
+	private int cooldownentityweapon = 0;
 	
 	/**
 	 * Constructor
@@ -43,13 +50,12 @@ public class Spawner implements SpawnerInterface<Enemy> {
 		for(int i = 0; i< tospawn; i++) {	
 			if (spawnedentitiescount <= maxspawableentities) {	
 				
-				//spawn enemies in 900x720 res aka from 0.53 to 16/9
-				
+				//spawn enemies in 900x720 res aka from 0.53 to 16/9			
 				double x = 0.53d + (1.7d - 0.53d) * rnd.nextDouble();
 				double y = rnd.nextDouble();
 							
 				Location tmploc = new Location(x, y, entityarea);
-				Weapon tmpweapon = new Weapon(typetospawn, entitiesdamage, spawnedetitiesvelocity);
+				Weapon tmpweapon = new Weapon(typetospawn, cooldownentityweapon, entitiesdamage, spawnedetitiesvelocity);
 				Enemy tmp = new Enemy(1, spawnedetitiesvelocity, tmploc, Direction.W, 0, tmpweapon);	
 				spawnedentities.add(tmp);
 				spawnedentitiescount++;
@@ -98,6 +104,14 @@ public class Spawner implements SpawnerInterface<Enemy> {
 	 */
 	public void setSpawnedEntityDamage(final int damage) {
 		this.entitiesdamage = damage;
+	}
+	
+	/**
+	 * Set Weapon cooldown time for spawned entity
+	 * @param cooldown Cooldown time as number of ticks
+	 */
+	public void setCoolDownEntityWeapon(final int cooldown) {
+		this.cooldownentityweapon = cooldown;
 	}
 	
 	/**

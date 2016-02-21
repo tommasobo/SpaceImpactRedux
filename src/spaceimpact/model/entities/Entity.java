@@ -44,7 +44,7 @@ public interface Entity {
 	}
 		
 	/** 
-	 * Move the entity for 1 tick
+	 * Update the entity entirely and execute specific methods
 	 */
 	void update();
 	

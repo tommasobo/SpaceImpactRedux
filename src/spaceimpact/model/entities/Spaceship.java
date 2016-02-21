@@ -72,22 +72,11 @@ public class Spaceship extends LivingEntity {
 		this.weapon = weapon;
 	}
 	
-	/* GETTERS */
-	
-	/** 
-	 * Getter method to get remaining shield
-	 * @return amount of remaining shield as integer
-	 */
-	public int getRemainingShield() {
-		return this.currentshield;
-	}
-	
 	/* MAIN METHODS */
 	
 	@Override
-	public void update() {
-		this.direction.moveLocation(this.location, this.velocity);
-		boundaryControl();	
+	public void update() {		
+		coolDownWeapon();			
 	}
 	
 	/** 
@@ -97,21 +86,18 @@ public class Spaceship extends LivingEntity {
 	public void move(final Input movetype) throws IllegalArgumentException {
 		if (movetype.equals(Input.A)) { //move left
 			this.direction = Direction.W;
-			this.update();
 		} else if (movetype.equals(Input.W)) { //move up
 			this.direction = Direction.N;
-			this.update();
 		} else if (movetype.equals(Input.D)) { //move right
 			this.direction = Direction.E;
-			this.update();
 		} else if (movetype.equals(Input.S)) { //move down
-			this.direction = Direction.S;
-			this.update();		
+			this.direction = Direction.S;		
 		} else {
 			throw new IllegalArgumentException();
 		}
 		
-		update();
+		updateLocation();
+		boundaryControl();
 	}
 
 	/**
@@ -131,4 +117,16 @@ public class Spaceship extends LivingEntity {
 			this.location.setX(1.70);
 		}
 	}
+
+	
+	/* GETTERS */
+	
+	/** 
+	 * Getter method to get remaining shield
+	 * @return amount of remaining shield as integer
+	 */
+	public int getRemainingShield() {
+		return this.currentshield;
+	}
+
 }
