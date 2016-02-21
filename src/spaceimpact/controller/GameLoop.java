@@ -81,8 +81,8 @@ public class GameLoop extends Thread {
 					@Override
 					public void run() {
 						GameLoop.this.view.draw(toDraw);
-						//GameLoop.this.view.updateInfo(GameLoop.this.model.getPlayerLife(),
-						//GameLoop.this.model.getPlayerShield(), GameLoop.this.model.getScores());
+						GameLoop.this.view.updateInfo(GameLoop.this.model.getPlayerLife(),
+								GameLoop.this.model.getPlayerShield(), GameLoop.this.model.getScores());
 					}
 				};
 				t.start();
