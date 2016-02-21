@@ -88,3 +88,12 @@
     -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.9) , 1, 0.0 , 0 , 1 );
 }
 
+#score {
+    -fx-fill:  linear-gradient(cyan , green);
+}
+
+#boxInfo {
+    -fx-borderThickness:"1";
+    -fx-borderStyle:"solid";
+    -fx-borderColor:"0x888888";
+}
