@@ -73,13 +73,24 @@ public class HighScores extends Scene{
         descLayout.setId("infoPane");
         this.setRoot(descLayout);
         this.getStylesheets().add("style.css");
-        back.setOnAction(e -> mainStage.setScene(MainMenu.get(mainStage)));       
+        back.setOnAction(e -> mainStage.setScene(MainMenu.get(mainStage)));      
+        reset.setOnAction(e -> {
+            this.resetHighScores();
+        });
     }
 
     public static Scene get(Stage mainWindow){
         mainStage = mainWindow;
         mainStage.setTitle("Space Impact Redux - High Scores");  
         return mainScene;
+    }
+    
+    private void resetHighScores() {
+        final Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to reset the High Scores?");
+       if (answer) {
+           View.getController().emptyHighScores();
+           mainStage.setScene(HighScores.get(mainStage));
+       }
     }
 
 }

@@ -25,17 +25,23 @@ public class PlayerInfo {
         hp.setEffect(this.dropShadow);
         score.setEffect(this.dropShadow);
         
-        if (hpValue < CRITICAL_HP) {
+        if (hpValue <= CRITICAL_HP) {
             this.dropShadow.setColor(Color.RED);
             hp.setTextFill(Color.RED);
-        } else if (hpValue < HALF_HP) {
+        } else if (hpValue <= HALF_HP) {
             this.dropShadow.setColor(Color.ORANGE);
             hp.setTextFill(Color.ORANGE);
         }
         
-        if (scoreValue > MIN_VALUE && scoreValue < MID_VALUE) {
+        if (shieldsValue <= CRITICAL_HP) {
+            shields.setTextFill(Color.RED);
+        } else if (shieldsValue <= HALF_HP) {
+            shields.setTextFill(Color.ORANGE);
+        }
+        
+        if (scoreValue >= MIN_VALUE && scoreValue <= MID_VALUE) {
             score.setTextFill(Color.LIGHTYELLOW);
-        } else if (scoreValue > MID_VALUE) {
+        } else if (scoreValue >= MID_VALUE) {
             score.setTextFill(Color.YELLOW);
         } else {
             score.setTextFill(Color.WHITE);

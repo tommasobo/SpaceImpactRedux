@@ -89,7 +89,7 @@
 }
 
 #score {
-    -fx-fill:  linear-gradient(cyan , green);
+     -fx-font-size: 16pt;
 }
 
 
