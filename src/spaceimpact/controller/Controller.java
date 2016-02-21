@@ -73,4 +73,9 @@ public class Controller implements ControllerInterface {
 		}
 	}
 
+	@Override
+	public boolean isGameLoopRunning() {
+		return this.gl.isPresent();
+	}
+
 }

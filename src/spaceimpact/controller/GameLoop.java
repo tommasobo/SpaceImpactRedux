@@ -72,21 +72,17 @@ public class GameLoop extends Thread {
 		while (this.status != Status.KILLED) {
 			if (this.status == Status.RUNNING) {
 				final long startTime = System.currentTimeMillis();
-				final List<Pair<String, Location>> toDraw = new LinkedList<>();
-				toDraw.add(new Pair<>("/Entities/Player.png", this.model.getPlayerLocation()));
+				final List<Pair<Pair<String, Double>, Location>> toDraw = new LinkedList<>();
+				toDraw.add(new Pair<>(new Pair<>("/Entities/Player.png", 0d), this.model.getPlayerLocation()));
 				this.model.getEntitiesToDraw().forEach(e -> {
-					if (e.getID() == EntityType.Projectile) {
-						toDraw.add(new Pair<>("/Entities/Projectiles/beam_blue.png", e.getLocation()));
-					} else if (e.getID() == EntityType.Enemy) {
-						toDraw.add(new Pair<>("/Entities/Enemies/C15.png", e.getLocation()));
-					} else if (e.getID() == EntityType.Debris) {
-						toDraw.add(new Pair<>("/Entities/explosion.gif", e.getLocation()));
-					}
+					toDraw.add(new Pair<>(EntityType.getImage(e), e.getLocation()));
 				});
 				final Thread t = new Thread() {
 					@Override
 					public void run() {
 						GameLoop.this.view.draw(toDraw);
+						GameLoop.this.view.updateInfo(GameLoop.this.model.getPlayerLife(),
+								GameLoop.this.model.getPlayerShield(), GameLoop.this.model.getScores());
 					}
 				};
 				t.start();

@@ -3,23 +3,25 @@ package spaceimpact.model.entities;
 import spaceimpact.model.Direction;
 import spaceimpact.model.Location;
 
-/** 
- * Projectile
- * <br>
- * Spawned when an entity shoot, damage and velocity are defined by the weapon that shoot it.
+/**
+ * Projectile <br>
+ * Spawned when an entity shoot, damage and velocity are defined by the weapon
+ * that shoot it.
+ * 
  * @author Davide
  */
 public class Projectile implements Entity {
 
 	private final EntityType ID = EntityType.Projectile;
-	private final EntityType parentID; //EntityType that has shooted it
+	private final EntityType parentID; // EntityType that has shooted it
 	private final int damage;
 	private Location location;
 	private final Direction direction;
 	private final double velocity;
 	private boolean removable;
-	
-	public Projectile(final EntityType parentID, final Location startinglocation, final Direction direction, final double velocity, final int damage) {
+
+	public Projectile(final EntityType parentID, final Location startinglocation, final Direction direction,
+			final double velocity, final int damage) {
 		this.removable = false;
 		this.parentID = parentID;
 		this.damage = damage;
@@ -27,53 +29,58 @@ public class Projectile implements Entity {
 		this.velocity = velocity;
 		this.direction = direction;
 	}
-	
-	/** Get the damage that the projectile inflicts
+
+	/**
+	 * Get the damage that the projectile inflicts
+	 * 
 	 * @return damage amount of damage as integer
 	 */
 	public int getDamage() {
 		return this.damage;
 	}
-			
+
 	/**
 	 * Get the entity type that has shooted this projectile
+	 * 
 	 * @return EntityType that has shooted
 	 */
 	public EntityType getParentID() {
-		return parentID;
+		return this.parentID;
 	}
-	
+
 	@Override
 	public Location getLocation() {
 		return this.location;
 	}
 
-	@Override
-	public void setLocation(Location location) {
-		this.location = location;	
+	public Direction getDirection() {
+		return this.direction;
 	}
-	
+
+	@Override
+	public void setLocation(final Location location) {
+		this.location = location;
+	}
+
 	@Override
 	public void update() {
 		this.direction.moveLocation(this.location, this.velocity);
-		
+
 		if (this.location.getX() > 2) {
 			this.removable = true;
 		}
 	}
-	
+
 	@Override
 	public EntityType getID() {
-		return ID;
+		return this.ID;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "[ " + this.ID + " -> X: " + this.location.getX() + 
-				" | Y: " + this.location.getY() + " | Direction: " + 
-				this.direction + " | Velocity: " + this.velocity + 
-				" | Damage: " + this.damage + " | WhoShooted: " + 
-				this.parentID + " ]";		
+		return "[ " + this.ID + " -> X: " + this.location.getX() + " | Y: " + this.location.getY() + " | Direction: "
+				+ this.direction + " | Velocity: " + this.velocity + " | Damage: " + this.damage + " | WhoShooted: "
+				+ this.parentID + " ]";
 	}
 
 	@Override
