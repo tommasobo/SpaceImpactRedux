@@ -7,6 +7,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -23,6 +25,8 @@ public class GameScreen extends Scene {
 
     private static final double WIDTH_GAME = 1280;
     private static final double HEIGHT_GAME = 720;
+    private static final String PAUSE = "Pause";
+    private static final String RESUME = "Resume";
 
     private Stage mainStage;
     private final Group root = new Group();
@@ -36,37 +40,41 @@ public class GameScreen extends Scene {
     
 	public GameScreen() {
 		super(new StackPane());
-
-		this.backgroundLayer.setMinSize(800, 800);
-		/*final Image playerImg = new Image("icon.png");
-		final ImageView playerImgView = new ImageView();
-		playerImgView.setImage(playerImg);
-		playerImgView.setFitHeight(40);
-		playerImgView.setFitWidth(50);*/
 		
 		final HBox buttonGame = new HBox();
 		final Button pauseButton = new Button("Pause");
 		pauseButton.setId("dark-blue");
 		pauseButton.setDefaultButton(false);
-		pauseButton.setOnMousePressed(e -> View.getController().pauseGameLoop());
+		pauseButton.setOnMousePressed(e -> {
+		    if (pauseButton.getText().equals(PAUSE)) {
+		        View.getController().pauseGameLoop();
+		        pauseButton.setText(RESUME);
+		    } else {
+		        View.getController().resumeGameLoop();
+		        pauseButton.setText(PAUSE);
+		    }		    
+		});
 		final Button infoButton = new Button("Info");
 		infoButton.setId("dark-blue");
 		infoButton.setOnMousePressed(e -> InfoBox.display("Info Box"));
 		buttonGame.getChildren().addAll(pauseButton, infoButton);
-		buttonGame.setSpacing(5);
+		buttonGame.setSpacing(10);
 		buttonGame.setAlignment(Pos.TOP_CENTER);
-		buttonGame.setPadding(new Insets(5,0,0,0));
+		buttonGame.setPadding(new Insets(10,0,0,0));
 		
 		final HBox topLayout = new HBox();
 		final VBox topBox = new VBox();
 		topBox.getChildren().addAll(buttonGame, topLayout);
 		topBox.getStylesheets().add("style.css");
 		topLayout.setPadding(new Insets(5,15,15,15));
-		topLayout.setSpacing(10);
+		topLayout.setSpacing(4);
 
 		this.hp.setTextFill(Color.GREEN);
 		this.shields.setTextFill(Color.BLUE);
-
+		this.score.setTextFill(Color.YELLOW);
+		this.score.setId("score");
+		this.shields.setId("score");
+		
 		final HBox hpBox = new HBox();
 		hpBox.setSpacing(5);
 		hpBox.getChildren().addAll(this.hp, this.shields, this.score);
