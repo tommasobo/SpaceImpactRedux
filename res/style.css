@@ -28,15 +28,9 @@
 }
 
 #hpBox {
-    -fx-font: 28px Tahoma;
+    -fx-font: 24px Tahoma;
     -fx-fill: linear-gradient(from 0% 90% to 100% 200%, repeat, aqua 0%, green 110%);
     -fx-border-radius: 30;
-    -fx-border-width: 2;
-}
-
-#currentHp {
-    -fx-border-color: red;
-    -fx-border-radius: 20;
     -fx-border-width: 2;
 }
 
@@ -54,6 +48,10 @@
 
 #gameScreen {
     -fx-background-color: black;
+    -fx-opacity: 0.6;
+    -fx-border-radius: 0 0 25 0;
+    -fx-background-radius: 0 0 25 0;
+    
 }
 
 #dark-blue {
