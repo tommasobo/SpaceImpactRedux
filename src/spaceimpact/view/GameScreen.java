@@ -30,18 +30,19 @@ public class GameScreen extends Scene {
     private final InputHandler inputHandler = InputHandler.getInputHandler();
     private final DrawEntities drawEntities = new DrawEntities();
     private final PlayerInfo playerInfo = new PlayerInfo();
-    private final Label hp = new Label("HP: ");
-    private final Label shields = new Label("Shields: ");
+    private final Label hp = new Label();
+    private final Label shields = new Label();
+    private final Label score = new Label();
     
 	public GameScreen() {
 		super(new StackPane());
 
 		this.backgroundLayer.setMinSize(800, 800);
-		final Image playerImg = new Image("icon.png");
+		/*final Image playerImg = new Image("icon.png");
 		final ImageView playerImgView = new ImageView();
 		playerImgView.setImage(playerImg);
-		playerImgView.setFitHeight(50);
-		playerImgView.setFitWidth(60);
+		playerImgView.setFitHeight(40);
+		playerImgView.setFitWidth(50);*/
 		
 		final HBox buttonGame = new HBox();
 		final Button pauseButton = new Button("Pause");
@@ -67,16 +68,16 @@ public class GameScreen extends Scene {
 		this.shields.setTextFill(Color.BLUE);
 
 		final HBox hpBox = new HBox();
-		hpBox.setOpacity(0.9);
-		hpBox.getChildren().addAll(hp, shields);
+		hpBox.setSpacing(5);
+		hpBox.getChildren().addAll(this.hp, this.shields, this.score);
 		hpBox.setAlignment(Pos.CENTER);
 		hpBox.setId("hpBox");
-		hpBox.setMinWidth(180);
-		hpBox.setMaxSize(180, 50);
+		hpBox.setMinWidth(200);
+		hpBox.setMaxSize(270, 50);
 		hpBox.setMinHeight(50);
-		hpBox.setPadding(new Insets(5));
+		hpBox.setPadding(new Insets(4));
 
-		topLayout.getChildren().addAll(playerImgView, hpBox);
+		topLayout.getChildren().add(hpBox);
 		topBox.setId("gameScreen");
 
 		this.root.getChildren().addAll(this.backgroundLayer, topBox);
@@ -93,12 +94,12 @@ public class GameScreen extends Scene {
 		this.setRoot(this.root);
 	}
 
-	public void drawOnScreen(final List<Pair<Pair<String, Double>, Location>> listEntities) {
+	void drawOnScreen(final List<Pair<Pair<String, Double>, Location>> listEntities) {
 		this.drawEntities.draw(this.backgroundLayer, listEntities, HEIGHT_GAME);
 	}
 	
-	public void updateInfo(final int hp, final int shields, final int score) {
-	    this.playerInfo.update(this.hp, this.shields, hp, shields, score);
+	void updateInfo(final int hp, final int shields, final int score) {
+	    this.playerInfo.update(this.hp, this.shields, this.score, hp, shields, score);
 	}
 
 	public GameScreen get(final Stage mainWindow) {
