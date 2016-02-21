@@ -1,18 +1,15 @@
 package spaceimpact.view;
 
-import java.util.BitSet;
 import java.util.LinkedList;
 import java.util.List;
 
-import javafx.event.EventHandler;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;
 import spaceimpact.utilities.Input;
 
-public class InputHandler implements EventHandler<KeyEvent> {
+public class InputHandler {
 
     private static InputHandler INPUTHANDLER = null;
-    private List<Input> listInput = new LinkedList<>();
-    private final BitSet inputBitSet = new BitSet();  
+    private final List<Input> inputList = new LinkedList<>();  
 
     private InputHandler() {};
 
@@ -26,36 +23,26 @@ public class InputHandler implements EventHandler<KeyEvent> {
 	}
 	return InputHandler.INPUTHANDLER;
     }
-
-    public List<Input> getInput() {
-		if (this.listInput == null) {
-			this.listInput = new LinkedList<>();
-		}
-		final List<Input> defensiveListInput = this.listInput;
-		this.listInput = new LinkedList<>();
-		return defensiveListInput;
-	}
-
-	@Override
-	public void handle(final KeyEvent event) {
-		switch (event.getCode()) {
-		case W:
-			this.listInput.add(Input.W);
-			break;
-		case A:
-			this.listInput.add(Input.A);
-			break;
-		case S:
-			this.listInput.add(Input.S);
-			break;
-		case D:
-			this.listInput.add(Input.D);
-			break;
-		case SPACE:
-			this.listInput.add(Input.SPACE);
-			break;
-		default:
-			break;
-		}
-	}
+    
+    public List<Input> getList() {
+        return this.inputList;
+    }
+    
+    public Input singleKey(KeyCode code) {
+        switch (code) {
+        case W:
+            return Input.W;
+        case A:
+            return Input.A;
+        case S:
+            return Input.S;
+        case D:
+            return Input.D;
+        case SPACE:
+            return Input.SPACE;
+        default:
+            return Input.SPACE;
+        }
+    }
+    
 }

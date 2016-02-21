@@ -25,8 +25,8 @@ public class DrawEntities {
 	 */
 	public DrawEntities() {
 		this.imgl = ImageLoader.getLoader();
-		this.bg = new ImageView(this.imgl.getImageFromPath("gameBackground.jpg"));
-		this.bg2 = new ImageView(this.imgl.getImageFromPath("gameBackground.jpg"));
+		this.bg = new ImageView(this.imgl.getImageFromPath("gameBackground.png"));
+		this.bg2 = new ImageView(this.imgl.getImageFromPath("gameBackground.png"));
 		this.bg.setFitWidth(GAME_WIDTH);
 		this.bg2.setFitWidth(GAME_WIDTH);
 		this.bg2.relocate(GAME_WIDTH, 0);

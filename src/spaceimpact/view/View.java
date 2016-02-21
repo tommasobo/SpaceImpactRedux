@@ -34,7 +34,7 @@ public class View implements ViewInterface {
 
 	@Override
 	public List<Input> getInput() {
-		return this.inputHandler.getInput();
+		return this.inputHandler.getList();
 	}
 
 	@Override
