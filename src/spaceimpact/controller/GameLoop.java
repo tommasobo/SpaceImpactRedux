@@ -3,6 +3,7 @@ package spaceimpact.controller;
 import java.util.LinkedList;
 import java.util.List;
 
+import spaceimpact.model.Area;
 import spaceimpact.model.Location;
 import spaceimpact.model.Model;
 import spaceimpact.model.ModelInterface;
@@ -74,6 +75,11 @@ public class GameLoop extends Thread {
 				final long startTime = System.currentTimeMillis();
 				final List<Pair<Pair<String, Double>, Location>> toDraw = new LinkedList<>();
 				toDraw.add(new Pair<>(new Pair<>("/Entities/Player.png", 0d), this.model.getPlayerLocation()));
+				if (this.model.getPlayerShield() > 0) {
+					final Location pl = this.model.getPlayerLocation();
+					final Area a = new Area(pl.getArea().getWidth() * 2, pl.getArea().getHeight() * 2);
+					toDraw.add(new Pair<>(new Pair<>("shield.png", 0d), new Location(pl.getX(), pl.getY(), a)));
+				}
 				this.model.getEntitiesToDraw().forEach(e -> {
 					toDraw.add(new Pair<>(EntityType.getImage(e), e.getLocation()));
 				});
@@ -118,7 +124,7 @@ public class GameLoop extends Thread {
 
 	/**
 	 * Checks if the game status is
-	 * 
+	 *
 	 * @param s
 	 * @return
 	 */
