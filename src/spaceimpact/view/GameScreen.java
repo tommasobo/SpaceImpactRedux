@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -52,16 +54,25 @@ public class GameScreen extends Scene {
 		hpBox.getChildren().addAll(hp, shields);
 		hpBox.setAlignment(Pos.CENTER);
 		hpBox.setId("hpBox");
-		hpBox.setMinWidth(220);
-		hpBox.setMaxSize(220, 60);
-		hpBox.setMinHeight(60);
+		hpBox.setMinWidth(180);
+		hpBox.setMaxSize(180, 50);
+		hpBox.setMinHeight(50);
 		hpBox.setPadding(new Insets(5));
 
 		topLayout.getChildren().addAll(playerImgView, hpBox);
 		topLayout.setId("gameScreen");
 
 		this.root.getChildren().addAll(this.backgroundLayer, topLayout);
-		this.setOnKeyPressed(inputHandler);
+		this.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+		    if (!inputHandler.getList().contains(inputHandler.singleKey(event.getCode()))) {
+		        inputHandler.getList().add(inputHandler.singleKey(event.getCode()));
+		    }
+		});
+		this.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
+		    if (inputHandler.getList().contains(inputHandler.singleKey(event.getCode()))) {
+                        inputHandler.getList().remove(inputHandler.singleKey(event.getCode()));
+                    }
+		});
 		this.setRoot(this.root);
 	}
 
