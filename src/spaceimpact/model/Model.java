@@ -89,7 +89,7 @@ public class Model implements ModelInterface {
 				playerprojectilelist.add(player.attack());
 				System.out.println("Pressed: " + x);
 				System.out.println(player.toString());
-			} else {
+			} else if (!x.equals(Input.SPACE)) {
 				player.move(x);	
 				System.out.println("Pressed: " + x);
 				System.out.println(player.toString());
