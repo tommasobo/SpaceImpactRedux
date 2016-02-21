@@ -10,7 +10,7 @@ public interface ViewInterface {
 
     List<Input> getInput();
 
-    void draw(List<Pair<String, Location>> listEntities);
+    void draw(List<Pair<Pair<String, Double>, Location>> listEntities);
     
     void startView();
     

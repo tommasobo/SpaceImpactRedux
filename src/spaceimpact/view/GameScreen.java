@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,6 +13,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import spaceimpact.model.Location;
@@ -40,16 +42,28 @@ public class GameScreen extends Scene {
 		playerImgView.setImage(playerImg);
 		playerImgView.setFitHeight(50);
 		playerImgView.setFitWidth(60);
-
+		
+		final HBox buttonGame = new HBox();
+		final Button pauseButton = new Button("Pause");
+		pauseButton.setId("dark-blue");
+		pauseButton.setOnAction(e -> View.getController().pauseGameLoop());
+		final Button infoButton = new Button("Info");
+		infoButton.setId("dark-blue");
+		infoButton.setOnAction(e -> InfoBox.display("Info Box"));
+		buttonGame.getChildren().addAll(pauseButton, infoButton);
+		buttonGame.setSpacing(5);
+		buttonGame.setAlignment(Pos.TOP_CENTER);
+		buttonGame.setPadding(new Insets(5,0,0,0));
+		
 		final HBox topLayout = new HBox();
-		topLayout.getStylesheets().add("style.css");
-		topLayout.setPadding(new Insets(20));
+		final VBox topBox = new VBox();
+		topBox.getChildren().addAll(buttonGame, topLayout);
+		topBox.getStylesheets().add("style.css");
+		topLayout.setPadding(new Insets(5,15,15,15));
 		topLayout.setSpacing(10);
 
-		
-		hp.setTextFill(Color.GREEN);
-		
-		shields.setTextFill(Color.BLUE);
+		this.hp.setTextFill(Color.GREEN);
+		this.shields.setTextFill(Color.BLUE);
 
 		final HBox hpBox = new HBox();
 		hpBox.setOpacity(0.9);
@@ -62,9 +76,9 @@ public class GameScreen extends Scene {
 		hpBox.setPadding(new Insets(5));
 
 		topLayout.getChildren().addAll(playerImgView, hpBox);
-		topLayout.setId("gameScreen");
+		topBox.setId("gameScreen");
 
-		this.root.getChildren().addAll(this.backgroundLayer, topLayout);
+		this.root.getChildren().addAll(this.backgroundLayer, topBox);
 		this.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 		    if (!inputHandler.getList().contains(inputHandler.singleKey(event.getCode()))) {
 		        inputHandler.getList().add(inputHandler.singleKey(event.getCode()));
