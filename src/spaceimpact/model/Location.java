@@ -1,7 +1,5 @@
 package spaceimpact.model;
 
-import java.awt.Rectangle;
-
 /** <i>Location</i> 
  * <p>
  * Point in a cartesian plane with x and y values.
@@ -11,7 +9,7 @@ public class Location {
 	
 	private double x;
 	private double y;
-	private Rectangle area;
+	private Area area;
 	
 	/** Costructor with one parameters
 	 * Create a new Location with the same fields as the input Location
@@ -20,7 +18,7 @@ public class Location {
 	public Location(final Location loc) {	
 		this.x = loc.x;
 		this.y = loc.y;
-		this.area = new Rectangle(loc.area);
+		this.area = new Area(loc.area);
 	}
 		
 	/** Costructor with params
@@ -29,7 +27,7 @@ public class Location {
 	 * @param y ordinate value
 	 * @param area Rectagle as the area occupied by the entity
 	 */
-	public Location(final double x, final double y, final Rectangle area) {		
+	public Location(final double x, final double y, final Area area) {		
 		this.x = x;
 		this.y = y;
 		this.area = area;
@@ -49,10 +47,10 @@ public class Location {
 		return this.y;
 	}
 	
-	/** Getter of the rectangle Area of the Location
-	 * @return area as a rectangle area
+	/** Getter of the Area of the Location
+	 * @return area as an Area
 	 */
-	public Rectangle getArea(){
+	public Area getArea(){
 		return this.area;
 	}
 	

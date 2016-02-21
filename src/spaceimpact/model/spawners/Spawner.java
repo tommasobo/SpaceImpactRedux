@@ -1,27 +1,27 @@
 package spaceimpact.model.spawners;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
+import spaceimpact.model.Area;
 import spaceimpact.model.Direction;
 import spaceimpact.model.Location;
 import spaceimpact.model.entities.Enemy;
-import spaceimpact.model.entities.Entity;
 import spaceimpact.model.entities.EntityType;
 
 /**
  * Spawner implementation
+ * <b>
+ * <b>
  * @author Davide
  */
-public class Spawner implements SpawnerInterface {
+public class Spawner implements SpawnerInterface<Enemy> {
 
 	private int spawnedentitiescount;
 	private int maxspawableentities;
 	private EntityType typetospawn;
 	private double spawnedetitiesvelocity = 0.1;	
-	private Rectangle entityarea = null;
+	private Area entityarea = null;
 	private int entitiesdamage = 0;
 	
 	/**
@@ -34,35 +34,30 @@ public class Spawner implements SpawnerInterface {
 	}
 		
 	@Override
-	public List<Entity> spawn() {
-		List<Entity> spawnedentities = new ArrayList<>();
+	public List<Enemy> spawn() {
+		List<Enemy> spawnedentities = new ArrayList<>();
 		
 		Random rnd = new Random();	
 		int tospawn = rnd.nextInt(maxspawableentities);
 		
 		for(int i = 0; i< tospawn; i++) {	
-			if (spawnedentitiescount <= maxspawableentities) {		
-				double x = rnd.nextDouble();
-				double y = rnd.nextDouble() + rnd.nextDouble();
+			if (spawnedentitiescount <= maxspawableentities) {	
 				
-				while (y > (double)16/9) {
-					y = rnd.nextDouble() + rnd.nextDouble();
-				}
+				//spawn enemies in 900x720 res aka from 0.53 to 16/9
 				
-				if (x > 0.7d) {
-					x -= 0.3d;
-				}
-				
+				double x = 0.53d + (1.7d - 0.53d) * rnd.nextDouble();
+				double y = rnd.nextDouble();
+							
 				Location tmploc = new Location(x, y, entityarea);
-				Weapon tmpweapon = new Weapon(typetospawn, tmploc, entitiesdamage);
-				Entity tmp = new Enemy(1, spawnedetitiesvelocity, tmploc, Direction.W, 0, tmpweapon);	
+				Weapon tmpweapon = new Weapon(typetospawn, entitiesdamage, spawnedetitiesvelocity);
+				Enemy tmp = new Enemy(1, spawnedetitiesvelocity, tmploc, Direction.W, 0, tmpweapon);	
 				spawnedentities.add(tmp);
 				spawnedentitiescount++;
 			} else {
 				return spawnedentities;
 			}
 		}				
-		return null;
+		return spawnedentities;
 	}
 	
 	/**
@@ -93,7 +88,7 @@ public class Spawner implements SpawnerInterface {
 	 * Set spawned entity area
 	 * @param area Area occupied by the spawned entities
 	 */
-	public void setSpawnedEntityArea(final Rectangle area) {
+	public void setSpawnedEntityArea(final Area area) {
 		this.entityarea = area;
 	}
 	

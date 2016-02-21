@@ -1,5 +1,10 @@
 package spaceimpact.model.entities;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
 import spaceimpact.model.Direction;
 import spaceimpact.model.Location;
 import spaceimpact.model.spawners.WeaponInterface;
@@ -30,9 +35,9 @@ public class Enemy extends LivingEntity {
 		super.currentlife = maxlife;
 		super.maxlife = maxlife;
 		super.velocity = velocity;
-		super.location = location;
+		super.location = new Location(location);
 		super.direction = direction;
-		super.isalive = true;
+		super.removable = false;
 	}
 		
 	/** 
@@ -69,5 +74,74 @@ public class Enemy extends LivingEntity {
 	public Enemy(int maxlife, double velocity, Location location, Direction direction, int maxshield, WeaponInterface weapon){
 		this(maxlife, velocity,location, direction, maxshield);
 		super.weapon = weapon;
+	}
+	
+	@Override
+	public void update() {		
+		this.direction.moveLocation(this.location, this.velocity);
+		boundaryControl();
+	}
+	
+	/**
+	 * Control that the ship does not go over the screen boundaries
+	 */
+	public void boundaryControl() {	
+		if (this.location.getX() < 0.53d) {
+			this.location.setX(0.53d);
+			this.setDirection(getRandomDirection(this.direction));
+		}
+		if (this.location.getY() > 1.3d) {
+			this.location.setY(1.3d);
+			this.setDirection(getRandomDirection(this.direction));
+		}
+		if(this.location.getY() < 0d) {
+			this.location.setY(0d);
+			this.setDirection(getRandomDirection(this.direction));
+		}
+		if (this.location.getX() > 1.7) {
+			this.location.setX(1.7);
+			this.setDirection(getRandomDirection(this.direction));
+		}
+		
+//		if (this.location.getX() < 0.53d) {
+//			this.location.setX(0.53d);
+//			this.setDirection(getRandomDirection(this.direction));
+//		}
+//		if (this.location.getY() > 1.3d) {
+//			this.location.setY(1.3d);
+//			this.setDirection(getRandomDirection(this.direction));
+//		}
+//		if(this.location.getY() < -0.30d) {
+//			this.location.setY(-0.30d);
+//			this.setDirection(getRandomDirection(this.direction));
+//		}
+//		if (this.location.getX() > 2) {
+//			this.location.setX(2);
+//			this.setDirection(getRandomDirection(this.direction));
+//		}
+	}
+	
+	/**
+	 * Generate new random direction
+	 * <br>
+	 * Return one directions excluding currdirection
+	 * @param currdirection Current direction that must not be returned
+	 * @return direction New Random Direction
+	 */
+	Direction getRandomDirection(final Direction currdirection) {
+		List<Direction> dirlist = new ArrayList<Direction>(Arrays.asList(Direction.values()));
+		dirlist.remove(currdirection);
+			
+		Random rnd = new Random();
+		double tmp = rnd.nextDouble();
+		
+		if (tmp < 0.33d) {
+			return dirlist.get(0);
+		} else if (tmp >= 0.33d && tmp < 0.66d) {
+			return dirlist.get(1);
+		} else {
+			return dirlist.get(2);
+		}
+		
 	}
 }
