@@ -24,6 +24,9 @@ public class InfoBox {
         final Text label = new Text();
         label.setText("Developed and Created by");
         label.setId("titleInfo");
+        final Text instructionTitle = new Text();
+        instructionTitle.setText("Instructions");
+        instructionTitle.setId("titleInfo");
         
         final VBox listDeveloper = new VBox(10);
         final Label view = new Label("Tommaso Bonato (View)");
@@ -33,16 +36,20 @@ public class InfoBox {
         final Label controller = new Label("Nicola Cielo (Controller)");
         controller.setId("whiteText");
         
+        final Label instructions = new Label();
+        instructions.setText("W - Move up\nA - Move left\nS - Move down\nD - Move right\nSPACE - Fire");
+        instructions.setId("whiteText");
+        
         listDeveloper.getStylesheets().add("style.css");
         listDeveloper.setAlignment(Pos.CENTER);
         listDeveloper.setId("whiteText");
         listDeveloper.setPadding(new Insets(10));
-        listDeveloper.getChildren().addAll(view, model, controller);
+        listDeveloper.getChildren().addAll(instructionTitle, instructions, label, view, model, controller);
 
         final VBox layout = new VBox(10);
         final StackPane descLayout = new StackPane();
         
-        layout.getChildren().addAll(logo.getLogo(), label, listDeveloper);
+        layout.getChildren().addAll(logo.getLogo(), listDeveloper);
         layout.setSpacing(10);
         layout.setPadding(new Insets(8));
         layout.setAlignment(Pos.TOP_CENTER);

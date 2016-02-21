@@ -46,10 +46,11 @@ public class GameScreen extends Scene {
 		final HBox buttonGame = new HBox();
 		final Button pauseButton = new Button("Pause");
 		pauseButton.setId("dark-blue");
-		pauseButton.setOnAction(e -> View.getController().pauseGameLoop());
+		pauseButton.setDefaultButton(false);
+		pauseButton.setOnMousePressed(e -> View.getController().pauseGameLoop());
 		final Button infoButton = new Button("Info");
 		infoButton.setId("dark-blue");
-		infoButton.setOnAction(e -> InfoBox.display("Info Box"));
+		infoButton.setOnMousePressed(e -> InfoBox.display("Info Box"));
 		buttonGame.getChildren().addAll(pauseButton, infoButton);
 		buttonGame.setSpacing(5);
 		buttonGame.setAlignment(Pos.TOP_CENTER);
@@ -92,7 +93,7 @@ public class GameScreen extends Scene {
 		this.setRoot(this.root);
 	}
 
-	public void drawOnScreen(final List<Pair<String, Location>> listEntities) {
+	public void drawOnScreen(final List<Pair<Pair<String, Double>, Location>> listEntities) {
 		this.drawEntities.draw(this.backgroundLayer, listEntities, HEIGHT_GAME);
 	}
 	
