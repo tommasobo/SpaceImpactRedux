@@ -48,8 +48,8 @@
 
 #gameScreen {
     -fx-background-color: black;
-    -fx-opacity: 0.6;
     -fx-border-radius: 0 0 25 0;
+    -fx-opacity: 0.55;
     -fx-background-radius: 0 0 25 0;
     
 }
@@ -92,8 +92,4 @@
     -fx-fill:  linear-gradient(cyan , green);
 }
 
-#boxInfo {
-    -fx-borderThickness:"1";
-    -fx-borderStyle:"solid";
-    -fx-borderColor:"0x888888";
-}
+
