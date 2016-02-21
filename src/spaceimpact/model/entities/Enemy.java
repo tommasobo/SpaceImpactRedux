@@ -7,7 +7,7 @@ import java.util.Random;
 
 import spaceimpact.model.Direction;
 import spaceimpact.model.Location;
-import spaceimpact.model.spawners.WeaponInterface;
+import spaceimpact.model.spawners.Weapon;
 
 /** 
  * Enemy (AI Controlled) Class
@@ -71,7 +71,7 @@ public class Enemy extends LivingEntity {
 	 * @param maxshield Enemy's Maximum Shield Value
 	 * @param weapon Enemy's Weapon
 	*/
-	public Enemy(int maxlife, double velocity, Location location, Direction direction, int maxshield, WeaponInterface weapon){
+	public Enemy(int maxlife, double velocity, Location location, Direction direction, int maxshield, Weapon weapon){
 		this(maxlife, velocity,location, direction, maxshield);
 		super.weapon = weapon;
 	}
@@ -130,7 +130,16 @@ public class Enemy extends LivingEntity {
 			return dirlist.get(1);
 		} else {
 			return dirlist.get(2);
-		}
-		
+		}		
+	}
+	
+	/* GETTERS */
+	
+	/**
+	 * Getter for current equipped weapon
+	 * @return weapon Current equipped weapon
+	 */
+	public Weapon getWeapon() {
+		return this.weapon;
 	}
 }

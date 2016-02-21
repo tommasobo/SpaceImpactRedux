@@ -32,7 +32,7 @@ public class Spawner implements SpawnerInterface<Enemy> {
 	private int cooldownentityweapon = 0;
 	
 	/**
-	 * Constructor
+	 * Constructor (Entity Type, Maximum spawnable entities)
 	 */
 	public Spawner(EntityType type, int max) {
 		this.spawnedentitiescount = 0;
@@ -45,9 +45,9 @@ public class Spawner implements SpawnerInterface<Enemy> {
 		List<Enemy> spawnedentities = new ArrayList<>();
 		
 		Random rnd = new Random();	
-		int tospawn = rnd.nextInt(maxspawableentities);
+		int tospawn = rnd.nextInt(maxspawableentities / 2);
 		
-		for(int i = 0; i< tospawn; i++) {	
+		for(int i = 0; i < tospawn; i++) {	
 			if (spawnedentitiescount <= maxspawableentities) {	
 				
 				//spawn enemies in 900x720 res aka from 0.53 to 16/9			
@@ -55,7 +55,7 @@ public class Spawner implements SpawnerInterface<Enemy> {
 				double y = rnd.nextDouble();
 							
 				Location tmploc = new Location(x, y, entityarea);
-				Weapon tmpweapon = new Weapon(typetospawn, cooldownentityweapon, entitiesdamage, spawnedetitiesvelocity);
+				Weapon tmpweapon = new Weapon(typetospawn, Direction.W, cooldownentityweapon, entitiesdamage, spawnedetitiesvelocity * 1.5);
 				Enemy tmp = new Enemy(1, spawnedetitiesvelocity, tmploc, Direction.W, 0, tmpweapon);	
 				spawnedentities.add(tmp);
 				spawnedentitiescount++;
@@ -121,5 +121,4 @@ public class Spawner implements SpawnerInterface<Enemy> {
 	public int getSpawnedEntities() {
 		return this.spawnedentitiescount;
 	}
-
 }

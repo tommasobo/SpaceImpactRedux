@@ -3,7 +3,7 @@ package spaceimpact.model.entities;
 import spaceimpact.utilities.Input;
 import spaceimpact.model.Direction;
 import spaceimpact.model.Location;
-import spaceimpact.model.spawners.WeaponInterface;
+import spaceimpact.model.spawners.Weapon;
 
 /** 
  * Spaceship (User controlled) Class
@@ -67,7 +67,7 @@ public class Spaceship extends LivingEntity {
 	 * @param maxshield Spaceship's Maximum Shield Value
 	 * @param weapon Spaceship's Weapon
 	*/
-	public Spaceship(int maxlife, double velocity, Location location, Direction direction, int maxshield, WeaponInterface weapon){
+	public Spaceship(int maxlife, double velocity, Location location, Direction direction, int maxshield, Weapon weapon){
 		this(maxlife, velocity, location, direction, maxshield);
 		this.weapon = weapon;
 	}

@@ -26,7 +26,7 @@ public class Test {
 	public void testGeneral() {
 		assertFalse(ship.getID().equals(enemy.getID()));
 		assertTrue(ship.getID().equals(EntityType.Spaceship));
-		ship.setWeapon(new Weapon(ship.getID(), 10, 5, 0.001));
+		ship.setWeapon(new Weapon(ship.getID(), Direction.N, 10, 5, 0.001));
 		
 		System.out.println(ship.toString());
 		System.out.println(enemy.toString());

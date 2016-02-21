@@ -37,6 +37,12 @@ public interface ModelInterface {
 	 */
 	int getScores();
 	
+	/**
+	 * Get Game Status
+	 * @return GameStatus Current game status
+	 */
+	GameStatus getGameStatus();
+	
 	/** 
 	 * Return the full list of entities except for player
 	 * <br>
