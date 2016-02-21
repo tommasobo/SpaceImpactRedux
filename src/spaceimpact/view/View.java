@@ -43,10 +43,10 @@ public class View implements ViewInterface {
 	}
 	
 	public void updateInfo(final int hp, final int shields, final int score) {
-	    View.gameScreen.updateInfo(hp, shields, score);
+	    Platform.runLater(() -> View.gameScreen.updateInfo(hp, shields, score));
 	}
 
 	static void setGameScreen(final GameScreen gamescreen) {
-		View.gameScreen = gamescreen;
+	    View.gameScreen = gamescreen;
 	}
 }
