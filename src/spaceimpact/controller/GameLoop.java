@@ -43,14 +43,16 @@ public class GameLoop extends Thread {
 	}
 
 	/**
-	 * Causes the GameLoop to stop even if the game didn't reach an end.
+	 * Causes the GameLoop to stop even if the game didn't reach an end. The
+	 * halt could be delayed up to a tic later.
 	 */
 	public void abort() {
 		this.status = Status.KILLED;
 	}
 
 	/**
-	 * Causes the GameLoop to pause. If it's not running, nothing happens
+	 * Causes the GameLoop to pause. If it's not running, nothing happens. The
+	 * pause could be delayed up to a tic later.
 	 */
 	public void pause() {
 		if (this.status == Status.RUNNING) {
@@ -108,6 +110,7 @@ public class GameLoop extends Thread {
 
 	/**
 	 * Causes the GameLoop to resume. If it wasn't paused nothing happens.
+	 * Resume could be delayed up to a tic later.
 	 */
 	public void unPause() {
 		if (this.status == Status.PAUSED) {
