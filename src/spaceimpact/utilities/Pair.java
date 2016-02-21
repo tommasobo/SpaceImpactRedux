@@ -1,7 +1,5 @@
 package spaceimpact.utilities;
 
-import java.io.Serializable;
-
 /**This class models a "pair" of elements.
  * 
  * @param <A> The type of the first element of the pair

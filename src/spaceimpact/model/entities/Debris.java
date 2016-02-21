@@ -13,20 +13,17 @@ public class Debris implements Entity {
 	private final EntityType ID = EntityType.Debris; //entity type identifier
 	private Location location; //current position
 	private int countdown; //current countdown to death
-	private boolean isalive;
+	private boolean removable; //determine if 
 
 	public Debris(final Location startinglocation, final int countdown) {
-		this.isalive = true;
-		this.location = startinglocation;
+		this.removable = false;
+		this.location = new Location(startinglocation);
 		this.countdown = countdown;
 	}
 	
-	/**
-	 * Indicates the current life state of the debris
-	 * @return boolean that indicates if the debris needs to be deleted or not
-	 */
-	public boolean isAlive() {
-		return this.isalive;
+	@Override
+	public boolean toRemove() {
+		return this.removable;
 	}
 		
 	@Override
@@ -48,7 +45,7 @@ public class Debris implements Entity {
 	public void update() {
 		this.countdown--;
 		if (this.countdown <= 0) {
-			this.isalive = false;
+			this.removable = true;
 		}
 	}
 	

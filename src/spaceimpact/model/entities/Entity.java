@@ -22,7 +22,7 @@ public interface Entity {
 	void setLocation(final Location location);
 				
 	/** 
-	 * Verify if there is a collision between the current .
+	 * Verify if there is a collision between the current.
 	 * @param otherEntity	First entity.
 	 * @return true if collide, otherwise false.
 	 */
@@ -36,7 +36,7 @@ public interface Entity {
 		double var2 = Math.abs(otherEntity.getLocation().getY() - this.getLocation().getY());
 		
 		if (var1 < (otherEntity.getLocation().getArea().getWidth() + this.getLocation().getArea().getWidth()) / 2 && 
-			var2 < (otherEntity.getLocation().getArea().getHeight() + this.getLocation().getArea().getHeight()) / 2 ) {
+			var2 < (otherEntity.getLocation().getArea().getHeight() + this.getLocation().getArea().getHeight()) / 2) {
 			return true;
 		}
 		
@@ -53,4 +53,9 @@ public interface Entity {
 	 * @return entitytype the identifier of the type of this entity.
 	 */
 	EntityType getID();
+	
+	/** 
+	 * Determine whether the entity must be removed from the model
+	 */
+	boolean toRemove();
 }

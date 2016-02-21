@@ -77,6 +77,8 @@ public class GameLoop extends Thread {
 						toDraw.add(new Pair<>("/Entities/Projectiles/beam_blue.png", e.getLocation()));
 					} else if (e.getID() == EntityType.Enemy) {
 						toDraw.add(new Pair<>("/Entities/Enemies/C15.png", e.getLocation()));
+					} else if (e.getID() == EntityType.Debris) {
+						toDraw.add(new Pair<>("/Entities/explosion.gif", e.getLocation()));
 					}
 				});
 				final Thread t = new Thread() {
