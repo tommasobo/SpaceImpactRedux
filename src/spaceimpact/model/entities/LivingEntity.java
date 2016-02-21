@@ -20,7 +20,7 @@ import spaceimpact.model.spawners.WeaponInterface;
  * 
  * @author Davide
  */
-public abstract class LivingEntity implements Entity{
+public abstract class LivingEntity implements Entity {
 
 	protected Direction direction; //current entity direction
 	protected EntityType ID; //entityType
@@ -30,7 +30,7 @@ public abstract class LivingEntity implements Entity{
 	protected int currentshield = 0; //current shield
 	protected int maxshield = 0; //max shield
 	protected double velocity = 0; //how much the entity moves in a tick
-	protected boolean isalive = true; //determine if spaceship is alive or dead
+	protected boolean removable = false; //determinfe if the spaceship is alive
 	protected WeaponInterface weapon; //current weapon
 		
 	/*ACTIONS*/
@@ -46,7 +46,7 @@ public abstract class LivingEntity implements Entity{
 		if (this.weapon == null) {
 			throw new IllegalStateException("Entity " + this.ID + " cannot shoot without a gun.");			
 		}
-		return this.weapon.shoot();
+		return this.weapon.shoot(new Location(this.location));
 	}
 	
 	/** 
@@ -67,7 +67,7 @@ public abstract class LivingEntity implements Entity{
 		
 		if (this.currentlife < 0) {
 			this.currentlife = 0;
-			this.isalive = false;
+			this.removable = false;
 		}			
 	}
 
@@ -172,15 +172,7 @@ public abstract class LivingEntity implements Entity{
 	}
 	
 	/*GETTERS*/
-		
-	/**
-	 * Control if the entity is alive
-	 * @return isalive If false then the entity is dead.
-	 */
-	public boolean isAlive() {
-		return this.isalive;
-	}
-	
+			
 	/** 
 	 * Getter method to get remaining life
 	 * @return amount of remaining life as integer
@@ -208,10 +200,10 @@ public abstract class LivingEntity implements Entity{
 	}
 	
 	@Override
-	public void update() {		
-		this.direction.moveLocation(this.location, this.velocity);
+	public boolean toRemove() {
+		return this.removable;
 	}
-	
+		
 	@Override
 	public String toString() {
 		if (this.ID.equals(EntityType.Spaceship)){

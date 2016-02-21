@@ -1,6 +1,6 @@
 package spaceimpact.model.spawners;
 
-import spaceimpact.model.Direction;
+import spaceimpact.model.Location;
 import spaceimpact.model.entities.Projectile;
 
 /** 
@@ -14,9 +14,10 @@ public interface WeaponInterface {
 	/** Shoot a Projectile
 	 * <br>
 	 * Create and shoot a new Projectile
+	 * @param loc Location from which shoot
 	 * @return A new projective object
 	 */
-	Projectile shoot();
+	Projectile shoot(Location loc);
 	
 	/** Enhance weapon capabilities
 	 * <br>

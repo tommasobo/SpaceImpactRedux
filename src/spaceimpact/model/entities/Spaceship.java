@@ -33,7 +33,7 @@ public class Spaceship extends LivingEntity {
 		this.velocity = velocity;
 		this.location = location;
 		this.direction = direction;
-		this.isalive = true;
+		this.removable = false;
 	}
 		
 	/** 
@@ -84,6 +84,12 @@ public class Spaceship extends LivingEntity {
 	
 	/* MAIN METHODS */
 	
+	@Override
+	public void update() {
+		this.direction.moveLocation(this.location, this.velocity);
+		boundaryControl();	
+	}
+	
 	/** 
 	 * Move the entity in the specified direction
 	 * @param movetype Enum utilities.Input that define in which direction the spaceship must move
@@ -105,18 +111,24 @@ public class Spaceship extends LivingEntity {
 			throw new IllegalArgumentException();
 		}
 		
-		//spaceship game screen boundaries control
-		if (this.location.getX() < 0) {
-			this.location.setX(0);
+		update();
+	}
+
+	/**
+	 * Control that the ship does not go over the screen boundaries
+	 */
+	private void boundaryControl() {	
+		if (this.location.getX() < 0.05) {
+			this.location.setX(0.05);
 		}
-		if (this.location.getY() > 0.85) {
-			this.location.setY(0.85);
+		if (this.location.getY() > 0.91) {
+			this.location.setY(0.91);
 		}
-		if(this.location.getY() < 0) {
-			this.location.setY(0);
+		if(this.location.getY() < 0.05) {
+			this.location.setY(0.05);
 		}
-		if (this.location.getX() > 1.65) {
-			this.location.setX(1.65);
+		if (this.location.getX() > 1.70) {
+			this.location.setX(1.70);
 		}
 	}
 }
