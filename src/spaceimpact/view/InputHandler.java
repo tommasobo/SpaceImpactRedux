@@ -29,20 +29,18 @@ public class InputHandler {
     }
     
     public Input singleKey(KeyCode code) {
-        switch (code) {
-        case W:
+        if (code == KeyCode.W) {
             return Input.W;
-        case A:
+        } else if (code == KeyCode.A) {
             return Input.A;
-        case S:
+        } else if (code == KeyCode.S) {
             return Input.S;
-        case D:
+        } else if (code == KeyCode.D) {
             return Input.D;
-        case SPACE:
-            return Input.SPACE;
-        default:
+        } else if (code == KeyCode.SPACE) {
             return Input.SPACE;
         }
+        return null;
     }
     
 }
