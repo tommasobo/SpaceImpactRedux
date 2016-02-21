@@ -116,4 +116,14 @@ public class GameLoop extends Thread {
 		}
 	}
 
+	/**
+	 * Checks if the game status is
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public boolean isRunning() {
+		return this.status == Status.RUNNING;
+	}
+
 }
