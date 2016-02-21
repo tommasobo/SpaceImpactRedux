@@ -10,6 +10,7 @@ public interface SpawnerInterface<T> {
 
 	/**
 	 * Spawn entities
+	 * @return list List of T Type generated entities 
 	 */
 	List<T> spawn();
 	

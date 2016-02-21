@@ -22,7 +22,7 @@ import spaceimpact.utilities.Input;
 public class Model implements ModelInterface {
 	
 	//game variables
-	GameStatus gamestatus; //boolean to see if the game is running or ended
+	GameStatus gamestatus = GameStatus.Running; //boolean to see if the game is running or ended
 	int playerscores = 0; //current player scores
 	private double globalvelocity = 0; //constant for entities velocity
 	int levelmaxenemyspawn = 0; //curent max spawnable enemy in this level
@@ -41,7 +41,11 @@ public class Model implements ModelInterface {
           
     /* CONSTRUCTOR */
     /**
-     * Inizializate all collections
+     * Inizializate all collections and start the level
+     * <br>
+     * Level difficulty is defined by the maximum number of enemy spawn
+     * @param framerate Framerate of the game
+     * @param maxspawnableenemy Maximum number of spawns
      */
     public Model(final int framerate, final int maxspawnableenemy) {
     	

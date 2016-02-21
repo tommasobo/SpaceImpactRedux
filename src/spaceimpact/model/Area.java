@@ -13,7 +13,7 @@ public class Area {
 	
 	/**
 	 * Constructor that do a protective copy of the input area
-	 * @param area
+	 * @param area Input Area to copy
 	 */
 	public Area(final Area area) {
 		this.w = area.w;
