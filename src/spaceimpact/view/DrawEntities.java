@@ -5,6 +5,7 @@ import java.util.List;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import spaceimpact.model.Area;
 import spaceimpact.model.Location;
 import spaceimpact.utilities.ImageLoader;
 import spaceimpact.utilities.Pair;
@@ -41,11 +42,11 @@ public class DrawEntities {
 		listEntities.forEach(p -> {
 			final ImageView iv = new ImageView(this.imgl.getImageFromPath(p.getFirst()));
 			iv.setPreserveRatio(true);
-			final Rectangle area = p.getSecond().getArea();
-			iv.setFitHeight((heightGame * area.getHeight()) / 100);
+			final Area area = p.getSecond().getArea();
+			iv.setFitHeight((heightGame * area.getHeight()));
 			layer.getChildren().add(iv);
-			iv.setX((p.getSecond().getX() - (area.getWidth() / 200)) * heightGame);
-			iv.setY((p.getSecond().getY() - (area.getHeight() / 200)) * heightGame);
+			iv.setX((p.getSecond().getX() - (area.getWidth() / 2)) * heightGame);
+			iv.setY((p.getSecond().getY() - (area.getHeight() / 2)) * heightGame);
 		});
 	}
 }

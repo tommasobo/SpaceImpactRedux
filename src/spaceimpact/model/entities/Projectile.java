@@ -17,8 +17,10 @@ public class Projectile implements Entity {
 	private Location location;
 	private final Direction direction;
 	private final double velocity;
+	private boolean removable;
 	
 	public Projectile(final EntityType parentID, final Location startinglocation, final Direction direction, final double velocity, final int damage) {
+		this.removable = false;
 		this.parentID = parentID;
 		this.damage = damage;
 		this.location = startinglocation;
@@ -54,6 +56,10 @@ public class Projectile implements Entity {
 	@Override
 	public void update() {
 		this.direction.moveLocation(this.location, this.velocity);
+		
+		if (this.location.getX() > 2) {
+			this.removable = true;
+		}
 	}
 	
 	@Override
@@ -68,5 +74,10 @@ public class Projectile implements Entity {
 				this.direction + " | Velocity: " + this.velocity + 
 				" | Damage: " + this.damage + " | WhoShooted: " + 
 				this.parentID + " ]";		
+	}
+
+	@Override
+	public boolean toRemove() {
+		return this.removable;
 	}
 }

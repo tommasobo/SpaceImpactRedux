@@ -1,8 +1,8 @@
 package spaceimpact.model;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import spaceimpact.model.entities.*;
+import spaceimpact.model.spawners.Spawner;
 import spaceimpact.model.spawners.Weapon;
 
 import java.util.List;
@@ -30,6 +30,9 @@ public class Model implements ModelInterface {
     List<Projectile> enemiesprojectilelist = null; //lista proiettili nemici    
     List<Entity> deadentities = null; //lista entita' morte da rimuovere
     //List<PowerUp> poweruplist = null; (list di powerup)
+    
+    //DEBUG
+    Spawner spawner = null;
           
     /* CONSTRUCTOR */
     /**
@@ -39,13 +42,20 @@ public class Model implements ModelInterface {
     	
     	this.globalvelocity = (double)(1 /(double)(2 * framerate));
     	
-    	Location tmp = new Location(0.1, 0.5, new Rectangle(10,10));	
-    	player = new Spaceship(100, globalvelocity, tmp, Direction.E, 100, new Weapon(EntityType.Spaceship, tmp, 10, globalvelocity * 1.2)); 
+    	//DEBUG (AREA - X: 1280:16/9=120:x (0.159) - Y: 720:1=93:y (0.129))
+    	Location tmp = new Location(0.1, 0.5, new Area(0.159, 0.129));	
+    	player = new Spaceship(100, globalvelocity, tmp, Direction.E, 100, new Weapon(EntityType.Spaceship, 10, globalvelocity * 1.2)); 
+    	
     	enemylist = new ArrayList<>();
     	debrislist = new ArrayList<>();
     	playerprojectilelist = new ArrayList<>();
     	enemiesprojectilelist = new ArrayList<>();
     	deadentities = new ArrayList<>();
+    	
+		spawner = new Spawner(EntityType.Enemy, 1);
+		spawner.setMaxEntityVelocity(globalvelocity * 0.90);
+		spawner.setMaxEntitySpawns(10);
+		spawner.setSpawnedEntityArea(new Area(0.159, 0.129));
     }
     
     /* MAIN METHODS */
@@ -86,6 +96,7 @@ public class Model implements ModelInterface {
 	
 	@Override
 	public void updateAll() {
+		
 				
 		//move all entities
 		enemylist.forEach((x) -> { x.update(); System.out.println(x);} );	
@@ -93,27 +104,56 @@ public class Model implements ModelInterface {
 		enemiesprojectilelist.forEach((x) -> { x.update(); System.out.println(x);} );	
 		debrislist.forEach((x) -> { x.update(); System.out.println(x);} );
 		
+		//remove useless entities
+		if (playerprojectilelist.size() > 0) {
+			playerprojectilelist.forEach(x -> {
+				if (x.toRemove()) { 
+					deadentities.add(x);
+				} 
+			});
+		}
+		if (enemiesprojectilelist.size() > 0) {
+			enemiesprojectilelist.forEach(x -> {
+				if (x.toRemove()) { 
+					deadentities.add(x);
+				} 
+			});
+		}
+		if (debrislist.size() > 0) {
+			debrislist.forEach(x -> {
+				if (x.toRemove()) { 
+					deadentities.add(x);
+				} 
+			});
+		}
+						
 		//control collisions
 		
 		//player projectiles with enemy
 		if (enemylist.size() > 0 && playerprojectilelist.size() > 0) {
-			playerprojectilelist.forEach(x -> enemylist.forEach(y -> {
-				if (x.collideWith(y)) { 
-					//spawn debris in the dead location of the enemy
-					deadentities.add(y);
-					deadentities.add(x);
-					playerscores += 10;
-				} 
+			playerprojectilelist.stream()
+			.filter(x -> x.toRemove() == false)
+			.forEach(x -> enemylist.stream()
+					.filter(y -> y.toRemove() == false)
+					.forEach(y -> {
+						if (x.collideWith(y)) { 
+							debrislist.add(new Debris(y.getLocation(), 10));
+							deadentities.add(y);
+							deadentities.add(x);
+							playerscores += 10;
+						} 
 			}));
 		}
 		
 		//enemy projectiles with player
 		if (enemiesprojectilelist.size() > 0) {
-			enemiesprojectilelist.forEach(x -> {
+			enemiesprojectilelist.stream()
+			.filter(x -> x.toRemove() == false)
+			.forEach(x -> {
 				if (x.collideWith(player)) {			
 					player.looseLife(x.getDamage());			
-					if (!player.isAlive()) {
-						//spawn debris in the dead location of the enemy
+					if (player.toRemove()) {
+						debrislist.add(new Debris(player.getLocation(), 10));
 						gameisover = true;
 						deadentities.add(player);
 						deadentities.add(x);
@@ -121,9 +161,12 @@ public class Model implements ModelInterface {
 				} 	
 			});
 		}
+		
+		if (spawner != null) {
+			enemylist.addAll(spawner.spawn());			
+		}
 	}
 
-	
 	/** 
      * Remove all dead entities from the model
      */
