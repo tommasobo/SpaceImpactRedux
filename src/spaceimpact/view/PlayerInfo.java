@@ -15,8 +15,8 @@ public class PlayerInfo {
     
     public PlayerInfo() {
         this.dropShadow.setColor(Color.LAWNGREEN);
-        this.dropShadow.setRadius(30);
-        this.dropShadow.setSpread(0.28);
+        this.dropShadow.setRadius(35);
+        this.dropShadow.setSpread(0.30);
         this.dropShadow.setBlurType(BlurType.GAUSSIAN);
     }
 

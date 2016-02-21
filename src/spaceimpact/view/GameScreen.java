@@ -72,20 +72,25 @@ public class GameScreen extends Scene {
 		this.hp.setTextFill(Color.GREEN);
 		this.shields.setTextFill(Color.BLUE);
 		this.score.setTextFill(Color.YELLOW);
+		this.hp.setId("score");
 		this.score.setId("score");
 		this.shields.setId("score");
 		
-		final HBox hpBox = new HBox();
-		hpBox.setSpacing(5);
-		hpBox.getChildren().addAll(this.hp, this.shields, this.score);
-		hpBox.setAlignment(Pos.CENTER);
-		hpBox.setId("hpBox");
-		hpBox.setMinWidth(300);
-		hpBox.setMaxSize(300, 50);
-		hpBox.setMinHeight(50);
-		hpBox.setPadding(new Insets(0,4,4,4));
+		final VBox verticalInfoBox = new VBox();
+		verticalInfoBox.setAlignment(Pos.CENTER);
+		verticalInfoBox.setSpacing(2);
+		final HBox infoBox = new HBox();
+		infoBox.setSpacing(5);
+		infoBox.getChildren().addAll(this.hp, this.shields);
+		verticalInfoBox.getChildren().addAll(infoBox, this.score);
+		infoBox.setAlignment(Pos.CENTER);
+		infoBox.setId("hpBox");
+		infoBox.setMinWidth(280);
+		infoBox.setMaxSize(280, 50);
+		infoBox.setMinHeight(50);
+		infoBox.setPadding(new Insets(0,4,0,4));
 
-		topLayout.getChildren().add(hpBox);
+		topLayout.getChildren().add(verticalInfoBox);
 		topBox.setId("gameScreen");
 
 		this.root.getChildren().addAll(this.backgroundLayer, topBox);
