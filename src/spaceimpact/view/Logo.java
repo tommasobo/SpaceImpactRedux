@@ -1,7 +1,7 @@
 package spaceimpact.view;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import spaceimpact.utilities.ImageLoader;
 
 /**
  * Class showing the main logo of space invaders game.
@@ -10,17 +10,16 @@ import javafx.scene.image.ImageView;
  */
 public final class Logo {
     
-    private final Image image = new Image("logo.png");
-    private final ImageView iv1 = new ImageView();
+    private final ImageLoader imageLoader = ImageLoader.getLoader();
+    private final ImageView logo = new ImageView(this.imageLoader.getImageFromPath("logo.png"));
     
-    public Logo(final double width, final double heigth) {
-        iv1.setImage(image);
-        iv1.setFitHeight(heigth);
-        iv1.setFitWidth(width);
+    public Logo(final double width, final double heigth) {    
+        logo.setFitHeight(heigth);
+        logo.setFitWidth(width);
     }
 
     public ImageView getLogo() {
-        return this.iv1;
+        return this.logo;
     }
         
 }

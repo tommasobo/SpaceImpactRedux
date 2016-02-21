@@ -1,5 +1,6 @@
 package spaceimpact.view;
 
+import java.util.BitSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,24 +10,24 @@ import spaceimpact.utilities.Input;
 
 public class InputHandler implements EventHandler<KeyEvent> {
 
-	private static InputHandler INPUTHANDLER = null;
-	private List<Input> listInput = null;
+    private static InputHandler INPUTHANDLER = null;
+    private List<Input> listInput = new LinkedList<>();
+    private final BitSet inputBitSet = new BitSet();  
 
-	private InputHandler() {
-	};
+    private InputHandler() {};
 
-	public static InputHandler getInputHandler() {
-		if (InputHandler.INPUTHANDLER == null) {
-			synchronized (InputHandler.class) {
-				if (InputHandler.INPUTHANDLER == null) {
-					InputHandler.INPUTHANDLER = new InputHandler();
-				}
-			}
+    public static InputHandler getInputHandler() {
+	if (InputHandler.INPUTHANDLER == null) {
+	    synchronized (InputHandler.class) {
+	        if (InputHandler.INPUTHANDLER == null) {
+	            InputHandler.INPUTHANDLER = new InputHandler();
 		}
-		return InputHandler.INPUTHANDLER;
+	    }
 	}
+	return InputHandler.INPUTHANDLER;
+    }
 
-	public List<Input> getInput() {
+    public List<Input> getInput() {
 		if (this.listInput == null) {
 			this.listInput = new LinkedList<>();
 		}

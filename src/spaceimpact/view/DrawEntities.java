@@ -1,6 +1,5 @@
 package spaceimpact.view;
 
-import java.awt.Rectangle;
 import java.util.List;
 
 import javafx.scene.image.ImageView;
@@ -16,12 +15,21 @@ import spaceimpact.utilities.Pair;
  */
 public class DrawEntities {
 	private final ImageLoader imgl;
+	private final ImageView bg;
+	private final ImageView bg2;
+	private static final double BACKGROUND_SPEED = 5;
+	private static final double GAME_WIDTH = 1280;
 
 	/**
 	 * Constructor for DrawEntities
 	 */
 	public DrawEntities() {
 		this.imgl = ImageLoader.getLoader();
+		this.bg = new ImageView(this.imgl.getImageFromPath("gameBackground.jpg"));
+		this.bg2 = new ImageView(this.imgl.getImageFromPath("gameBackground.jpg"));
+		this.bg.setFitWidth(GAME_WIDTH);
+		this.bg2.setFitWidth(GAME_WIDTH);
+		this.bg2.relocate(GAME_WIDTH, 0);
 	}
 
 	/**
@@ -39,6 +47,8 @@ public class DrawEntities {
 	 */
 	public void draw(final Pane layer, final List<Pair<String, Location>> listEntities, final double heightGame) {
 		layer.getChildren().clear();
+		this.translateBackground();
+		layer.getChildren().addAll(this.bg, this.bg2);
 		listEntities.forEach(p -> {
 			final ImageView iv = new ImageView(this.imgl.getImageFromPath(p.getFirst()));
 			iv.setPreserveRatio(true);
@@ -48,5 +58,21 @@ public class DrawEntities {
 			iv.setX((p.getSecond().getX() - (area.getWidth() / 2)) * heightGame);
 			iv.setY((p.getSecond().getY() - (area.getHeight() / 2)) * heightGame);
 		});
+		
+	}
+	
+	private void translateBackground() {
+	    final double x = this.bg.getLayoutX() - BACKGROUND_SPEED;
+	    if (x <= (-GAME_WIDTH)) {
+	        this.bg.relocate(GAME_WIDTH, 0);
+	    } else {
+	        this.bg.setLayoutX(x);
+	    }
+	    final double x2 = this.bg2.getLayoutX() - BACKGROUND_SPEED;
+	    if (x2 <= (-GAME_WIDTH)) {
+                this.bg2.relocate(GAME_WIDTH, 0);
+            } else {
+                this.bg2.setLayoutX(x2);
+            }
 	}
 }
