@@ -77,14 +77,15 @@ public class Projectile implements Entity {
 	}
 
 	@Override
+	public boolean toRemove() {
+		return this.removable;
+	}
+	
+	@Override
 	public String toString() {
 		return "[ " + this.ID + " -> X: " + this.location.getX() + " | Y: " + this.location.getY() + " | Direction: "
 				+ this.direction + " | Velocity: " + this.velocity + " | Damage: " + this.damage + " | WhoShooted: "
 				+ this.parentID + " ]";
 	}
 
-	@Override
-	public boolean toRemove() {
-		return this.removable;
-	}
 }

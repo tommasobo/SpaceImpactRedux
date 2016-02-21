@@ -20,9 +20,12 @@ import spaceimpact.utilities.Input;
  */
 public class Model implements ModelInterface {
 	
+	//game variables
 	boolean gameisover = false; //boolean to see if the game is running or ended
 	int playerscores = 0; //current player scores
 	private double globalvelocity = 0; //constant for entities velocity
+		
+	//entities
 	Spaceship player = null; //nave del giocatore
 	List<Enemy> enemylist = null; //lista di nemici
 	List<Debris> debrislist = null; //lista detriti o elementi visivi, asteroidi e altro
@@ -40,11 +43,11 @@ public class Model implements ModelInterface {
      */
     public Model(final int framerate) {
     	
-    	this.globalvelocity = (double)(1 /(double)(2 * framerate));
+    	this.globalvelocity = (double)(1 /(double)(4 * framerate));
     	
-    	//DEBUG (AREA - X: 1280:16/9=120:x (0.159) - Y: 720:1=93:y (0.129))
-    	Location tmp = new Location(0.1, 0.5, new Area(0.159, 0.129));	
-    	player = new Spaceship(100, globalvelocity, tmp, Direction.E, 100, new Weapon(EntityType.Spaceship, 10, globalvelocity * 1.2)); 
+    	//DEBUG (AREA - X: 1280:16/9=90:x (0.125) - Y: 720:1=70:y (0.0972))
+    	Location tmp = new Location(0.1, 0.5, new Area(0.125, 0.0972));	
+    	player = new Spaceship(100, globalvelocity, tmp, Direction.E, 100, new Weapon(EntityType.Spaceship, 10, 10, globalvelocity * 1.2)); 
     	
     	enemylist = new ArrayList<>();
     	debrislist = new ArrayList<>();
@@ -55,7 +58,7 @@ public class Model implements ModelInterface {
 		spawner = new Spawner(EntityType.Enemy, 1);
 		spawner.setMaxEntityVelocity(globalvelocity * 0.90);
 		spawner.setMaxEntitySpawns(10);
-		spawner.setSpawnedEntityArea(new Area(0.159, 0.129));
+		spawner.setSpawnedEntityArea(new Area(0.125, 0.0972));
     }
     
     /* MAIN METHODS */
@@ -82,7 +85,7 @@ public class Model implements ModelInterface {
 			throw new IllegalStateException("player or userinput are NULL!!");
 		}		
 		userinputs.forEach(x -> { 
-			if (x.equals(Input.SPACE)) {
+			if (x.equals(Input.SPACE) && player.canShoot()) {
 				playerprojectilelist.add(player.attack());
 				System.out.println("Pressed: " + x);
 				System.out.println(player.toString());
@@ -96,8 +99,10 @@ public class Model implements ModelInterface {
 	
 	@Override
 	public void updateAll() {
+					
+		//update player 
+		this.player.update();
 		
-				
 		//move all entities
 		enemylist.forEach((x) -> { x.update(); System.out.println(x);} );	
 		playerprojectilelist.forEach((x) -> { x.update(); System.out.println(x);} );		
@@ -207,9 +212,7 @@ public class Model implements ModelInterface {
 		return player.getLocation();
 	}
 	
-	/** Getter method to get player score
-	 * @return amount of remaining shield as integer
-	 */
+	@Override
 	public int getScores() {
 		return this.playerscores;
 	}

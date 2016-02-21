@@ -13,7 +13,7 @@ import spaceimpact.model.spawners.WeaponInterface;
  * <b>currentshield</b> as the current shield amount<br>
  * <b>maxshield</b> as the maximum shield value reachable<br>
  * <b>velocity</b> as the amount of movement in a tick<br>
- * <b>isalive</b> as the state of the spaceship<br>
+ * <b>removable</b> as the state of the spaceship<br>
  * <b>direction</b> as the current direction of the entity<br>
  * <b>ID</b> as the entity type<br>
  * <b>weapon</b> as the current equipped weapon<br>
@@ -30,10 +30,27 @@ public abstract class LivingEntity implements Entity {
 	protected int currentshield = 0; //current shield
 	protected int maxshield = 0; //max shield
 	protected double velocity = 0; //how much the entity moves in a tick
-	protected boolean removable = false; //determinfe if the spaceship is alive
+	protected boolean removable = false; //determine if the spaceship is alive
 	protected WeaponInterface weapon; //current weapon
 		
 	/*ACTIONS*/
+		
+	/**
+	 * Update the entity Location
+	 */
+	protected void updateLocation() {
+		this.direction.moveLocation(this.location, this.velocity);	
+	}
+	
+	/**
+	 * Verify if weapon is ready to shoot
+	 */
+	public boolean canShoot() {
+		if (this.weapon != null) {
+			return this.weapon.isReadyToShoot();
+		}
+		return false;
+	}
 		
 	/** 
 	 * Shoot with the current Weapon
@@ -46,7 +63,17 @@ public abstract class LivingEntity implements Entity {
 		if (this.weapon == null) {
 			throw new IllegalStateException("Entity " + this.ID + " cannot shoot without a gun.");			
 		}
+			
 		return this.weapon.shoot(new Location(this.location));
+	}
+	
+	/**
+	 * CoolDown Weapon if equipped
+	 */
+	protected void coolDownWeapon() {
+		if (this.weapon != null) {
+			this.weapon.coolDown();			
+		}
 	}
 	
 	/** 
@@ -165,7 +192,7 @@ public abstract class LivingEntity implements Entity {
 	public void setDirection(Direction direction) {
 		this.direction = direction;	
 	}
-	
+		
 	@Override
 	public void setLocation(final Location location) {
 		this.location = location;		
@@ -199,6 +226,8 @@ public abstract class LivingEntity implements Entity {
 		return this.ID;
 	}
 	
+	/*OTHER METHODS*/
+		
 	@Override
 	public boolean toRemove() {
 		return this.removable;
