@@ -1,5 +1,7 @@
 package spaceimpact.view;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,7 +27,9 @@ public class InputHandler {
     }
     
     public List<Input> getList() {
-        return this.inputList;
+        this.inputList.removeAll(Collections.singleton(null));
+        List<Input> defensiveList = this.inputList;
+        return defensiveList;
     }
     
     public Input singleKey(KeyCode code) {
