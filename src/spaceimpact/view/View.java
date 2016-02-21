@@ -38,7 +38,7 @@ public class View implements ViewInterface {
 	}
 
 	@Override
-	public void draw(final List<Pair<String, Location>> listEntities) {
+	public void draw(final List<Pair<Pair<String, Double>, Location>> listEntities) {
 		Platform.runLater(() -> View.gameScreen.drawOnScreen(listEntities));
 	}
 	
