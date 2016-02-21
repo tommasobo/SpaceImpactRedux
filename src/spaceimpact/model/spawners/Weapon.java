@@ -17,17 +17,20 @@ public class Weapon implements WeaponInterface {
 	private int damage; 
 	private double projectilesvelocity;
 	private final EntityType parentID;
+	private final Direction direction;
 	private int cooldowntime;
 	private int cooldown;
 		
 	/**
-	 * Weapon's Constructor (Shooter Entity Type, Location, Damage)
+	 * Weapon's Constructor (Shooter Entity Type, Direction, Cooldown time, Damage, velocity)
 	 * @param shooter EntityType of who the owner of the weapon
+	 * @param direction Direction of the shooted projectiles
 	 * @param damage value of the damage
 	 * @param velocity projectile velocity
 	 */
-	public Weapon(final EntityType shooter, final int cooldowntime, final int damage, final double velocity) {
+	public Weapon(final EntityType shooter, final Direction direction, final int cooldowntime, final int damage, final double velocity) {
 		this.parentID = shooter;
+		this.direction = direction;
 		this.damage = damage;
 		this.projectilesvelocity = velocity;
 		this.cooldowntime = cooldowntime;
@@ -37,7 +40,7 @@ public class Weapon implements WeaponInterface {
 	@Override
 	public Projectile shoot(final Location loc) {
 		this.cooldown = this.cooldowntime;
-		return new Projectile(this.parentID, new Location(loc), Direction.E, projectilesvelocity, damage);		
+		return new Projectile(this.parentID, new Location(loc), this.direction, this.projectilesvelocity, this.damage);		
 	}
 
 	@Override

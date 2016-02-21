@@ -2,7 +2,7 @@ package spaceimpact.model.entities;
 
 import spaceimpact.model.Direction;
 import spaceimpact.model.Location;
-import spaceimpact.model.spawners.WeaponInterface;
+import spaceimpact.model.spawners.Weapon;
 
 /** 
  * Living Entity
@@ -31,7 +31,7 @@ public abstract class LivingEntity implements Entity {
 	protected int maxshield = 0; //max shield
 	protected double velocity = 0; //how much the entity moves in a tick
 	protected boolean removable = false; //determine if the spaceship is alive
-	protected WeaponInterface weapon; //current weapon
+	protected Weapon weapon; //current weapon
 		
 	/*ACTIONS*/
 		
@@ -94,7 +94,7 @@ public abstract class LivingEntity implements Entity {
 		
 		if (this.currentlife < 0) {
 			this.currentlife = 0;
-			this.removable = false;
+			this.removable = true;
 		}			
 	}
 
@@ -109,12 +109,18 @@ public abstract class LivingEntity implements Entity {
 	*/
 	public int looseShield(int damage){
 		
-		int filtereddamage = damage - currentshield;
+		int originalshield = currentshield;
+		int filtereddamage = 0;
 		
 		currentshield -= damage;
 		
-		if (currentshield < 0) {
+		if (originalshield != currentshield && currentshield < 0) { //if shield value is less than 0 return the absolute value of shield and set currentshield to 0
+			filtereddamage = Math.abs(currentshield);
 			currentshield = 0;
+		} else if (originalshield != currentshield && currentshield > 0 ){ //if the shield value is greater that 0 and was decreased
+			return 0;
+		} else if (originalshield == currentshield && currentshield == 0) { //if there is no shield return full damage
+			return damage;
 		}
 					
 		return filtereddamage;
@@ -165,7 +171,7 @@ public abstract class LivingEntity implements Entity {
 	 * Setter for Entity Weapon
 	 * @param weapon Weapon to equip
 	*/
-	public void setWeapon(final WeaponInterface weapon) {
+	public void setWeapon(final Weapon weapon) {
 		this.weapon = weapon;
 	}
 			
