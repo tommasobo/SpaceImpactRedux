@@ -32,6 +32,11 @@ public interface ModelInterface {
 	 */
 	Location getPlayerLocation();
 	
+	/** Getter method to get player score
+	 * @return amount of remaining shield as integer
+	 */
+	int getScores();
+	
 	/** 
 	 * Return the full list of entities except for player
 	 * <br>

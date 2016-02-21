@@ -76,9 +76,15 @@ public class Enemy extends LivingEntity {
 		super.weapon = weapon;
 	}
 	
+	/*MAIN METHODS */
+	
 	@Override
-	public void update() {		
-		this.direction.moveLocation(this.location, this.velocity);
+	public void update() {	
+		
+		if (this.weapon != null) {
+			coolDownWeapon();			
+		}		
+		updateLocation();
 		boundaryControl();
 	}
 	
@@ -102,23 +108,6 @@ public class Enemy extends LivingEntity {
 			this.location.setX(1.7);
 			this.setDirection(getRandomDirection(this.direction));
 		}
-		
-//		if (this.location.getX() < 0.53d) {
-//			this.location.setX(0.53d);
-//			this.setDirection(getRandomDirection(this.direction));
-//		}
-//		if (this.location.getY() > 1.3d) {
-//			this.location.setY(1.3d);
-//			this.setDirection(getRandomDirection(this.direction));
-//		}
-//		if(this.location.getY() < -0.30d) {
-//			this.location.setY(-0.30d);
-//			this.setDirection(getRandomDirection(this.direction));
-//		}
-//		if (this.location.getX() > 2) {
-//			this.location.setX(2);
-//			this.setDirection(getRandomDirection(this.direction));
-//		}
 	}
 	
 	/**

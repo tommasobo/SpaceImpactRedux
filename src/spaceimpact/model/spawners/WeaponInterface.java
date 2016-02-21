@@ -17,12 +17,24 @@ public interface WeaponInterface {
 	 * @param loc Location from which shoot
 	 * @return A new projective object
 	 */
-	Projectile shoot(Location loc);
+	Projectile shoot(final Location loc);
 	
 	/** Enhance weapon capabilities
 	 * <br>
-	 * @param damageincrement Projectiles damage
-	 * @param projectilesvelocity Velocity of shooted projectiles
+	 * @param damageincrement Increment in projectiles damage
+	 * @param projectilesvelocityincrement Increment of velocity of shooted projectiles
+	 * @param cooldowntimedecrement Cool Down time decrement (as number of ticks)
 	 */
-	void enhance(int damageincrement, double projectilesvelocity);	
+	void enhance(final int damageincrement, final double projectilesvelocityincrement, final int cooldowntimedecrement);	
+	
+	/**
+	 * Control if Weapon is ready to shoot or need to cool down
+	 * @return boolean True if the weapon is ready to shoot, False if needs to cool down
+	 */
+	boolean isReadyToShoot();
+	
+	/**
+	 * CoolDown the Weapon
+	 */
+	void coolDown();
 }
