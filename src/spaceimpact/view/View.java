@@ -23,7 +23,7 @@ public class View implements ViewInterface {
 		View.c = controller;
 	}
 
-	public static ControllerInterface getController() {
+	static ControllerInterface getController() {
 		return View.c;
 	}
 
@@ -41,8 +41,12 @@ public class View implements ViewInterface {
 	public void draw(final List<Pair<String, Location>> listEntities) {
 		Platform.runLater(() -> View.gameScreen.drawOnScreen(listEntities));
 	}
+	
+	public void updateInfo(final int hp, final int shields, final int score) {
+	    View.gameScreen.updateInfo(hp, shields, score);
+	}
 
-	public static void setGameScreen(final GameScreen gamescreen) {
+	static void setGameScreen(final GameScreen gamescreen) {
 		View.gameScreen = gamescreen;
 	}
 }

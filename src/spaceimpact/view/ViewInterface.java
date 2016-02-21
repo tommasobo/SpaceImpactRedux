@@ -13,5 +13,7 @@ public interface ViewInterface {
     void draw(List<Pair<String, Location>> listEntities);
     
     void startView();
+    
+    void updateInfo(final int hp, final int shields, final int score);
 
 }

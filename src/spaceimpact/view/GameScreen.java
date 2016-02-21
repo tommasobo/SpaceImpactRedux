@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -20,15 +19,18 @@ import spaceimpact.utilities.Pair;
 
 public class GameScreen extends Scene {
 
-	private static final double WIDTH_GAME = 1280;
-	private static final double HEIGHT_GAME = 720;
+    private static final double WIDTH_GAME = 1280;
+    private static final double HEIGHT_GAME = 720;
 
-	private Stage mainStage;
-	private final Group root = new Group();
-	private final Pane backgroundLayer = new Pane();
-	private final InputHandler inputHandler = InputHandler.getInputHandler();
-	private final DrawEntities drawEntities = new DrawEntities();
-
+    private Stage mainStage;
+    private final Group root = new Group();
+    private final Pane backgroundLayer = new Pane();
+    private final InputHandler inputHandler = InputHandler.getInputHandler();
+    private final DrawEntities drawEntities = new DrawEntities();
+    private final PlayerInfo playerInfo = new PlayerInfo();
+    private final Label hp = new Label("HP: ");
+    private final Label shields = new Label("Shields: ");
+    
 	public GameScreen() {
 		super(new StackPane());
 
@@ -44,9 +46,9 @@ public class GameScreen extends Scene {
 		topLayout.setPadding(new Insets(20));
 		topLayout.setSpacing(10);
 
-		final Label hp = new Label("HP: ");
+		
 		hp.setTextFill(Color.GREEN);
-		final Label shields = new Label("Shields: ");
+		
 		shields.setTextFill(Color.BLUE);
 
 		final HBox hpBox = new HBox();
@@ -78,6 +80,10 @@ public class GameScreen extends Scene {
 
 	public void drawOnScreen(final List<Pair<String, Location>> listEntities) {
 		this.drawEntities.draw(this.backgroundLayer, listEntities, HEIGHT_GAME);
+	}
+	
+	public void updateInfo(final int hp, final int shields, final int score) {
+	    this.playerInfo.update(this.hp, this.shields, hp, shields, score);
 	}
 
 	public GameScreen get(final Stage mainWindow) {
