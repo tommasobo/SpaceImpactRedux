@@ -48,6 +48,7 @@ public class GameScreen extends Scene {
 		shields.setTextFill(Color.BLUE);
 
 		final HBox hpBox = new HBox();
+		hpBox.setOpacity(0.9);
 		hpBox.getChildren().addAll(hp, shields);
 		hpBox.setAlignment(Pos.CENTER);
 		hpBox.setId("hpBox");
