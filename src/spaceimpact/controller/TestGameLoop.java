@@ -21,12 +21,16 @@ public class TestGameLoop {
 		}
 
 		@Override
-		public void draw(final List<Pair<String, Location>> listEntities) {
+		public void startView() {
+		}
+
+		@Override
+		public void draw(final List<Pair<Pair<String, Double>, Location>> listEntities) {
 			TestGameLoop.this.var++;
 		}
 
 		@Override
-		public void startView() {
+		public void updateInfo(final int hp, final int shields, final int score) {
 		}
 	};
 
