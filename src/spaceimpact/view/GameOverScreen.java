@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import spaceimpact.utilities.ImageLoader;
 
@@ -30,11 +31,15 @@ public class GameOverScreen extends Scene{
         gameOver.setFitHeight(250);
                 
         final Label insertName = new Label("Insert your name: ");
+        insertName.setId("whiteText");
         final TextField name = new TextField();
         final Button enter = new Button("Enter");
+        final Label saved = new Label("Score Saved");
         enter.setId("dark-blue");
         enter.setOnAction(e -> {
+            name.setDisable(true);
             enter.setDisable(true);
+            saved.setVisible(true);
             View.getController().setCurrentPlayerName(name.getText());
         });
         final HBox insertLayout = new HBox();
@@ -64,7 +69,10 @@ public class GameOverScreen extends Scene{
         bottomLayout.setAlignment(Pos.BOTTOM_CENTER);
         bottomLayout.getChildren().addAll(retry, mainMenu, exit);
         
-        mainLayout.getChildren().addAll(gameOver, score, insertLayout, bottomLayout);
+        saved.setVisible(false);
+        saved.setTextFill(Color.GREEN);
+        
+        mainLayout.getChildren().addAll(gameOver, score, insertLayout, saved, bottomLayout);
         mainLayout.setId("gameOver");
         mainLayout.getStylesheets().add("style.css");
         this.setRoot(mainLayout);
