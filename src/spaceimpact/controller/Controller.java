@@ -55,15 +55,6 @@ public class Controller implements ControllerInterface {
 		this.gl.get().unPause();
 	}
 
-	/**
-	 * Start a new application
-	 */
-	public static void main(final String args[]) {
-		final Controller c = new Controller();
-		c.view = new View(c);
-		c.view.startView();
-	}
-
 	@Override
 	public void emptyHighScores() {
 		this.hsManager.emptyScores();
@@ -79,6 +70,23 @@ public class Controller implements ControllerInterface {
 			return false;
 		}
 		return this.gl.get().isPaused();
+	}
+
+	@Override
+	public boolean isGameLoopRunning() {
+		if (!this.gl.isPresent()) {
+			return false;
+		}
+		return this.gl.get().isRunning();
+	}
+
+	/**
+	 * Start a new application
+	 */
+	public static void main(final String args[]) {
+		final Controller c = new Controller();
+		c.view = new View(c);
+		c.view.startView();
 	}
 
 }

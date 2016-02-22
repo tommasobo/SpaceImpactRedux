@@ -124,13 +124,21 @@ public class GameLoop extends Thread {
 	}
 
 	/**
-	 * Checks if the game status is
-	 *
-	 * @param s
-	 * @return
+	 * Checks if the game is paused
+	 * 
+	 * @return True if the game is paused, false otherwise
 	 */
 	public boolean isPaused() {
 		return this.status == Status.PAUSED;
+	}
+
+	/**
+	 * Checks if the game is running
+	 * 
+	 * @return True if the game is running, false otherwise
+	 */
+	public boolean isRunning() {
+		return this.status == Status.RUNNING;
 	}
 
 }

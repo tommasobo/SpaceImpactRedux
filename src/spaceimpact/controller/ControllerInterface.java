@@ -63,4 +63,11 @@ public interface ControllerInterface {
 	 * @return True if there is a paused GameLoop, false otherwise.
 	 */
 	boolean isGameLoopPaused();
+
+	/**
+	 * Checks if there is a running game (existing and not paused).
+	 * 
+	 * @return True if there is a running GameLoop, false otherwise.
+	 */
+	boolean isGameLoopRunning();
 }
