@@ -84,6 +84,9 @@ public class Spaceship extends LivingEntity {
 	 * @param movetype Enum utilities.Input that define in which direction the spaceship must move
 	 */
 	public void move(final Input movetype) {
+		
+		//DA MODIFICARE GESTIONE DIREZIONI OBLIQUE NON CONTEMPLATA
+		
 		if (movetype.equals(Input.A)) { //move left
 			this.direction = Direction.W;
 		} else if (movetype.equals(Input.W)) { //move up
