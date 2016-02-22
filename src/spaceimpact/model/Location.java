@@ -25,7 +25,7 @@ public class Location {
 	 * Set location with input parameters
 	 * @param x abscissa value
 	 * @param y ordinate value
-	 * @param area Rectagle as the area occupied by the entity
+	 * @param area Area occupied by the entity
 	 */
 	public Location(final double x, final double y, final Area area) {		
 		this.x = x;

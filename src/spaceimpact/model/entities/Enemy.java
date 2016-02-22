@@ -132,14 +132,4 @@ public class Enemy extends LivingEntity {
 			return dirlist.get(2);
 		}		
 	}
-	
-	/* GETTERS */
-	
-	/**
-	 * Getter for current equipped weapon
-	 * @return weapon Current equipped weapon
-	 */
-	public Weapon getWeapon() {
-		return this.weapon;
-	}
 }
