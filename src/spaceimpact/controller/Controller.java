@@ -89,4 +89,15 @@ public class Controller implements ControllerInterface {
 		c.view.startView();
 	}
 
+	@Override
+	public void setCurrentPlayerName(final String s) {
+		final int scr;
+		try {
+			this.hsManager.addScore(new Pair<>(s, this.gl.get().getScores()));
+		} catch (final Exception e) {
+
+		}
+
+	}
+
 }

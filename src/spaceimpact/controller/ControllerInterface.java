@@ -66,8 +66,16 @@ public interface ControllerInterface {
 
 	/**
 	 * Checks if there is a running game (existing and not paused).
-	 * 
+	 *
 	 * @return True if there is a running GameLoop, false otherwise.
 	 */
 	boolean isGameLoopRunning();
+
+	/**
+	 * Saves the current score and player name to the highscores.
+	 * 
+	 * @param s
+	 *            The player name
+	 */
+	void setCurrentPlayerName(String s);
 }

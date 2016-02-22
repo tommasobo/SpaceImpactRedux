@@ -32,6 +32,7 @@ public class GameLoop extends Thread {
 	private final long ticLenght;
 	private final ViewInterface view;
 	private final ModelInterface model;
+	private volatile int score;
 
 	/**
 	 * Constructor for GameLoop
@@ -76,6 +77,7 @@ public class GameLoop extends Thread {
 		while (this.status != Status.KILLED) {
 			if (this.status == Status.RUNNING) {
 				final long startTime = System.currentTimeMillis();
+				this.score = GameLoop.this.model.getScores();
 				final List<Pair<Pair<String, Double>, Location>> toDraw = new LinkedList<>();
 				toDraw.add(new Pair<>(new Pair<>("/Entities/Player.png", 0d), this.model.getPlayerLocation()));
 				if (this.model.getPlayerShield() > 0) {
@@ -92,7 +94,7 @@ public class GameLoop extends Thread {
 					public void run() {
 						GameLoop.this.view.draw(toDraw);
 						GameLoop.this.view.updateInfo(GameLoop.this.model.getPlayerLife(),
-								GameLoop.this.model.getPlayerShield(), GameLoop.this.model.getScores());
+								GameLoop.this.model.getPlayerShield(), GameLoop.this.score);
 					}
 				};
 				t.start();
@@ -108,6 +110,9 @@ public class GameLoop extends Thread {
 							System.out.println("Time usage: " + (((double) 100 * timeSpent) / this.ticLenght) + "%");
 						}
 						Thread.sleep(this.ticLenght - timeSpent);
+					}
+					if (this.model.getPlayerLife() <= 0) {
+						this.status = Status.KILLED;
 					}
 				} catch (final InterruptedException ex1) {
 					this.status = Status.KILLED;
@@ -192,6 +197,20 @@ public class GameLoop extends Thread {
 	 */
 	public boolean isRunning() {
 		return this.status == Status.RUNNING;
+	}
+
+	/**
+	 * Getter of the final score
+	 * 
+	 * @return The game score
+	 * @throws IllegalStateException
+	 *             If this method is used before game termination.
+	 */
+	public int getScores() throws IllegalStateException {
+		if (this.status != Status.KILLED) {
+			throw new IllegalStateException();
+		}
+		return this.score;
 	}
 
 }
