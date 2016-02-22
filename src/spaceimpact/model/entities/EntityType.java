@@ -22,7 +22,7 @@ public enum EntityType {
 
 	/**
 	 * Returns data to print the image of the entity. <br>
-	 * 
+	 *
 	 * @param e
 	 *            The given entity.
 	 * @return pair A Pair of String, Double. The string is the image URL from
@@ -54,13 +54,26 @@ public enum EntityType {
 				}
 			} else {
 				s.append("diagonal-green.png");
-				// TODO choose rotation!
+				if (p.getDirection() == Direction.SE) {
+					rotation = 90;
+				} else if (p.getDirection() == Direction.SW) {
+					rotation = 180;
+				} else if (p.getDirection() == Direction.NW) {
+					rotation = 270;
+				}
 			}
 		} else if (e instanceof Enemy) {
 			s.append("Enemies/");
 			final Enemy en = (Enemy) e;
 			final int maxlife = en.getMaximumLife();
-			s.append("A"); // TODO choose color!
+			final int dmg = en.getWeapon().getDamage();
+			if (dmg <= 10) {
+				s.append('A');
+			} else if (dmg < 20) {
+				s.append('B');
+			} else {
+				s.append('C');
+			}
 			if (maxlife <= 10) {
 				s.append("1.png");
 			} else if (maxlife <= 20) {
@@ -74,8 +87,9 @@ public enum EntityType {
 			}
 		} else if (e instanceof Debris) {
 			s.append("explosion.gif");
+		} else {
+			// TODO add powerups
 		}
-		// TODO add powerups
 		return new Pair<String, Double>(s.toString(), Double.valueOf(rotation));
 	}
 }
