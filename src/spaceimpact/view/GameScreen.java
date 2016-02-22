@@ -108,7 +108,11 @@ public class GameScreen extends Scene {
 	}
 	
 	void updateInfo(final int hp, final int shields, final int score) {
-	    this.playerInfo.update(this.hp, this.shields, this.score, hp, shields, score);
+	    if (hp <= 0) {
+	        this.mainStage.setScene(GameOverScreen.get(this.mainStage));
+	    } else {
+	        this.playerInfo.update(this.hp, this.shields, this.score, hp, shields, score);
+	    }
 	}
 
 	public GameScreen get(final Stage mainWindow) {
