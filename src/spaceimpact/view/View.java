@@ -23,7 +23,7 @@ public class View implements ViewInterface {
 		View.c = controller;
 	}
 
-	static ControllerInterface getController() {
+	public static ControllerInterface getController() {
 		return View.c;
 	}
 
@@ -49,4 +49,5 @@ public class View implements ViewInterface {
 	static void setGameScreen(final GameScreen gamescreen) {
 	    View.gameScreen = gamescreen;
 	}
+	
 }
