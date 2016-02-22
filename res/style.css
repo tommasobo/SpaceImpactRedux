@@ -6,6 +6,13 @@
     -fx-font-family: space_invaders;
 }
 
+#gameOver {
+    -fx-background-color: black;
+    -fx-font-size: 18pt;
+    -fx-text-fill: white !important;
+    -fx-font-family: space_invaders;
+}
+
 #titleInfo {
     -fx-font: 30px Tahoma;
     -fx-fill: linear-gradient(from 0% 90% to 100% 200%, repeat, aqua 0%, blue 110%);
