@@ -16,7 +16,7 @@ import spaceimpact.utilities.Pair;
 /**
  * A manager for HighScores. It can save/load the data to/from the filesystem.
  */
-public class HighScoresManager {
+public class HighScoresManager implements HighScoresManagerInterface {
 
 	private static final boolean REPORT_ERRORS_ON_WRITE = true;
 
@@ -43,15 +43,7 @@ public class HighScoresManager {
 		this.numMaxScores = nscores;
 	}
 
-	/**
-	 * Adds a new Pair <playername-score> to the highscores. The list is then
-	 * sorted, and excess scores are cut away. The list will be saved only when
-	 * the HighScoreManager is deleted by the garbage collector, or if
-	 * explicitly asked with the method "saveData()".
-	 *
-	 * @param p
-	 *            The new highscore
-	 */
+	@Override
 	public void addScore(final Pair<String, Integer> p) {
 		if (!this.cache.isPresent()) {
 			this.loadData();
@@ -64,9 +56,7 @@ public class HighScoresManager {
 		this.cache = Optional.of(list);
 	}
 
-	/**
-	 * Removes all previous HighScores
-	 */
+	@Override
 	public void emptyScores() {
 		this.cache = Optional.of(new LinkedList<Pair<String, Integer>>());
 		this.editedNotSaved = true;
@@ -78,6 +68,7 @@ public class HighScoresManager {
 	 *
 	 * @return The list of highscores (may be empty, it's a defensive copy)
 	 */
+	@Override
 	public List<Pair<String, Integer>> getScores() {
 		if (!this.cache.isPresent()) {
 			this.loadData();
@@ -129,6 +120,7 @@ public class HighScoresManager {
 	 * @throws IOException
 	 *             If unable to save data on disc
 	 */
+	@Override
 	public void saveData() throws IllegalStateException, IOException {
 		if (!this.cache.isPresent() || !this.editedNotSaved) {
 			if (HighScoresManager.REPORT_ERRORS_ON_WRITE) {

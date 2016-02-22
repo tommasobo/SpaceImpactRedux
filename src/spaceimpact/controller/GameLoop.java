@@ -82,7 +82,7 @@ public class GameLoop extends Thread {
 					final Location pl = this.model.getPlayerLocation();
 					final Area a = new Area(pl.getArea().getWidth() * 2, pl.getArea().getHeight() * 2);
 					toDraw.add(new Pair<>(new Pair<>("shield.png", 0d),
-							new Location(pl.getX() - (a.getWidth() / 32), pl.getY(), a)));
+							new Location(pl.getX() + (a.getWidth() / 10), pl.getY(), a)));
 				}
 				this.model.getEntitiesToDraw().forEach(e -> {
 					toDraw.add(new Pair<>(EntityType.getImage(e), e.getLocation()));
@@ -95,8 +95,8 @@ public class GameLoop extends Thread {
 								GameLoop.this.model.getPlayerShield(), GameLoop.this.model.getScores());
 					}
 				};
-				t.start();				
-				Pair<Optional<Direction>,Boolean> tmp = parseInputs();
+				t.start();
+				final Pair<Optional<Direction>, Boolean> tmp = this.parseInputs();
 				this.model.informInputs(tmp.getFirst(), tmp.getSecond());
 				this.model.updateAll();
 				try {
@@ -116,16 +116,16 @@ public class GameLoop extends Thread {
 		}
 		// operazioni una volta ucciso il gameloop
 	}
-	
-	private Pair<Optional<Direction>,Boolean> parseInputs() {
+
+	private Pair<Optional<Direction>, Boolean> parseInputs() {
 		boolean n = false;
 		boolean s = false;
 		boolean e = false;
 		boolean w = false;
 		boolean shoot = false;
-		List<Input> tmp = this.view.getInput();
-		
-		for(Input i : tmp) {
+		final List<Input> tmp = this.view.getInput();
+
+		for (final Input i : tmp) {
 			if (i == Input.W) {
 				n = true;
 			} else if (i == Input.S) {
@@ -162,10 +162,10 @@ public class GameLoop extends Thread {
 		} else {
 			d = Optional.empty();
 		}
-		
-		return new Pair<Optional<Direction>,Boolean>(d,shoot);
+
+		return new Pair<Optional<Direction>, Boolean>(d, shoot);
 	}
-		
+
 	/**
 	 * Causes the GameLoop to resume. If it wasn't paused nothing happens.
 	 * Resume could be delayed up to a tic later.
