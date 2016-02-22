@@ -2,12 +2,15 @@ package spaceimpact.controller;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import spaceimpact.model.Area;
+import spaceimpact.model.Direction;
 import spaceimpact.model.Location;
 import spaceimpact.model.Model;
 import spaceimpact.model.ModelInterface;
 import spaceimpact.model.entities.EntityType;
+import spaceimpact.utilities.Input;
 import spaceimpact.utilities.Pair;
 import spaceimpact.view.ViewInterface;
 
@@ -93,7 +96,49 @@ public class GameLoop extends Thread {
 					}
 				};
 				t.start();
-				this.model.informInputs(this.view.getInput());
+				boolean n = false;
+				boolean s = false;
+				boolean e = false;
+				boolean w = false;
+				boolean shoot = false;
+				this.view.getInput().forEach(i -> {
+					if (i == Input.W) {
+						n = true;
+					} else if (i == Input.S) {
+						s = true;
+					} else if (i == Input.A) {
+						w = true;
+					} else if (i == Input.D) {
+						e = true;
+					} else {
+						shoot = true;
+					}
+				});
+				Optional<Direction> d;
+				if (n) {
+					if (e) {
+						d = Optional.of(Direction.NE);
+					} else if (w) {
+						d = Optional.of(Direction.NW);
+					} else {
+						d = Optional.of(Direction.N);
+					}
+				} else if (s) {
+					if (e) {
+						d = Optional.of(Direction.SE);
+					} else if (w) {
+						d = Optional.of(Direction.SW);
+					} else {
+						d = Optional.of(Direction.S);
+					}
+				} else if (e) {
+					d = Optional.of(Direction.E);
+				} else if (w) {
+					d = Optional.of(Direction.W);
+				} else {
+					d = Optional.empty();
+				}
+				this.model.informInputs(d, shoot);
 				this.model.updateAll();
 				try {
 					t.join();
@@ -125,7 +170,7 @@ public class GameLoop extends Thread {
 
 	/**
 	 * Checks if the game is paused
-	 * 
+	 *
 	 * @return True if the game is paused, false otherwise
 	 */
 	public boolean isPaused() {
@@ -134,7 +179,7 @@ public class GameLoop extends Thread {
 
 	/**
 	 * Checks if the game is running
-	 * 
+	 *
 	 * @return True if the game is running, false otherwise
 	 */
 	public boolean isRunning() {
