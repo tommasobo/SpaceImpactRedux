@@ -6,9 +6,8 @@ import spaceimpact.model.spawners.Spawner;
 import spaceimpact.model.spawners.Weapon;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
-
-import spaceimpact.utilities.Input;
 
 /** 
  * Model Implementation
@@ -28,7 +27,7 @@ public class Model implements ModelInterface {
 	int levelmaxenemyspawn = 0; //curent max spawnable enemy in this level
 	int framerate = 30; //game framerate
 		
-	//entities
+	//entities collections
 	Spaceship player = null; //nave del giocatore
 	List<Enemy> enemylist = null; //lista di nemici
 	List<Debris> debrislist = null; //lista detriti o elementi visivi, asteroidi e altro
@@ -50,6 +49,7 @@ public class Model implements ModelInterface {
      */
     public Model(final int framerate, final int maxspawnableenemy) {
     	
+    	//inizializate main variables
     	this.framerate = framerate;
     	this.globalvelocity = (double)(1 /(double)(4 * framerate));
     	this.levelmaxenemyspawn = maxspawnableenemy;
@@ -59,12 +59,14 @@ public class Model implements ModelInterface {
     	Location tmp = new Location(0.1, 0.5, new Area(0.125, 0.0972));	
     	player = new Spaceship(100, globalvelocity, tmp, Direction.E, 100, new Weapon(EntityType.Spaceship, Direction.E, 20, 10, globalvelocity * 1.5)); 
     	
+    	//inizializate entities collections
     	enemylist = new ArrayList<>();
     	debrislist = new ArrayList<>();
     	playerprojectilelist = new ArrayList<>();
     	enemiesprojectilelist = new ArrayList<>();
     	deadentities = new ArrayList<>();
     	
+    	//set spawner
 		spawner = new Spawner(EntityType.Enemy, 1);
 		spawner.setMaxEntityVelocity(globalvelocity * 0.70);
 		spawner.setMaxEntitySpawns(20);
@@ -92,17 +94,18 @@ public class Model implements ModelInterface {
 	}
 
 	@Override
-	public void informInputs(List<Input> userinputs) throws IllegalStateException {
-		if (player == null || userinputs == null) {
+	public void informInputs(Optional<Direction> direction, boolean shoot) throws IllegalStateException {
+		if (player == null) {
 			throw new IllegalStateException("player or userinput are NULL!!");
-		}		
-		userinputs.forEach(x -> { 
-			if (x.equals(Input.SPACE) && player.canShoot()) {
-				playerprojectilelist.add(player.attack());
-			} else if (!x.equals(Input.SPACE)) {
-				player.move(x);	
-			}
-		});
+		}	
+		
+		if (direction.isPresent()) {
+			player.move(direction.get());
+		}
+		
+		if (shoot && player.canShoot()) { 
+			playerprojectilelist.add(player.attack());
+		}
 	}	
 	
 	@Override
