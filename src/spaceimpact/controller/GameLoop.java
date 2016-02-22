@@ -78,7 +78,8 @@ public class GameLoop extends Thread {
 				if (this.model.getPlayerShield() > 0) {
 					final Location pl = this.model.getPlayerLocation();
 					final Area a = new Area(pl.getArea().getWidth() * 2, pl.getArea().getHeight() * 2);
-					toDraw.add(new Pair<>(new Pair<>("shield.png", 0d), new Location(pl.getX(), pl.getY(), a)));
+					toDraw.add(new Pair<>(new Pair<>("shield.png", 0d),
+							new Location(pl.getX() - (a.getWidth() / 32), pl.getY(), a)));
 				}
 				this.model.getEntitiesToDraw().forEach(e -> {
 					toDraw.add(new Pair<>(EntityType.getImage(e), e.getLocation()));
@@ -117,7 +118,7 @@ public class GameLoop extends Thread {
 	 * Resume could be delayed up to a tic later.
 	 */
 	public void unPause() {
-		if (this.status == Status.PAUSED) {
+		if (this.isPaused()) {
 			this.status = Status.RUNNING;
 		}
 	}
@@ -128,8 +129,8 @@ public class GameLoop extends Thread {
 	 * @param s
 	 * @return
 	 */
-	public boolean isRunning() {
-		return this.status == Status.RUNNING;
+	public boolean isPaused() {
+		return this.status == Status.PAUSED;
 	}
 
 }

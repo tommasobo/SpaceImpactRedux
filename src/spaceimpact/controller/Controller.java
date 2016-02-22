@@ -74,11 +74,11 @@ public class Controller implements ControllerInterface {
 	}
 
 	@Override
-	public boolean isGameLoopRunning() {
+	public boolean isGameLoopPaused() {
 		if (!this.gl.isPresent()) {
 			return false;
 		}
-		return this.gl.get().isRunning();
+		return this.gl.get().isPaused();
 	}
 
 }

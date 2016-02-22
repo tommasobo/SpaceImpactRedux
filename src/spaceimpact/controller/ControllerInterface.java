@@ -58,9 +58,9 @@ public interface ControllerInterface {
 	void resumeGameLoop() throws IllegalStateException;
 
 	/**
-	 * Checks if there is a running game (existing and not paused).
+	 * Checks if there is a paused game (existing and not running).
 	 *
-	 * @return True if there is a running GameLoop, false otherwise.
+	 * @return True if there is a paused GameLoop, false otherwise.
 	 */
-	boolean isGameLoopRunning();
+	boolean isGameLoopPaused();
 }
