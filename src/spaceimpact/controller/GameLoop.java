@@ -95,50 +95,9 @@ public class GameLoop extends Thread {
 								GameLoop.this.model.getPlayerShield(), GameLoop.this.model.getScores());
 					}
 				};
-				t.start();
-				boolean n = false;
-				boolean s = false;
-				boolean e = false;
-				boolean w = false;
-				boolean shoot = false;
-				this.view.getInput().forEach(i -> {
-					if (i == Input.W) {
-						n = true;
-					} else if (i == Input.S) {
-						s = true;
-					} else if (i == Input.A) {
-						w = true;
-					} else if (i == Input.D) {
-						e = true;
-					} else {
-						shoot = true;
-					}
-				});
-				Optional<Direction> d;
-				if (n) {
-					if (e) {
-						d = Optional.of(Direction.NE);
-					} else if (w) {
-						d = Optional.of(Direction.NW);
-					} else {
-						d = Optional.of(Direction.N);
-					}
-				} else if (s) {
-					if (e) {
-						d = Optional.of(Direction.SE);
-					} else if (w) {
-						d = Optional.of(Direction.SW);
-					} else {
-						d = Optional.of(Direction.S);
-					}
-				} else if (e) {
-					d = Optional.of(Direction.E);
-				} else if (w) {
-					d = Optional.of(Direction.W);
-				} else {
-					d = Optional.empty();
-				}
-				this.model.informInputs(d, shoot);
+				t.start();				
+				Pair<Optional<Direction>,Boolean> tmp = parseInputs();
+				this.model.informInputs(tmp.getFirst(), tmp.getSecond());
 				this.model.updateAll();
 				try {
 					t.join();
@@ -157,7 +116,56 @@ public class GameLoop extends Thread {
 		}
 		// operazioni una volta ucciso il gameloop
 	}
-
+	
+	private Pair<Optional<Direction>,Boolean> parseInputs() {
+		boolean n = false;
+		boolean s = false;
+		boolean e = false;
+		boolean w = false;
+		boolean shoot = false;
+		List<Input> tmp = this.view.getInput();
+		
+		for(Input i : tmp) {
+			if (i == Input.W) {
+				n = true;
+			} else if (i == Input.S) {
+				s = true;
+			} else if (i == Input.A) {
+				w = true;
+			} else if (i == Input.D) {
+				e = true;
+			} else {
+				shoot = true;
+			}
+		}
+		Optional<Direction> d;
+		if (n) {
+			if (e) {
+				d = Optional.of(Direction.NE);
+			} else if (w) {
+				d = Optional.of(Direction.NW);
+			} else {
+				d = Optional.of(Direction.N);
+			}
+		} else if (s) {
+			if (e) {
+				d = Optional.of(Direction.SE);
+			} else if (w) {
+				d = Optional.of(Direction.SW);
+			} else {
+				d = Optional.of(Direction.S);
+			}
+		} else if (e) {
+			d = Optional.of(Direction.E);
+		} else if (w) {
+			d = Optional.of(Direction.W);
+		} else {
+			d = Optional.empty();
+		}
+		
+		return new Pair<Optional<Direction>,Boolean>(d,shoot);
+	}
+		
 	/**
 	 * Causes the GameLoop to resume. If it wasn't paused nothing happens.
 	 * Resume could be delayed up to a tic later.

@@ -54,7 +54,7 @@ public interface ModelInterface {
 	/** 
 	 * Inform model about user inputs
 	 * <br>
-	 * @param userinputs Optional of Direction of the movement
+	 * @param direction Optional of Direction of the movement
 	 * @param shoot True if user shoot
 	 */
 	void informInputs(Optional<Direction> direction, boolean shoot);
