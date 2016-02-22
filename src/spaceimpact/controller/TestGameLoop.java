@@ -13,32 +13,12 @@ import spaceimpact.view.ViewInterface;
 
 public class TestGameLoop {
 	private volatile int var;
-	private final ViewInterface dummyView = new ViewInterface() {
-
-		@Override
-		public List<Input> getInput() {
-			return new ArrayList<>();
-		}
-
-		@Override
-		public void startView() {
-		}
-
-		@Override
-		public void draw(final List<Pair<Pair<String, Double>, Location>> listEntities) {
-			TestGameLoop.this.var++;
-		}
-
-		@Override
-		public void updateInfo(final int hp, final int shields, final int score) {
-		}
-	};
 
 	// Test GameLoop start and stop
 	@Test
 	public void test1() {
 		this.var = 0;
-		final GameLoop gl = new GameLoop(10, this.dummyView);
+		final GameLoop gl = new GameLoop(10, this.dummyController, this.dummyView);
 		gl.start();
 		try {
 			Thread.sleep(1000);
@@ -61,7 +41,7 @@ public class TestGameLoop {
 	@Test
 	public void test2() {
 		this.var = 0;
-		final GameLoop gl = new GameLoop(60, this.dummyView);
+		final GameLoop gl = new GameLoop(60, this.dummyController, this.dummyView);
 		gl.start();
 		try {
 			Thread.sleep(10000);
@@ -78,7 +58,7 @@ public class TestGameLoop {
 	@Test
 	public void test3() {
 		this.var = 0;
-		final GameLoop gl = new GameLoop(50, this.dummyView);
+		final GameLoop gl = new GameLoop(50, this.dummyController, this.dummyView);
 		gl.start();
 		try {
 			Thread.sleep(1000);
@@ -102,6 +82,73 @@ public class TestGameLoop {
 		}
 		gl.abort();
 		System.out.println(" resumed, finally is " + this.var);
-		Assert.assertTrue("GameLoop not resumed", this.var > 100);
+		Assert.assertTrue("GameLoop not resumed", this.var >= 100);
 	}
+
+	private final ViewInterface dummyView = new ViewInterface() {
+
+		@Override
+		public List<Input> getInput() {
+			return new ArrayList<>();
+		}
+
+		@Override
+		public void startView() {
+		}
+
+		@Override
+		public void draw(final List<Pair<Pair<String, Double>, Location>> listEntities) {
+			TestGameLoop.this.var++;
+		}
+
+		@Override
+		public void updateInfo(final int hp, final int shields, final int score) {
+		}
+	};
+
+	private final ControllerInterface dummyController = new ControllerInterface() {
+
+		@Override
+		public void startGameLoop() throws IllegalStateException {
+		}
+
+		@Override
+		public void setCurrentPlayerName(final String s) {
+		}
+
+		@Override
+		public void resumeGameLoop() throws IllegalStateException {
+		}
+
+		@Override
+		public void pauseGameLoop() throws IllegalStateException {
+		}
+
+		@Override
+		public boolean isGameLoopRunning() {
+			return false;
+		}
+
+		@Override
+		public boolean isGameLoopPaused() {
+			return false;
+		}
+
+		@Override
+		public List<Pair<String, Integer>> getCurrentHighScores() {
+			return null;
+		}
+
+		@Override
+		public void emptyHighScores() {
+		}
+
+		@Override
+		public void abortGameLoop() throws IllegalStateException {
+		}
+
+		@Override
+		public void setScore(final int score) {
+		}
+	};
 }

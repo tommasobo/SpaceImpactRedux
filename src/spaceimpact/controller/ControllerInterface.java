@@ -11,12 +11,10 @@ import spaceimpact.utilities.Pair;
 public interface ControllerInterface {
 
 	/**
-	 * Abort the "GameLoop" (force stop the current game)
-	 *
-	 * @throws IllegalStateException
-	 *             If no game is currently running
+	 * Abort the "GameLoop" (force stop the current game). If no game is present
+	 * nothing happens
 	 */
-	void abortGameLoop() throws IllegalStateException;
+	void abortGameLoop();
 
 	/**
 	 * Returns the list of current highscores. If the current list cannot be
@@ -33,29 +31,21 @@ public interface ControllerInterface {
 	void emptyHighScores();
 
 	/**
-	 * Starts the "GameLoop" (launch new game)
-	 *
-	 * @throws IllegalStateException
-	 *             If another game is currently running
+	 * Starts the "GameLoop" (launch new game). If a game is already running
+	 * nothing happens.
 	 */
-	void startGameLoop() throws IllegalStateException;
+	void startGameLoop();
 
 	/**
 	 * Pauses the "GameLoop" (game pause). If the game is already paused nothing
 	 * happens.
-	 *
-	 * @throws IllegalStateException
-	 *             If no game is running
 	 */
-	void pauseGameLoop() throws IllegalStateException;
+	void pauseGameLoop();
 
 	/**
 	 * Resumes a paused "GameLoop". If the game is not paused nothing happens.
-	 *
-	 * @throws IllegalStateException
-	 *             If no game is running
 	 */
-	void resumeGameLoop() throws IllegalStateException;
+	void resumeGameLoop();
 
 	/**
 	 * Checks if there is a paused game (existing and not running).
@@ -73,9 +63,17 @@ public interface ControllerInterface {
 
 	/**
 	 * Saves the current score and player name to the highscores.
-	 * 
+	 *
 	 * @param s
 	 *            The player name
 	 */
 	void setCurrentPlayerName(String s);
+
+	/**
+	 * Set the game score
+	 * 
+	 * @param score
+	 *            The score reached
+	 */
+	void setScore(int score);
 }

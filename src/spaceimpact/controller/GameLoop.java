@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import spaceimpact.model.Area;
 import spaceimpact.model.Direction;
+import spaceimpact.model.GameStatus;
 import spaceimpact.model.Location;
 import spaceimpact.model.Model;
 import spaceimpact.model.ModelInterface;
@@ -32,6 +33,7 @@ public class GameLoop extends Thread {
 	private final long ticLenght;
 	private final ViewInterface view;
 	private final ModelInterface model;
+	private final ControllerInterface controller;
 	private volatile int score;
 
 	/**
@@ -40,11 +42,12 @@ public class GameLoop extends Thread {
 	 * @param fps
 	 *            The number of frames per second
 	 */
-	public GameLoop(final int fps, final ViewInterface view) {
+	public GameLoop(final int fps, final ControllerInterface controller, final ViewInterface view) {
 		this.status = Status.READY;
 		this.ticLenght = 1000 / fps;
 		this.view = view;
 		this.model = new Model(fps, 20);
+		this.controller = controller;
 	}
 
 	/**
@@ -76,50 +79,56 @@ public class GameLoop extends Thread {
 		this.status = Status.RUNNING;
 		while (this.status != Status.KILLED) {
 			if (this.status == Status.RUNNING) {
-				final long startTime = System.currentTimeMillis();
-				this.score = GameLoop.this.model.getScores();
-				final List<Pair<Pair<String, Double>, Location>> toDraw = new LinkedList<>();
-				toDraw.add(new Pair<>(new Pair<>("/Entities/Player.png", 0d), this.model.getPlayerLocation()));
-				if (this.model.getPlayerShield() > 0) {
-					final Location pl = this.model.getPlayerLocation();
-					final Area a = new Area(pl.getArea().getWidth() * 2, pl.getArea().getHeight() * 2);
-					toDraw.add(new Pair<>(new Pair<>("shield.png", 0d),
-							new Location(pl.getX() + (a.getWidth() / 10), pl.getY(), a)));
-				}
-				this.model.getEntitiesToDraw().forEach(e -> {
-					toDraw.add(new Pair<>(EntityType.getImage(e), e.getLocation()));
-				});
-				final Thread t = new Thread() {
-					@Override
-					public void run() {
-						GameLoop.this.view.draw(toDraw);
-						GameLoop.this.view.updateInfo(GameLoop.this.model.getPlayerLife(),
-								GameLoop.this.model.getPlayerShield(), GameLoop.this.score);
+				if (this.model.getGameStatus() == GameStatus.Running) {
+					final long startTime = System.currentTimeMillis();
+					this.score = GameLoop.this.model.getScores();
+					final List<Pair<Pair<String, Double>, Location>> toDraw = new LinkedList<>();
+					toDraw.add(new Pair<>(new Pair<>("/Entities/Player.png", 0d), this.model.getPlayerLocation()));
+					if (this.model.getPlayerShield() > 0) {
+						final Location pl = this.model.getPlayerLocation();
+						final Area a = new Area(pl.getArea().getWidth() * 2, pl.getArea().getHeight() * 2);
+						toDraw.add(new Pair<>(new Pair<>("shield.png", 0d),
+								new Location(pl.getX() + (a.getWidth() / 10), pl.getY(), a)));
 					}
-				};
-				t.start();
-				final Pair<Optional<Direction>, Boolean> tmp = this.parseInputs();
-				this.model.informInputs(tmp.getFirst(), tmp.getSecond());
-				this.model.updateAll();
-				try {
-					t.join();
-					final long timeSpent = System.currentTimeMillis() - startTime;
-					if (timeSpent < this.ticLenght) {
-						final double usage = (((double) 100 * timeSpent) / this.ticLenght);
-						if (usage > 0) {
-							System.out.println("Time usage: " + (((double) 100 * timeSpent) / this.ticLenght) + "%");
+					this.model.getEntitiesToDraw().forEach(e -> {
+						toDraw.add(new Pair<>(EntityType.getImage(e), e.getLocation()));
+					});
+					final Thread t = new Thread() {
+						@Override
+						public void run() {
+							GameLoop.this.view.draw(toDraw);
+							GameLoop.this.view.updateInfo(GameLoop.this.model.getPlayerLife(),
+									GameLoop.this.model.getPlayerShield(), GameLoop.this.score);
 						}
-						Thread.sleep(this.ticLenght - timeSpent);
-					}
-					if (this.model.getPlayerLife() <= 0) {
+					};
+					t.start();
+					final Pair<Optional<Direction>, Boolean> tmp = this.parseInputs();
+					this.model.informInputs(tmp.getFirst(), tmp.getSecond());
+					this.model.updateAll();
+					try {
+						t.join();
+						final long timeSpent = System.currentTimeMillis() - startTime;
+						if (timeSpent < this.ticLenght) {
+							final double usage = (((double) 100 * timeSpent) / this.ticLenght);
+							if (usage > 0) {
+								System.out
+										.println("Time usage: " + (((double) 100 * timeSpent) / this.ticLenght) + "%");
+							}
+							Thread.sleep(this.ticLenght - timeSpent);
+						}
+						if (this.model.getPlayerLife() <= 0) {
+							this.status = Status.KILLED;
+						}
+					} catch (final InterruptedException ex1) {
 						this.status = Status.KILLED;
 					}
-				} catch (final InterruptedException ex1) {
+				} else {
 					this.status = Status.KILLED;
 				}
 			}
 		}
-		// operazioni una volta ucciso il gameloop
+		this.controller.setScore(this.score);
+		this.controller.abortGameLoop();
 	}
 
 	private Pair<Optional<Direction>, Boolean> parseInputs() {
@@ -201,7 +210,7 @@ public class GameLoop extends Thread {
 
 	/**
 	 * Getter of the final score
-	 * 
+	 *
 	 * @return The game score
 	 * @throws IllegalStateException
 	 *             If this method is used before game termination.
