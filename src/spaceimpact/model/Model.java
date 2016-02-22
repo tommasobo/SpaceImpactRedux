@@ -29,7 +29,7 @@ public class Model implements ModelInterface {
 		
 	//entities collections
 	Spaceship player = null; //nave del giocatore
-	List<Enemy> enemylist = null; //lista di nemici
+	List<Entity> enemylist = null; //lista di nemici
 	List<Debris> debrislist = null; //lista detriti o elementi visivi, asteroidi e altro
 	List<Projectile> playerprojectilelist = null; //lista proiettili giocatore
     List<Projectile> enemiesprojectilelist = null; //lista proiettili nemici    
@@ -67,18 +67,18 @@ public class Model implements ModelInterface {
     	deadentities = new ArrayList<>();
     	
     	//set spawner
-		spawner = new Spawner(EntityType.Enemy, 1);
-		spawner.setMaxEntityVelocity(globalvelocity * 0.70);
-		spawner.setMaxEntitySpawns(20);
-		spawner.setCoolDownEntityWeapon(30);
-		spawner.setSpawnedEntityDamage(8);
-		spawner.setSpawnedEntityArea(new Area(0.125, 0.0972));
+		spawner = new Spawner(EntityType.Enemy, 10, 2, 30, new Area(0.125, 0.0972), 10, 30, globalvelocity * 0.70);
     }
     
     /* MAIN METHODS */
     	
 	@Override
 	public List<Entity> getEntitiesToDraw() {
+		
+		//do not update if the game is not running
+		if (!this.gamestatus.equals(GameStatus.Running)) {
+			return null;
+		}
 		
 		updateAll(); //verify collisions and update positions;
 		deadEntityCollector(); //remove dead entities;
@@ -110,19 +110,21 @@ public class Model implements ModelInterface {
 	
 	@Override
 	public void updateAll() {
-					
-		if (!this.gamestatus.equals(GameStatus.Running)) {
-			return;
-		}
-			
+				
 		//update player 
 		this.player.update();
 		
+		//update spawner
+		if (spawner != null) {
+			this.spawner.update();		
+		}
+		
 		//move all entities
 		enemylist.forEach((x) -> { 
-			x.update(); 
-			if (enemyShoot(x)) {
-				enemiesprojectilelist.add(x.attack());
+			Enemy tmp = (Enemy) x;
+			tmp.update(); 		
+			if (enemyShoot(tmp)) {
+				enemiesprojectilelist.add(tmp.attack());
 			}		
 			//System.out.println(x);
 			} );	
@@ -165,11 +167,13 @@ public class Model implements ModelInterface {
 		//control collisions
 		controlCollisions();
 			
-		if (spawner != null) {
+		//spawn new entities if possible
+		if (spawner != null && spawner.canSpawn()) {
 			enemylist.addAll(spawner.spawn());			
 		}
 		
-		if (enemylist.size() == 0 && spawner.getSpawnedEntities() == this.levelmaxenemyspawn) {
+		//verify game status
+		if (enemylist.size() == 0 && spawner.getSpawnedEntitiesCount() == this.levelmaxenemyspawn) {
 			this.gamestatus = GameStatus.Won;
 		}
 	}
@@ -241,17 +245,18 @@ public class Model implements ModelInterface {
 			enemylist.stream()
 			.filter(x -> x.toRemove() == false)
 			.forEach(x -> {
-				if (x.collideWith(player)) {			
-					player.looseLife(20);	
-					x.looseLife(20);
+				Enemy enemy = (Enemy)x;
+				if (enemy.collideWith(player)) {			
+					player.looseLife(20);						
+					enemy.looseLife(20);
 					if (player.toRemove()) {
 						debrislist.add(new Debris(player.getLocation(), 10));
 						this.gamestatus = GameStatus.Over;
 						deadentities.add(player);
 					}	
-					if (x.toRemove()) {
-						debrislist.add(new Debris(x.getLocation(), 10));
-						deadentities.add(x);
+					if (enemy.toRemove()) {
+						debrislist.add(new Debris(enemy.getLocation(), 10));
+						deadentities.add(enemy);
 					}
 				} 	
 			});

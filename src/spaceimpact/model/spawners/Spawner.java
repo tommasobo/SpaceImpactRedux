@@ -7,65 +7,105 @@ import spaceimpact.model.Area;
 import spaceimpact.model.Direction;
 import spaceimpact.model.Location;
 import spaceimpact.model.entities.Enemy;
+import spaceimpact.model.entities.Entity;
 import spaceimpact.model.entities.EntityType;
+import spaceimpact.utilities.Pair;
 
 /**
  * Spawner implementation
  * <br>
- * <b>spawnedentitiescount</b> Number of total entities spawned by the spawner
- * <b>maxspawnableentities</b> Number of maximum spawnable entities
- * <b>typetospawn</b> Entity type to spawn
- * <b>spawnedetitiesvelocity</b> Velocity of the spawned entities
- * <b>entityarea</b> Area occupied by the spawned entities
- * <b>entitiesdamage</b> Entities Projectiles damage
- * <b>cooldownentityweapon</b> Cooldown time of the entityweapon
+ * <b>spawncount</b> Spawn Count<br>
+ * <b>maxspawn</b> Maximum Spawn Count<br>
+ * <b>type</b> Entity Type to Spawn<br>
+ * <b>velocity</b> Velocity of the spawned entities<br>
+ * <b>area</b> Area occupied by the spawned entities<br>
+ * <b>damage</b> Entities Projectiles damage<br>
+ * <b>weaponcooldown</b> Cooldown time of the entity weapon<br>
  * 
  * @author Davide
  */
-public class Spawner implements SpawnerInterface<Enemy> {
+public class Spawner implements SpawnerInterface {
 
-	private int spawnedentitiescount;
-	private int maxspawableentities;
-	private EntityType typetospawn;
-	private double spawnedetitiesvelocity = 0.1;	
-	private Area entityarea = null;
-	private int entitiesdamage = 0;
-	private int cooldownentityweapon = 0;
+	//il costruttore 1 vuole tipo di unità da spawnare e la quantità (debris o powerup)
+	//il costruttore 2 vuole tipo di unità da spawnare, quantità, quantità per tick, danno, velocità, cooldown weapon (enemies)
+	//ritorna lista entità o null
+	//campi settabili con vari parametri unità
+	//quando inizializzato divide il numero massimo di entità spawnabili per ondate e aspetta il completamento di ognuna per spawnare la successiva
+	
+	//spawn delay
+	private int spawndelay = 0;
+	private int countdown = 0;
+	
+	//spawn management
+	private int spawncount = 0;
+	private int maxperspawn = 0;
+	private int maxspawn = 0;
+	
+	//entity definition
+	private EntityType type = null;
+	private Area area = null;	
+	private int damage = 0;
+	private int weaponcooldown = 0;
+	private double velocity = 0.1;
+	
+	//batch
+	private List<Pair<Integer,Entity>> batch = null;
 	
 	/**
-	 * Constructor (Entity Type, Maximum spawnable entities)
-	 * @param type Spawned entity type 
-	 * @param max Max spawnable entities count
+	 * Constructor for Generic Spawner
+	 * @param type Entity Type to Spawn 
+	 * @param max Maximum Spawn Counts
+	 * @param maxperspawn Max Concurrent Entity in a Spawn
+	 * @param spawndelay Delay between each spawn (ticks)
 	 */
-	public Spawner(EntityType type, int max) {
-		this.spawnedentitiescount = 0;
-		this.maxspawableentities = max;
-		this.typetospawn = type;
+	public Spawner(EntityType type, int max, int maxperspawn, int spawndelay) {
+		this.type = type;
+		this.maxspawn = max;
+		this.maxperspawn = maxperspawn;
+		this.spawndelay = spawndelay;
+		this.spawncount = 0;
+		this.countdown = 0;
+	}
+	
+	/**
+	 * Constructor for Enemy Spawner
+	 * @param type Entity Type to Spawn 
+	 * @param max Maximum Spawn Counts
+	 * @param maxperspawn Max Concurrent Entity in a Spawn
+	 * @param spawndelay Delay between each spawn (ticks)
+	 * @param area Spawned Entity Area
+	 * @param damage Spawned Entity Damage
+	 * @param weaponcooldown Spawned Entity Weapon's CoolDown
+	 * @param velocity Spawned Entity Velocity
+	 */
+	public Spawner(EntityType type, int max, int maxperspawn, int spawndelay, Area area, int damage, int weaponcooldown, double velocity) {
+		this(type, max, maxperspawn, spawndelay);
+		this.area = area;
+		this.damage = damage;
+		this.weaponcooldown = damage;
+		this.velocity = velocity;
 	}
 		
-	@Override
-	public List<Enemy> spawn() {
-		List<Enemy> spawnedentities = new ArrayList<>();
+	public List<Entity> spawn() {
+		List<Entity> spawnedentities = new ArrayList<>();
 		
 		Random rnd = new Random();	
-		int tospawn = rnd.nextInt(maxspawableentities);
+		int tospawn = rnd.nextInt(maxperspawn - 1) + 1;
 		
-		for(int i = 0; i < tospawn / 4; i++) {	
-			if (spawnedentitiescount <= maxspawableentities) {	
-				
-				//la cosa migliore è avere un array che definisce le ondate
-				//per ogni ondata è definito il numero di nemici da spawnare e la loro potenza e tipo
-				//per evitare di farli spawnare tutti insieme fai un delay tra uno spawn ed un altro
+		for(int i = 0; i < tospawn; i++) {	
+			if (spawncount <= maxspawn) {	
 				
 				//spawn enemies in 900x720 res aka from 0.53 to 16/9			
 				double x = 0.53d + (1.7d - 0.53d) * rnd.nextDouble();
 				double y = rnd.nextDouble();
 							
-				Location tmploc = new Location(x, y, entityarea);
-				Weapon tmpweapon = new Weapon(typetospawn, Direction.W, cooldownentityweapon, entitiesdamage, spawnedetitiesvelocity * 1.5);
-				Enemy tmp = new Enemy(1, spawnedetitiesvelocity, tmploc, Direction.W, 0, tmpweapon);	
+				Location tmploc = new Location(x, y, area);
+				Weapon tmpweapon = new Weapon(type, Direction.W, weaponcooldown, damage, velocity * 1.5);
+				Enemy tmp = new Enemy(1, velocity, tmploc, Direction.W, 0, tmpweapon);
+				
 				spawnedentities.add(tmp);
-				spawnedentitiescount++;
+				spawncount++;
+				
 			} else {
 				return spawnedentities;
 			}
@@ -73,59 +113,51 @@ public class Spawner implements SpawnerInterface<Enemy> {
 		return spawnedentities;
 	}
 	
-	/**
-	 * Set maximum entity spawn count
-	 * @param max Maximum spawn count
-	 */
+	@Override
+	public int getSpawnedEntitiesCount() {
+		return this.spawncount;
+	}
+	
+	@Override
+	public void update() {
+		this.countdown++;
+		if (this.countdown >= this.spawndelay) {
+			this.countdown = 0;
+		}
+	}
+	
+	@Override
+	public boolean canSpawn() {
+		return countdown == 0;
+	}
+
+	@Override
 	public void setMaxEntitySpawns(final int max) {
-		this.maxspawableentities = max;
+		this.maxspawn = max;
 	}
 	
-	/**
-	 * Set spawned entity velocity
-	 * @param velocity Velocity of the spawned entities
-	 */
+	@Override
 	public void setMaxEntityVelocity(final double velocity) {
-		this.spawnedetitiesvelocity = velocity;
+		this.velocity = velocity;
 	}
 	
-	/**
-	 * Set spawned entity type
-	 * @param type Type of entity to spawn
-	 */
+	@Override
 	public void setSpawnedEntityType(final EntityType type) {
-		this.typetospawn = type;
+		this.type = type;
 	}
 	
-	/**
-	 * Set spawned entity area
-	 * @param area Area occupied by the spawned entities
-	 */
+	@Override
 	public void setSpawnedEntityArea(final Area area) {
-		this.entityarea = area;
+		this.area = area;
 	}
 	
-	/**
-	 * Set spawned entity damage
-	 * @param damage Amount of damage that the spawned entities can inflict
-	 */
+	@Override
 	public void setSpawnedEntityDamage(final int damage) {
-		this.entitiesdamage = damage;
+		this.damage = damage;
 	}
 	
-	/**
-	 * Set Weapon cooldown time for spawned entity
-	 * @param cooldown Cooldown time as number of ticks
-	 */
+	@Override
 	public void setCoolDownEntityWeapon(final int cooldown) {
-		this.cooldownentityweapon = cooldown;
-	}
-	
-	/**
-	 * Get count of total entity spawned
-	 * @return entitycount Currently total entities spawned
-	 */
-	public int getSpawnedEntities() {
-		return this.spawnedentitiescount;
+		this.weaponcooldown = cooldown;
 	}
 }
