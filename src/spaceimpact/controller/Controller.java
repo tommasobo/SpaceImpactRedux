@@ -13,7 +13,7 @@ public class Controller implements ControllerInterface {
 	private static final int HS_NSCORES = 10;
 	private static final int FPS = 30;
 
-	private final HighScoresManager hsManager;
+	private final HighScoresManagerInterface hsManager;
 	private Optional<GameLoop> gl;
 	private ViewInterface view;
 
@@ -87,6 +87,17 @@ public class Controller implements ControllerInterface {
 		final Controller c = new Controller();
 		c.view = new View(c);
 		c.view.startView();
+	}
+
+	@Override
+	public void setCurrentPlayerName(final String s) {
+		final int scr;
+		try {
+			this.hsManager.addScore(new Pair<>(s, this.gl.get().getScores()));
+		} catch (final Exception e) {
+
+		}
+
 	}
 
 }
