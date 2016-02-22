@@ -58,7 +58,7 @@ public class Model implements ModelInterface {
     	//DEBUG (AREA - X: 1280:16/9=90:x (0.125) - Y: 720:1=70:y (0.0972))
     	Location tmploc = new Location(0.1, 0.5, new Area(0.125, 0.0972));
     	Weapon tmpweapon = new Weapon(EntityType.Spaceship, Direction.E, 50, 10, globalvelocity * 1.5);
-    	tmpweapon.setShootedProjectiles(2);
+    	tmpweapon.setShootedProjectiles(3);
     	player = new Spaceship(100, globalvelocity, tmploc, Direction.E, 100, tmpweapon); 
     	
     	//inizializate entities collections
@@ -69,7 +69,7 @@ public class Model implements ModelInterface {
     	deadentities = new ArrayList<>();
     	
     	//set spawner
-		spawner = new Spawner(EntityType.Enemy, 10, 2, 30, new Area(0.125, 0.0972), 10, 50, 30, globalvelocity * 0.70, globalvelocity);
+		spawner = new Spawner(EntityType.Enemy, maxspawnableenemy, 2, 30, new Area(0.125, 0.0972), 10, 50, 30, globalvelocity * 0.70, globalvelocity);
     }
     
     /* MAIN METHODS */
@@ -98,7 +98,7 @@ public class Model implements ModelInterface {
 	@Override
 	public void informInputs(Optional<Direction> direction, boolean shoot) throws IllegalStateException {
 		if (player == null) {
-			throw new IllegalStateException("player or userinput are NULL!!");
+			throw new IllegalStateException("player is NULL!!");
 		}	
 		
 		if (direction.isPresent()) {
@@ -173,9 +173,13 @@ public class Model implements ModelInterface {
 		if (spawner != null && spawner.canSpawn()) {
 			enemylist.addAll(spawner.spawn());			
 		}
+				
 		
 		//verify game status
-		if (enemylist.size() == 0 && spawner.getSpawnedEntitiesCount() == this.levelmaxenemyspawn) {
+   		if (enemylist.size() <= 0 && 
+   			spawner.getSpawnedEntitiesCount() >= this.levelmaxenemyspawn &&
+   			this.gamestatus == GameStatus.Running) {
+   			
 			this.gamestatus = GameStatus.Won;
 		}
 	}
@@ -186,7 +190,6 @@ public class Model implements ModelInterface {
     private void deadEntityCollector() {
     	deadentities.forEach( x -> {
     		if (x.getID().equals(EntityType.Spaceship)) {
-    			player = null;
     			this.gamestatus = GameStatus.Over;
     		} else if (x.getID().equals(EntityType.Enemy)) {
     			enemylist.remove(x);
@@ -287,16 +290,25 @@ public class Model implements ModelInterface {
     
 	@Override
 	public int getPlayerLife() {
+		if (player == null) {
+			return 0;
+		}
 		return player.getRemainingLife();
 	}
 	
 	@Override
 	public int getPlayerShield() {
+		if (player == null) {
+			return 0;
+		}
 		return player.getRemainingShield();
 	}
 
 	@Override
 	public Location getPlayerLocation() {
+		if (player == null) {
+			return new Location(0,0, new Area(0.1,0.1));
+		}
 		return player.getLocation();
 	}
 	
