@@ -32,6 +32,7 @@ public class GameLoop extends Thread {
 	private final long ticLenght;
 	private final ViewInterface view;
 	private final ModelInterface model;
+	private volatile int score;
 
 	/**
 	 * Constructor for GameLoop
@@ -76,13 +77,14 @@ public class GameLoop extends Thread {
 		while (this.status != Status.KILLED) {
 			if (this.status == Status.RUNNING) {
 				final long startTime = System.currentTimeMillis();
+				this.score = GameLoop.this.model.getScores();
 				final List<Pair<Pair<String, Double>, Location>> toDraw = new LinkedList<>();
 				toDraw.add(new Pair<>(new Pair<>("/Entities/Player.png", 0d), this.model.getPlayerLocation()));
 				if (this.model.getPlayerShield() > 0) {
 					final Location pl = this.model.getPlayerLocation();
 					final Area a = new Area(pl.getArea().getWidth() * 2, pl.getArea().getHeight() * 2);
 					toDraw.add(new Pair<>(new Pair<>("shield.png", 0d),
-							new Location(pl.getX() - (a.getWidth() / 32), pl.getY(), a)));
+							new Location(pl.getX() + (a.getWidth() / 10), pl.getY(), a)));
 				}
 				this.model.getEntitiesToDraw().forEach(e -> {
 					toDraw.add(new Pair<>(EntityType.getImage(e), e.getLocation()));
@@ -92,11 +94,11 @@ public class GameLoop extends Thread {
 					public void run() {
 						GameLoop.this.view.draw(toDraw);
 						GameLoop.this.view.updateInfo(GameLoop.this.model.getPlayerLife(),
-								GameLoop.this.model.getPlayerShield(), GameLoop.this.model.getScores());
+								GameLoop.this.model.getPlayerShield(), GameLoop.this.score);
 					}
 				};
-				t.start();				
-				Pair<Optional<Direction>,Boolean> tmp = parseInputs();
+				t.start();
+				final Pair<Optional<Direction>, Boolean> tmp = this.parseInputs();
 				this.model.informInputs(tmp.getFirst(), tmp.getSecond());
 				this.model.updateAll();
 				try {
@@ -109,6 +111,9 @@ public class GameLoop extends Thread {
 						}
 						Thread.sleep(this.ticLenght - timeSpent);
 					}
+					if (this.model.getPlayerLife() <= 0) {
+						this.status = Status.KILLED;
+					}
 				} catch (final InterruptedException ex1) {
 					this.status = Status.KILLED;
 				}
@@ -116,16 +121,16 @@ public class GameLoop extends Thread {
 		}
 		// operazioni una volta ucciso il gameloop
 	}
-	
-	private Pair<Optional<Direction>,Boolean> parseInputs() {
+
+	private Pair<Optional<Direction>, Boolean> parseInputs() {
 		boolean n = false;
 		boolean s = false;
 		boolean e = false;
 		boolean w = false;
 		boolean shoot = false;
-		List<Input> tmp = this.view.getInput();
-		
-		for(Input i : tmp) {
+		final List<Input> tmp = this.view.getInput();
+
+		for (final Input i : tmp) {
 			if (i == Input.W) {
 				n = true;
 			} else if (i == Input.S) {
@@ -162,10 +167,10 @@ public class GameLoop extends Thread {
 		} else {
 			d = Optional.empty();
 		}
-		
-		return new Pair<Optional<Direction>,Boolean>(d,shoot);
+
+		return new Pair<Optional<Direction>, Boolean>(d, shoot);
 	}
-		
+
 	/**
 	 * Causes the GameLoop to resume. If it wasn't paused nothing happens.
 	 * Resume could be delayed up to a tic later.
@@ -192,6 +197,20 @@ public class GameLoop extends Thread {
 	 */
 	public boolean isRunning() {
 		return this.status == Status.RUNNING;
+	}
+
+	/**
+	 * Getter of the final score
+	 * 
+	 * @return The game score
+	 * @throws IllegalStateException
+	 *             If this method is used before game termination.
+	 */
+	public int getScores() throws IllegalStateException {
+		if (this.status != Status.KILLED) {
+			throw new IllegalStateException();
+		}
+		return this.score;
 	}
 
 }
