@@ -16,6 +16,7 @@ public class Controller implements ControllerInterface {
 	private final HighScoresManagerInterface hsManager;
 	private Optional<GameLoop> gl;
 	private ViewInterface view;
+	private volatile int score;
 
 	private Controller() {
 		this.hsManager = new HighScoresManager(Controller.HS_FILENAME, Controller.HS_NSCORES);
@@ -27,15 +28,17 @@ public class Controller implements ControllerInterface {
 		if (this.gl.isPresent()) {
 			throw new IllegalStateException();
 		}
-		final GameLoop game = new GameLoop(Controller.FPS, this.view);
+		final GameLoop game = new GameLoop(Controller.FPS, this, this.view);
 		this.gl = Optional.of(game);
 		game.start();
 	}
 
 	@Override
-	public void abortGameLoop() throws IllegalStateException {
-		this.gl.orElseThrow(() -> new IllegalStateException());
-		this.gl.get().abort();
+	public void abortGameLoop() {
+		if (this.gl.isPresent()) {
+			this.gl.get().abort();
+			this.gl = Optional.empty();
+		}
 	}
 
 	@Override
@@ -44,15 +47,17 @@ public class Controller implements ControllerInterface {
 	}
 
 	@Override
-	public void pauseGameLoop() throws IllegalStateException {
-		this.gl.orElseThrow(() -> new IllegalStateException());
-		this.gl.get().pause();
+	public void pauseGameLoop() {
+		if (this.gl.isPresent()) {
+			this.gl.get().pause();
+		}
 	}
 
 	@Override
-	public void resumeGameLoop() throws IllegalStateException {
-		this.gl.orElseThrow(() -> new IllegalStateException());
-		this.gl.get().unPause();
+	public void resumeGameLoop() {
+		if (this.gl.isPresent()) {
+			this.gl.get().unPause();
+		}
 	}
 
 	@Override
@@ -90,12 +95,21 @@ public class Controller implements ControllerInterface {
 	}
 
 	@Override
-	public void setCurrentPlayerName(final String s) {
-		final int scr;
-		try {
-			this.hsManager.addScore(new Pair<>(s, this.gl.get().getScores()));
-		} catch (final Exception e) {
+	public void setScore(final int s) {
+		this.score = s;
+	}
 
+	@Override
+	public void setCurrentPlayerName(final String s) {
+		this.hsManager.addScore(new Pair<>(s, this.score));
+		try {
+			this.hsManager.saveData();
+		} catch (final IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (final IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}
