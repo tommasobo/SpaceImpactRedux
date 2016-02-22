@@ -21,10 +21,12 @@ public enum EntityType {
 	Spaceship, Enemy, Debris, PowerUp, Projectile;
 
 	/**
-	 * Returns data to print the image of the entity.
-	 * <br>
-	 * @param e The given entity.
-	 * @return pair A Pair of String, Double. The string is the image URL from the "res" folder, the double is the rotation (degrees)
+	 * Returns data to print the image of the entity. <br>
+	 * 
+	 * @param e
+	 *            The given entity.
+	 * @return pair A Pair of String, Double. The string is the image URL from
+	 *         the "res" folder, the double is the rotation (degrees)
 	 */
 	public static Pair<String, Double> getImage(final Entity e) {
 		final StringBuilder s = new StringBuilder("/Entities/");
@@ -55,8 +57,21 @@ public enum EntityType {
 				// TODO choose rotation!
 			}
 		} else if (e instanceof Enemy) {
-			// TODO choose enemy and rotation!
-			s.append("Enemies/C15.png");
+			s.append("Enemies/");
+			final Enemy en = (Enemy) e;
+			final int maxlife = en.getMaximumLife();
+			s.append("A"); // TODO choose color!
+			if (maxlife <= 10) {
+				s.append("1.png");
+			} else if (maxlife <= 20) {
+				s.append("2.png");
+			} else if (maxlife <= 30) {
+				s.append("3.png");
+			} else if (maxlife <= 40) {
+				s.append("4.png");
+			} else {
+				s.append("5.png");
+			}
 		} else if (e instanceof Debris) {
 			s.append("explosion.gif");
 		}
