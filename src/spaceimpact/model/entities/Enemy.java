@@ -80,10 +80,11 @@ public class Enemy extends LivingEntity {
 	
 	@Override
 	public void update() {	
-		
+				
 		if (this.weapon != null) {
 			coolDownWeapon();			
-		}		
+		}	
+		
 		updateLocation();
 		boundaryControl();
 	}
@@ -92,20 +93,23 @@ public class Enemy extends LivingEntity {
 	 * Control that the ship does not go over the screen boundaries
 	 */
 	public void boundaryControl() {	
-		if (this.location.getX() < 0.53d) {
-			this.location.setX(0.53d);
+		
+		//se è in un angolo non farlo bloccare setta una direzione specificata che non lo blocchi
+		
+		if (this.location.getX() < -0.3d) {
+			this.location.setX(-0.25d);
 			this.setDirection(getRandomDirection(this.direction));
 		}
 		if (this.location.getY() > 1.3d) {
-			this.location.setY(1.3d);
+			this.location.setY(1.25d);
 			this.setDirection(getRandomDirection(this.direction));
 		}
-		if(this.location.getY() < 0d) {
-			this.location.setY(0d);
+		if(this.location.getY() < -0.3d) {
+			this.location.setY(-0.25d);
 			this.setDirection(getRandomDirection(this.direction));
 		}
-		if (this.location.getX() > 1.7) {
-			this.location.setX(1.7);
+		if (this.location.getX() > 2d) {
+			this.location.setX(1.95);
 			this.setDirection(getRandomDirection(this.direction));
 		}
 	}
@@ -122,7 +126,7 @@ public class Enemy extends LivingEntity {
 		dirlist.remove(currdirection);
 			
 		Random rnd = new Random();
-		double tmp = rnd.nextDouble();
+		double tmp = rnd.nextInt(8);
 		
 		if (tmp < 0.33d) {
 			return dirlist.get(0);

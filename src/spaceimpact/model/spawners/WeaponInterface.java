@@ -1,5 +1,7 @@
 package spaceimpact.model.spawners;
 
+import java.util.List;
+
 import spaceimpact.model.Location;
 import spaceimpact.model.entities.Projectile;
 
@@ -17,7 +19,7 @@ public interface WeaponInterface {
 	 * @param loc Location from which shoot
 	 * @return A new projective object
 	 */
-	Projectile shoot(final Location loc);
+	List<Projectile> shoot(final Location loc);
 	
 	/** Enhance weapon capabilities
 	 * <br>
@@ -37,4 +39,14 @@ public interface WeaponInterface {
 	 * CoolDown the Weapon
 	 */
 	void coolDown();
+	
+	/**
+	 * Getter for Weapon Damage
+	 */
+	int getDamage();
+	
+	/**
+	 * Setter for number of shooted projectiles
+	 */
+	void setShootedProjectiles(final int count);
 }

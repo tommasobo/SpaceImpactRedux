@@ -56,8 +56,10 @@ public class Model implements ModelInterface {
     	this.gamestatus = GameStatus.Running;
     	
     	//DEBUG (AREA - X: 1280:16/9=90:x (0.125) - Y: 720:1=70:y (0.0972))
-    	Location tmp = new Location(0.1, 0.5, new Area(0.125, 0.0972));	
-    	player = new Spaceship(100, globalvelocity, tmp, Direction.E, 100, new Weapon(EntityType.Spaceship, Direction.E, 20, 10, globalvelocity * 1.5)); 
+    	Location tmploc = new Location(0.1, 0.5, new Area(0.125, 0.0972));
+    	Weapon tmpweapon = new Weapon(EntityType.Spaceship, Direction.E, 50, 10, globalvelocity * 1.5);
+    	tmpweapon.setShootedProjectiles(2);
+    	player = new Spaceship(100, globalvelocity, tmploc, Direction.E, 100, tmpweapon); 
     	
     	//inizializate entities collections
     	enemylist = new ArrayList<>();
@@ -67,7 +69,7 @@ public class Model implements ModelInterface {
     	deadentities = new ArrayList<>();
     	
     	//set spawner
-		spawner = new Spawner(EntityType.Enemy, 10, 2, 30, new Area(0.125, 0.0972), 10, 30, globalvelocity * 0.70);
+		spawner = new Spawner(EntityType.Enemy, 10, 2, 30, new Area(0.125, 0.0972), 10, 50, 30, globalvelocity * 0.70, globalvelocity);
     }
     
     /* MAIN METHODS */
@@ -104,7 +106,7 @@ public class Model implements ModelInterface {
 		}
 		
 		if (shoot && player.canShoot()) { 
-			playerprojectilelist.add(player.attack());
+			playerprojectilelist.addAll(player.attack());
 		}
 	}	
 	
@@ -124,7 +126,7 @@ public class Model implements ModelInterface {
 			Enemy tmp = (Enemy) x;
 			tmp.update(); 		
 			if (enemyShoot(tmp)) {
-				enemiesprojectilelist.add(tmp.attack());
+				enemiesprojectilelist.addAll(tmp.attack());
 			}		
 			//System.out.println(x);
 			} );	
@@ -214,7 +216,7 @@ public class Model implements ModelInterface {
 			.forEach(x -> enemylist.stream()
 					.filter(y -> y.toRemove() == false)
 					.forEach(y -> {
-						if (x.collideWith(y)) { 
+						if (x.collideWith(y) && !deadentities.contains(x)) { 
 							debrislist.add(new Debris(y.getLocation(), 10));
 							deadentities.add(y);
 							deadentities.add(x);

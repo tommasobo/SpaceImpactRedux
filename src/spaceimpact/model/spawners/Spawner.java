@@ -43,10 +43,12 @@ public class Spawner implements SpawnerInterface {
 	
 	//entity definition
 	private EntityType type = null;
-	private Area area = null;	
-	private int damage = 0;
+	private Area area = null;		
 	private int weaponcooldown = 0;
-	private double velocity = 0.1;
+	private int mindamage = 0;
+	private int maxdamage = 0;
+	private double minvel = 0.1d;
+	private double maxvel = 1;
 	
 	//batch
 	private List<Pair<Integer,Entity>> batch = null;
@@ -74,34 +76,55 @@ public class Spawner implements SpawnerInterface {
 	 * @param maxperspawn Max Concurrent Entity in a Spawn
 	 * @param spawndelay Delay between each spawn (ticks)
 	 * @param area Spawned Entity Area
-	 * @param damage Spawned Entity Damage
+	 * @param mindamage Spawned Entity Mimimum Damage
+	 * @param maxdamage Spawned Entity Maximum Damage
 	 * @param weaponcooldown Spawned Entity Weapon's CoolDown
-	 * @param velocity Spawned Entity Velocity
+	 * @param minvel Spanwed Entity Mimimum Velocity
+	 * @param maxvel Spanwed Entity Maximum Velocity
 	 */
-	public Spawner(EntityType type, int max, int maxperspawn, int spawndelay, Area area, int damage, int weaponcooldown, double velocity) {
+	public Spawner(EntityType type, int max, int maxperspawn, int spawndelay, Area area, int mindamage, int maxdamage, int weaponcooldown, double minvel, double maxvel) {
 		this(type, max, maxperspawn, spawndelay);
 		this.area = area;
-		this.damage = damage;
-		this.weaponcooldown = damage;
-		this.velocity = velocity;
+		this.weaponcooldown = weaponcooldown;
+		this.mindamage = mindamage;
+		this.maxdamage = maxdamage;
+		this.minvel = minvel;
+		this.maxvel = maxvel;
 	}
 		
 	public List<Entity> spawn() {
 		List<Entity> spawnedentities = new ArrayList<>();
 		
 		Random rnd = new Random();	
-		int tospawn = rnd.nextInt(maxperspawn - 1) + 1;
+		int tospawn = rnd.nextInt(maxperspawn) + 1;
 		
 		for(int i = 0; i < tospawn; i++) {	
 			if (spawncount <= maxspawn) {	
-				
-				//spawn enemies in 900x720 res aka from 0.53 to 16/9			
-				double x = 0.53d + (1.7d - 0.53d) * rnd.nextDouble();
-				double y = rnd.nextDouble();
+						
+				//generate random location
+				double x = 1.8d + 0.2d * rnd.nextDouble();
+				double y = 0.15d + 0.70d * rnd.nextDouble();
 							
+				//generate random velocity
+				double vel = minvel + (maxvel - minvel) * rnd.nextDouble();
+				
+				//random damage in range
+				int newdamage = mindamage + (maxdamage - mindamage) * rnd.nextInt(maxdamage + 1) ;
+				
+				//random location NW SW W
+				Direction dir = null;			
+				int rndvalue = rnd.nextInt(3);				
+				if (rndvalue == 0) {
+					dir = Direction.SW;
+				} else if (rndvalue == 1) {
+					dir = Direction.W;
+				} else {
+					dir = Direction.NW;
+				}
+				
 				Location tmploc = new Location(x, y, area);
-				Weapon tmpweapon = new Weapon(type, Direction.W, weaponcooldown, damage, velocity * 1.5);
-				Enemy tmp = new Enemy(1, velocity, tmploc, Direction.W, 0, tmpweapon);
+				Weapon tmpweapon = new Weapon(type, dir, weaponcooldown, newdamage, maxvel * 1.5);
+				Enemy tmp = new Enemy(1, vel, tmploc, dir, 0, tmpweapon);
 				
 				spawnedentities.add(tmp);
 				spawncount++;
@@ -137,8 +160,9 @@ public class Spawner implements SpawnerInterface {
 	}
 	
 	@Override
-	public void setMaxEntityVelocity(final double velocity) {
-		this.velocity = velocity;
+	public void setEntityVelocityRange(final double minvel, final double maxvel) {
+		this.minvel = minvel;
+		this.maxvel = maxvel;
 	}
 	
 	@Override
@@ -152,8 +176,9 @@ public class Spawner implements SpawnerInterface {
 	}
 	
 	@Override
-	public void setSpawnedEntityDamage(final int damage) {
-		this.damage = damage;
+	public void setEntityDamageRange(final int mindamage, final int maxdamage) {
+		this.mindamage = mindamage;
+		this.maxdamage = maxdamage;
 	}
 	
 	@Override

@@ -67,4 +67,11 @@ public class Location {
 	public void setY(final double y){
 		this.y = y;
 	}
+	
+	/** Setter of the Area of the Location
+	 * @param area as the new Area
+	 */
+	public void setArea(final Area area){
+		this.area = area;
+	}
 }

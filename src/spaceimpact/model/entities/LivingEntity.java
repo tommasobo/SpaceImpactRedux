@@ -1,5 +1,7 @@
 package spaceimpact.model.entities;
 
+import java.util.List;
+
 import spaceimpact.model.Direction;
 import spaceimpact.model.Location;
 import spaceimpact.model.spawners.Weapon;
@@ -39,6 +41,15 @@ public abstract class LivingEntity implements Entity {
 	 * Update the entity Location
 	 */
 	protected void updateLocation() {
+		
+		//1) invece che fare cambi di direzione secchi, fare una "curva" 
+		//(cioè se sei in direzione N non può improvvisamente andare S, SE o SW... 
+		//Massimo massimo arriva a E o W, ma generalmente andrà a NE o SW o tira dritto)
+		
+		//2) controlla la posizione corrente Y prima di decidere dove andare: se si trova 
+		//già in cima allo schermo meglio dirigersi verso il basso, altrimenti se torna a 
+		//salire muore
+			
 		this.direction.moveLocation(this.location, this.velocity);	
 	}
 	
@@ -60,7 +71,7 @@ public abstract class LivingEntity implements Entity {
 	 * @return projectile Shooted projectile
 	 * @throws IllegalStateException if no weapon is defined
 	*/
-	public Projectile attack() throws IllegalStateException {
+	public List<Projectile> attack() throws IllegalStateException {
 		if (this.weapon == null) {
 			throw new IllegalStateException("Entity " + this.ID + " cannot shoot without a gun.");			
 		}

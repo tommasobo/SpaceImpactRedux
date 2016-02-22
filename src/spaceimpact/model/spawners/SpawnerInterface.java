@@ -43,10 +43,11 @@ public interface SpawnerInterface {
 	public void setMaxEntitySpawns(final int max);
 	
 	/**
-	 * Set spawned entity velocity
-	 * @param velocity Velocity of the spawned entities
+	 * Set spawned entity velocity range
+	 * @param minvel MiniVelocity of the spawned entities
+	 * @param maxvel Maximum Velocity of the spawned entities
 	 */
-	public void setMaxEntityVelocity(final double velocity);
+	public void setEntityVelocityRange(final double minvel, final double maxvel);
 	
 	/**
 	 * Set spawned entity type
@@ -61,10 +62,11 @@ public interface SpawnerInterface {
 	public void setSpawnedEntityArea(final Area area);
 	
 	/**
-	 * Set spawned entity damage
-	 * @param damage Amount of damage that the spawned entities can inflict
+	 * Set spawned entity damage range
+	 * @param mindamage Minimum amount of damage that a spawned entity can inflict
+	 * @param maxdamage Maximum amount of damage that a spawned entity can inflict
 	 */
-	public void setSpawnedEntityDamage(final int damage);
+	public void setEntityDamageRange(final int mindamage, final int maxdamage);
 	
 	/**
 	 * Set Weapon cooldown time for spawned entity
