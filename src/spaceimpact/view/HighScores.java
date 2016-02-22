@@ -36,7 +36,7 @@ public class HighScores extends Scene{
         } else {
             for (int i = 0; i < listScores.size(); i++) { 
                 final Label player = new Label();
-                player.setText(i + listScores.get(i).getFirst() + listScores.get(i).getSecond());
+                player.setText(listScores.get(i).getFirst() + " - " + listScores.get(i).getSecond());
                 listHighScores.getChildren().add(player);
             }
         }    
