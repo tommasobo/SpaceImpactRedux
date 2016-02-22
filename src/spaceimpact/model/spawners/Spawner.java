@@ -99,7 +99,7 @@ public class Spawner implements SpawnerInterface {
 		int tospawn = rnd.nextInt(maxperspawn) + 1;
 		
 		for(int i = 0; i < tospawn; i++) {	
-			if (spawncount <= maxspawn) {	
+			if (spawncount < maxspawn) {	
 						
 				//generate random location
 				double x = 1.8d + 0.2d * rnd.nextDouble();
@@ -109,7 +109,7 @@ public class Spawner implements SpawnerInterface {
 				double vel = minvel + (maxvel - minvel) * rnd.nextDouble();
 				
 				//random damage in range
-				int newdamage = mindamage + (maxdamage - mindamage) * rnd.nextInt(maxdamage + 1) ;
+				int newdamage = mindamage + rnd.nextInt(maxdamage - mindamage + 1) ;
 				
 				//random location NW SW W
 				Direction dir = null;			

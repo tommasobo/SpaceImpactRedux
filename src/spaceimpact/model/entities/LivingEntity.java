@@ -49,8 +49,19 @@ public abstract class LivingEntity implements Entity {
 		//2) controlla la posizione corrente Y prima di decidere dove andare: se si trova 
 		//già in cima allo schermo meglio dirigersi verso il basso, altrimenti se torna a 
 		//salire muore
+		
+		generateRandomMovement();
 			
 		this.direction.moveLocation(this.location, this.velocity);	
+	}
+	
+	/**
+	 * Generate Random movement
+	 * <br>
+	 * The change in the direction must be rational (max 45°)<br>
+	 */
+	private void generateRandomMovement() {
+		
 	}
 	
 	/**

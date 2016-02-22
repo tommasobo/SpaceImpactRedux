@@ -96,20 +96,38 @@ public class Enemy extends LivingEntity {
 		
 		//se è in un angolo non farlo bloccare setta una direzione specificata che non lo blocchi
 		
-		if (this.location.getX() < -0.3d) {
-			this.location.setX(-0.25d);
+//		if (this.location.getX() < -0.3d) {
+//			this.location.setX(-0.25d);
+//			this.setDirection(getRandomDirection(this.direction));
+//		}
+//		if (this.location.getY() > 1.3d) {
+//			this.location.setY(1.25d);
+//			this.setDirection(getRandomDirection(this.direction));
+//		}
+//		if(this.location.getY() < -0.3d) {
+//			this.location.setY(-0.25d);
+//			this.setDirection(getRandomDirection(this.direction));
+//		}
+//		if (this.location.getX() > 2d) {
+//			this.location.setX(1.95);
+//			this.setDirection(getRandomDirection(this.direction));
+//		}
+		
+		//FOR DEBUG
+		if (this.location.getX() < 0d) {
+			this.location.setX(0d);
 			this.setDirection(getRandomDirection(this.direction));
 		}
-		if (this.location.getY() > 1.3d) {
-			this.location.setY(1.25d);
+		if (this.location.getY() > 1d) {
+			this.location.setY(1d);
 			this.setDirection(getRandomDirection(this.direction));
 		}
-		if(this.location.getY() < -0.3d) {
-			this.location.setY(-0.25d);
+		if(this.location.getY() < 0d) {
+			this.location.setY(-0.0d);
 			this.setDirection(getRandomDirection(this.direction));
 		}
-		if (this.location.getX() > 2d) {
-			this.location.setX(1.95);
+		if (this.location.getX() > 1.7d) {
+			this.location.setX(1.7);
 			this.setDirection(getRandomDirection(this.direction));
 		}
 	}
@@ -123,17 +141,9 @@ public class Enemy extends LivingEntity {
 	 */
 	Direction getRandomDirection(final Direction currdirection) {
 		List<Direction> dirlist = new ArrayList<Direction>(Arrays.asList(Direction.values()));
-		dirlist.remove(currdirection);
-			
+		dirlist.remove(currdirection);			
 		Random rnd = new Random();
-		double tmp = rnd.nextInt(8);
 		
-		if (tmp < 0.33d) {
-			return dirlist.get(0);
-		} else if (tmp >= 0.33d && tmp < 0.66d) {
-			return dirlist.get(1);
-		} else {
-			return dirlist.get(2);
-		}		
+		return dirlist.get(rnd.nextInt(7));	
 	}
 }

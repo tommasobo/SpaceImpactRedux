@@ -59,15 +59,13 @@ public class Weapon implements WeaponInterface {
 		List<Projectile> projectiles = new ArrayList<Projectile>();		
 		List<Direction> projectilesdir = new ArrayList<Direction>();
 				
+		projectilesdir.add(this.direction);
+		
 		if (projectilescount == 3) {
 			projectilesdir.add(this.direction.moveLeft());
-			projectilesdir.add(this.direction);
 			projectilesdir.add(this.direction.moveRight());			
 		} else if (projectilescount == 2) {
-			projectilesdir.add(this.direction);
-			projectilesdir.add(this.direction.flip());
-		} else {
-			projectilesdir.add(this.direction);		
+			projectilesdir.add(this.direction.flip());		
 		}
 		
 		projectilesdir.stream().forEach(x -> {
