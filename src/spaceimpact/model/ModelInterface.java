@@ -1,8 +1,9 @@
 package spaceimpact.model;
 
 import java.util.List;
+import java.util.Optional;
+
 import spaceimpact.model.entities.Entity;
-import spaceimpact.utilities.Input;
 
 /**
  * Interface for a generic model
@@ -53,9 +54,10 @@ public interface ModelInterface {
 	/** 
 	 * Inform model about user inputs
 	 * <br>
-	 * @param userinputs List of utilities.Input get list of user input to process
+	 * @param userinputs Optional of Direction of the movement
+	 * @param shoot True if user shoot
 	 */
-	void informInputs(List<Input> userinputs);
+	void informInputs(Optional<Direction> direction, boolean shoot);
 	
 	/** 
 	 * Force complete update of the model

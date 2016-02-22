@@ -1,6 +1,5 @@
 package spaceimpact.model.entities;
 
-import spaceimpact.utilities.Input;
 import spaceimpact.model.Direction;
 import spaceimpact.model.Location;
 import spaceimpact.model.spawners.Weapon;
@@ -81,24 +80,10 @@ public class Spaceship extends LivingEntity {
 	
 	/** 
 	 * Move the entity in the specified direction
-	 * @param movetype Enum utilities.Input that define in which direction the spaceship must move
+	 * @param direction Direction of the movement
 	 */
-	public void move(final Input movetype) {
-		
-		//DA MODIFICARE GESTIONE DIREZIONI OBLIQUE NON CONTEMPLATA
-		
-		if (movetype.equals(Input.A)) { //move left
-			this.direction = Direction.W;
-		} else if (movetype.equals(Input.W)) { //move up
-			this.direction = Direction.N;
-		} else if (movetype.equals(Input.D)) { //move right
-			this.direction = Direction.E;
-		} else if (movetype.equals(Input.S)) { //move down
-			this.direction = Direction.S;		
-		} else {
-			return;
-		}
-		
+	public void move(final Direction direction) {
+		this.direction = direction;			
 		updateLocation();
 		boundaryControl();
 	}
