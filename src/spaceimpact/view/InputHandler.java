@@ -10,7 +10,7 @@ import spaceimpact.utilities.Input;
 public class InputHandler {
 
     private static InputHandler INPUTHANDLER = null;
-    private final List<Input> inputList = new LinkedList<>();  
+    private List<Input> inputList = new LinkedList<>();  
 
     private InputHandler() {};
 
@@ -29,6 +29,10 @@ public class InputHandler {
         this.inputList.removeAll(Collections.singleton(null));
         List<Input> defensiveList = this.inputList;
         return defensiveList;
+    }
+    
+    void emptyList() {
+        this.inputList = new LinkedList<>();
     }
     
     public Input singleKey(KeyCode code) {

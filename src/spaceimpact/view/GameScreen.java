@@ -27,7 +27,6 @@ public class GameScreen extends Scene {
     private Stage mainStage;
     private final Group root = new Group();
     private final Pane backgroundLayer = new Pane();
-    private final InputHandler inputHandler = InputHandler.getInputHandler();
     private final DrawEntities drawEntities = new DrawEntities();
     private final PlayerInfo playerInfo = new PlayerInfo();
     private final Label hp = new Label();
@@ -89,7 +88,9 @@ public class GameScreen extends Scene {
 
 	topLayout.getChildren().add(verticalInfoBox);
 	topBox.setId("gameScreen");
-
+	
+	final InputHandler inputHandler = InputHandler.getInputHandler();
+	inputHandler.emptyList();
 	this.root.getChildren().addAll(this.backgroundLayer, topBox);
 	this.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 	    if (!inputHandler.getList().contains(inputHandler.singleKey(event.getCode()))) {

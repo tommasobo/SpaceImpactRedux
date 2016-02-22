@@ -16,6 +16,7 @@ public class HighScores extends Scene{
     
     private static final int WIDTH_LOGO_HIGHSCORS = 450;
     private static final int HEIGTH_LOGO_HIGHSCORES = 150;
+    private final static VBox listHighScores = new VBox(10);
     
     private static final HighScores mainScene = new HighScores();
     private static Stage mainStage;
@@ -27,20 +28,7 @@ public class HighScores extends Scene{
         final Text label = new Text();
         label.setText("High Scores");
         label.setId("highScores");
-                  
-        final VBox listHighScores = new VBox(10);
-        
-        final List<Pair<String, Integer>> listScores = View.getController().getCurrentHighScores();
-        if (listScores.isEmpty()) {
-            listHighScores.getChildren().add(new Label("No HighScores yet"));
-        } else {
-            for (int i = 0; i < listScores.size(); i++) { 
-                final Label player = new Label();
-                player.setText(listScores.get(i).getFirst() + " - " + listScores.get(i).getSecond());
-                listHighScores.getChildren().add(player);
-            }
-        }    
-             
+                        
         listHighScores.getStylesheets().add("style.css");
         listHighScores.setAlignment(Pos.CENTER);
         listHighScores.setId("whiteText");
@@ -73,13 +61,31 @@ public class HighScores extends Scene{
         descLayout.setId("infoPane");
         this.setRoot(descLayout);
         this.getStylesheets().add("style.css");
-        back.setOnAction(e -> mainStage.setScene(MainMenu.get(mainStage)));      
+        back.setOnAction(e -> {
+            listHighScores.getChildren().clear();
+            mainStage.setScene(MainMenu.get(mainStage));      
+        });
         reset.setOnAction(e -> {
             this.resetHighScores();
         });
     }
 
+    private static void showHighScores() {
+        final List<Pair<String, Integer>> listScores = View.getController().getCurrentHighScores();
+        if (listScores.isEmpty()) {
+            listHighScores.getChildren().add(new Label("No HighScores yet"));
+        } else {
+            for (int i = 0; i < listScores.size(); i++) { 
+                final Label player = new Label();
+                player.setId("whiteText");
+                player.setText(listScores.get(i).getFirst() + " - " + listScores.get(i).getSecond());
+                listHighScores.getChildren().add(player);
+            }
+        }     
+    }
+
     public static Scene get(Stage mainWindow){
+        showHighScores();
         mainStage = mainWindow;
         mainStage.setTitle("Space Impact Redux - High Scores");  
         return mainScene;
@@ -87,10 +93,11 @@ public class HighScores extends Scene{
     
     private void resetHighScores() {
         final Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to reset the High Scores?");
-       if (answer) {
-           View.getController().emptyHighScores();
-           mainStage.setScene(HighScores.get(mainStage));
-       }
+        if (answer) {
+            View.getController().emptyHighScores();
+            HighScores.listHighScores.getChildren().clear();
+            mainStage.setScene(HighScores.get(mainStage));
+        }
     }
 
 }
