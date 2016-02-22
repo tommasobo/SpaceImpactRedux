@@ -19,6 +19,7 @@ import spaceimpact.model.entities.EntityType;
  * <b>entityarea</b> Area occupied by the spawned entities
  * <b>entitiesdamage</b> Entities Projectiles damage
  * <b>cooldownentityweapon</b> Cooldown time of the entityweapon
+ * 
  * @author Davide
  */
 public class Spawner implements SpawnerInterface<Enemy> {
@@ -33,6 +34,8 @@ public class Spawner implements SpawnerInterface<Enemy> {
 	
 	/**
 	 * Constructor (Entity Type, Maximum spawnable entities)
+	 * @param type Spawned entity type 
+	 * @param max Max spawnable entities count
 	 */
 	public Spawner(EntityType type, int max) {
 		this.spawnedentitiescount = 0;
@@ -45,10 +48,14 @@ public class Spawner implements SpawnerInterface<Enemy> {
 		List<Enemy> spawnedentities = new ArrayList<>();
 		
 		Random rnd = new Random();	
-		int tospawn = rnd.nextInt(maxspawableentities / 2);
+		int tospawn = rnd.nextInt(maxspawableentities);
 		
-		for(int i = 0; i < tospawn; i++) {	
+		for(int i = 0; i < tospawn / 4; i++) {	
 			if (spawnedentitiescount <= maxspawableentities) {	
+				
+				//la cosa migliore è avere un array che definisce le ondate
+				//per ogni ondata è definito il numero di nemici da spawnare e la loro potenza e tipo
+				//per evitare di farli spawnare tutti insieme fai un delay tra uno spawn ed un altro
 				
 				//spawn enemies in 900x720 res aka from 0.53 to 16/9			
 				double x = 0.53d + (1.7d - 0.53d) * rnd.nextDouble();

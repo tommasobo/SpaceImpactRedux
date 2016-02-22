@@ -9,7 +9,11 @@ import spaceimpact.model.entities.Projectile;
  * Weapon Class
  * Factory to generate Projectile entities with a defined damage, location, direction
  * <b>damage</b> Projectiles damages
- * <b>
+ * <b>projectilesvelocity</b> Projectiles velocity
+ * <b>parentID</b> The EntityType of the shooter
+ * <b>direction</b> Direction where the projectiles need to be spawned
+ * <b>cooldowntime</b> Total time (ticks) of Weapon's cooldown
+ * <b>cooldown</b> Current cooldown's countdown
  * @author Davide
  */
 public class Weapon implements WeaponInterface {
@@ -27,6 +31,7 @@ public class Weapon implements WeaponInterface {
 	 * @param direction Direction of the shooted projectiles
 	 * @param damage value of the damage
 	 * @param velocity projectile velocity
+	 * @param cooldowntime total countdown time for cooldown
 	 */
 	public Weapon(final EntityType shooter, final Direction direction, final int cooldowntime, final int damage, final double velocity) {
 		this.parentID = shooter;

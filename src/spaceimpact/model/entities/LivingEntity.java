@@ -44,6 +44,7 @@ public abstract class LivingEntity implements Entity {
 	
 	/**
 	 * Verify if weapon is ready to shoot
+	 * @return boolean True if the weapon does not need cooldown, false if it does.
 	 */
 	public boolean canShoot() {
 		if (this.weapon != null) {
@@ -92,7 +93,7 @@ public abstract class LivingEntity implements Entity {
 		
 		this.currentlife -= looseShield(damage);
 		
-		if (this.currentlife < 0) {
+		if (this.currentlife <= 0) {
 			this.currentlife = 0;
 			this.removable = true;
 		}			
@@ -198,12 +199,28 @@ public abstract class LivingEntity implements Entity {
 	public void setDirection(Direction direction) {
 		this.direction = direction;	
 	}
-		
+	
+	/**
+	 * Getter for current equipped weapon
+	 * @return weapon Current equipped weapon
+	 */
+	public Weapon getWeapon() {
+		return this.weapon;
+	}
+	
+	/**
+	 * Getter for maximum entity life
+	 * @return maxlife maximum entity life
+	 */
+	public int getMaximumLife() {
+		return this.maxlife;
+	}
+	
 	@Override
 	public void setLocation(final Location location) {
 		this.location = location;		
 	}
-	
+		
 	/*GETTERS*/
 			
 	/** 

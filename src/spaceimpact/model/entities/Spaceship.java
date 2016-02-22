@@ -83,7 +83,7 @@ public class Spaceship extends LivingEntity {
 	 * Move the entity in the specified direction
 	 * @param movetype Enum utilities.Input that define in which direction the spaceship must move
 	 */
-	public void move(final Input movetype) throws IllegalArgumentException {
+	public void move(final Input movetype) {
 		if (movetype.equals(Input.A)) { //move left
 			this.direction = Direction.W;
 		} else if (movetype.equals(Input.W)) { //move up
@@ -93,7 +93,7 @@ public class Spaceship extends LivingEntity {
 		} else if (movetype.equals(Input.S)) { //move down
 			this.direction = Direction.S;		
 		} else {
-			throw new IllegalArgumentException();
+			return;
 		}
 		
 		updateLocation();

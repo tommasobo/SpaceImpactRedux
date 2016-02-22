@@ -22,11 +22,9 @@ public enum EntityType {
 
 	/**
 	 * Returns data to print the image of the entity.
-	 * 
-	 * @param e
-	 *            The given entity.
-	 * @return A Pair<String, Double>. The string is the image URL from the
-	 *         "res" folder, the double is the rotation (degrees)
+	 * <br>
+	 * @param e The given entity.
+	 * @return pair A Pair of String, Double. The string is the image URL from the "res" folder, the double is the rotation (degrees)
 	 */
 	public static Pair<String, Double> getImage(final Entity e) {
 		final StringBuilder s = new StringBuilder("/Entities/");

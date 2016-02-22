@@ -26,6 +26,7 @@ public class Model implements ModelInterface {
 	int playerscores = 0; //current player scores
 	private double globalvelocity = 0; //constant for entities velocity
 	int levelmaxenemyspawn = 0; //curent max spawnable enemy in this level
+	int framerate = 30; //game framerate
 		
 	//entities
 	Spaceship player = null; //nave del giocatore
@@ -49,6 +50,7 @@ public class Model implements ModelInterface {
      */
     public Model(final int framerate, final int maxspawnableenemy) {
     	
+    	this.framerate = framerate;
     	this.globalvelocity = (double)(1 /(double)(4 * framerate));
     	this.levelmaxenemyspawn = maxspawnableenemy;
     	this.gamestatus = GameStatus.Running;
@@ -65,7 +67,7 @@ public class Model implements ModelInterface {
     	
 		spawner = new Spawner(EntityType.Enemy, 1);
 		spawner.setMaxEntityVelocity(globalvelocity * 0.70);
-		spawner.setMaxEntitySpawns(5);
+		spawner.setMaxEntitySpawns(20);
 		spawner.setCoolDownEntityWeapon(30);
 		spawner.setSpawnedEntityDamage(8);
 		spawner.setSpawnedEntityArea(new Area(0.125, 0.0972));
@@ -263,7 +265,8 @@ public class Model implements ModelInterface {
     	if (enemy.canShoot()) {
     		Random rnd = new Random();
     		double tmp = rnd.nextDouble();
-    		if (tmp < 0.03) {
+    		
+    		if (tmp < ((1 / enemylist.size() + 0.2) / this.framerate)) {
     			return true;
     		}
     	}	
