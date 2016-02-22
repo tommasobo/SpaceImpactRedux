@@ -18,7 +18,11 @@ public class GameOverScreen extends Scene{
     
     private static final GameOverScreen mainScene = new GameOverScreen();
     private static Stage mainStage;
-    private Label score = new Label();
+    private final Label score = new Label();
+    private final TextField name = new TextField();
+    private final Button enter = new Button("Enter");
+    private final Label saved = new Label("Score Saved");
+
 
     public GameOverScreen() {
         super(new StackPane());
@@ -32,9 +36,6 @@ public class GameOverScreen extends Scene{
                 
         final Label insertName = new Label("Insert your name: ");
         insertName.setId("whiteText");
-        final TextField name = new TextField();
-        final Button enter = new Button("Enter");
-        final Label saved = new Label("Score Saved");
         enter.setId("dark-blue");
         enter.setOnAction(e -> {
             name.setDisable(true);
@@ -51,15 +52,17 @@ public class GameOverScreen extends Scene{
         final Button retry = new Button("Retry");
         retry.setId("dark-blue");
         retry.setOnAction(e -> {
-            View.getController().startGameLoop();
+            this.resetSaved();
             final GameScreen gameScreen = new GameScreen();
             View.setGameScreen(gameScreen);
             mainStage.setScene(gameScreen.get(mainStage));
+            View.getController().startGameLoop();   
         });
         final Button exit = new Button("Exit");
         final Button mainMenu = new Button("Menu");
         mainMenu.setId("dark-blue");
         mainMenu.setOnAction(e -> {
+            this.resetSaved();
             mainStage.setScene(MainMenu.get(mainStage));
         });
         exit.setId("dark-blue");
@@ -78,6 +81,13 @@ public class GameOverScreen extends Scene{
         this.setRoot(mainLayout);
     }
     
+    private void resetSaved() {
+        this.enter.setDisable(false);
+        this.name.setDisable(false);
+        this.saved.setVisible(false);
+        this.name.setText("");
+    }
+
     public static Scene get(Stage mainWindow){
         mainStage = mainWindow;
         mainStage.setWidth(800);
