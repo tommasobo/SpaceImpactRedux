@@ -40,30 +40,10 @@ public abstract class LivingEntity implements Entity {
 	/**
 	 * Update the entity Location
 	 */
-	protected void updateLocation() {
-		
-		//1) invece che fare cambi di direzione secchi, fare una "curva" 
-		//(cioè se sei in direzione N non può improvvisamente andare S, SE o SW... 
-		//Massimo massimo arriva a E o W, ma generalmente andrà a NE o SW o tira dritto)
-		
-		//2) controlla la posizione corrente Y prima di decidere dove andare: se si trova 
-		//già in cima allo schermo meglio dirigersi verso il basso, altrimenti se torna a 
-		//salire muore
-		
-		generateRandomMovement();
-			
+	protected void updateLocation() {		
 		this.direction.moveLocation(this.location, this.velocity);	
 	}
-	
-	/**
-	 * Generate Random movement
-	 * <br>
-	 * The change in the direction must be rational (max 45°)<br>
-	 */
-	private void generateRandomMovement() {
 		
-	}
-	
 	/**
 	 * Verify if weapon is ready to shoot
 	 * @return boolean True if the weapon does not need cooldown, false if it does.

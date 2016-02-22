@@ -69,7 +69,7 @@ public class Model implements ModelInterface {
     	deadentities = new ArrayList<>();
     	
     	//set spawner
-		spawner = new Spawner(EntityType.Enemy, maxspawnableenemy, 2, 30, new Area(0.125, 0.0972), 10, 50, 30, globalvelocity * 0.70, globalvelocity);
+		spawner = new Spawner(EntityType.Enemy, maxspawnableenemy, 2, 75, new Area(0.125, 0.0972), 10, 50, 30, globalvelocity * 0.70, globalvelocity);
     }
     
     /* MAIN METHODS */

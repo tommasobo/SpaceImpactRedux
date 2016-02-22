@@ -85,8 +85,29 @@ public class Enemy extends LivingEntity {
 			coolDownWeapon();			
 		}	
 		
+		generateRandomMovement();
 		updateLocation();
 		boundaryControl();
+	}
+	
+	/**
+	 * Generate Random movement
+	 * <br>
+	 * The change in the direction must be rational (max 45°)<br>
+	 */
+	private void generateRandomMovement() {
+		
+		Random rnd = new Random();	
+		
+		if (rnd.nextDouble() < 0.0090) {
+			
+			int dirrnd = rnd.nextInt(2);
+			if (dirrnd == 0) {
+				this.direction = this.direction.moveLeft();
+			} else if (dirrnd == 1) {
+				this.direction = this.direction.moveRight();
+			}		
+		}
 	}
 	
 	/**
@@ -94,40 +115,21 @@ public class Enemy extends LivingEntity {
 	 */
 	public void boundaryControl() {	
 		
-		//se è in un angolo non farlo bloccare setta una direzione specificata che non lo blocchi
-		
-//		if (this.location.getX() < -0.3d) {
-//			this.location.setX(-0.25d);
-//			this.setDirection(getRandomDirection(this.direction));
-//		}
-//		if (this.location.getY() > 1.3d) {
-//			this.location.setY(1.25d);
-//			this.setDirection(getRandomDirection(this.direction));
-//		}
-//		if(this.location.getY() < -0.3d) {
-//			this.location.setY(-0.25d);
-//			this.setDirection(getRandomDirection(this.direction));
-//		}
-//		if (this.location.getX() > 2d) {
-//			this.location.setX(1.95);
-//			this.setDirection(getRandomDirection(this.direction));
-//		}
-		
-		//FOR DEBUG
-		if (this.location.getX() < 0d) {
-			this.location.setX(0d);
+		//se è in un angolo non farlo bloccare setta una direzione specificata che non lo blocchi		
+		if (this.location.getX() < -0.3d) {
+			this.location.setX(-0.25d);
 			this.setDirection(getRandomDirection(this.direction));
 		}
-		if (this.location.getY() > 1d) {
-			this.location.setY(1d);
+		if (this.location.getY() > 1.3d) {
+			this.location.setY(1.25d);
 			this.setDirection(getRandomDirection(this.direction));
 		}
-		if(this.location.getY() < 0d) {
-			this.location.setY(-0.0d);
+		if(this.location.getY() < -0.3d) {
+			this.location.setY(-0.25d);
 			this.setDirection(getRandomDirection(this.direction));
 		}
-		if (this.location.getX() > 1.7d) {
-			this.location.setX(1.7);
+		if (this.location.getX() > 2d) {
+			this.location.setX(1.95);
 			this.setDirection(getRandomDirection(this.direction));
 		}
 	}
