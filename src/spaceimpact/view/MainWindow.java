@@ -23,9 +23,7 @@ public class MainWindow extends Application{
         
         this.mainWindow.setOnCloseRequest(e -> {
             e.consume();
-            if (View.getController().isGameLoopRunning()) {
-                View.getController().pauseGameLoop();
-            }
+            //View.getController().pauseGameLoop();
             this.closeProgram();
         });
         
@@ -39,10 +37,8 @@ public class MainWindow extends Application{
     
     private void closeProgram() {
         final Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to exit the game?");
-        System.out.println(View.getController().isGameLoopRunning());
-        if (View.getController().isGameLoopRunning()) {
+        if (View.getController().isGameLoopPaused()) {
             if (answer) {
-                System.out.println("CACCA");
                 this.mainWindow.close();
                 View.getController().abortGameLoop();
             } else {
