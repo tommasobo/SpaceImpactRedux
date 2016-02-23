@@ -76,10 +76,11 @@ public class Weapon implements WeaponInterface {
 	}
 
 	@Override
-	public void enhance(final int damageincrement, final double shootingfrequency, final int cooldowntime) {
+	public void enhance(final int damageincrement, final double shootingvelocity, final int cooldowntime, final int projectilesshooted) {
 		this.damage += damageincrement;
-		this.projectilesvelocity += shootingfrequency;
+		this.projectilesvelocity += shootingvelocity;
 		this.cooldowntime -= cooldowntime;
+		this.projectilescount = projectilesshooted;
 	}
 
 	@Override

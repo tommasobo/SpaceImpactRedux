@@ -52,7 +52,7 @@ public class GameScreen extends Scene {
 	});
 	final Button infoButton = new Button("Info");
 	infoButton.setId("dark-blue");
-	infoButton.setOnMousePressed(e -> InfoBox.display("Info Box"));
+	//infoButton.setOnMousePressed(e -> InfoBox.display("Info Box"));
 	buttonGame.getChildren().addAll(pauseButton, infoButton);
 	buttonGame.setSpacing(10);
 	buttonGame.setAlignment(Pos.TOP_CENTER);
