@@ -163,7 +163,7 @@ public class Model implements ModelInterface {
 		if (poweruplist.size() > 0) {
 			poweruplist.forEach(x -> {
 				if (x.toRemove()) { 
-					poweruplist.add(x);
+					deadentities.add(x);
 				} 
 			});
 		}
@@ -270,7 +270,8 @@ public class Model implements ModelInterface {
 			.forEach(x -> {
 				if (x.collideWith(player)) {
 					//TOMODIFY!!!!
-					player.getWeapon().enhance(1, 1, 1, 1);						
+					//player.getWeapon().enhance(1, 1, 1, 1);	
+					System.out.println("POWERUP!");
 					deadentities.add(x);
 				} 	
 			});

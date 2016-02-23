@@ -50,7 +50,7 @@ public class GameLoop extends Thread {
 
 		//CREA LEVEL
 		double tmpvel = (double)(1 /(double)(4 * fps));
-		Level tmp = new Level(10, 2, 60, 200, 400, tmpvel);
+		Level tmp = new Level(100, 2, 60, 200, 400, tmpvel);
 		tmp.getEnemySpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
 		tmp.getDebrisSpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
 		tmp.getPowerUpSpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
