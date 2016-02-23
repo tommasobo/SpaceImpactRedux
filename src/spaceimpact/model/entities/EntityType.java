@@ -82,9 +82,13 @@ public enum EntityType {
 				s.append("5.png");
 			}
 		} else if (e instanceof Debris) {
+			final Debris d = (Debris) e;
 			s.append("explosion.gif");
-		} else {
-			// TODO add powerups
+		} else if (e instanceof PowerUp) {
+			final PowerUp p = (PowerUp) e;
+			s.append("Powerups/");
+			// TODO choose powerup type
+			s.append("shield.gif");
 		}
 		return new Pair<String, Double>(s.toString(), Double.valueOf(rotation));
 	}

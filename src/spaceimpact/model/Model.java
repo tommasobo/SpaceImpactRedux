@@ -1,327 +1,326 @@
 package spaceimpact.model;
 
 import java.util.ArrayList;
-import spaceimpact.model.entities.*;
-import spaceimpact.model.spawners.Weapon;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-/** 
- * Model Implementation
- * <br>
- * The cartesian plane of the model is defined in such a way:
- * x = from 0 to 16/9 
- * y = from 0 to 1
- * <br>
- * The model represent the game and all of active entities. 
- * It controls collisions and call level spawners to add new entities.
- * <br>
- * <i>Fields</i>
- * <b>gamestatus</b> Current game Status
- * <b>framerate</b> Current framerate
- * <b>playerscores</b> Current player scores
- * <b>lvl</b> Current Playing Level
+import spaceimpact.model.entities.Debris;
+import spaceimpact.model.entities.Enemy;
+import spaceimpact.model.entities.Entity;
+import spaceimpact.model.entities.EntityType;
+import spaceimpact.model.entities.PowerUp;
+import spaceimpact.model.entities.Projectile;
+import spaceimpact.model.entities.Spaceship;
+import spaceimpact.model.spawners.Weapon;
+
+/**
+ * Model Implementation <br>
+ * The cartesian plane of the model is defined in such a way: x = from 0 to 16/9
+ * y = from 0 to 1 <br>
+ * The model represent the game and all of active entities. It controls
+ * collisions and call level spawners to add new entities. <br>
+ * <i>Fields</i> <b>gamestatus</b> Current game Status <b>framerate</b> Current
+ * framerate <b>playerscores</b> Current player scores <b>lvl</b> Current
+ * Playing Level
+ * 
  * @author Davide
  */
 public class Model implements ModelInterface {
-	
-	//game variables
+
+	// game variables
 	private GameStatus gamestatus = GameStatus.Running;
 	private final int framerate;
 	private int playerscores = 0;
 	private Level lvl = null;
-	
-	//entities collections
+
+	// entities collections
 	static Spaceship player = null;
 	List<Enemy> enemylist = null;
 	List<Debris> debrislist = null;
 	List<Projectile> playerprojectilelist = null;
-    List<Projectile> enemiesprojectilelist = null;   
-    List<Entity> deadentities = null;
-    List<PowerUp> poweruplist = null;
-              
-    /**
-     * Inizializate all collections and start the level
-     * <br>
-     * Level difficulty is defined by the maximum number of enemy spawn
-     * @param framerate Framerate of the game
-     * @param level Level to play
-     * @throws IllegalArgumentException If one or more inputs are null
-     */
-    public Model(final int framerate, final Level level) throws IllegalArgumentException {
-    	
-    	if (level == null || framerate < 0) {
-    		throw new IllegalArgumentException("Model cannot work properly without a level or framerate.");
-    	}
-    	
-    	//inizializate main variables
-    	this.framerate = framerate;
-    	this.gamestatus = GameStatus.Running;
-    	this.lvl = level;
-    	
-    	//inizializate entities collections
-    	enemylist = new ArrayList<>();
-    	debrislist = new ArrayList<>();
-    	poweruplist = new ArrayList<>();
-    	playerprojectilelist = new ArrayList<>();
-    	enemiesprojectilelist = new ArrayList<>();
-    	deadentities = new ArrayList<>();
-    	
-    	//fill player using level  
-    	if (player == null) {
-    		Location tmploc = new Location(0.1, 0.5, new Area(0.125, 0.0972));
-        	Weapon tmpweapon = new Weapon(EntityType.Spaceship, Direction.E, 50, 10, this.lvl.getLevelVelocity() * 1.5);
-        	tmpweapon.setShootedProjectiles(3);
-        	player = new Spaceship(100, this.lvl.getLevelVelocity(), tmploc, Direction.E, 100, tmpweapon); 
-    	}
-    }
-    
-    /* MAIN METHODS */
-    	
+	List<Projectile> enemiesprojectilelist = null;
+	List<Entity> deadentities = null;
+	List<PowerUp> poweruplist = null;
+
+	/**
+	 * Inizializate all collections and start the level <br>
+	 * Level difficulty is defined by the maximum number of enemy spawn
+	 * 
+	 * @param framerate
+	 *            Framerate of the game
+	 * @param level
+	 *            Level to play
+	 * @throws IllegalArgumentException
+	 *             If one or more inputs are null
+	 */
+	public Model(final int framerate, final Level level) throws IllegalArgumentException {
+
+		if ((level == null) || (framerate < 0)) {
+			throw new IllegalArgumentException("Model cannot work properly without a level or framerate.");
+		}
+
+		// inizializate main variables
+		this.framerate = framerate;
+		this.gamestatus = GameStatus.Running;
+		this.lvl = level;
+
+		// inizializate entities collections
+		this.enemylist = new ArrayList<>();
+		this.debrislist = new ArrayList<>();
+		this.poweruplist = new ArrayList<>();
+		this.playerprojectilelist = new ArrayList<>();
+		this.enemiesprojectilelist = new ArrayList<>();
+		this.deadentities = new ArrayList<>();
+
+		// fill player using level
+		if (Model.player == null) {
+			final Location tmploc = new Location(0.1, 0.5, new Area(0.125, 0.0972));
+			final Weapon tmpweapon = new Weapon(EntityType.Spaceship, Direction.E, 50, 10,
+					this.lvl.getLevelVelocity() * 1.5);
+			tmpweapon.setShootedProjectiles(1);
+			Model.player = new Spaceship(100, this.lvl.getLevelVelocity(), tmploc, Direction.E, 100, tmpweapon);
+		}
+	}
+
+	/* MAIN METHODS */
+
 	@Override
 	public List<Entity> getEntitiesToDraw() {
-		
-		//do not update if the game is not running
+
+		// do not update if the game is not running
 		if (!this.gamestatus.equals(GameStatus.Running)) {
 			System.out.println("The game is finished!");
 			return new ArrayList<>();
 		}
-		
-		updateAll(); //verify collisions and update positions;
-		deadEntityCollector(); //remove dead entities;
-		
-		List<Entity> entitylist = new ArrayList<>();
-		
-		entitylist.addAll(enemylist);
-		entitylist.addAll(debrislist);
-		entitylist.addAll(poweruplist);
-		entitylist.addAll(playerprojectilelist);
-		entitylist.addAll(enemiesprojectilelist);
-		
+
+		this.updateAll(); // verify collisions and update positions;
+		this.deadEntityCollector(); // remove dead entities;
+
+		final List<Entity> entitylist = new ArrayList<>();
+
+		entitylist.addAll(this.enemylist);
+		entitylist.addAll(this.debrislist);
+		entitylist.addAll(this.poweruplist);
+		entitylist.addAll(this.playerprojectilelist);
+		entitylist.addAll(this.enemiesprojectilelist);
+
 		return entitylist;
 	}
 
 	@Override
-	public void informInputs(Optional<Direction> direction, boolean shoot) throws IllegalStateException {
-		if (player == null) {
+	public void informInputs(final Optional<Direction> direction, final boolean shoot) throws IllegalStateException {
+		if (Model.player == null) {
 			throw new IllegalStateException("player is NULL!!");
-		}	
-		
+		}
+
 		if (direction.isPresent()) {
-			player.move(direction.get());
+			Model.player.move(direction.get());
 		}
-		
-		if (shoot && player.canShoot()) { 
-			playerprojectilelist.addAll(player.attack());
+
+		if (shoot && Model.player.canShoot()) {
+			this.playerprojectilelist.addAll(Model.player.attack());
 		}
-	}	
-	
+	}
+
 	@Override
 	public void updateAll() {
-				
-		//update player 
-		player.update();
-		
-		//update spawners
+
+		// update player
+		Model.player.update();
+
+		// update spawners
 		this.lvl.update();
-		
-		//move all entities
-		enemylist.forEach((x) -> { 
-			x.update(); 		
-			if (enemyShoot(x)) {
-				enemiesprojectilelist.addAll(x.attack());
-			}});	
-		playerprojectilelist.forEach(x -> x.update());		
-		enemiesprojectilelist.forEach(x -> x.update());	
-		debrislist.forEach(x -> x.update());
-		poweruplist.forEach(x -> x.update());
-		
-		//remove useless entities
-		if (playerprojectilelist.size() > 0) {
-			playerprojectilelist.forEach(x -> {
-				if (x.toRemove()) { 
-					deadentities.add(x);
-				} 
+
+		// move all entities
+		this.enemylist.forEach((x) -> {
+			x.update();
+			if (this.enemyShoot(x)) {
+				this.enemiesprojectilelist.addAll(x.attack());
+			}
+		});
+		this.playerprojectilelist.forEach(x -> x.update());
+		this.enemiesprojectilelist.forEach(x -> x.update());
+		this.debrislist.forEach(x -> x.update());
+		this.poweruplist.forEach(x -> x.update());
+
+		// remove useless entities
+		if (this.playerprojectilelist.size() > 0) {
+			this.playerprojectilelist.forEach(x -> {
+				if (x.toRemove()) {
+					this.deadentities.add(x);
+				}
 			});
 		}
-		if (enemiesprojectilelist.size() > 0) {
-			enemiesprojectilelist.forEach(x -> {
-				if (x.toRemove()) { 
-					deadentities.add(x);
-				} 
+		if (this.enemiesprojectilelist.size() > 0) {
+			this.enemiesprojectilelist.forEach(x -> {
+				if (x.toRemove()) {
+					this.deadentities.add(x);
+				}
 			});
 		}
-		if (debrislist.size() > 0) {
-			debrislist.forEach(x -> {
-				if (x.toRemove()) { 
-					deadentities.add(x);
-				} 
+		if (this.debrislist.size() > 0) {
+			this.debrislist.forEach(x -> {
+				if (x.toRemove()) {
+					this.deadentities.add(x);
+				}
 			});
 		}
-		if (poweruplist.size() > 0) {
-			poweruplist.forEach(x -> {
-				if (x.toRemove()) { 
-					deadentities.add(x);
-				} 
+		if (this.poweruplist.size() > 0) {
+			this.poweruplist.forEach(x -> {
+				if (x.toRemove()) {
+					this.deadentities.add(x);
+				}
 			});
 		}
-						
-		//control collisions
-		controlCollisions();
-			
-		//spawn new entities if possible
-		lvl.spawn(this.enemylist, this.debrislist, this.poweruplist);			
-					
-		//verify game status
-   		if (enemylist.size() <= 0 && this.lvl.playerWin() && this.gamestatus.equals(GameStatus.Running)) {	
+
+		// control collisions
+		this.controlCollisions();
+
+		// spawn new entities if possible
+		this.lvl.spawn(this.enemylist, this.debrislist, this.poweruplist);
+
+		// verify game status
+		if ((this.enemylist.size() <= 0) && this.lvl.playerWin() && this.gamestatus.equals(GameStatus.Running)) {
 			this.gamestatus = GameStatus.Won;
 		}
 	}
 
-	/** 
-     * Remove all dead entities from the model
-     */
-    private void deadEntityCollector() {
-    	deadentities.forEach( x -> {
-    		if (x.getID().equals(EntityType.Spaceship)) {
-    			this.gamestatus = GameStatus.Over;
-    		} else if (x.getID().equals(EntityType.Enemy)) {
-    			enemylist.remove(x);
-    		} else if (x.getID().equals(EntityType.Debris)) {
-    			debrislist.remove(x);
-    		} else if (x.getID().equals(EntityType.PowerUp)) {
-    			poweruplist.remove(x);
-    		} else if (x.getID().equals(EntityType.Projectile)) {
-    			Projectile tmp = (Projectile) x;
-    			if (tmp.getParentID().equals(EntityType.Spaceship)) {
-    				playerprojectilelist.remove(tmp);
-    			} else {
-    				enemiesprojectilelist.remove(tmp);
-    			}
-    		}
-    	});
-    }
-    
-    /**
-     * Control Collisions 
-     */
-    private void controlCollisions() {   	
-    		
-    	//player projectiles with enemy
-		if (enemylist.size() > 0 && playerprojectilelist.size() > 0) {
-			playerprojectilelist.stream()
-			.filter(x -> x.toRemove() == false)
-			.forEach(x -> enemylist.stream()
-					.filter(y -> y.toRemove() == false)
-					.forEach(y -> {
-						if (x.collideWith(y) && !deadentities.contains(x)) { 
-							debrislist.add(new Debris(y.getLocation(), 0, 10));
-							deadentities.add(y);
-							deadentities.add(x);
-							playerscores += 10;
-						} 
-			}));
+	/**
+	 * Remove all dead entities from the model
+	 */
+	private void deadEntityCollector() {
+		this.deadentities.forEach(x -> {
+			if (x.getID().equals(EntityType.Spaceship)) {
+				this.gamestatus = GameStatus.Over;
+			} else if (x.getID().equals(EntityType.Enemy)) {
+				this.enemylist.remove(x);
+			} else if (x.getID().equals(EntityType.Debris)) {
+				this.debrislist.remove(x);
+			} else if (x.getID().equals(EntityType.PowerUp)) {
+				this.poweruplist.remove(x);
+			} else if (x.getID().equals(EntityType.Projectile)) {
+				final Projectile tmp = (Projectile) x;
+				if (tmp.getParentID().equals(EntityType.Spaceship)) {
+					this.playerprojectilelist.remove(tmp);
+				} else {
+					this.enemiesprojectilelist.remove(tmp);
+				}
+			}
+		});
+	}
+
+	/**
+	 * Control Collisions
+	 */
+	private void controlCollisions() {
+
+		// player projectiles with enemy
+		if ((this.enemylist.size() > 0) && (this.playerprojectilelist.size() > 0)) {
+			this.playerprojectilelist.stream().filter(x -> x.toRemove() == false)
+					.forEach(x -> this.enemylist.stream().filter(y -> y.toRemove() == false).forEach(y -> {
+						if (x.collideWith(y) && !this.deadentities.contains(x)) {
+							this.debrislist.add(new Debris(y.getLocation(), 0, 10));
+							this.deadentities.add(y);
+							this.deadentities.add(x);
+							this.playerscores += 10;
+						}
+					}));
 		}
-		
-		//enemy projectiles with player
-		if (enemiesprojectilelist.size() > 0) {
-			enemiesprojectilelist.stream()
-			.filter(x -> x.toRemove() == false)
-			.forEach(x -> {
-				if (x.collideWith(player)) {			
-					player.looseLife(x.getDamage());			
-					if (player.toRemove()) {
-						debrislist.add(new Debris(player.getLocation(), 0, 10));
+
+		// enemy projectiles with player
+		if (this.enemiesprojectilelist.size() > 0) {
+			this.enemiesprojectilelist.stream().filter(x -> x.toRemove() == false).forEach(x -> {
+				if (x.collideWith(Model.player)) {
+					Model.player.looseLife(x.getDamage());
+					if (Model.player.toRemove()) {
+						this.debrislist.add(new Debris(Model.player.getLocation(), 0, 10));
 						this.gamestatus = GameStatus.Over;
-						deadentities.add(player);
-					}	
-					deadentities.add(x);
-				} 	
-			});
-		}    
-		
-		//enemy with player or viceversa
-		if (enemylist.size() > 0 && player.toRemove() == false) {
-			enemylist.stream()
-			.filter(x -> x.toRemove() == false)
-			.forEach(x -> {
-				if (x.collideWith(player)) {			
-					player.looseLife(20);						
-					x.looseLife(20);
-					if (player.toRemove()) {
-						debrislist.add(new Debris(player.getLocation(), 0, 10));
-						this.gamestatus = GameStatus.Over;
-						deadentities.add(player);
-					}	
-					if (x.toRemove()) {
-						debrislist.add(new Debris(x.getLocation(), 0, 10));
-						deadentities.add(x);
+						this.deadentities.add(Model.player);
 					}
-				} 	
+					this.deadentities.add(x);
+				}
 			});
 		}
-		
-		//player with powerup
-		if (poweruplist.size() > 0 && player.toRemove() == false) {
-			poweruplist.stream()
-			.filter(x -> x.toRemove() == false)
-			.forEach(x -> {
-				if (x.collideWith(player)) {
-					//TOMODIFY!!!!
-					//player.getWeapon().enhance(1, 1, 1, 1);	
-					System.out.println("POWERUP!");
-					deadentities.add(x);
-				} 	
+
+		// enemy with player or viceversa
+		if ((this.enemylist.size() > 0) && (Model.player.toRemove() == false)) {
+			this.enemylist.stream().filter(x -> x.toRemove() == false).forEach(x -> {
+				if (x.collideWith(Model.player)) {
+					Model.player.looseLife(20);
+					x.looseLife(20);
+					if (Model.player.toRemove()) {
+						this.debrislist.add(new Debris(Model.player.getLocation(), 0, 10));
+						this.gamestatus = GameStatus.Over;
+						this.deadentities.add(Model.player);
+					}
+					if (x.toRemove()) {
+						this.debrislist.add(new Debris(x.getLocation(), 0, 10));
+						this.deadentities.add(x);
+					}
+				}
 			});
-		}					
-    }
-    
-    /**
-     * Decide if the current enemy can shoot
-     * @param enemy Enemy entity that could eventually shoot
-     * @return boolean True mean that the enemy can shoot, false that it cannot.
-     */
-    private boolean enemyShoot(Enemy enemy) {
-    	
-    	if (enemy.canShoot()) {
-    		Random rnd = new Random();
-    		double tmp = rnd.nextDouble();
-    		
-    		if (tmp < ((1 / enemylist.size() + 0.2) / this.framerate)) {
-    			return true;
-    		}
-    	}	
-    	return false;
-    }
-	
-    /*GETTER FOR PLAYER INFOS */
-    
+		}
+
+		// player with powerup
+		if ((this.poweruplist.size() > 0) && (Model.player.toRemove() == false)) {
+			this.poweruplist.stream().filter(x -> x.toRemove() == false).forEach(x -> {
+				if (x.collideWith(Model.player)) {
+					// TOMODIFY!!!!
+					// player.getWeapon().enhance(1, 1, 1, 1);
+					System.out.println("POWERUP!");
+					this.deadentities.add(x);
+				}
+			});
+		}
+	}
+
+	/**
+	 * Decide if the current enemy can shoot
+	 * 
+	 * @param enemy
+	 *            Enemy entity that could eventually shoot
+	 * @return boolean True mean that the enemy can shoot, false that it cannot.
+	 */
+	private boolean enemyShoot(final Enemy enemy) {
+
+		if (enemy.canShoot()) {
+			final Random rnd = new Random();
+			final double tmp = rnd.nextDouble();
+
+			if (tmp < (((1 / this.enemylist.size()) + 0.2) / this.framerate)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/* GETTER FOR PLAYER INFOS */
+
 	@Override
 	public int getPlayerLife() {
-		if (player == null) {
+		if (Model.player == null) {
 			return 0;
 		}
-		return player.getRemainingLife();
+		return Model.player.getRemainingLife();
 	}
-	
+
 	@Override
 	public int getPlayerShield() {
-		if (player == null) {
+		if (Model.player == null) {
 			return 0;
 		}
-		return player.getRemainingShield();
+		return Model.player.getRemainingShield();
 	}
 
 	@Override
 	public Location getPlayerLocation() {
-		if (player == null) {
-			return new Location(0,0, new Area(0.1,0.1));
+		if (Model.player == null) {
+			return new Location(0, 0, new Area(0.1, 0.1));
 		}
-		return player.getLocation();
+		return Model.player.getLocation();
 	}
-	
+
 	@Override
 	public int getScores() {
 		return this.playerscores;
