@@ -3,11 +3,12 @@ package spaceimpact.controller;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import spaceimpact.model.Area;
 import spaceimpact.model.Direction;
-import spaceimpact.model.Level;
 import spaceimpact.model.GameStatus;
+import spaceimpact.model.Level;
 import spaceimpact.model.Location;
 import spaceimpact.model.Model;
 import spaceimpact.model.ModelInterface;
@@ -33,9 +34,10 @@ public class GameLoop extends Thread {
 	private volatile Status status;
 	private final long ticLenght;
 	private final ViewInterface view;
-	private final ModelInterface model;
 	private final ControllerInterface controller;
 	private volatile int score;
+	private volatile int nLevel;
+	private volatile ModelInterface model;
 
 	/**
 	 * Constructor for GameLoop
@@ -47,20 +49,8 @@ public class GameLoop extends Thread {
 		this.status = Status.READY;
 		this.ticLenght = 1000 / fps;
 		this.view = view;
-
-		//CREA LEVEL
-		double tmpvel = (double)(1 /(double)(4 * fps));
-		Level tmp = new Level(100, 2, 60, 200, 400, tmpvel);
-		tmp.getEnemySpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
-		tmp.getDebrisSpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
-		tmp.getPowerUpSpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
-		tmp.getEnemySpawner().setCoolDownEntityWeapon(30);
-		tmp.getEnemySpawner().setEntityDamageRange(10, 30);
-		tmp.getEnemySpawner().setEntityLifeRange(1,10);
-		tmp.getEnemySpawner().setEntityVelocityRange(tmpvel, tmpvel * 1.5);	
-		//CREAL LEVEL
-		
-		this.model = new Model(fps, tmp);
+		this.nLevel = 1;
+		this.model = new Model(fps, this.createLevel(this.nLevel, fps));
 		this.controller = controller;
 	}
 
@@ -136,8 +126,13 @@ public class GameLoop extends Thread {
 					} catch (final InterruptedException ex1) {
 						this.status = Status.KILLED;
 					}
-				} else {
+				} else if (this.model.getGameStatus() == GameStatus.Over) {
 					this.status = Status.KILLED;
+				} else {
+					this.view.won(this.nLevel);
+					this.nLevel++;
+					final int fps = (int) (1000 / this.ticLenght);
+					this.model = new Model(fps, this.createLevel(this.nLevel, fps));
 				}
 			}
 		}
@@ -234,6 +229,33 @@ public class GameLoop extends Thread {
 			throw new IllegalStateException();
 		}
 		return this.score;
+	}
+
+	/**
+	 * Private method, creates a new Level (the difficulty depends on the number
+	 * of levels completed before)
+	 *
+	 * @param levelId
+	 *            The number of level (i.e. 1 for first level, 2 for second...)
+	 * @return The created level.
+	 */
+	private Level createLevel(final int levelId, final int fps) {
+		final int totalEnemiesToSpawn = 10 * (levelId + 1);
+		final int maxEnemyPerSpawn = 2 + ((levelId - 1) / 2);
+		final int enemyDelay = (int) (2 - (0.18333 * Math.min(10, levelId) * fps));
+		final int debrisDelay = (int) ((2.5 * new Random().nextDouble()) + (0.5 * fps));
+		final int powerupDelay = (8 + (2 * levelId)) * fps;
+		final double tmpvel = 0.25 * fps * (0.9 + (0.1 * levelId));
+		final Level tmp = new Level(totalEnemiesToSpawn, maxEnemyPerSpawn, enemyDelay, debrisDelay, powerupDelay,
+				tmpvel);
+		tmp.getEnemySpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
+		tmp.getDebrisSpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
+		tmp.getPowerUpSpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
+		tmp.getEnemySpawner().setCoolDownEntityWeapon((int) ((1 - (0.1 * Math.min(5, levelId / 2))) * fps));
+		tmp.getEnemySpawner().setEntityDamageRange(5 * (levelId + 1), 10 * (levelId + 1));
+		tmp.getEnemySpawner().setEntityLifeRange(5 * levelId, 5 + (10 * levelId));
+		tmp.getEnemySpawner().setEntityVelocityRange(tmpvel, tmpvel * 1.5);
+		return tmp;
 	}
 
 }
