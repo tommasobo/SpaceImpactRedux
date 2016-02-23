@@ -45,6 +45,10 @@ public class View implements ViewInterface {
 	public void updateInfo(final int hp, final int shields, final int score) {
 	    Platform.runLater(() -> View.gameScreen.updateInfo(hp, shields, score));
 	}
+	
+	public void won(final int nLevel) {
+	    Platform.runLater(() -> View.gameScreen.won(nLevel));
+	}
 
 	static void setGameScreen(final GameScreen gamescreen) {
 	    View.gameScreen = gamescreen;
