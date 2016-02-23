@@ -18,7 +18,7 @@ public class GameOverScreen extends Scene{
     
     private static final GameOverScreen mainScene = new GameOverScreen();
     private static Stage mainStage;
-    private final Label score = new Label();
+    private static final Label score = new Label();
     private final TextField name = new TextField();
     private final Button enter = new Button("Enter");
     private final Label saved = new Label("Score Saved");
@@ -33,15 +33,20 @@ public class GameOverScreen extends Scene{
         ImageView gameOver = new ImageView(ImageLoader.getLoader().getImageFromPath("gameOver.jpg"));
         gameOver.setFitWidth(500);
         gameOver.setFitHeight(250);
-                
+
+        this.name.setFocusTraversable(false);
         final Label insertName = new Label("Insert your name: ");
         insertName.setId("whiteText");
-        enter.setId("dark-blue");
-        enter.setOnAction(e -> {
-            name.setDisable(true);
-            enter.setDisable(true);
-            saved.setVisible(true);
-            View.getController().setCurrentPlayerName(name.getText());
+        this.enter.setId("dark-blue");
+        this.enter.setOnAction(e -> {
+            if (this.checkName()) {
+                this.name.setDisable(true);
+                this.enter.setDisable(true);
+                this.saved.setText("Score Saved");
+                this.saved.setTextFill(Color.GREEN);
+                this.saved.setVisible(true);
+                View.getController().setCurrentPlayerName(name.getText());
+            }
         });
         final HBox insertLayout = new HBox();
         insertLayout.setAlignment(Pos.CENTER);
@@ -66,21 +71,36 @@ public class GameOverScreen extends Scene{
             mainStage.setScene(MainMenu.get(mainStage));
         });
         exit.setId("dark-blue");
+        exit.setOnAction(e -> this.closeProgram());
+        final Button hiScores = new Button("High Scores");
+        hiScores.setId("dark-blue");
+        hiScores.setOnAction(e -> mainStage.setScene(HighScores.get(mainStage)));
         final HBox bottomLayout = new HBox();
         bottomLayout.setPadding(new Insets(150, 0 , 10, 0));
         bottomLayout.setSpacing(25);
         bottomLayout.setAlignment(Pos.BOTTOM_CENTER);
-        bottomLayout.getChildren().addAll(retry, mainMenu, exit);
+        bottomLayout.getChildren().addAll(retry, mainMenu, hiScores, exit);
         
         saved.setVisible(false);
         saved.setTextFill(Color.GREEN);
         
-        mainLayout.getChildren().addAll(gameOver, score, insertLayout, saved, bottomLayout);
+        mainLayout.getChildren().addAll(gameOver, insertLayout, saved, bottomLayout);
         mainLayout.setId("gameOver");
         mainLayout.getStylesheets().add("style.css");
         this.setRoot(mainLayout);
     }
     
+    private boolean checkName() {
+        if (this.name.getText().isEmpty()) {
+            this.saved.setText("Enter a valide name");
+            this.saved.setTextFill(Color.RED);
+            this.saved.setVisible(true);
+            return false;
+        }
+        return true;
+        
+    }
+
     private void resetSaved() {
         this.enter.setDisable(false);
         this.name.setDisable(false);
@@ -97,8 +117,10 @@ public class GameOverScreen extends Scene{
         return mainScene;
     }
     
-    /*public static void gameOver(int scoreValue) {
-        score.setText("Your score is: " + Integer.toString(scoreValue));
-    }*/
-
+    private void closeProgram() {
+        final Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to exit the game?");
+        if (answer) {
+            mainStage.close();
+        }
+    }
 }
