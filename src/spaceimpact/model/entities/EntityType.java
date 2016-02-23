@@ -1,8 +1,5 @@
 package spaceimpact.model.entities;
 
-import java.util.Arrays;
-import java.util.List;
-
 import spaceimpact.model.Direction;
 import spaceimpact.utilities.Pair;
 
@@ -30,37 +27,36 @@ public enum EntityType {
 	 */
 	public static Pair<String, Double> getImage(final Entity e) {
 		final StringBuilder s = new StringBuilder("/Entities/");
-		final List<Direction> dirOrtho = Arrays.asList(Direction.N, Direction.E, Direction.S, Direction.W);
 		double rotation = 0;
 		if (e instanceof Projectile) {
 			s.append("Projectiles/");
 			final Projectile p = (Projectile) e;
-			if (dirOrtho.contains(p.getDirection())) {
-				boolean ignoreOrizRot = true;
-				if (p.getDamage() <= 10) {
-					s.append("beam_blue.png");
-				} else if (p.getDamage() < 20) {
-					s.append("beam_red.png");
-				} else {
-					s.append("fireball.png");
-					ignoreOrizRot = false;
-				}
-				if (p.getDirection() == Direction.N) {
-					rotation = 270;
-				} else if (p.getDirection() == Direction.S) {
-					rotation = 90;
-				} else if (!ignoreOrizRot && (p.getDirection() == Direction.W)) {
-					rotation = 180;
-				}
-			} else {
+			boolean ignoreOrizRot = true;
+			if (p.getDamage() <= 5) {
 				s.append("diagonal-green.png");
-				if (p.getDirection() == Direction.SE) {
-					rotation = 90;
-				} else if (p.getDirection() == Direction.SW) {
-					rotation = 180;
-				} else if (p.getDirection() == Direction.NW) {
-					rotation = 270;
-				}
+				ignoreOrizRot = false;
+			} else if (p.getDamage() <= 10) {
+				s.append("beam_blue.png");
+			} else if (p.getDamage() < 20) {
+				s.append("beam_red.png");
+			} else {
+				s.append("fireball.png");
+				ignoreOrizRot = false;
+			}
+			if (p.getDirection() == Direction.N) {
+				rotation = 270;
+			} else if (p.getDirection() == Direction.S) {
+				rotation = 90;
+			} else if (!ignoreOrizRot && (p.getDirection() == Direction.W)) {
+				rotation = 180;
+			} else if (p.getDirection() == Direction.SE) {
+				rotation = 45;
+			} else if (p.getDirection() == Direction.SW) {
+				rotation = 135;
+			} else if (p.getDirection() == Direction.NW) {
+				rotation = 225;
+			} else if (p.getDirection() == Direction.NE) {
+				rotation = 315;
 			}
 		} else if (e instanceof Enemy) {
 			s.append("Enemies/");
