@@ -126,4 +126,8 @@ public class GameScreen extends Scene {
 	return this;
     }
 
+    public void won(int nLevel) {
+
+    }
+
 }
