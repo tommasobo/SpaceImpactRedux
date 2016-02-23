@@ -43,11 +43,13 @@ public interface WeaponInterface {
 	
 	/**
 	 * Getter for Weapon Damage
+	 * @return int As the current damage value
 	 */
 	int getDamage();
 	
 	/**
 	 * Setter for number of shooted projectiles
+	 * @param count Number of Projectiles that the weapon shoot in one hit
 	 */
 	void setShootedProjectiles(final int count);
 }

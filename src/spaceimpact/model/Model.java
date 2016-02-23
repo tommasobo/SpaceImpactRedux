@@ -12,27 +12,35 @@ import java.util.Random;
  * Model Implementation
  * <br>
  * The cartesian plane of the model is defined in such a way:
- *  x = from 0 to 16/9 
- *  y = from 0 to 1
- * 
+ * x = from 0 to 16/9 
+ * y = from 0 to 1
+ * <br>
+ * The model represent the game and all of active entities. 
+ * It controls collisions and call level spawners to add new entities.
+ * <br>
+ * <i>Fields</i>
+ * <b>gamestatus</b> Current game Status
+ * <b>framerate</b> Current framerate
+ * <b>playerscores</b> Current player scores
+ * <b>lvl</b> Current Playing Level
  * @author Davide
  */
 public class Model implements ModelInterface {
 	
 	//game variables
-	GameStatus gamestatus = GameStatus.Running; //boolean to see if the game is running or ended
-	int framerate = 30; //game framerate
-	int playerscores = 0; //current player scores
-	Level lvl = null; //current running level 
+	private GameStatus gamestatus = GameStatus.Running;
+	private final int framerate;
+	private int playerscores = 0;
+	private Level lvl = null;
 	
 	//entities collections
-	static Spaceship player = null; //nave del giocatore
-	List<Enemy> enemylist = null; //lista di nemici
-	List<Debris> debrislist = null; //lista detriti o elementi visivi, asteroidi e altro
-	List<Projectile> playerprojectilelist = null; //lista proiettili giocatore
-    List<Projectile> enemiesprojectilelist = null; //lista proiettili nemici    
-    List<Entity> deadentities = null; //lista entita' morte da rimuovere
-    List<PowerUp> poweruplist = null; //(list di powerup)
+	static Spaceship player = null;
+	List<Enemy> enemylist = null;
+	List<Debris> debrislist = null;
+	List<Projectile> playerprojectilelist = null;
+    List<Projectile> enemiesprojectilelist = null;   
+    List<Entity> deadentities = null;
+    List<PowerUp> poweruplist = null;
               
     /**
      * Inizializate all collections and start the level
@@ -125,15 +133,10 @@ public class Model implements ModelInterface {
 			if (enemyShoot(x)) {
 				enemiesprojectilelist.addAll(x.attack());
 			}});	
-		playerprojectilelist.forEach((x) -> { 
-			x.update(); 
-			});		
-		enemiesprojectilelist.forEach((x) -> { 
-			x.update(); 
-			});	
-		debrislist.forEach((x) -> { 
-			x.update(); 
-			});
+		playerprojectilelist.forEach(x -> x.update());		
+		enemiesprojectilelist.forEach(x -> x.update());	
+		debrislist.forEach(x -> x.update());
+		poweruplist.forEach(x -> x.update());
 		
 		//remove useless entities
 		if (playerprojectilelist.size() > 0) {
@@ -154,6 +157,13 @@ public class Model implements ModelInterface {
 			debrislist.forEach(x -> {
 				if (x.toRemove()) { 
 					deadentities.add(x);
+				} 
+			});
+		}
+		if (poweruplist.size() > 0) {
+			poweruplist.forEach(x -> {
+				if (x.toRemove()) { 
+					poweruplist.add(x);
 				} 
 			});
 		}
@@ -181,6 +191,8 @@ public class Model implements ModelInterface {
     			enemylist.remove(x);
     		} else if (x.getID().equals(EntityType.Debris)) {
     			debrislist.remove(x);
+    		} else if (x.getID().equals(EntityType.PowerUp)) {
+    			poweruplist.remove(x);
     		} else if (x.getID().equals(EntityType.Projectile)) {
     			Projectile tmp = (Projectile) x;
     			if (tmp.getParentID().equals(EntityType.Spaceship)) {
@@ -196,8 +208,7 @@ public class Model implements ModelInterface {
      * Control Collisions 
      */
     private void controlCollisions() {   	
-    	
-    	
+    		
     	//player projectiles with enemy
 		if (enemylist.size() > 0 && playerprojectilelist.size() > 0) {
 			playerprojectilelist.stream()
@@ -236,22 +247,34 @@ public class Model implements ModelInterface {
 			enemylist.stream()
 			.filter(x -> x.toRemove() == false)
 			.forEach(x -> {
-				Enemy enemy = (Enemy)x;
-				if (enemy.collideWith(player)) {			
+				if (x.collideWith(player)) {			
 					player.looseLife(20);						
-					enemy.looseLife(20);
+					x.looseLife(20);
 					if (player.toRemove()) {
 						debrislist.add(new Debris(player.getLocation(), 0, 10));
 						this.gamestatus = GameStatus.Over;
 						deadentities.add(player);
 					}	
-					if (enemy.toRemove()) {
-						debrislist.add(new Debris(enemy.getLocation(), 0, 10));
-						deadentities.add(enemy);
+					if (x.toRemove()) {
+						debrislist.add(new Debris(x.getLocation(), 0, 10));
+						deadentities.add(x);
 					}
 				} 	
 			});
-		}				    
+		}
+		
+		//player with powerup
+		if (poweruplist.size() > 0 && player.toRemove() == false) {
+			poweruplist.stream()
+			.filter(x -> x.toRemove() == false)
+			.forEach(x -> {
+				if (x.collideWith(player)) {
+					//TOMODIFY!!!!
+					player.getWeapon().enhance(1, 1, 1, 1);						
+					deadentities.add(x);
+				} 	
+			});
+		}					
     }
     
     /**
