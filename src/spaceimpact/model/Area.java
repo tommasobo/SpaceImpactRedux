@@ -7,7 +7,7 @@ package spaceimpact.model;
  * @author Davide
  */
 public class Area {
-	
+		
 	private final double w;
 	private final double h;
 	

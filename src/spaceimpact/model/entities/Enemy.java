@@ -99,7 +99,7 @@ public class Enemy extends LivingEntity {
 		
 		Random rnd = new Random();	
 		
-		if (rnd.nextDouble() < 0.0090) {
+		if (rnd.nextDouble() < 0.0070) {
 			
 			int dirrnd = rnd.nextInt(2);
 			if (dirrnd == 0) {

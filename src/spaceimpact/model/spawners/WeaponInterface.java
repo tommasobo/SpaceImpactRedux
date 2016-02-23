@@ -26,8 +26,9 @@ public interface WeaponInterface {
 	 * @param damageincrement Increment in projectiles damage
 	 * @param projectilesvelocityincrement Increment of velocity of shooted projectiles
 	 * @param cooldowntimedecrement Cool Down time decrement (as number of ticks)
+	 * @param projectilesshooted How many projectiles are shooted
 	 */
-	void enhance(final int damageincrement, final double projectilesvelocityincrement, final int cooldowntimedecrement);	
+	void enhance(final int damageincrement, final double projectilesvelocityincrement, final int cooldowntimedecrement, final int projectilesshooted);	
 	
 	/**
 	 * Control if Weapon is ready to shoot or need to cool down

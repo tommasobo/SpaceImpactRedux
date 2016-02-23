@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import spaceimpact.model.Area;
 import spaceimpact.model.Direction;
+import spaceimpact.model.Level;
 import spaceimpact.model.GameStatus;
 import spaceimpact.model.Location;
 import spaceimpact.model.Model;
@@ -46,7 +47,20 @@ public class GameLoop extends Thread {
 		this.status = Status.READY;
 		this.ticLenght = 1000 / fps;
 		this.view = view;
-		this.model = new Model(fps, 20);
+
+		//CREA LEVEL
+		double tmpvel = (double)(1 /(double)(4 * fps));
+		Level tmp = new Level(10, 2, 60, 200, 400, tmpvel);
+		tmp.getEnemySpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
+		tmp.getDebrisSpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
+		tmp.getPowerUpSpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
+		tmp.getEnemySpawner().setCoolDownEntityWeapon(30);
+		tmp.getEnemySpawner().setEntityDamageRange(10, 30);
+		tmp.getEnemySpawner().setEntityLifeRange(1,10);
+		tmp.getEnemySpawner().setEntityVelocityRange(tmpvel, tmpvel * 1.5);	
+		//CREAL LEVEL
+		
+		this.model = new Model(fps, tmp);
 		this.controller = controller;
 	}
 
