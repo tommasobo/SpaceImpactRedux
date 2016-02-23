@@ -35,7 +35,6 @@ public abstract class Spawner implements SpawnerInterface {
 	/**
 	 * Constructor for Generic Spawner
 	 * @param type Entity Type to Spawn 
-	 * @param max Maximum Spawn Counts
 	 * @param maxperspawn Max Concurrent Entity in a Spawn
 	 * @param spawndelay Delay between each spawn (ticks)
 	 */

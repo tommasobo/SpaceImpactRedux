@@ -37,6 +37,7 @@ public class Level {
 		
 	/**
 	 * Get the level Enemy Spawner
+	 * @return enemyspawner The Enemy spawner of the level
 	 */
 	public EnemySpawner getEnemySpawner() {
 		return this.enemyspawner;
@@ -44,6 +45,7 @@ public class Level {
 	
 	/**
 	 * Get the level Debris Spawner
+	 * @return debrisspawner The Debris spawner of the level
 	 */
 	public DebrisSpawner getDebrisSpawner() {
 		return this.debrisspawner;
@@ -51,6 +53,7 @@ public class Level {
 	
 	/**
 	 * Get the level PowerUp Spawner
+	 * @return powerupspawner The PowerUp spawner of the level
 	 */
 	public PowerUpSpawner getPowerUpSpawner() {
 		return this.powerupspawner;

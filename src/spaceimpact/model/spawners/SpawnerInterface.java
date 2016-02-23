@@ -32,7 +32,7 @@ public interface SpawnerInterface {
 		
 	/**
 	 * Determine if spawner can spawn new entities
-	 * @return delay Delay from each spawn
+	 * @param delay Delay from each spawn
 	 */
 	public void setSpawnDelay(final int delay);
 	
