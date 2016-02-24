@@ -83,7 +83,8 @@ public enum EntityType {
 			}
 		} else if (e instanceof Debris) {
 			final Debris d = (Debris) e;
-			s.append("explosion.gif");
+			s.append("Debris/asteroid.gif");
+			// s.append("explosion.gif");
 		} else if (e instanceof PowerUp) {
 			final PowerUp p = (PowerUp) e;
 			s.append("Powerups/");
