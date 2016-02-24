@@ -11,6 +11,7 @@ import spaceimpact.model.entities.EntityType;
 /**
  * Debris Spanwer
  * <br>
+ * Define the Debris Spawner inside the Level.
  * @author Davide
  */
 public class DebrisSpawner extends Spawner {
@@ -28,6 +29,7 @@ public class DebrisSpawner extends Spawner {
 		this.velocity = velocity;
 	}
 
+	@Override
 	public List<Debris> spawn() {
 		
 		List<Debris> spawnedentities = new ArrayList<>();		

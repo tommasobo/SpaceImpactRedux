@@ -8,27 +8,19 @@ import spaceimpact.model.entities.Projectile;
 /** 
  * Weapon Interface
  * <br>
- * Basically a projectiles factory
+ * Weapon as projectiles factory. 
+ * Provides method to enhance near all weapon parameters.
  * @author Davide
  */
 public interface WeaponInterface {
 
 	/** Shoot a Projectile
 	 * <br>
-	 * Create and shoot a new Projectile
+	 * Create and shoot a new Projectile.
 	 * @param loc Location from which shoot
 	 * @return A new projective object
 	 */
 	List<Projectile> shoot(final Location loc);
-	
-	/** Enhance weapon capabilities
-	 * <br>
-	 * @param damageincrement Increment in projectiles damage
-	 * @param projectilesvelocityincrement Increment of velocity of shooted projectiles
-	 * @param cooldowntimedecrement Cool Down time decrement (as number of ticks)
-	 * @param projectilesshooted How many projectiles are shooted
-	 */
-	void enhance(final int damageincrement, final double projectilesvelocityincrement, final int cooldowntimedecrement, final int projectilesshooted);	
 	
 	/**
 	 * Control if Weapon is ready to shoot or need to cool down
@@ -51,5 +43,18 @@ public interface WeaponInterface {
 	 * Setter for number of shooted projectiles
 	 * @param count Number of Projectiles that the weapon shoot in one hit
 	 */
-	void setShootedProjectiles(final int count);
+	void increaseProjectiles();
+	
+	/**
+	 * Increase power (projectiles damage) of the weapon
+	 * @param increment As the damage increment (Integer)
+	 */
+	void increaseDamage(final int increment);
+	
+	/**
+	 * Decrease cooldown time of the weapon
+	 * @param decrement As the decrement (in ticks) in the cooldown countdown
+	 */
+	void decreaseCoolDown(final int decrement);
+	
 }

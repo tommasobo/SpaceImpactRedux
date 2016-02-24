@@ -19,12 +19,20 @@ import spaceimpact.model.spawners.PowerUpSpawner;
 public class Level {
 	
 	private final int enemycount;
-	private final double velocity;
-	
+	private final double velocity;	
 	private EnemySpawner enemyspawner;
 	private DebrisSpawner debrisspawner;
 	private PowerUpSpawner powerupspawner;
 	
+	/**
+	 * Level Constructor
+	 * @param enemycount The Maximum number of enemy spawn in the level
+	 * @param maxenemyperspawn The maximum number of enemy spawn per spawn event
+	 * @param enemydelay The delay between each enemy spawn event
+	 * @param debrisdelay The delay between each debris spawn event
+	 * @param powerupdelay The delay between each powerup spawn event
+	 * @param globalvelocity The global default velocity of the game
+	 */
 	public Level(final int enemycount, final int maxenemyperspawn, final int enemydelay, final int debrisdelay, final int powerupdelay, final double globalvelocity) {
 		this.enemycount = enemycount;
 		this.velocity = globalvelocity;		

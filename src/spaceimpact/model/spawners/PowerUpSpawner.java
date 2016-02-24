@@ -7,10 +7,12 @@ import java.util.Random;
 import spaceimpact.model.Location;
 import spaceimpact.model.entities.EntityType;
 import spaceimpact.model.entities.PowerUp;
+import spaceimpact.model.entities.PowerUp.Enhancement;
 
 /**
  * PowerUp Spanwer
  * <br>
+ * Define the PowerUp Spawner inside the Level.
  * @author Davide
  */
 public class PowerUpSpawner extends Spawner {
@@ -40,9 +42,9 @@ public class PowerUpSpawner extends Spawner {
 				double y = 0.15d + 0.70d * rnd.nextDouble();												
 				Location tmploc = new Location(x, y, area);
 				
-				//generate powerup effects effects
+				//generate powerup effects RANDOMLY
 				
-				spawnedentities.add(new PowerUp(tmploc, velocity, countdown));
+				spawnedentities.add(new PowerUp(Enhancement.AddProjectile, tmploc, velocity));
 				spawncount++;			
 		}				
 		return spawnedentities;

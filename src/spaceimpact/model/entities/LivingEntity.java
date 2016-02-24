@@ -202,27 +202,11 @@ public abstract class LivingEntity implements Entity {
 		this.direction = direction;	
 	}
 	
-	/**
-	 * Getter for current equipped weapon
-	 * @return weapon Current equipped weapon
-	 */
-	public Weapon getWeapon() {
-		return this.weapon;
-	}
-	
-	/**
-	 * Getter for maximum entity life
-	 * @return maxlife maximum entity life
-	 */
-	public int getMaximumLife() {
-		return this.maxlife;
-	}
-	
 	@Override
 	public void setLocation(final Location location) {
 		this.location = location;		
 	}
-		
+				
 	/*GETTERS*/
 			
 	/** 
@@ -239,6 +223,22 @@ public abstract class LivingEntity implements Entity {
 	 */
 	public Direction getDirection() {
 		return this.direction;	
+	}
+	
+	/**
+	 * Getter for current equipped weapon
+	 * @return weapon Current equipped weapon
+	 */
+	public Weapon getWeapon() {
+		return this.weapon;
+	}
+	
+	/**
+	 * Getter for maximum entity life
+	 * @return maxlife maximum entity life
+	 */
+	public int getMaximumLife() {
+		return this.maxlife;
 	}
 	
 	@Override	

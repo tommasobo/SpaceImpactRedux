@@ -10,9 +10,9 @@ import spaceimpact.model.Location;
 import spaceimpact.model.spawners.Weapon;
 
 /** 
- * Enemy (AI Controlled) Class
+ * Enemy
  * <br>
- * Enemy Ships Computer driven.
+ * Defines Computer driven Enemy Ship.
  * @author Davide
  */
 public class Enemy extends LivingEntity {
