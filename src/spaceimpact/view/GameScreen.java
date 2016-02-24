@@ -127,7 +127,7 @@ public class GameScreen extends Scene {
     }
 
     public void won(int nLevel) {
-
+        System.out.println("Level " + nLevel + " complete!");
     }
 
 }
