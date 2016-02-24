@@ -32,7 +32,7 @@ import spaceimpact.model.spawners.Weapon;
  */
 public class Model implements ModelInterface {
 
-	private final boolean DEBUG = false;
+	private final boolean DEBUG = true;
 	// game variables
 	private GameStatus gamestatus = GameStatus.Running;
 	private final int framerate;
@@ -308,7 +308,7 @@ public class Model implements ModelInterface {
 				if (x.collideWith(Model.player)) {			
 					x.applyEnhancement(Model.player);
 					this.debrislist.add(new Debris(DebrisType.Sparkle, Model.player.getLocation(), 10));				
-					printDBG("Player get PowerUp");						
+					printDBG("Player get PowerUp: " + x.toString());						
 					this.deadentities.add(x);
 				}
 			});
