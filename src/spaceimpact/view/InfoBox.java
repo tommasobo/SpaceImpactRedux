@@ -44,7 +44,7 @@ public class InfoBox {
         instructions.setId("whiteTextInfo");
         
         final Label creditsTo = new Label();
-        creditsTo.setText("Immagini Rilasciate con licenza CC-BY 3.0 da C-TOY \n(http://c-toy.blogspot.pt/), MillionthVector \n(http://millionthvector.blogspot.de), Bonsaiheldin\n(http://bonsaiheld.org), Qubodup and \nMartin Jelinek (jelinek.cz@gmail.com) | www.nyrthos.com.");
+        creditsTo.setText("Images released with a CC-BY 3.0 license from C-TOY \n(http://c-toy.blogspot.pt/), MillionthVector \n(http://millionthvector.blogspot.de), Bonsaiheldin\n(http://bonsaiheld.org), Qubodup and \nMartin Jelinek (jelinek.cz@gmail.com) | www.nyrthos.com.");
         creditsTo.setId("whiteTextInfo");
         
         listDeveloper.getStylesheets().add("style.css");
