@@ -104,6 +104,10 @@ public class TestGameLoop {
 		@Override
 		public void updateInfo(final int hp, final int shields, final int score) {
 		}
+
+		@Override
+		public void won(final int nLevel) {
+		}
 	};
 
 	private final ControllerInterface dummyController = new ControllerInterface() {
