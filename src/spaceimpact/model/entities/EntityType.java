@@ -83,8 +83,16 @@ public enum EntityType {
 			}
 		} else if (e instanceof Debris) {
 			final Debris d = (Debris) e;
-			s.append("Debris/asteroid.gif");
-			// s.append("explosion.gif");
+			s.append("Debris/");
+			if (d.getType() == DebrisType.Explosions) {
+				s.append("explosion.gif");
+			} else if (d.getType() == DebrisType.Hit) {
+				s.append("hit.gif");
+			} else if (d.getType() == DebrisType.Sparkle) {
+				s.append("sparkle.gif");
+			} else {
+				s.append("asteroid.gif");
+			}
 		} else if (e instanceof PowerUp) {
 			final PowerUp p = (PowerUp) e;
 			s.append("Powerups/");
