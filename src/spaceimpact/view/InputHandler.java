@@ -28,6 +28,7 @@ public class InputHandler {
     public List<Input> getList() {
         this.inputList.removeAll(Collections.singleton(null));
         List<Input> defensiveList = this.inputList;
+        this.inputList = new LinkedList<>();
         return defensiveList;
     }
     
