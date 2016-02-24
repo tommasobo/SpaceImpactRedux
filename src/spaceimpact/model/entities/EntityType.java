@@ -95,10 +95,21 @@ public enum EntityType {
 				s.append("asteroid.gif");
 			}
 		} else if (e instanceof PowerUp) {
-			//final PowerUp p = (PowerUp) e;
+			final PowerUp p = (PowerUp) e;
 			s.append("Powerups/");
-			// TODO choose powerup type
-			s.append("shield.gif");
+			if (p.getEnhancement() == Enhancement.AddProjectile) {
+				s.append("addprojectile.gif");
+			} else if (p.getEnhancement() == Enhancement.CoolDownDecreased) {
+				s.append("cooldown.gif");
+			} else if (p.getEnhancement() == Enhancement.IncrementDamage) {
+				s.append("damage.gif");
+			} else if (p.getEnhancement() == Enhancement.RestoreShield) {
+				s.append("shield.gif");
+			} else if (p.getEnhancement() == Enhancement.IncrementSpeed) {
+				s.append("speed.gif");
+			} else {
+				s.append("heal.gif");
+			}
 		}
 		return new Pair<String, Double>(s.toString(), Double.valueOf(rotation));
 	}
