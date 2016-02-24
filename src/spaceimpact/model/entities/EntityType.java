@@ -2,6 +2,7 @@ package spaceimpact.model.entities;
 
 import spaceimpact.model.Direction;
 import spaceimpact.model.entities.Debris.DebrisType;
+import spaceimpact.model.entities.PowerUp.Enhancement;
 import spaceimpact.utilities.Pair;
 
 /**

@@ -40,8 +40,7 @@ public interface WeaponInterface {
 	int getDamage();
 	
 	/**
-	 * Setter for number of shooted projectiles
-	 * @param count Number of Projectiles that the weapon shoot in one hit
+	 * Increase number of shooted projectiles
 	 */
 	void increaseProjectiles();
 	
