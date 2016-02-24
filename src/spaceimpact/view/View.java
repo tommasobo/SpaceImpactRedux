@@ -53,5 +53,15 @@ public class View implements ViewInterface {
 	static void setGameScreen(final GameScreen gamescreen) {
 	    View.gameScreen = gamescreen;
 	}
+
+    @Override
+    public void showText(int nLevel) {
+        Platform.runLater(() -> View.gameScreen.won(nLevel));    
+    }
+
+    @Override
+    public void showText(String powerUp) {
+        Platform.runLater(() -> View.gameScreen.powerUp(powerUp));    
+    }
 	
 }

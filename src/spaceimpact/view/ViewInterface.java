@@ -16,6 +16,8 @@ public interface ViewInterface {
     
     void updateInfo(final int hp, final int shields, final int score);
 
-    void won(int nLevel);
+    void showText(int nLevel);
+    
+    void showText(String powerUp);
 
 }
