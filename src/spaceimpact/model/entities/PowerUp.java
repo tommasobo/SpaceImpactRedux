@@ -28,6 +28,26 @@ public class PowerUp implements Entity {
 		Heal,
 		RestoreShield,
 		IncrementSpeed;
+		
+		/**
+		 * Return the Description of the Enhancement
+		 * @return string Effect Description
+		 */
+		public String getString() {
+			if (this.equals(Enhancement.AddProjectile)) {
+				return "Weapon enhanced!";
+			} else if (this.equals(Enhancement.CoolDownDecreased)) {
+				return "More firerate!";
+			} else if (this.equals(Enhancement.IncrementDamage)) {
+				return "Damage increased!";
+			} else if (this.equals(Enhancement.Heal)) {
+				return "Hull repaired!";
+			} else if (this.equals(Enhancement.RestoreShield)) {
+				return "Shields recharged!";
+			} else {
+				return "Faster engines!";
+			}			
+		}
 	}
 
 	private final EntityType ID = EntityType.PowerUp; //entity type identifier

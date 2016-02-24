@@ -45,6 +45,12 @@ public interface ModelInterface {
 	 */
 	GameStatus getGameStatus();
 	
+	/**
+	 * Return latest PowerUp acquired by the player
+	 * @return string As Optional of String if the player has acquired a powerup and it's not been already signaled
+	 */
+	Optional<String> getLatestPowerUp();
+	
 	/** 
 	 * Return the full list of entities except for player
 	 * <br>
