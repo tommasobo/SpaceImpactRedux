@@ -50,7 +50,7 @@ public class GameLoop extends Thread {
 		this.ticLenght = 1000 / fps;
 		this.view = view;
 		this.nLevel = 1;
-		this.model = new Model(fps, this.createLevel(this.nLevel, fps));
+		this.model = new Model(fps, this.createLevel(this.nLevel, fps), true);
 		this.controller = controller;
 		this.score = 0;
 	}
@@ -81,11 +81,21 @@ public class GameLoop extends Thread {
 	 */
 	@Override
 	public void run() {
+		final int fps = (int) (1000 / this.ticLenght);
 		this.status = Status.RUNNING;
+		int timer = 0;
 		while (this.status != Status.KILLED) {
 			if (this.status == Status.RUNNING) {
 				if (this.model.getGameStatus() == GameStatus.Running) {
 					final long startTime = System.currentTimeMillis();
+					timer++;
+					if (timer > (2 * fps)) {
+						timer = 0;
+						final Optional<String> s = this.model.getLatestPowerUp();
+						if (s.isPresent()) {
+							this.view.showText(s.get());
+						}
+					}
 					this.score += GameLoop.this.model.getScores();
 					final List<Pair<Pair<String, Double>, Location>> toDraw = new LinkedList<>();
 					toDraw.add(new Pair<>(new Pair<>("/Entities/Player.png", 0d), this.model.getPlayerLocation()));
@@ -131,10 +141,9 @@ public class GameLoop extends Thread {
 				} else if (this.model.getGameStatus() == GameStatus.Over) {
 					this.status = Status.KILLED;
 				} else {
-					this.view.won(this.nLevel);
+					this.view.showText(this.nLevel);
 					this.nLevel++;
-					final int fps = (int) (1000 / this.ticLenght);
-					this.model = new Model(fps, this.createLevel(this.nLevel, fps));
+					this.model = new Model(fps, this.createLevel(this.nLevel, fps), false);
 				}
 			}
 		}
@@ -245,7 +254,7 @@ public class GameLoop extends Thread {
 		final int totalEnemiesToSpawn = 10 * (levelId + 1);
 		final int maxEnemyPerSpawn = 2 + ((levelId - 1) / 2);
 		final int enemyDelay = (int) ((4 - (0.18333 * Math.min(10, levelId))) * fps);
-		final int debrisDelay = (int) (((2.5 * new Random().nextDouble()) + 0.5) * fps);
+		final int debrisDelay = (int) (((2 * new Random().nextDouble()) + 1) * fps);
 		final int powerupDelay = (8 + (2 * levelId)) * fps;
 		final double tmpvel = (0.15 / fps) * (0.9 + (0.1 * levelId));
 		final Level tmp = new Level(totalEnemiesToSpawn, maxEnemyPerSpawn, enemyDelay, debrisDelay, powerupDelay,
