@@ -36,6 +36,14 @@ public class InputHandler {
         this.inputList = new LinkedList<>();
     }
     
+    void add(Input input) {
+        this.inputList.add(input);
+    }
+    
+    void remove(Input input) {
+        this.inputList.remove(input);
+    }
+    
     public Input singleKey(KeyCode code) {
         if (code == KeyCode.W) {
             return Input.W;
