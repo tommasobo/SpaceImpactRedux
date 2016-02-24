@@ -52,6 +52,7 @@ public class GameLoop extends Thread {
 		this.nLevel = 1;
 		this.model = new Model(fps, this.createLevel(this.nLevel, fps));
 		this.controller = controller;
+		this.score = 0;
 	}
 
 	/**
@@ -85,7 +86,7 @@ public class GameLoop extends Thread {
 			if (this.status == Status.RUNNING) {
 				if (this.model.getGameStatus() == GameStatus.Running) {
 					final long startTime = System.currentTimeMillis();
-					this.score = GameLoop.this.model.getScores();
+					this.score += GameLoop.this.model.getScores();
 					final List<Pair<Pair<String, Double>, Location>> toDraw = new LinkedList<>();
 					toDraw.add(new Pair<>(new Pair<>("/Entities/Player.png", 0d), this.model.getPlayerLocation()));
 					if (this.model.getPlayerShield() > 0) {
