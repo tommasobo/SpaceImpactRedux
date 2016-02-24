@@ -39,7 +39,7 @@ public class DebrisSpawner extends Spawner {
 				double y = 0.15d + 0.70d * rnd.nextDouble();													
 				Location tmploc = new Location(x, y, area);
 
-				spawnedentities.add(new Debris(tmploc, velocity, countdown));
+				spawnedentities.add(new Debris(tmploc, velocity));
 				spawncount++;			
 		}				
 		return spawnedentities;
