@@ -106,8 +106,17 @@ public class TestGameLoop {
 		}
 
 		@Override
-		public void won(final int nLevel) {
+		public void showText(final int nLevel) {
+			// TODO Auto-generated method stub
+
 		}
+
+		@Override
+		public void showText(final String powerUp) {
+			// TODO Auto-generated method stub
+
+		}
+
 	};
 
 	private final ControllerInterface dummyController = new ControllerInterface() {
