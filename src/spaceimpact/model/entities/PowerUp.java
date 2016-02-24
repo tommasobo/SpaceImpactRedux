@@ -10,9 +10,9 @@ import spaceimpact.model.Location;
  * <b>AddProjectile</b> Increment by one the number of shooted projectiles by the player weapon.<br>
  * <b>CoolDownDecreased</b> Decrease cooldown time of the player weapon.<br>
  * <b>IncrementDamage</b> Increase damage of the weapon.<br>
- * <b>RestoreShield</b> Restore part of the player's shield.
- * <b>IncrementSpeed</b> Increase player speed.
- * <b>Heal</b> Restore part of the player's life.
+ * <b>RestoreShield</b> Restore part of the player's shield.<br>
+ * <b>IncrementSpeed</b> Increase player speed.<br>
+ * <b>Heal</b> Restore part of the player's life.<br>
  * @author Davide
  *
  */
