@@ -18,7 +18,6 @@ public class GameOverScreen extends Scene{
     
     private static final GameOverScreen mainScene = new GameOverScreen();
     private static Stage mainStage;
-    private static final Label score = new Label();
     private final TextField name = new TextField();
     private final Button enter = new Button("Enter");
     private final Label saved = new Label("Score Saved");
