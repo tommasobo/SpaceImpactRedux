@@ -43,8 +43,22 @@ public class PowerUpSpawner extends Spawner {
 				Location tmploc = new Location(x, y, area);
 				
 				//generate powerup effects RANDOMLY
+				Enhancement tmpplus = Enhancement.AddProjectile;
+				int rndplus = rnd.nextInt(Enhancement.values().length - 1);
 				
-				spawnedentities.add(new PowerUp(Enhancement.AddProjectile, tmploc, velocity));
+				if (rndplus == 0) {
+					tmpplus = Enhancement.CoolDownDecreased;
+				} else if (rndplus == 1) {
+					tmpplus = Enhancement.RestoreShield;
+				} else if (rndplus == 2) {
+					tmpplus = Enhancement.IncrementDamage;
+				} else if (rndplus == 3) {
+					tmpplus = Enhancement.IncrementSpeed;
+				} else if (rndplus == 4) {
+					tmpplus = Enhancement.Heal;
+				}
+				
+				spawnedentities.add(new PowerUp(tmpplus, tmploc, velocity));
 				spawncount++;			
 		}				
 		return spawnedentities;
