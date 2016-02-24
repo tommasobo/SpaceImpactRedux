@@ -139,6 +139,7 @@ public class GameScreen extends Scene {
         final Label textLevelWon = new Label();
         textLevelWon.setId("FX2");
         final StackPane levelWon = new StackPane();
+        levelWon.setPrefSize(800, 250);
         levelWon.setAlignment(Pos.CENTER);
                 
         final DropShadow dropShadow = new DropShadow();
@@ -153,8 +154,8 @@ public class GameScreen extends Scene {
         textLevelWon.setTextFill(Color.WHITE);
         textLevelWon.setText("Level " + nLevel + " completed");
         levelWon.getChildren().add(textLevelWon);
-        levelWon.setLayoutX(WIDTH_GAME / 2);
-        levelWon.setLayoutY(HEIGHT_GAME / 2);
+        levelWon.setLayoutX(WIDTH_GAME / 2 - (800 / 2));
+        levelWon.setLayoutY(HEIGHT_GAME / 2 - (250 /2));
         this.root.getChildren().add(levelWon);
 
         timer.schedule(new TimerTask() {
@@ -167,6 +168,40 @@ public class GameScreen extends Scene {
             }
         }, 2000, 1);
               
+    }
+
+    public void powerUp(String powerUp) {
+        final Timer timer = new java.util.Timer();
+        final Label textLevelWon = new Label();
+        textLevelWon.setId("FX2");
+        final StackPane levelWon = new StackPane();
+        levelWon.setPrefSize(800, 250);
+        levelWon.setAlignment(Pos.CENTER);
+                
+        final DropShadow dropShadow = new DropShadow();
+        dropShadow.setColor(Color.DODGERBLUE);
+        dropShadow.setRadius(25);
+        dropShadow.setSpread(0.25);
+        dropShadow.setBlurType(BlurType.GAUSSIAN);
+        textLevelWon.setEffect(dropShadow);
+        
+        textLevelWon.setFont(Font.font(null, FontWeight.BOLD, 72));
+        textLevelWon.setVisible(true);
+        textLevelWon.setTextFill(Color.WHITE);
+        textLevelWon.setText(powerUp);
+        levelWon.getChildren().add(textLevelWon);
+        levelWon.setLayoutX(WIDTH_GAME / 2 - (800 / 2));
+        this.root.getChildren().add(levelWon);
+
+        timer.schedule(new TimerTask() {
+            public void run() {
+                 Platform.runLater(new Runnable() {
+                    public void run() {
+                        textLevelWon.setVisible(false);
+                    }
+                });
+            }
+        }, 2000, 1);
     }
 
 }
