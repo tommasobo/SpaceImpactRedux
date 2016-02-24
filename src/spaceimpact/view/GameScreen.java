@@ -1,18 +1,26 @@
 package spaceimpact.view;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import spaceimpact.model.Location;
 import spaceimpact.utilities.Pair;
@@ -127,7 +135,39 @@ public class GameScreen extends Scene {
     }
 
     public void won(int nLevel) {
-        System.out.println("Level " + nLevel + " complete!");
+        
+        final Timer timer = new java.util.Timer();
+        final Label textLevelWon = new Label();
+        textLevelWon.setId("FX2");
+        final StackPane levelWon = new StackPane();
+        levelWon.setAlignment(Pos.CENTER);
+                
+        final DropShadow dropShadow = new DropShadow();
+        dropShadow.setColor(Color.DODGERBLUE);
+        dropShadow.setRadius(25);
+        dropShadow.setSpread(0.25);
+        dropShadow.setBlurType(BlurType.GAUSSIAN);
+        textLevelWon.setEffect(dropShadow);
+        
+        textLevelWon.setFont(Font.font(null, FontWeight.BOLD, 72));
+        textLevelWon.setVisible(true);
+        textLevelWon.setTextFill(Color.WHITE);
+        textLevelWon.setText("Level " + nLevel + " completed");
+        levelWon.getChildren().add(textLevelWon);
+        levelWon.setLayoutX(WIDTH_GAME / 2);
+        levelWon.setLayoutY(HEIGHT_GAME / 2);
+        this.root.getChildren().add(levelWon);
+
+        timer.schedule(new TimerTask() {
+            public void run() {
+                 Platform.runLater(new Runnable() {
+                    public void run() {
+                        textLevelWon.setVisible(false);
+                    }
+                });
+            }
+        }, 2000, 1);
+              
     }
 
 }
