@@ -21,7 +21,6 @@ public class Debris implements Entity {
 	
 	/**
 	 * The type of the debris
-	 * @author Davide
 	 */
 	public enum DebrisType {
 		Explosion,

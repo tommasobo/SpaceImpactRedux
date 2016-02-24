@@ -4,7 +4,7 @@ import spaceimpact.model.Area;
 import spaceimpact.model.entities.EntityType;
 
 /**
- * Spawner implementation
+ * Spawner Generic implementation
  * <br>
  * <b>spawndelay</b> Delay between each Spawn<br>
  * <b>countdown</b> Internal timer for the spawn delay<br>

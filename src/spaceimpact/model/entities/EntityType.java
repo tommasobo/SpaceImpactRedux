@@ -7,11 +7,11 @@ import spaceimpact.utilities.Pair;
 /**
  * Enumeration of possible Entity Types <br>
  * List of possibile types:<br>
- * Spaceship<br>
- * Enemy<br>
- * Debris<br>
- * PowerUp<br>
- * Projectile<br>
+ * <b>Spaceship</b> As the player Entity<br>
+ * <b>Enemy</b> The entities which the player has to destroy<br>
+ * <b>Debris</b> The entities spawned in a collision or randomly as asteroids<br>
+ * <b>PowerUp</b> The entities with which the player can obtain ehnacements<br>
+ * <b>Projectile</b> The entities spawned by a weapon. Can damage other living entities<br>
  *
  * @author Davide
  */

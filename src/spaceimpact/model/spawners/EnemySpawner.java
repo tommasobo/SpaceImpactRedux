@@ -11,6 +11,7 @@ import spaceimpact.model.entities.EntityType;
 /**
  * Enemy Spanwer
  * <br>
+ * Define the Enemy Spawner inside the Level.
  * @author Davide
  */
 public class EnemySpawner extends Spawner {

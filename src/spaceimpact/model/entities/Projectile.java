@@ -5,9 +5,10 @@ import spaceimpact.model.Location;
 
 /**
  * Projectile <br>
- * Spawned when an entity shoot, damage and velocity are defined by the weapon
- * that shoot it.
- * 
+ * Spawned when an entity shoot, damage and velocity are 
+ * defined by the weapon that shoot it.<br>
+ * If collide with other living entities the projectile 
+ * is destroyed and the damage is applied to the other entity.
  * @author Davide
  */
 public class Projectile implements Entity {
@@ -20,12 +21,20 @@ public class Projectile implements Entity {
 	private final double velocity;
 	private boolean removable;
 
-	public Projectile(final EntityType parentID, final Location startinglocation, final Direction direction,
+	/**
+	 * Projectile Constructor
+	 * @param parentID As the EntityType of the shooter
+	 * @param location As the starting location of the projectile
+	 * @param direction As the direction of the projectile
+	 * @param velocity As the velocity of the projectile
+	 * @param damage As the damage of the projectile
+	 */
+	public Projectile(final EntityType parentID, final Location location, final Direction direction,
 			final double velocity, final int damage) {
 		this.removable = false;
 		this.parentID = parentID;
 		this.damage = damage;
-		this.location = startinglocation;
+		this.location = location;
 		this.velocity = velocity;
 		this.direction = direction;
 	}

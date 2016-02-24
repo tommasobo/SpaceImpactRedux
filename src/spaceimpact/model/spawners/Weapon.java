@@ -19,6 +19,7 @@ import spaceimpact.model.entities.Projectile;
  * <b>projectilescount</b> Number of shooted projectiles<br>
  * <b>cooldowntime</b> Total time (ticks) of Weapon's cooldown<br>
  * <b>cooldown</b> Current cooldown's countdown<br>
+ * 
  * @author Davide
  */
 public class Weapon implements WeaponInterface {
@@ -76,14 +77,6 @@ public class Weapon implements WeaponInterface {
 	}
 
 	@Override
-	public void enhance(final int damageincrement, final double shootingvelocity, final int cooldowntime, final int projectilesshooted) {
-		this.damage += damageincrement;
-		this.projectilesvelocity += shootingvelocity;
-		this.cooldowntime -= cooldowntime;
-		this.projectilescount = projectilesshooted;
-	}
-
-	@Override
 	public boolean isReadyToShoot() {
 		if (this.cooldown == 0) {
 			return true;
@@ -105,7 +98,20 @@ public class Weapon implements WeaponInterface {
 	}
 
 	@Override
-	public void setShootedProjectiles(int count) {
-		this.projectilescount = count;		
+	public void increaseProjectiles() {
+		if (this.projectilescount < 3) {
+			this.projectilescount++;
+		}		
+	}
+
+	@Override
+	public void increaseDamage(final int increment) {
+		this.damage += increment;		
+	}
+
+	@Override
+	public void decreaseCoolDown(final int decrement) {
+		this.cooldowntime -= decrement;
+		
 	}	
 }

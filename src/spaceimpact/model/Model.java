@@ -17,11 +17,12 @@ import spaceimpact.model.spawners.Weapon;
 
 /**
  * Model Implementation <br>
- * The cartesian plane of the model is defined in such a way: x = from 0 to 16/9
+ * The cartesian plane of the model is defined in such a way:<br> 
+ * x = from 0 to 16/9 <br>
  * y = from 0 to 1 <br>
  * The model represent the game and all of active entities. It controls
  * collisions and call level spawners to add new entities. <br>
- * <i>Fields</i><br>
+ * <i>Fields:</i><br>
  * <b>gamestatus</b> Current game Status<br> 
  * <b>framerate</b> Current framerate<br>
  * <b>playerscores</b> Current player scores<br>
@@ -49,19 +50,18 @@ public class Model implements ModelInterface {
 	
 	/**
 	 * Inizializate all collections and start the level <br>
-	 * Level difficulty is defined by the maximum number of enemy spawn
-	 * 
-	 * @param framerate
-	 *            Framerate of the game
-	 * @param level
-	 *            Level to play
-	 * @throws IllegalArgumentException
-	 *             If one or more inputs are null
+	 * Level difficulty is defined by the maximum number of enemy spawn 
+	 * @param framerate Framerate of the game
+	 * @param level Level to play
+	 * @throws IllegalArgumentException If one or more inputs are null
 	 */
 	public Model(final int framerate, final Level level) throws IllegalArgumentException {
 
-		if ((level == null) || (framerate < 0)) {
-			throw new IllegalArgumentException("Model cannot work properly without a level or framerate.");
+		if (level == null) {
+			throw new IllegalArgumentException("Model cannot work properly without a defined level.");
+		}		
+		if (framerate < 0) {
+			throw new IllegalArgumentException("Model cannot work properly with a negative framerate.");					
 		}
 
 		// inizializate main variables
@@ -80,10 +80,11 @@ public class Model implements ModelInterface {
 		// fill player using level
 		if (Model.player == null) {
 			final Location tmploc = new Location(0.1, 0.5, new Area(0.125, 0.0972));
-			final Weapon tmpweapon = new Weapon(EntityType.Spaceship, Direction.E, 50, 10,
-			this.lvl.getLevelVelocity() * 2);
-			tmpweapon.setShootedProjectiles(1);
+			final Weapon tmpweapon = new Weapon(EntityType.Spaceship, Direction.E, 50, 10, this.lvl.getLevelVelocity() * 2);
 			Model.player = new Spaceship(100, this.lvl.getLevelVelocity() * 1.8, tmploc, Direction.E, 100, tmpweapon);
+		} else { //reset player statistics
+			Model.player.acquireLife(100);
+			Model.player.acquireShield(100);
 		}
 	}
 
@@ -304,15 +305,10 @@ public class Model implements ModelInterface {
 		// player with powerup
 		if ((this.poweruplist.size() > 0) && (Model.player.toRemove() == false)) {
 			this.poweruplist.stream().filter(x -> x.toRemove() == false).forEach(x -> {
-				if (x.collideWith(Model.player)) {
-					
-					// TODO
-					// player.getWeapon().enhance(1, 1, 1, 1);
-					
-					this.debrislist.add(new Debris(DebrisType.Sparkle, Model.player.getLocation(), 10));
-					printDBG("Player get PowerUp");		
-					
-					//x.setRemovable();
+				if (x.collideWith(Model.player)) {			
+					x.applyEnhancement(Model.player);
+					this.debrislist.add(new Debris(DebrisType.Sparkle, Model.player.getLocation(), 10));				
+					printDBG("Player get PowerUp");						
 					this.deadentities.add(x);
 				}
 			});
@@ -378,6 +374,11 @@ public class Model implements ModelInterface {
 	}
 	
 	/*UTILITIES*/
+	
+	/**
+	 * Function to print information during DEBUG
+	 * @param str Message to print
+	 */
 	private void printDBG(String str) {
 		if (DEBUG) { System.out.println(str);}
 	}

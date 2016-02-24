@@ -5,6 +5,7 @@ import spaceimpact.model.Location;
 /** 
  * General Entity Interface
  * <br>
+ * Define default methods for all entities inside the model.
  * @author Davide
  */
 public interface Entity {

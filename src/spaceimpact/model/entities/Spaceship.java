@@ -5,9 +5,8 @@ import spaceimpact.model.Location;
 import spaceimpact.model.spawners.Weapon;
 
 /** 
- * Spaceship (User controlled) Class
- * <br>
- * Define User driven Spaceship.
+ * Spaceship<br>
+ * The entity that it's driven by the player.<br>
  * @author Davide
  */
 public class Spaceship extends LivingEntity {
@@ -17,9 +16,8 @@ public class Spaceship extends LivingEntity {
 	/** 
 	 * Spaceship's Constructor (Maximum Life, Velocity, Location, Direction)
 	 * <br>
-	 * Set isalive boolean as true.
-	 * Set currentlife with maximumlife value.
-	 * Set currentshield with maximumshield value.
+	 * Set removable boolean as false.
+	 * Set currentlife with maxlife value.
 	 * @param maxlife Spaceship's Maximum Life 
 	 * @param velocity Spaceship's Velocity
 	 * @param location Spaceship's start location
@@ -38,9 +36,7 @@ public class Spaceship extends LivingEntity {
 	/** 
 	 * Spaceship's Constructor (Maximum Life, Velocity, Location, Direction, Max Shield)
 	 * <br>
-	 * Set isalive boolean as true.
-	 * Set currentlife with maximumlife value.
-	 * Set currentshield with maximumshield value.
+	 * Set currentshield with maxshield value.
 	 * @param maxlife Spaceship's Maximum Life Value
 	 * @param velocity Spaceship's Velocity
 	 * @param location Spaceship's start location
@@ -56,9 +52,6 @@ public class Spaceship extends LivingEntity {
 	/** 
 	 * Spaceship's Constructor (Maximum Life, Velocity, Location, Direction, Max Shield, Weapon)
 	 * <br>
-	 * Set isalive boolean as true.
-	 * Set currentlife with maximumlife value.
-	 * Set currentshield with maximumshield value.
 	 * @param maxlife Spaceship's Maximum Life Value
 	 * @param velocity Spaceship's Velocity
 	 * @param location Spaceship's start location
@@ -111,10 +104,18 @@ public class Spaceship extends LivingEntity {
 	
 	/** 
 	 * Getter method to get remaining shield
-	 * @return amount of remaining shield as integer
+	 * @return currentshield Amount of remaining shield as integer
 	 */
 	public int getRemainingShield() {
 		return this.currentshield;
+	}
+	
+	/**
+	 * Getter method to get velocity
+	 * @return velocity Current spaceship Velocity
+	 */
+	public double getVelocity() {
+		return this.velocity;
 	}
 
 }

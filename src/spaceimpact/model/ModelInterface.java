@@ -8,7 +8,8 @@ import spaceimpact.model.entities.Entity;
 /**
  * Interface for a generic model
  * <br>
- * The "main" method is inside the Controller class.
+ * Defines the main methods of the class model, that's effectively 
+ * the game itself with all active entities and all statistics.
  */
 public interface ModelInterface {
 	
