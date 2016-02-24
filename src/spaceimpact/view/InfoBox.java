@@ -16,10 +16,10 @@ public class InfoBox {
         window.setResizable(false);
         window.centerOnScreen();
         window.setTitle(title);
-        window.setMinWidth(400);
-        window.setMinHeight(600);
+        window.setMinWidth(500);
+        window.setMinHeight(650);
         
-        final Logo logo = new Logo(280,70);
+        final Logo logo = new Logo(220,55);
         
         final Text label = new Text();
         label.setText("Developed and Created by");
@@ -27,6 +27,9 @@ public class InfoBox {
         final Text instructionTitle = new Text();
         instructionTitle.setText("Instructions");
         instructionTitle.setId("titleInfo");
+        final Text otherCredits = new Text();
+        otherCredits.setText("Credits to");
+        otherCredits.setId("titleInfo");
         
         final VBox listDeveloper = new VBox(10);
         final Label view = new Label("Tommaso Bonato (View)");
@@ -38,13 +41,17 @@ public class InfoBox {
         
         final Label instructions = new Label();
         instructions.setText("W - Move up\nA - Move left\nS - Move down\nD - Move right\nSPACE - Fire");
-        instructions.setId("whiteText");
+        instructions.setId("whiteTextInfo");
+        
+        final Label creditsTo = new Label();
+        creditsTo.setText("Immagini Rilasciate con licenza CC-BY 3.0 da C-TOY \n(http://c-toy.blogspot.pt/), MillionthVector \n(http://millionthvector.blogspot.de), Bonsaiheldin\n(http://bonsaiheld.org), Qubodup and \nMartin Jelinek (jelinek.cz@gmail.com) | www.nyrthos.com.");
+        creditsTo.setId("whiteTextInfo");
         
         listDeveloper.getStylesheets().add("style.css");
         listDeveloper.setAlignment(Pos.CENTER);
-        listDeveloper.setId("whiteText");
+        listDeveloper.setId("whiteTextInfo");
         listDeveloper.setPadding(new Insets(10));
-        listDeveloper.getChildren().addAll(instructionTitle, instructions, label, view, model, controller);
+        listDeveloper.getChildren().addAll(instructionTitle, instructions, label, view, model, controller, otherCredits, creditsTo);
 
         final VBox layout = new VBox(10);
         final StackPane descLayout = new StackPane();

@@ -51,6 +51,12 @@
     -fx-font-size: 18pt;
 }
 
+#whiteTextInfo {
+    -fx-font-family: "Arial";
+    -fx-text-fill: white !important;
+    -fx-font-size: 15pt;
+}
+
 #infoPane {
     -fx-background-color: black;
     -fx-font-family: "Arial";   
