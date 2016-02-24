@@ -54,7 +54,7 @@ public class MainMenu extends Scene{
         this.options.setId("dark-blue");
         this.options.setOnAction(e -> mainStage.setScene(Options.get(MainMenu.mainStage))); //Modificare
         this.info.setMinWidth(vbox.getPrefWidth());
-        //this.info.setOnAction(e -> InfoBox.display("Info Box")); //Modificare
+        this.info.setOnAction(e -> InfoBox.display("Info Box")); //Modificare
         this.info.setId("dark-blue");
         this.exit.setMinWidth(vbox.getPrefWidth());
         this.exit.setOnAction(e -> this.closeProgram()); //Modificare
