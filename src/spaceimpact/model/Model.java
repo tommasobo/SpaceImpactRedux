@@ -77,9 +77,9 @@ public class Model implements ModelInterface {
 		if (Model.player == null) {
 			final Location tmploc = new Location(0.1, 0.5, new Area(0.125, 0.0972));
 			final Weapon tmpweapon = new Weapon(EntityType.Spaceship, Direction.E, 50, 10,
-					this.lvl.getLevelVelocity() * 1.5);
+			this.lvl.getLevelVelocity() * 2);
 			tmpweapon.setShootedProjectiles(1);
-			Model.player = new Spaceship(100, this.lvl.getLevelVelocity(), tmploc, Direction.E, 100, tmpweapon);
+			Model.player = new Spaceship(100, this.lvl.getLevelVelocity() * 1.5, tmploc, Direction.E, 100, tmpweapon);
 		}
 	}
 
