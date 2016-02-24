@@ -44,7 +44,7 @@ public class PowerUpSpawner extends Spawner {
 				
 				//generate powerup effects RANDOMLY
 				Enhancement tmpplus = Enhancement.AddProjectile;
-				int rndplus = rnd.nextInt(Enhancement.values().length - 1);
+				int rndplus = rnd.nextInt(Enhancement.values().length);
 				
 				if (rndplus == 0) {
 					tmpplus = Enhancement.CoolDownDecreased;

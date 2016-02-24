@@ -32,12 +32,14 @@ import spaceimpact.model.spawners.Weapon;
  */
 public class Model implements ModelInterface {
 
-	private final boolean DEBUG = true;
+	private final boolean DEBUG = false;
+	
 	// game variables
 	private GameStatus gamestatus = GameStatus.Running;
 	private final int framerate;
 	private int playerscores = 0;
 	private Level lvl = null;
+	private Optional<String> latestpowerup = Optional.empty();
 
 	// entities collections
 	static Spaceship player = null;
@@ -53,9 +55,10 @@ public class Model implements ModelInterface {
 	 * Level difficulty is defined by the maximum number of enemy spawn 
 	 * @param framerate Framerate of the game
 	 * @param level Level to play
+	 * @param reset If true the player Spaceship must be restore to default initial state
 	 * @throws IllegalArgumentException If one or more inputs are null
 	 */
-	public Model(final int framerate, final Level level) throws IllegalArgumentException {
+	public Model(final int framerate, final Level level, final boolean reset) throws IllegalArgumentException {
 
 		if (level == null) {
 			throw new IllegalArgumentException("Model cannot work properly without a defined level.");
@@ -68,7 +71,8 @@ public class Model implements ModelInterface {
 		this.framerate = framerate;
 		this.gamestatus = GameStatus.Running;
 		this.lvl = level;
-
+		latestpowerup = Optional.empty();
+		
 		// inizializate entities collections
 		this.enemylist = new ArrayList<>();
 		this.debrislist = new ArrayList<>();
@@ -78,13 +82,10 @@ public class Model implements ModelInterface {
 		this.deadentities = new ArrayList<>();
 
 		// fill player using level
-		if (Model.player == null) {
+		if (Model.player == null || reset) {
 			final Location tmploc = new Location(0.1, 0.5, new Area(0.125, 0.0972));
 			final Weapon tmpweapon = new Weapon(EntityType.Spaceship, Direction.E, 50, 10, this.lvl.getLevelVelocity() * 2);
 			Model.player = new Spaceship(100, this.lvl.getLevelVelocity() * 1.8, tmploc, Direction.E, 100, tmpweapon);
-		} else { //reset player statistics
-			Model.player.acquireLife(100);
-			Model.player.acquireShield(100);
 		}
 	}
 
@@ -307,7 +308,8 @@ public class Model implements ModelInterface {
 			this.poweruplist.stream().filter(x -> x.toRemove() == false).forEach(x -> {
 				if (x.collideWith(Model.player)) {			
 					x.applyEnhancement(Model.player);
-					this.debrislist.add(new Debris(DebrisType.Sparkle, Model.player.getLocation(), 10));				
+					this.debrislist.add(new Debris(DebrisType.Sparkle, Model.player.getLocation(), 10));
+					this.latestpowerup = Optional.of(x.getEnhancement().getString());
 					printDBG("Player get PowerUp: " + x.toString());						
 					this.deadentities.add(x);
 				}
@@ -371,6 +373,16 @@ public class Model implements ModelInterface {
 	@Override
 	public GameStatus getGameStatus() {
 		return this.gamestatus;
+	}
+	
+	@Override
+	public Optional<String> getLatestPowerUp() {
+		Optional<String> tmp = Optional.empty();
+		if (latestpowerup.isPresent()) {
+			tmp = latestpowerup;
+			latestpowerup = Optional.empty();
+		}
+		return tmp;
 	}
 	
 	/*UTILITIES*/
