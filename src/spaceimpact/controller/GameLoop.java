@@ -115,8 +115,9 @@ public class GameLoop extends Thread {
 						if (timeSpent < this.ticLenght) {
 							final double usage = (((double) 100 * timeSpent) / this.ticLenght);
 							if (usage > 0) {
-								System.out
-										.println("Time usage: " + (((double) 100 * timeSpent) / this.ticLenght) + "%");
+								// System.out.println("Time usage: " +
+								// (((double) 100 * timeSpent) / this.ticLenght)
+								// + "%");
 							}
 							Thread.sleep(this.ticLenght - timeSpent);
 						}
@@ -242,10 +243,10 @@ public class GameLoop extends Thread {
 	private Level createLevel(final int levelId, final int fps) {
 		final int totalEnemiesToSpawn = 10 * (levelId + 1);
 		final int maxEnemyPerSpawn = 2 + ((levelId - 1) / 2);
-		final int enemyDelay = (int) (2 - (0.18333 * Math.min(10, levelId) * fps));
+		final int enemyDelay = (int) ((4 - (0.18333 * Math.min(10, levelId))) * fps);
 		final int debrisDelay = (int) ((2.5 * new Random().nextDouble()) + (0.5 * fps));
 		final int powerupDelay = (8 + (2 * levelId)) * fps;
-		final double tmpvel = 0.25 / fps * (0.9 + (0.1 * levelId));
+		final double tmpvel = (0.15 / fps) * (0.9 + (0.1 * levelId));
 		final Level tmp = new Level(totalEnemiesToSpawn, maxEnemyPerSpawn, enemyDelay, debrisDelay, powerupDelay,
 				tmpvel);
 		tmp.getEnemySpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
