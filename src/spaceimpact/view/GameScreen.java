@@ -101,12 +101,12 @@ public class GameScreen extends Scene {
 	this.root.getChildren().addAll(this.backgroundLayer, topBox);
 	this.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 	    if (!inputHandler.getList().contains(inputHandler.singleKey(event.getCode()))) {
-	        inputHandler.getList().add(inputHandler.singleKey(event.getCode()));
+	        inputHandler.add(inputHandler.singleKey(event.getCode()));
 	    }
 	});
 	this.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
 	    if (inputHandler.getList().contains(inputHandler.singleKey(event.getCode()))) {
-                inputHandler.getList().remove(inputHandler.singleKey(event.getCode()));
+                inputHandler.remove(inputHandler.singleKey(event.getCode()));
             }
 	});
 	this.setRoot(this.root);
