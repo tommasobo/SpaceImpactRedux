@@ -17,6 +17,13 @@ public class PowerUp implements Entity {
 		this.velocity = velocity;
 	}
 	
+	/**
+	 * Method set removable state as true
+	 */
+	public void setRemovable() {
+		this.removable = true;
+	}
+	
 	@Override
 	public boolean toRemove() {
 		return this.removable;
@@ -39,7 +46,7 @@ public class PowerUp implements Entity {
 	
 	@Override
 	public void update() {
-		if (location.getX() < 0) {
+		if (location.getX() < -0.30d) {
 			this.removable = true;
 		} else {
 			this.direction.moveLocation(this.location, this.velocity);		

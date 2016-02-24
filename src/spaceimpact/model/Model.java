@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import spaceimpact.model.entities.Debris;
+import spaceimpact.model.entities.Debris.DebrisType;
 import spaceimpact.model.entities.Enemy;
 import spaceimpact.model.entities.Entity;
 import spaceimpact.model.entities.EntityType;
@@ -20,14 +21,17 @@ import spaceimpact.model.spawners.Weapon;
  * y = from 0 to 1 <br>
  * The model represent the game and all of active entities. It controls
  * collisions and call level spawners to add new entities. <br>
- * <i>Fields</i> <b>gamestatus</b> Current game Status <b>framerate</b> Current
- * framerate <b>playerscores</b> Current player scores <b>lvl</b> Current
- * Playing Level
+ * <i>Fields</i><br>
+ * <b>gamestatus</b> Current game Status<br> 
+ * <b>framerate</b> Current framerate<br>
+ * <b>playerscores</b> Current player scores<br>
+ * <b>lvl</b> Current Playing Level<br>
  * 
  * @author Davide
  */
 public class Model implements ModelInterface {
 
+	private final boolean DEBUG = false;
 	// game variables
 	private GameStatus gamestatus = GameStatus.Running;
 	private final int framerate;
@@ -42,7 +46,7 @@ public class Model implements ModelInterface {
 	List<Projectile> enemiesprojectilelist = null;
 	List<Entity> deadentities = null;
 	List<PowerUp> poweruplist = null;
-
+	
 	/**
 	 * Inizializate all collections and start the level <br>
 	 * Level difficulty is defined by the maximum number of enemy spawn
@@ -79,7 +83,7 @@ public class Model implements ModelInterface {
 			final Weapon tmpweapon = new Weapon(EntityType.Spaceship, Direction.E, 50, 10,
 			this.lvl.getLevelVelocity() * 2);
 			tmpweapon.setShootedProjectiles(1);
-			Model.player = new Spaceship(100, this.lvl.getLevelVelocity() * 1.5, tmploc, Direction.E, 100, tmpweapon);
+			Model.player = new Spaceship(100, this.lvl.getLevelVelocity() * 1.8, tmploc, Direction.E, 100, tmpweapon);
 		}
 	}
 
@@ -115,11 +119,15 @@ public class Model implements ModelInterface {
 		}
 
 		if (direction.isPresent()) {
-			Model.player.move(direction.get());
+			printDBG("Player change direction: " + direction.get().toString());
+			Model.player.move(direction.get());	
+			printDBG(player.toString());
 		}
 
 		if (shoot && Model.player.canShoot()) {
+			printDBG("Player shoot.");
 			this.playerprojectilelist.addAll(Model.player.attack());
+			printDBG(this.playerprojectilelist.get(0).toString());
 		}
 	}
 
@@ -192,15 +200,20 @@ public class Model implements ModelInterface {
 	private void deadEntityCollector() {
 		this.deadentities.forEach(x -> {
 			if (x.getID().equals(EntityType.Spaceship)) {
+				//printDBG("Cleaning: " + x.toString());
 				this.gamestatus = GameStatus.Over;
 			} else if (x.getID().equals(EntityType.Enemy)) {
+				//printDBG("Cleaning: " + x.toString());
 				this.enemylist.remove(x);
 			} else if (x.getID().equals(EntityType.Debris)) {
+				//printDBG("Cleaning: " + x.toString());
 				this.debrislist.remove(x);
 			} else if (x.getID().equals(EntityType.PowerUp)) {
+				//printDBG("Cleaning: " + x.toString());
 				this.poweruplist.remove(x);
 			} else if (x.getID().equals(EntityType.Projectile)) {
 				final Projectile tmp = (Projectile) x;
+				//printDBG("Cleaning: " + tmp.toString());
 				if (tmp.getParentID().equals(EntityType.Spaceship)) {
 					this.playerprojectilelist.remove(tmp);
 				} else {
@@ -217,26 +230,42 @@ public class Model implements ModelInterface {
 
 		// player projectiles with enemy
 		if ((this.enemylist.size() > 0) && (this.playerprojectilelist.size() > 0)) {
-			this.playerprojectilelist.stream().filter(x -> x.toRemove() == false)
-					.forEach(x -> this.enemylist.stream().filter(y -> y.toRemove() == false).forEach(y -> {
-						if (x.collideWith(y) && !this.deadentities.contains(x)) {
-							this.debrislist.add(new Debris(y.getLocation(), 0, 10));
+			this.playerprojectilelist.stream()
+			.filter(x -> x.toRemove() == false)
+			.forEach(x -> this.enemylist.stream()
+					.filter(y -> y.toRemove() == false)
+					.forEach(y -> {
+					if (x.collideWith(y) && !this.deadentities.contains(x)) {
+						y.looseLife(x.getDamage());
+						if (y.toRemove()) { //KILL
+							this.debrislist.add(new Debris(DebrisType.Explosion, y.getLocation(), 10));
 							this.deadentities.add(y);
-							this.deadentities.add(x);
 							this.playerscores += 10;
+							printDBG("Player kill enemy: " + y.toString());
+						} else { //HIT
+							this.debrislist.add(new Debris(DebrisType.Hit, y.getLocation(), 10));
+							printDBG("Player hit enemy: " + y.toString());
 						}
-					}));
+						this.deadentities.add(x);
+					}
+			}));
 		}
 
 		// enemy projectiles with player
 		if (this.enemiesprojectilelist.size() > 0) {
-			this.enemiesprojectilelist.stream().filter(x -> x.toRemove() == false).forEach(x -> {
+			this.enemiesprojectilelist.stream()
+			.filter(x -> x.toRemove() == false)
+			.forEach(x -> {
 				if (x.collideWith(Model.player)) {
 					Model.player.looseLife(x.getDamage());
-					if (Model.player.toRemove()) {
-						this.debrislist.add(new Debris(Model.player.getLocation(), 0, 10));
+					if (Model.player.toRemove()) { //KILL
+						this.debrislist.add(new Debris(DebrisType.Explosion, Model.player.getLocation(), 10));
 						this.gamestatus = GameStatus.Over;
 						this.deadentities.add(Model.player);
+						printDBG("Player is dead!");
+					} else { //HIT
+						this.debrislist.add(new Debris(DebrisType.Hit, Model.player.getLocation(), 10));
+						printDBG("Player is hit!");
 					}
 					this.deadentities.add(x);
 				}
@@ -245,18 +274,28 @@ public class Model implements ModelInterface {
 
 		// enemy with player or viceversa
 		if ((this.enemylist.size() > 0) && (Model.player.toRemove() == false)) {
-			this.enemylist.stream().filter(x -> x.toRemove() == false).forEach(x -> {
+			this.enemylist.stream()
+			.filter(x -> x.toRemove() == false)
+			.forEach(x -> {
 				if (x.collideWith(Model.player)) {
 					Model.player.looseLife(20);
 					x.looseLife(20);
 					if (Model.player.toRemove()) {
-						this.debrislist.add(new Debris(Model.player.getLocation(), 0, 10));
+						this.debrislist.add(new Debris(DebrisType.Explosion, Model.player.getLocation(), 10));
 						this.gamestatus = GameStatus.Over;
 						this.deadentities.add(Model.player);
+						printDBG("Player is dead!");
+					} else {
+						this.debrislist.add(new Debris(DebrisType.Hit, Model.player.getLocation(), 10));
+						printDBG("Player has collided with an enemy!");
 					}
 					if (x.toRemove()) {
-						this.debrislist.add(new Debris(x.getLocation(), 0, 10));
+						this.debrislist.add(new Debris(DebrisType.Explosion, x.getLocation(), 10));
 						this.deadentities.add(x);
+						printDBG("Enemy has collided with the player and he's dead!");
+					} else {
+						this.debrislist.add(new Debris(DebrisType.Hit, x.getLocation(), 10));
+						printDBG("Enemy has collided with the player and he's dead!");
 					}
 				}
 			});
@@ -266,9 +305,14 @@ public class Model implements ModelInterface {
 		if ((this.poweruplist.size() > 0) && (Model.player.toRemove() == false)) {
 			this.poweruplist.stream().filter(x -> x.toRemove() == false).forEach(x -> {
 				if (x.collideWith(Model.player)) {
-					// TOMODIFY!!!!
+					
+					// TODO
 					// player.getWeapon().enhance(1, 1, 1, 1);
-					System.out.println("POWERUP!");
+					
+					this.debrislist.add(new Debris(DebrisType.Sparkle, Model.player.getLocation(), 10));
+					printDBG("Player get PowerUp");		
+					
+					//x.setRemovable();
 					this.deadentities.add(x);
 				}
 			});
@@ -323,11 +367,18 @@ public class Model implements ModelInterface {
 
 	@Override
 	public int getScores() {
-		return this.playerscores;
+		int tmpvalue = this.playerscores;
+		this.playerscores = 0;
+		return tmpvalue;
 	}
 
 	@Override
 	public GameStatus getGameStatus() {
 		return this.gamestatus;
+	}
+	
+	/*UTILITIES*/
+	private void printDBG(String str) {
+		if (DEBUG) { System.out.println(str);}
 	}
 }

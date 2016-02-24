@@ -1,6 +1,7 @@
 package spaceimpact.model.entities;
 
 import spaceimpact.model.Direction;
+import spaceimpact.model.entities.Debris.DebrisType;
 import spaceimpact.utilities.Pair;
 
 /**
@@ -84,7 +85,7 @@ public enum EntityType {
 		} else if (e instanceof Debris) {
 			final Debris d = (Debris) e;
 			s.append("Debris/");
-			if (d.getType() == DebrisType.Explosions) {
+			if (d.getType() == DebrisType.Explosion) {
 				s.append("explosion.gif");
 			} else if (d.getType() == DebrisType.Hit) {
 				s.append("hit.gif");
@@ -94,7 +95,7 @@ public enum EntityType {
 				s.append("asteroid.gif");
 			}
 		} else if (e instanceof PowerUp) {
-			final PowerUp p = (PowerUp) e;
+			//final PowerUp p = (PowerUp) e;
 			s.append("Powerups/");
 			// TODO choose powerup type
 			s.append("shield.gif");

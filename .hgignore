@@ -3,3 +3,4 @@ syntax: glob
 *.ucls
 *bin/*
 *doc/*
+hiscores
