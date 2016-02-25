@@ -107,8 +107,11 @@ public class HighScores extends Scene{
     private void resetHighScores() {
         final Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to reset the High Scores?");
         if (answer) {
-            View.getController().emptyHighScores();
-            HighScores.listHighScores.getChildren().clear();
+            if (View.getController().emptyHighScores()) {
+                HighScores.listHighScores.getChildren().clear();
+            } else {
+                ErrorBox.display("Error", "An error occurred while emptying the scores");
+            }
             mainStage.setScene(HighScores.get(mainStage));
         }
     }

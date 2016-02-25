@@ -44,7 +44,9 @@ public class GameOverScreen extends Scene{
                 this.saved.setText("Score Saved");
                 this.saved.setTextFill(Color.GREEN);
                 this.saved.setVisible(true);
-                View.getController().setCurrentPlayerName(name.getText());
+                if (!View.getController().setCurrentPlayerName(name.getText())) {
+                    ErrorBox.display("Error", "An error occurred while saving the score");
+                }
             }
         });
         final HBox insertLayout = new HBox();
