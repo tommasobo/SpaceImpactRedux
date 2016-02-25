@@ -32,7 +32,7 @@ import spaceimpact.model.spawners.Weapon;
  */
 public class Model implements ModelInterface {
 
-	private final boolean DEBUG = false;
+	private final boolean DEBUG = true;
 	
 	// game variables
 	private GameStatus gamestatus = GameStatus.Running;
@@ -149,6 +149,7 @@ public class Model implements ModelInterface {
 				this.enemiesprojectilelist.addAll(x.attack());
 			}
 		});
+		
 		this.playerprojectilelist.forEach(x -> x.update());
 		this.enemiesprojectilelist.forEach(x -> x.update());
 		this.debrislist.forEach(x -> x.update());
@@ -202,20 +203,20 @@ public class Model implements ModelInterface {
 	private void deadEntityCollector() {
 		this.deadentities.forEach(x -> {
 			if (x.getID().equals(EntityType.Spaceship)) {
-				//printDBG("Cleaning: " + x.toString());
 				this.gamestatus = GameStatus.Over;
+				printDBG("Cleaning: " + x.toString());
 			} else if (x.getID().equals(EntityType.Enemy)) {
-				//printDBG("Cleaning: " + x.toString());
 				this.enemylist.remove(x);
+				printDBG("Cleaning: " + x.toString());
 			} else if (x.getID().equals(EntityType.Debris)) {
-				//printDBG("Cleaning: " + x.toString());
 				this.debrislist.remove(x);
+				printDBG("Cleaning: " + x.toString());
 			} else if (x.getID().equals(EntityType.PowerUp)) {
-				//printDBG("Cleaning: " + x.toString());
+				printDBG("Cleaning: " + x.toString());
 				this.poweruplist.remove(x);
 			} else if (x.getID().equals(EntityType.Projectile)) {
 				final Projectile tmp = (Projectile) x;
-				//printDBG("Cleaning: " + tmp.toString());
+				printDBG("Cleaning: " + x.toString());
 				if (tmp.getParentID().equals(EntityType.Spaceship)) {
 					this.playerprojectilelist.remove(tmp);
 				} else {
@@ -223,6 +224,9 @@ public class Model implements ModelInterface {
 				}
 			}
 		});
+		
+		//clean dead entites list
+		this.deadentities = new ArrayList<>();
 	}
 
 	/**
@@ -308,6 +312,7 @@ public class Model implements ModelInterface {
 			this.poweruplist.stream().filter(x -> x.toRemove() == false).forEach(x -> {
 				if (x.collideWith(Model.player)) {			
 					x.applyEnhancement(Model.player);
+					x.setRemovable();
 					this.debrislist.add(new Debris(DebrisType.Sparkle, Model.player.getLocation(), 10));
 					this.latestpowerup = Optional.of(x.getEnhancement().getString());
 					printDBG("Player get PowerUp: " + x.toString());						
@@ -379,7 +384,12 @@ public class Model implements ModelInterface {
 	public Optional<String> getLatestPowerUp() {
 		Optional<String> tmp = Optional.empty();
 		if (latestpowerup.isPresent()) {
-			tmp = latestpowerup;
+			
+			if (Model.player.getWeapon().getProjectilesCount() >= 8) {
+				tmp = Optional.of("Weapon maxed out!");
+			} else {
+				tmp = latestpowerup;
+			}
 			latestpowerup = Optional.empty();
 		}
 		return tmp;

@@ -22,12 +22,42 @@ public class PowerUp implements Entity {
 	 * All possible PowerUps enhancements
 	 */
 	public enum Enhancement {
-		AddProjectile,
-		CoolDownDecreased,
-		IncrementDamage,
-		Heal,
-		RestoreShield,
-		IncrementSpeed;
+		AddProjectile {
+			@Override
+			public String getImageName() {
+				return "addprojectile.gif";
+			}
+		},
+		CoolDownDecreased {
+			@Override
+			public String getImageName() {
+				return "cooldown.gif";
+			}
+		},
+		IncrementDamage {
+			@Override
+			public String getImageName() {
+				return "damage.gif";
+			}
+		},
+		Heal {
+			@Override
+			public String getImageName() {
+				return "heal.gif";
+			}
+		},
+		RestoreShield {
+			@Override
+			public String getImageName() {
+				return "shield.gif";
+			}
+		},
+		IncrementSpeed {
+			@Override
+			public String getImageName() {
+				return "speed.gif";
+			}
+		};
 		
 		/**
 		 * Return the Description of the Enhancement
@@ -48,6 +78,12 @@ public class PowerUp implements Entity {
 				return "Faster engines!";
 			}			
 		}
+		
+		/**
+		 * Return the texture filename referred to the enhancement
+		 * @return string As the filename of the image linked to the enhancement
+		 */
+		public abstract String getImageName();
 	}
 
 	private final EntityType ID = EntityType.PowerUp; //entity type identifier

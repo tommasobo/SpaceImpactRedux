@@ -56,4 +56,10 @@ public interface WeaponInterface {
 	 */
 	void decreaseCoolDown(final int decrement);
 	
+	/**
+	 * Getter for Weapon Current Number of Shooted Projectiles
+	 * @return projectiles Number of Shooted Projectiles
+	 */
+	int getProjectilesCount();
+	
 }

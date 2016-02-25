@@ -43,9 +43,9 @@ public class PowerUpSpawner extends Spawner {
 				Location tmploc = new Location(x, y, area);
 				
 				//generate powerup effects RANDOMLY
-				Enhancement tmpplus = Enhancement.AddProjectile;
 				int rndplus = rnd.nextInt(Enhancement.values().length);
 				
+				Enhancement tmpplus = Enhancement.AddProjectile;			
 				if (rndplus == 0) {
 					tmpplus = Enhancement.CoolDownDecreased;
 				} else if (rndplus == 1) {
