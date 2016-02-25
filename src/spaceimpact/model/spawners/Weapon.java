@@ -137,13 +137,16 @@ public class Weapon implements WeaponInterface {
 
 	@Override
 	public void increaseDamage(final int increment) {
-		this.damage += increment;		
+		if (this.damage + increment <= 60) {
+			this.damage += increment;
+		}
 	}
 
 	@Override
 	public void decreaseCoolDown(final int decrement) {
-		this.cooldowntime -= decrement;
-		
+		if (this.cooldowntime - decrement >= 0) {
+			this.cooldowntime -= decrement;
+		}
 	}
 
 	@Override

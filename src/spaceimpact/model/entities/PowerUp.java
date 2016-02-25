@@ -129,9 +129,9 @@ public class PowerUp implements Entity {
 		} else if (this.plus.equals(Enhancement.Heal)) {
 			player.acquireLife(10);
 		} else if (this.plus.equals(Enhancement.RestoreShield)) {
-			player.acquireShield(10);
+			player.acquireShield(20);
 		} else {
-			player.setVelocity(player.getVelocity() * 1.1);
+			player.setVelocity(player.getVelocity() * 1.15);
 		}
 	}
 	
