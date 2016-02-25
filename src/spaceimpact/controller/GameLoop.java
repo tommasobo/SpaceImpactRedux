@@ -110,9 +110,9 @@ public class GameLoop extends Thread {
 					}
 					this.score += GameLoop.this.model.getScores();
 					final List<Pair<Pair<String, Double>, Location>> toDraw = new LinkedList<>();
-					toDraw.add(new Pair<>(new Pair<>("/Entities/Player.png", 0d), this.model.getPlayerLocation()));
+					final Location pl = this.model.getPlayerLocation();
+					toDraw.add(new Pair<>(new Pair<>("/Entities/Player.png", 0d), new Location(pl)));
 					if (this.model.getPlayerShield() > 0) {
-						final Location pl = this.model.getPlayerLocation();
 						final Area a = new Area(pl.getArea().getWidth() * 2, pl.getArea().getHeight() * 2);
 						toDraw.add(new Pair<>(new Pair<>("/Images/shield.png", 0d),
 								new Location(pl.getX() + a.getWidth() / 10, pl.getY(), a)));
