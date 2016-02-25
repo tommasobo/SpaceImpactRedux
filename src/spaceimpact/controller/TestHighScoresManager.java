@@ -13,23 +13,26 @@ public class TestHighScoresManager {
 
 	@Test
 	public void test1() {
-		// if last test failed remove "test1" file!!!
+		// if last test failed remove fileName file!!!
 		HighScoresManagerInterface h;
+		final String fileName = "test1";
 
 		System.out.println("try to create a manager with invalid arguments");
 		try {
 			h = new HighScoresManager("", 1);
 			Assert.assertTrue("Created with wrong String!", false);
 		} catch (final Exception e) {
+			System.out.println("First attempt failed, OK!");
 		}
 		try {
-			h = new HighScoresManager("test1", -24);
+			h = new HighScoresManager(fileName, -24);
 			Assert.assertTrue("Created with wrong int!", false);
 		} catch (final Exception e) {
+			System.out.println("Second attempt failed, OK!");
 		}
 
 		System.out.println("\nload an empty list");
-		h = new HighScoresManager("test1", 3);
+		h = new HighScoresManager(fileName, 3);
 		final List<Pair<String, Integer>> comparisonList = new LinkedList<>();
 		System.out.println("Current list: " + h.getScores() + "\nExpected: " + comparisonList + "\n\n");
 		Assert.assertTrue("The newly created score list must be empty!",
@@ -87,19 +90,19 @@ public class TestHighScoresManager {
 		}
 
 		System.out.println("\n\nload again");
-		h = new HighScoresManager("test1", 3);
+		h = new HighScoresManager(fileName, 3);
 		System.out.println("Current list: " + h.getScores() + "\nExpected: " + comparisonList + "\n\n");
 		Assert.assertTrue("The list should be as before!", h.getScores().toString().equals(comparisonList.toString()));
 
 		System.out.println("load a list with a lower score limit");
 		comparisonList.remove(2);
-		h = new HighScoresManager("test1", 2);
+		h = new HighScoresManager(fileName, 2);
 		System.out.println("Current list: " + h.getScores() + "\nExpected: " + comparisonList + "\n\n");
 		Assert.assertTrue("Only Gianni and Genoveffa should be in the list!",
 				h.getScores().toString().equals(comparisonList.toString()));
 
 		System.out.println("not saved, load again with higher score limit");
-		h = new HighScoresManager("test1", 15);
+		h = new HighScoresManager(fileName, 15);
 		comparisonList.add(p);
 		System.out.println("Current list: " + h.getScores() + "\nExpected: " + comparisonList + "\n\n");
 		Assert.assertTrue("Giuseppe should be in the list!",

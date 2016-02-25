@@ -89,7 +89,7 @@ public class GameLoop extends Thread {
 				if (this.model.getGameStatus() == GameStatus.Running) {
 					final long startTime = System.currentTimeMillis();
 					timer++;
-					if (timer > (2 * fps)) {
+					if (timer > 2 * fps) {
 						timer = 0;
 						final Optional<String> s = this.model.getLatestPowerUp();
 						if (s.isPresent()) {
@@ -103,7 +103,7 @@ public class GameLoop extends Thread {
 						final Location pl = this.model.getPlayerLocation();
 						final Area a = new Area(pl.getArea().getWidth() * 2, pl.getArea().getHeight() * 2);
 						toDraw.add(new Pair<>(new Pair<>("/Images/shield.png", 0d),
-								new Location(pl.getX() + (a.getWidth() / 10), pl.getY(), a)));
+								new Location(pl.getX() + a.getWidth() / 10, pl.getY(), a)));
 					}
 					this.model.getEntitiesToDraw().forEach(e -> {
 						toDraw.add(new Pair<>(EntityType.getImage(e), e.getLocation()));
@@ -124,12 +124,6 @@ public class GameLoop extends Thread {
 						t.join();
 						final long timeSpent = System.currentTimeMillis() - startTime;
 						if (timeSpent < this.ticLenght) {
-							final double usage = (((double) 100 * timeSpent) / this.ticLenght);
-							if (usage > 0) {
-								// System.out.println("Time usage: " +
-								// (((double) 100 * timeSpent) / this.ticLenght)
-								// + "%");
-							}
 							Thread.sleep(this.ticLenght - timeSpent);
 						}
 						if (this.model.getPlayerLife() <= 0) {
@@ -252,19 +246,19 @@ public class GameLoop extends Thread {
 	 */
 	private Level createLevel(final int levelId, final int fps) {
 		final int totalEnemiesToSpawn = 10 * (levelId + 1);
-		final int maxEnemyPerSpawn = 2 + ((levelId - 1) / 2);
-		final int enemyDelay = (int) ((4 - (0.18333 * Math.min(10, levelId))) * fps);
-		final int debrisDelay = (int) (((2 * new Random().nextDouble()) + 1) * fps);
-		final int powerupDelay = (8 + (2 * levelId)) * fps;
-		final double tmpvel = (0.15 / fps) * (0.9 + (0.1 * levelId));
+		final int maxEnemyPerSpawn = 2 + (levelId - 1) / 2;
+		final int enemyDelay = (int) ((4 - 0.18333 * Math.min(10, levelId)) * fps);
+		final int debrisDelay = (int) ((2 * new Random().nextDouble() + 1) * fps);
+		final int powerupDelay = (8 + 2 * levelId) * fps;
+		final double tmpvel = 0.15 / fps * (0.9 + 0.1 * levelId);
 		final Level tmp = new Level(totalEnemiesToSpawn, maxEnemyPerSpawn, enemyDelay, debrisDelay, powerupDelay,
 				tmpvel);
 		tmp.getEnemySpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
 		tmp.getDebrisSpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
 		tmp.getPowerUpSpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
-		tmp.getEnemySpawner().setCoolDownEntityWeapon((int) ((1 - (0.1 * Math.min(5, levelId / 2))) * fps));
+		tmp.getEnemySpawner().setCoolDownEntityWeapon((int) ((1 - 0.1 * Math.min(5, levelId / 2)) * fps));
 		tmp.getEnemySpawner().setEntityDamageRange(5 * (levelId + 1), 10 * (levelId + 1));
-		tmp.getEnemySpawner().setEntityLifeRange(5 * levelId, 5 + (10 * levelId));
+		tmp.getEnemySpawner().setEntityLifeRange(5 * levelId, 5 + 10 * levelId);
 		tmp.getEnemySpawner().setEntityVelocityRange(tmpvel, tmpvel * 1.5);
 		return tmp;
 	}

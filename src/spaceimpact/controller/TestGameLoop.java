@@ -108,13 +108,10 @@ public class TestGameLoop {
 		@Override
 
 		public void showText(final int nLevel) {
-			// TODO Auto-generated method stub
 		}
 
 		@Override
 		public void showText(final String powerUp) {
-			// TODO Auto-generated method stub
-
 		}
 
 	};
@@ -126,7 +123,8 @@ public class TestGameLoop {
 		}
 
 		@Override
-		public void setCurrentPlayerName(final String s) {
+		public boolean setCurrentPlayerName(final String s) {
+			return true;
 		}
 
 		@Override
@@ -153,7 +151,8 @@ public class TestGameLoop {
 		}
 
 		@Override
-		public void emptyHighScores() {
+		public boolean emptyHighScores() {
+			return true;
 		}
 
 		@Override
