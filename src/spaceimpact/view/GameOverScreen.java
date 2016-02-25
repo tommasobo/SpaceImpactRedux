@@ -29,7 +29,7 @@ public class GameOverScreen extends Scene{
         final VBox mainLayout = new VBox();
         mainLayout.setAlignment(Pos.CENTER);
         
-        ImageView gameOver = new ImageView(ImageLoader.getLoader().getImageFromPath("gameOver.jpg"));
+        ImageView gameOver = new ImageView(ImageLoader.getLoader().getImageFromPath("images/gameOver.jpg"));
         gameOver.setFitWidth(500);
         gameOver.setFitHeight(250);
 

@@ -11,10 +11,11 @@ public class ConfirmBox {
 
     //Create variable
     private static boolean answer;
+    private static final String SEP = System.getProperty("file.separator");
 
     public static boolean display(String title, String message) {
         final Stage window = new Stage();
-        window.getIcons().add(new Image("file:res/alert.png"));
+        window.getIcons().add(new Image("file:res" + SEP + "icons" + SEP + "alert.png"));
         window.setResizable(false);
         window.centerOnScreen();
         window.initModality(Modality.APPLICATION_MODAL);
