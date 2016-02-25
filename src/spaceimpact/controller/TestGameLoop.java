@@ -106,9 +106,9 @@ public class TestGameLoop {
 		}
 
 		@Override
+
 		public void showText(final int nLevel) {
 			// TODO Auto-generated method stub
-
 		}
 
 		@Override

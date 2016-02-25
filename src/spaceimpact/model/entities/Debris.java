@@ -15,18 +15,40 @@ import spaceimpact.model.Location;
  * has a limited amount of life defined by a countdown.<br>
  * <b>Asteroid</b> that it's spawned randomly and moves across 
  * the gamescreen. He dies as soon as his x location is less than -0.30.<br>
- * @author Davide
+ * @author Davide Giacomini
  */
 public class Debris implements Entity {
 	
 	/**
-	 * The type of the debris
+	 * The type of the debris<br>
 	 */
 	public enum DebrisType {
-		Explosion,
-		Hit,
-		Sparkle,
-		Asteroid;
+		Explosion {
+			public String getImageName() {
+				return "explosion.gif";
+			}
+		},
+		Hit {
+			public String getImageName() {
+				return "hit.gif";
+			}
+		},
+		Sparkle {
+			public String getImageName() {
+				return "sparkle.gif";
+			}
+		},
+		Asteroid {
+			public String getImageName() {
+				return "asteroid.gif";
+			}
+		};
+		
+		/**
+		 * Return the texture filename referred to the debris type
+		 * @return string As the filename of the image linked to the debris type
+		 */
+		public abstract String getImageName();
 	}
 
 	private final EntityType ID = EntityType.Debris; //entity type identifier

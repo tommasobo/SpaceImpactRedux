@@ -61,13 +61,44 @@ public class Weapon implements WeaponInterface {
 		List<Direction> projectilesdir = new ArrayList<Direction>();
 				
 		projectilesdir.add(this.direction);
-		
-		if (projectilescount == 3) {
+				
+		if (projectilescount == 8) {
+			projectilesdir.add(this.direction.moveRight().moveRight());
+			projectilesdir.add(this.direction.moveLeft().moveLeft());
+			projectilesdir.add(this.direction.flip().moveLeft());
+			projectilesdir.add(this.direction.flip().moveRight());
+			projectilesdir.add(this.direction.moveLeft());
+			projectilesdir.add(this.direction.moveRight());
+			projectilesdir.add(this.direction.flip());
+		} else if (projectilescount == 7) {
+			projectilesdir.add(this.direction.moveLeft().moveLeft());
+			projectilesdir.add(this.direction.flip().moveLeft());
+			projectilesdir.add(this.direction.flip().moveRight());
+			projectilesdir.add(this.direction.moveLeft());
+			projectilesdir.add(this.direction.moveRight());
+			projectilesdir.add(this.direction.flip());
+		} else if (projectilescount == 6) {
+			projectilesdir.add(this.direction.flip().moveLeft());
+			projectilesdir.add(this.direction.flip().moveRight());
+			projectilesdir.add(this.direction.moveLeft());
+			projectilesdir.add(this.direction.moveRight());
+			projectilesdir.add(this.direction.flip());
+		} else if (projectilescount == 5) {
+			projectilesdir.add(this.direction.flip().moveLeft());
+			projectilesdir.add(this.direction.flip().moveRight());
+			projectilesdir.add(this.direction.moveLeft());
+			projectilesdir.add(this.direction.moveRight());
+		} else if (projectilescount == 4) {
+			projectilesdir.add(this.direction.flip());
+			projectilesdir.add(this.direction.moveLeft());
+			projectilesdir.add(this.direction.moveRight());	
+		} else if (projectilescount == 3) {
 			projectilesdir.add(this.direction.moveLeft());
 			projectilesdir.add(this.direction.moveRight());			
-		} else if (projectilescount == 2) {
-			projectilesdir.add(this.direction.flip());		
+		} if (projectilescount == 2) {
+			projectilesdir.add(this.direction.flip());
 		}
+
 		
 		projectilesdir.stream().forEach(x -> {
 			projectiles.add(new Projectile(this.parentID, new Location(newlocarea), x, this.projectilesvelocity, this.damage));
@@ -99,7 +130,7 @@ public class Weapon implements WeaponInterface {
 
 	@Override
 	public void increaseProjectiles() {
-		if (this.projectilescount < 3) {
+		if (this.projectilescount < 8) {
 			this.projectilescount++;
 		}		
 	}
@@ -113,5 +144,10 @@ public class Weapon implements WeaponInterface {
 	public void decreaseCoolDown(final int decrement) {
 		this.cooldowntime -= decrement;
 		
+	}
+
+	@Override
+	public int getProjectilesCount() {
+		return this.projectilescount;
 	}	
 }
