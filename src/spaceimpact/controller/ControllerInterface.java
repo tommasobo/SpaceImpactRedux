@@ -82,7 +82,7 @@ public interface ControllerInterface {
 
 	int getFPS();
 
-	int getDifficulty();
+	String getDifficulty();
 
-	void setFPSDifficulty(int fps, int diff) throws IllegalArgumentException;
+	void setFPSDifficulty(int fps, Pair<String, Integer> diff) throws IllegalArgumentException;
 }

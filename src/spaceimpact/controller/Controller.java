@@ -11,9 +11,9 @@ import spaceimpact.view.ViewInterface;
 public final class Controller implements ControllerInterface {
 	private static final String HS_FILENAME = "hiscores";
 	private static final int HS_NSCORES = 10;
-	private static int fps = 60;
-	private static int diff = 2;
 
+	private int fps = 60;
+	private Pair<String, Integer> diff = new Pair<>("Medium", 2);
 	private final HighScoresManagerInterface hsManager;
 	private Optional<GameLoop> gl;
 	private ViewInterface view;
@@ -29,7 +29,7 @@ public final class Controller implements ControllerInterface {
 		if (this.gl.isPresent()) {
 			throw new IllegalStateException();
 		}
-		final GameLoop game = new GameLoop(Controller.fps, Controller.diff, this, this.view);
+		final GameLoop game = new GameLoop(this.fps, this.diff.getSecond(), this, this.view);
 		this.gl = Optional.of(game);
 		game.start();
 	}
@@ -115,24 +115,24 @@ public final class Controller implements ControllerInterface {
 
 	@Override
 	public int getFPS() {
-		return Controller.fps;
+		return this.fps;
 	}
 
 	@Override
-	public int getDifficulty() {
-		return Controller.diff;
+	public String getDifficulty() {
+		return this.diff.getFirst();
 	}
 
 	@Override
-	public void setFPSDifficulty(final int fps, final int diff) throws IllegalArgumentException {
-		if (diff <= 0) {
-			throw new IllegalArgumentException("Cannot set a difficulty <= 0");
+	public void setFPSDifficulty(final int fps, final Pair<String, Integer> diff) throws IllegalArgumentException {
+		if (diff.getSecond() <= 0 || diff.getFirst() == null || diff.getFirst().equals("")) {
+			throw new IllegalArgumentException("Cannot set a difficulty <= 0 (or empty string)");
 		}
 		if (fps <= 0) {
 			throw new IllegalArgumentException("Cannot set fps <= 0");
 		}
-		Controller.diff = diff;
-		Controller.fps = fps;
+		this.diff = diff;
+		this.fps = fps;
 	}
 
 }
