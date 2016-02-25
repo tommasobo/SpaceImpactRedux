@@ -10,9 +10,11 @@ import javafx.geometry.*;
 
 public class InfoBox {
 
+    private static final String SEP = System.getProperty("file.separator");
+
     public static void display(String title) {
         final Stage window = new Stage();
-        window.getIcons().add(new Image("file:res/info.png"));
+        window.getIcons().add(new Image("file:res" + SEP + "icons" + SEP + "info.png"));
         window.setResizable(false);
         window.centerOnScreen();
         window.setTitle(title);
