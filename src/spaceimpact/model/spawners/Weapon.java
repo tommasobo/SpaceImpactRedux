@@ -95,10 +95,9 @@ public class Weapon implements WeaponInterface {
 		} else if (projectilescount == 3) {
 			projectilesdir.add(this.direction.moveLeft());
 			projectilesdir.add(this.direction.moveRight());			
-		} if (projectilescount == 2) {
+		} else if (projectilescount == 2) {
 			projectilesdir.add(this.direction.flip());
 		}
-
 		
 		projectilesdir.stream().forEach(x -> {
 			projectiles.add(new Projectile(this.parentID, new Location(newlocarea), x, this.projectilesvelocity, this.damage));
