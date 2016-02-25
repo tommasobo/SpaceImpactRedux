@@ -102,7 +102,7 @@ public class GameLoop extends Thread {
 					if (this.model.getPlayerShield() > 0) {
 						final Location pl = this.model.getPlayerLocation();
 						final Area a = new Area(pl.getArea().getWidth() * 2, pl.getArea().getHeight() * 2);
-						toDraw.add(new Pair<>(new Pair<>("shield.png", 0d),
+						toDraw.add(new Pair<>(new Pair<>("/Images/shield.png", 0d),
 								new Location(pl.getX() + (a.getWidth() / 10), pl.getY(), a)));
 					}
 					this.model.getEntitiesToDraw().forEach(e -> {
