@@ -55,12 +55,20 @@ public class GameLoop extends Thread {
 		this.score = 0;
 	}
 
+	private synchronized boolean isInState(final Status stat) {
+		return this.status == stat;
+	}
+
+	private synchronized void setState(final Status stat) {
+		this.status = stat;
+	}
+
 	/**
 	 * Causes the GameLoop to stop even if the game didn't reach an end. The
 	 * halt could be delayed up to a tic later.
 	 */
 	public void abort() {
-		this.status = Status.KILLED;
+		this.setState(Status.KILLED);
 	}
 
 	/**
@@ -68,8 +76,8 @@ public class GameLoop extends Thread {
 	 * pause could be delayed up to a tic later.
 	 */
 	public void pause() {
-		if (this.status == Status.RUNNING) {
-			this.status = Status.PAUSED;
+		if (this.isRunning()) {
+			this.setState(Status.PAUSED);
 		}
 	}
 
@@ -82,10 +90,10 @@ public class GameLoop extends Thread {
 	@Override
 	public void run() {
 		final int fps = (int) (1000 / this.ticLenght);
-		this.status = Status.RUNNING;
+		this.setState(Status.RUNNING);
 		int timer = 0;
-		while (this.status != Status.KILLED) {
-			if (this.status == Status.RUNNING) {
+		while (!this.isInState(Status.KILLED)) {
+			if (this.isInState(Status.RUNNING)) {
 				if (this.model.getGameStatus() == GameStatus.Running) {
 					final long startTime = System.currentTimeMillis();
 					timer++;
@@ -122,7 +130,7 @@ public class GameLoop extends Thread {
 					this.model.updateAll();
 					try {
 						if (this.model.getPlayerLife() <= 0) {
-							this.status = Status.KILLED;
+							this.setState(Status.KILLED);
 						}
 						t.join();
 						final long timeSpent = System.currentTimeMillis() - startTime;
@@ -130,10 +138,10 @@ public class GameLoop extends Thread {
 							Thread.sleep(this.ticLenght - timeSpent);
 						}
 					} catch (final InterruptedException ex1) {
-						this.status = Status.KILLED;
+						this.setState(Status.KILLED);
 					}
 				} else if (this.model.getGameStatus() == GameStatus.Over) {
-					this.status = Status.KILLED;
+					this.setState(Status.KILLED);
 				} else {
 					this.view.showText(this.nLevel);
 					this.nLevel++;
@@ -143,7 +151,7 @@ public class GameLoop extends Thread {
 				try {
 					Thread.sleep(500);
 				} catch (final InterruptedException e) {
-					this.status = Status.KILLED;
+					this.setState(Status.KILLED);
 				}
 			}
 		}
@@ -206,7 +214,7 @@ public class GameLoop extends Thread {
 	 */
 	public void unPause() {
 		if (this.isPaused()) {
-			this.status = Status.RUNNING;
+			this.setState(Status.RUNNING);
 		}
 	}
 
@@ -216,7 +224,7 @@ public class GameLoop extends Thread {
 	 * @return True if the game is paused, false otherwise
 	 */
 	public boolean isPaused() {
-		return this.status == Status.PAUSED;
+		return this.isInState(Status.PAUSED);
 	}
 
 	/**
@@ -225,7 +233,7 @@ public class GameLoop extends Thread {
 	 * @return True if the game is running, false otherwise
 	 */
 	public boolean isRunning() {
-		return this.status == Status.RUNNING;
+		return this.isInState(Status.RUNNING);
 	}
 
 	/**
@@ -236,7 +244,7 @@ public class GameLoop extends Thread {
 	 *             If this method is used before game termination.
 	 */
 	public int getScores() throws IllegalStateException {
-		if (this.status != Status.KILLED) {
+		if (this.isInState(Status.KILLED)) {
 			throw new IllegalStateException();
 		}
 		return this.score;
