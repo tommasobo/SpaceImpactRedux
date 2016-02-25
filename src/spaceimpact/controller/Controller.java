@@ -11,7 +11,7 @@ import spaceimpact.view.ViewInterface;
 public final class Controller implements ControllerInterface {
 	private static final String HS_FILENAME = "hiscores";
 	private static final int HS_NSCORES = 10;
-	private static final int FPS = 30;
+	private static final int FPS = 60;
 
 	private final HighScoresManagerInterface hsManager;
 	private Optional<GameLoop> gl;
