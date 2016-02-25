@@ -32,6 +32,7 @@ public class GameLoop extends Thread {
 	}
 
 	private final long ticLenght;
+	private final int fps;
 	private final ViewInterface view;
 	private final ControllerInterface controller;
 	private final int diff;
@@ -49,6 +50,7 @@ public class GameLoop extends Thread {
 	public GameLoop(final int fps, final int difficulty, final ControllerInterface controller,
 			final ViewInterface view) {
 		this.status = Status.READY;
+		this.fps = fps;
 		this.ticLenght = 1000 / fps;
 		this.view = view;
 		this.nLevel = 1;
@@ -92,7 +94,6 @@ public class GameLoop extends Thread {
 	 */
 	@Override
 	public void run() {
-		final int fps = (int) (1000 / this.ticLenght);
 		this.setState(Status.RUNNING);
 		int timer = 0;
 		while (!this.isInState(Status.KILLED)) {
@@ -100,7 +101,7 @@ public class GameLoop extends Thread {
 				if (this.model.getGameStatus() == GameStatus.Running) {
 					final long startTime = System.currentTimeMillis();
 					timer++;
-					if (timer > 2 * fps) {
+					if (timer > this.fps) {
 						timer = 0;
 						final Optional<String> s = this.model.getLatestPowerUp();
 						if (s.isPresent()) {
@@ -148,7 +149,7 @@ public class GameLoop extends Thread {
 				} else {
 					this.view.showText(this.nLevel);
 					this.nLevel++;
-					this.model = new Model(fps, this.createLevel(this.nLevel, fps), false);
+					this.model = new Model(this.fps, this.createLevel(this.nLevel, this.fps), false);
 				}
 			} else {
 				try {
@@ -264,7 +265,6 @@ public class GameLoop extends Thread {
 	private Level createLevel(final int levelId, final int fps) {
 		final int totalEnemiesToSpawn = 5 * (2 * levelId + this.diff);
 		final int maxEnemyPerSpawn = this.diff + (levelId - 1) / 2;
-		System.out.println("valore " + this.diff);
 		final int enemyDelay = (int) ((2.25 - 0.09166 * Math.min(10, levelId)) * fps * this.diff);
 		final int debrisDelay = (int) ((this.diff * new Random().nextDouble() + 1.5) * fps);
 		final int powerupDelay = (int) ((7.5 + this.diff * levelId) * fps);
