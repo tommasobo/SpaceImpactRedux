@@ -32,7 +32,7 @@ import spaceimpact.model.spawners.Weapon;
  */
 public class Model implements ModelInterface {
 
-	private final boolean DEBUG = true;
+	private final boolean DEBUG = false;
 	
 	// game variables
 	private GameStatus gamestatus = GameStatus.Running;
