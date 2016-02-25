@@ -12,15 +12,15 @@ import javafx.geometry.*;
 
 public class Options extends Scene{
     
-    private static final int WIDTH_LOGO_HIGHSCORS = 350;
-    private static final int HEIGTH_LOGO_HIGHSCORES = 120;
+    private static final double WIDTH = 800;
+    private static final double HEIGHT = 800;
     private static final String HARD = "Hard";
     private static final String EASY = "Easy";
     private static final String NORMAL = "Normal";
     
     private static Options mainScene = new Options();
-    ChoiceBox<String> difficult = new ChoiceBox<>();
-    ChoiceBox<Integer> velocity = new ChoiceBox<>();
+    private static ChoiceBox<String> difficult;
+    private static ChoiceBox<Integer> velocity;
     private static Stage mainStage;
 
     public Options() {
@@ -30,15 +30,16 @@ public class Options extends Scene{
         
         final VBox options = new VBox();
         options.setPadding(new Insets(30));
-        options.setTranslateX((800 / 2) - (300 / 2));
-        options.setTranslateY((800 / 2) - 100);
+        options.setTranslateX((800 / 2) - (300 / 2 + 50));
+        options.setTranslateY((800 / 2) - 150);
         options.setSpacing(50);
         
+        this.setBox();
         final HBox difficultLayout = new HBox();
         difficultLayout.setSpacing(10);
         Text difficultText = new Text("Difficult");
         difficultText.setFill(Color.WHITE);
-        difficult.setItems(FXCollections.observableArrayList(HARD, NORMAL, EASY));
+        difficult.setItems(FXCollections.observableArrayList(EASY, NORMAL, HARD));
         difficult.setValue("Normal");
         difficultLayout.getChildren().addAll(difficultText, difficult);
         
@@ -47,7 +48,6 @@ public class Options extends Scene{
         Text velocityText = new Text("Frame per Second:");
         velocityText.setFill(Color.WHITE);
         velocity.getItems().addAll(120, 60, 30);
-        velocity.setValue(30);
         velocityLayout.getChildren().addAll(velocityText, velocity);
         
         final HBox resolutionLayout = new HBox();
@@ -63,7 +63,11 @@ public class Options extends Scene{
         mainLayout.getChildren().add(options);
         
         final HBox bottomLayout = new HBox();
-        bottomLayout.setSpacing(10);
+        bottomLayout.setPrefWidth(400);
+        bottomLayout.setTranslateY(HEIGHT - 180);
+        bottomLayout.setTranslateX(WIDTH / 2 - (400 / 2 - 50));
+        bottomLayout.setSpacing(30);
+        bottomLayout.setPadding(new Insets(20));
         final Button save = new Button("Save");
         final Button back = new Button("Main Menu");
         bottomLayout.getChildren().addAll(save, back);
@@ -78,14 +82,24 @@ public class Options extends Scene{
         save.setOnAction(e -> this.save());
     }
 
+    private synchronized void setBox() {
+        difficult = new ChoiceBox<>();
+        velocity = new ChoiceBox<>();       
+    }
+
     private void save() {
-        if (this.difficult.getValue().equals(HARD)) {
-            View.getController().setFPSDifficulty(this.velocity.getValue(), 3);
-        } else if (this.difficult.getValue().equals(NORMAL)) {
-            View.getController().setFPSDifficulty(this.velocity.getValue(), 2);
+        if (Options.difficult.getValue().equals(HARD)) {
+            View.getController().setFPSDifficulty(Options.velocity.getValue(), 3);
+        } else if (Options.difficult.getValue().equals(NORMAL)) {
+            View.getController().setFPSDifficulty(Options.velocity.getValue(), 2);
         } else {
-            View.getController().setFPSDifficulty(this.velocity.getValue(), 1);
+            View.getController().setFPSDifficulty(Options.velocity.getValue(), 1);
         }
+    }
+    
+    static void update() {
+        difficult.getSelectionModel().clearAndSelect(View.getController().getDifficulty() - 1);
+        velocity.setValue(View.getController().getFPS());
     }
 
     public static Options get(Stage mainWindow){
