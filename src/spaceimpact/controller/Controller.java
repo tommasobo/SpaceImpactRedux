@@ -8,7 +8,7 @@ import spaceimpact.utilities.Pair;
 import spaceimpact.view.View;
 import spaceimpact.view.ViewInterface;
 
-public class Controller implements ControllerInterface {
+public final class Controller implements ControllerInterface {
 	private static final String HS_FILENAME = "hiscores";
 	private static final int HS_NSCORES = 10;
 	private static final int FPS = 30;
@@ -61,12 +61,14 @@ public class Controller implements ControllerInterface {
 	}
 
 	@Override
-	public void emptyHighScores() {
+	public boolean emptyHighScores() {
 		this.hsManager.emptyScores();
 		try {
 			this.hsManager.saveData();
 		} catch (IllegalStateException | IOException e) {
+			return false;
 		}
+		return true;
 	}
 
 	@Override
@@ -100,18 +102,14 @@ public class Controller implements ControllerInterface {
 	}
 
 	@Override
-	public void setCurrentPlayerName(final String s) {
+	public boolean setCurrentPlayerName(final String s) {
 		this.hsManager.addScore(new Pair<>(s, this.score));
 		try {
 			this.hsManager.saveData();
-		} catch (final IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (final IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IllegalStateException | IOException e) {
+			return false;
 		}
-
+		return true;
 	}
 
 }

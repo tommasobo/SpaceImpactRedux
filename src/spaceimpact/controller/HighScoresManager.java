@@ -34,7 +34,7 @@ public class HighScoresManager implements HighScoresManagerInterface {
 	 *            The number of highscores saved
 	 */
 	public HighScoresManager(final String fileName, final int nscores) throws IllegalArgumentException {
-		if ((nscores <= 0) || fileName.isEmpty()) {
+		if (nscores <= 0 || fileName.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
 		this.cache = Optional.empty();
@@ -104,7 +104,7 @@ public class HighScoresManager implements HighScoresManagerInterface {
 	 * @return True if the list was modified, False otherwise
 	 */
 	private boolean removeExcessScores(final List<Pair<String, Integer>> l) {
-		final boolean changed = (l.size() > this.numMaxScores);
+		final boolean changed = l.size() > this.numMaxScores;
 		while (l.size() > this.numMaxScores) {
 			l.remove(this.numMaxScores);
 		}
@@ -122,11 +122,7 @@ public class HighScoresManager implements HighScoresManagerInterface {
 	 */
 	@Override
 	public void saveData() throws IllegalStateException, IOException {
-		if (!this.cache.isPresent() || !this.editedNotSaved) {
-			if (HighScoresManager.REPORT_ERRORS_ON_WRITE) {
-				throw new IllegalStateException();
-			}
-		} else {
+		if (this.cache.isPresent() && this.editedNotSaved) {
 			try (DataOutputStream out = new DataOutputStream(new FileOutputStream(this.filename))) {
 				for (final Pair<String, Integer> p : this.cache.get()) {
 					out.writeUTF(p.getFirst());
@@ -138,6 +134,8 @@ public class HighScoresManager implements HighScoresManagerInterface {
 					throw new IOException();
 				}
 			}
+		} else if (HighScoresManager.REPORT_ERRORS_ON_WRITE) {
+			throw new IllegalStateException();
 		}
 	}
 

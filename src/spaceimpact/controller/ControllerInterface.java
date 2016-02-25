@@ -27,8 +27,10 @@ public interface ControllerInterface {
 
 	/**
 	 * Clears the list of highscores
+	 * 
+	 * @return True if the operation was successful, false otherwise.
 	 */
-	void emptyHighScores();
+	boolean emptyHighScores();
 
 	/**
 	 * Starts the "GameLoop" (launch new game). If a game is already running
@@ -62,16 +64,17 @@ public interface ControllerInterface {
 	boolean isGameLoopRunning();
 
 	/**
-	 * Saves the current score and player name to the highscores.
+	 * * Saves the current score and player name to the highscores.
 	 *
 	 * @param s
 	 *            The player name
+	 * @return True if the operation was successful, false otherwise.
 	 */
-	void setCurrentPlayerName(String s);
+	boolean setCurrentPlayerName(String s);
 
 	/**
 	 * Set the game score
-	 * 
+	 *
 	 * @param score
 	 *            The score reached
 	 */
