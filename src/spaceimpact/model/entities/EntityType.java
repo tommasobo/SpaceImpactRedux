@@ -21,7 +21,7 @@ import spaceimpact.utilities.Pair;
 public enum EntityType {
 	Spaceship, Enemy, Debris, PowerUp, Projectile;
 
-	private static List<Pair<String, Integer>> projectilesRange = Arrays.asList(new Pair<>("diagonal-green.png", 15),
+	private static List<Pair<String, Integer>> projectilesRange = Arrays.asList(new Pair<>("diagonal-green.png", 13),
 			new Pair<>("beam_blue.png", 25), new Pair<>("beam_red.png", 35), new Pair<>("fireball.png", 50));
 
 	private static List<Pair<String, Integer>> enemyDmgRange = Arrays.asList(new Pair<>("A", 15), new Pair<>("B", 30),
