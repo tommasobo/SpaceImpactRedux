@@ -34,7 +34,7 @@ public class TestGameLoop {
 			Assert.assertTrue("Interrupted", false);
 		}
 		System.out.println("Test1: " + lastVar + " when stopped, now is " + this.var);
-		Assert.assertTrue("GameLoop not stopped", this.var <= (lastVar + 1));
+		Assert.assertTrue("GameLoop not stopped", this.var <= lastVar + 1);
 	}
 
 	// Test GameLoop framerate
@@ -161,6 +161,21 @@ public class TestGameLoop {
 
 		@Override
 		public void setScore(final int score) {
+		}
+
+		@Override
+		public int getFPS() {
+			return 0;
+		}
+
+		@Override
+		public int getDifficulty() {
+			return 0;
+		}
+
+		@Override
+		public void setFPSDifficulty(final int fps, final int diff) {
+
 		}
 	};
 }

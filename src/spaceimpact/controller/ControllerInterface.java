@@ -27,7 +27,7 @@ public interface ControllerInterface {
 
 	/**
 	 * Clears the list of highscores
-	 * 
+	 *
 	 * @return True if the operation was successful, false otherwise.
 	 */
 	boolean emptyHighScores();
@@ -79,4 +79,10 @@ public interface ControllerInterface {
 	 *            The score reached
 	 */
 	void setScore(int score);
+
+	int getFPS();
+
+	int getDifficulty();
+
+	void setFPSDifficulty(int fps, int diff) throws IllegalArgumentException;
 }

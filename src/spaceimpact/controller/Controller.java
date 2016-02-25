@@ -11,7 +11,8 @@ import spaceimpact.view.ViewInterface;
 public final class Controller implements ControllerInterface {
 	private static final String HS_FILENAME = "hiscores";
 	private static final int HS_NSCORES = 10;
-	private static final int FPS = 60;
+	private static int fps = 120;
+	private static int diff = 2;
 
 	private final HighScoresManagerInterface hsManager;
 	private Optional<GameLoop> gl;
@@ -28,7 +29,7 @@ public final class Controller implements ControllerInterface {
 		if (this.gl.isPresent()) {
 			throw new IllegalStateException();
 		}
-		final GameLoop game = new GameLoop(Controller.FPS, this, this.view);
+		final GameLoop game = new GameLoop(Controller.fps, Controller.diff, this, this.view);
 		this.gl = Optional.of(game);
 		game.start();
 	}
@@ -110,6 +111,28 @@ public final class Controller implements ControllerInterface {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public int getFPS() {
+		return Controller.fps;
+	}
+
+	@Override
+	public int getDifficulty() {
+		return Controller.diff;
+	}
+
+	@Override
+	public void setFPSDifficulty(final int fps, final int diff) throws IllegalArgumentException {
+		if (diff <= 0) {
+			throw new IllegalArgumentException("Cannot set a difficulty <= 0");
+		}
+		if (fps <= 0) {
+			throw new IllegalArgumentException("Cannot set fps <= 0");
+		}
+		Controller.diff = diff;
+		Controller.fps = fps;
 	}
 
 }
