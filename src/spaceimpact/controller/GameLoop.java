@@ -52,10 +52,10 @@ public class GameLoop extends Thread {
 		this.ticLenght = 1000 / fps;
 		this.view = view;
 		this.nLevel = 1;
+		this.diff = difficulty;
 		this.model = new Model(fps, this.createLevel(this.nLevel, fps), true);
 		this.controller = controller;
 		this.score = 0;
-		this.diff = difficulty;
 	}
 
 	private synchronized boolean isInState(final Status stat) {
@@ -264,16 +264,16 @@ public class GameLoop extends Thread {
 	private Level createLevel(final int levelId, final int fps) {
 		final int totalEnemiesToSpawn = 5 * (2 * levelId + this.diff);
 		final int maxEnemyPerSpawn = this.diff + (levelId - 1) / 2;
+		System.out.println("valore " + this.diff);
 		final int enemyDelay = (int) ((2.25 - 0.09166 * Math.min(10, levelId)) * fps * this.diff);
 		final int debrisDelay = (int) ((this.diff * new Random().nextDouble() + 1.5) * fps);
 		final int powerupDelay = (int) ((7.5 + this.diff * levelId) * fps);
 		final double tmpvel = this.diff * (0.0675 + 0.0075 * levelId) / fps;
 		final Level tmp = new Level(totalEnemiesToSpawn, maxEnemyPerSpawn, enemyDelay, debrisDelay, powerupDelay,
 				tmpvel);
-		final Area spawnArea = new Area(0.125, 0.0972);
-		tmp.getEnemySpawner().setSpawnedEntityArea(spawnArea);
-		tmp.getDebrisSpawner().setSpawnedEntityArea(spawnArea);
-		tmp.getPowerUpSpawner().setSpawnedEntityArea(spawnArea);
+		tmp.getEnemySpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
+		tmp.getDebrisSpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
+		tmp.getPowerUpSpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
 		tmp.getEnemySpawner().setCoolDownEntityWeapon((int) ((1 - 0.1 * Math.min(5, levelId / 2)) * fps));
 		tmp.getEnemySpawner().setEntityDamageRange(5 * levelId, 10 * levelId);
 		tmp.getEnemySpawner().setEntityLifeRange(5 * levelId, 5 + 10 * levelId);
