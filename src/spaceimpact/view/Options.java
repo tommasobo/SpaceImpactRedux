@@ -3,48 +3,89 @@ package spaceimpact.view;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.collections.FXCollections;
 import javafx.geometry.*;
 
 public class Options extends Scene{
     
-    private static final int WIDTH_LOGO_HIGHSCORS = 450;
-    private static final int HEIGTH_LOGO_HIGHSCORES = 150;
+    private static final int WIDTH_LOGO_HIGHSCORS = 350;
+    private static final int HEIGTH_LOGO_HIGHSCORES = 120;
+    private static final String HARD = "Hard";
+    private static final String EASY = "Easy";
+    private static final String NORMAL = "Normal";
     
     private static Options mainScene = new Options();
+    ChoiceBox<String> difficult = new ChoiceBox<>();
+    ChoiceBox<Integer> velocity = new ChoiceBox<>();
     private static Stage mainStage;
 
     public Options() {
         super(new StackPane());
 
-        final Logo logo = new Logo(WIDTH_LOGO_HIGHSCORS,HEIGTH_LOGO_HIGHSCORES);
-            
-        final Text label = new Text();
-        label.setText("Options");
-        label.setId("options");
-            
-        final VBox layout = new VBox(10);
-        final Button back = new Button("Go back");
-            
-        back.setId("dark-blue");
-        final StackPane bottomLayout = new StackPane();
-        bottomLayout.setPadding(new Insets(0, 0, 100, 0));
-        bottomLayout.getChildren().add(back);
-        bottomLayout.setAlignment(Pos.BOTTOM_CENTER);
-        final StackPane descLayout = new StackPane();
-            
-            
-        layout.getChildren().addAll(logo.getLogo(), label);
-        layout.setSpacing(10);
-        layout.setPadding(new Insets(8));
-        layout.setAlignment(Pos.TOP_CENTER);
+        final Pane mainLayout = new Pane();
+        
+        final VBox options = new VBox();
+        options.setPadding(new Insets(30));
+        options.setTranslateX((800 / 2) - (300 / 2));
+        options.setTranslateY((800 / 2) - 100);
+        options.setSpacing(50);
+        
+        final HBox difficultLayout = new HBox();
+        difficultLayout.setSpacing(10);
+        Text difficultText = new Text("Difficult");
+        difficultText.setFill(Color.WHITE);
+        difficult.setItems(FXCollections.observableArrayList(HARD, NORMAL, EASY));
+        difficult.setValue("Normal");
+        difficultLayout.getChildren().addAll(difficultText, difficult);
+        
+        final HBox velocityLayout = new HBox();
+        velocityLayout.setSpacing(10);
+        Text velocityText = new Text("Frame per Second:");
+        velocityText.setFill(Color.WHITE);
+        velocity.getItems().addAll(120, 60, 30);
+        velocity.setValue(30);
+        velocityLayout.getChildren().addAll(velocityText, velocity);
+        
+        final HBox resolutionLayout = new HBox();
+        resolutionLayout.setSpacing(10);
+        Text resolutionText = new Text("Resolution:");
+        resolutionText.setFill(Color.WHITE);
+        ChoiceBox<String> resolution = new ChoiceBox<>();
+        resolution.getItems().addAll("1920x1080", "1600x900", "1280x720");
+        resolution.setValue("1280x720");
+        resolutionLayout.getChildren().addAll(resolutionText, resolution);
+        
+        options.getChildren().addAll(resolutionLayout, difficultLayout, velocityLayout);
+        mainLayout.getChildren().add(options);
+        
+        final HBox bottomLayout = new HBox();
+        bottomLayout.setSpacing(10);
+        final Button save = new Button("Save");
+        final Button back = new Button("Main Menu");
+        bottomLayout.getChildren().addAll(save, back);
+        
+        mainLayout.getChildren().add(bottomLayout);
+        
+        mainLayout.setId("infoPane");
+        this.setRoot(mainLayout);
+        this.getStylesheets().add("style.css");    
+        
+        back.setOnAction(e -> mainStage.setScene(MainMenu.get(mainStage)));
+        save.setOnAction(e -> this.save());
+    }
 
-        descLayout.getChildren().addAll(layout, bottomLayout);
-        descLayout.setId("infoPane");
-        this.setRoot(descLayout);
-        this.getStylesheets().add("style.css");
-        back.setOnAction(e -> mainStage.setScene(MainMenu.get(mainStage)));       
+    private void save() {
+        if (this.difficult.getValue().equals(HARD)) {
+            View.getController().setFPSDifficulty(this.velocity.getValue(), 3);
+        } else if (this.difficult.getValue().equals(NORMAL)) {
+            View.getController().setFPSDifficulty(this.velocity.getValue(), 2);
+        } else {
+            View.getController().setFPSDifficulty(this.velocity.getValue(), 1);
+        }
     }
 
     public static Options get(Stage mainWindow){
