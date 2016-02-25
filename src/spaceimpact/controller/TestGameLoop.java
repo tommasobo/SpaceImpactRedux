@@ -169,13 +169,12 @@ public class TestGameLoop {
 		}
 
 		@Override
-		public int getDifficulty() {
-			return 0;
+		public String getDifficulty() {
+			return null;
 		}
 
 		@Override
-		public void setFPSDifficulty(final int fps, final int diff) {
-
+		public void setFPSDifficulty(final int fps, final Pair<String, Integer> diff) throws IllegalArgumentException {
 		}
 	};
 }
