@@ -11,7 +11,7 @@ import spaceimpact.utilities.ImageLoader;
 public final class Logo {
     
     private final ImageLoader imageLoader = ImageLoader.getLoader();
-    private final ImageView logo = new ImageView(this.imageLoader.getImageFromPath("logo.png"));
+    private final ImageView logo = new ImageView(this.imageLoader.getImageFromPath("images/logo.png"));
     
     public Logo(final double width, final double heigth) {    
         logo.setFitHeight(heigth);

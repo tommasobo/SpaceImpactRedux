@@ -5,7 +5,12 @@ import spaceimpact.utilities.Pair;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 import java.util.List;
@@ -25,10 +30,18 @@ public class HighScores extends Scene{
         super(new StackPane());
         final Logo logo = new Logo(WIDTH_LOGO_HIGHSCORS,HEIGTH_LOGO_HIGHSCORES);
             
-        final Text label = new Text();
-        label.setText("High Scores");
-        label.setId("highScores");
-                        
+        Text mainTitle = new Text("High Scores");
+        mainTitle.setFont(Font.font(null, FontWeight.BOLD, 46));
+        mainTitle.setText("High Scores");
+        mainTitle.setId("FX2");
+        
+        final DropShadow dropShadow = new DropShadow();
+        dropShadow.setColor(Color.DODGERBLUE);
+        dropShadow.setRadius(25);
+        dropShadow.setSpread(0.25);
+        dropShadow.setBlurType(BlurType.GAUSSIAN);
+        mainTitle.setEffect(dropShadow);
+        
         listHighScores.getStylesheets().add("style.css");
         listHighScores.setAlignment(Pos.CENTER);
         listHighScores.setId("whiteText");
@@ -52,7 +65,7 @@ public class HighScores extends Scene{
         
         final StackPane descLayout = new StackPane();
             
-        layout.getChildren().addAll(logo.getLogo(), label, listHighScores);
+        layout.getChildren().addAll(logo.getLogo(), mainTitle, listHighScores);
         layout.setSpacing(10);
         layout.setPadding(new Insets(8));
         layout.setAlignment(Pos.TOP_CENTER);

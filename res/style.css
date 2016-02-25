@@ -1,5 +1,5 @@
 #mainPane {
-    -fx-background-image: url("starsglow1.gif");
+    -fx-background-image: url("images/starsglow1.gif");
     -fx-background-size: cover;
     -fx-background-color: white;
     -fx-font-size: 15pt;
@@ -24,12 +24,6 @@
     -fx-fill:  linear-gradient(cyan , dodgerblue);
 }
 
-#highScores {
-    -fx-font: 40px Tahoma;
-    -fx-fill: linear-gradient(from 0% 90% to 100% 200%, repeat, aqua 0%, red 110%);
-    -fx-stroke: black;
-    -fx-stroke-width: 1;
-}
 
 #options {
     -fx-font: 40px Tahoma;
@@ -108,5 +102,9 @@
 #score {
      -fx-font-size: 16pt;
 }
+
+#powerUP{
+     -fx-fill:linear-gradient(palegreen, seagreen);
+    }
 
 
