@@ -121,13 +121,13 @@ public class GameLoop extends Thread {
 					this.model.informInputs(tmp.getFirst(), tmp.getSecond());
 					this.model.updateAll();
 					try {
+						if (this.model.getPlayerLife() <= 0) {
+							this.status = Status.KILLED;
+						}
 						t.join();
 						final long timeSpent = System.currentTimeMillis() - startTime;
 						if (timeSpent < this.ticLenght) {
 							Thread.sleep(this.ticLenght - timeSpent);
-						}
-						if (this.model.getPlayerLife() <= 0) {
-							this.status = Status.KILLED;
 						}
 					} catch (final InterruptedException ex1) {
 						this.status = Status.KILLED;
@@ -138,6 +138,12 @@ public class GameLoop extends Thread {
 					this.view.showText(this.nLevel);
 					this.nLevel++;
 					this.model = new Model(fps, this.createLevel(this.nLevel, fps), false);
+				}
+			} else {
+				try {
+					Thread.sleep(500);
+				} catch (final InterruptedException e) {
+					this.status = Status.KILLED;
 				}
 			}
 		}
@@ -247,9 +253,9 @@ public class GameLoop extends Thread {
 	private Level createLevel(final int levelId, final int fps) {
 		final int totalEnemiesToSpawn = 10 * (levelId + 1);
 		final int maxEnemyPerSpawn = 2 + (levelId - 1) / 2;
-		final int enemyDelay = (int) ((4 - 0.18333 * Math.min(10, levelId)) * fps);
-		final int debrisDelay = (int) ((2 * new Random().nextDouble() + 1) * fps);
-		final int powerupDelay = (8 + 2 * levelId) * fps;
+		final int enemyDelay = (int) ((4.5 - 0.18333 * Math.min(10, levelId)) * fps);
+		final int debrisDelay = (int) ((2 * new Random().nextDouble() + 1.5) * fps);
+		final int powerupDelay = (int) ((7.5 + 2 * levelId) * fps);
 		final double tmpvel = 0.15 / fps * (0.9 + 0.1 * levelId);
 		final Level tmp = new Level(totalEnemiesToSpawn, maxEnemyPerSpawn, enemyDelay, debrisDelay, powerupDelay,
 				tmpvel);
@@ -257,7 +263,7 @@ public class GameLoop extends Thread {
 		tmp.getDebrisSpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
 		tmp.getPowerUpSpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
 		tmp.getEnemySpawner().setCoolDownEntityWeapon((int) ((1 - 0.1 * Math.min(5, levelId / 2)) * fps));
-		tmp.getEnemySpawner().setEntityDamageRange(5 * (levelId + 1), 10 * (levelId + 1));
+		tmp.getEnemySpawner().setEntityDamageRange(5 * levelId, 10 * levelId);
 		tmp.getEnemySpawner().setEntityLifeRange(5 * levelId, 5 + 10 * levelId);
 		tmp.getEnemySpawner().setEntityVelocityRange(tmpvel, tmpvel * 1.5);
 		return tmp;
