@@ -31,6 +31,13 @@ public class GameScreen extends Scene {
     private static double inGameWidth = 1280;
     private static double inGameHeight = 720;
     private static boolean isFullScreen = false;
+    private static double resConstantWidth = 1;
+    private static double resConstantHeight = 1;
+    private static final double BASIC_FONT = 16;
+    private static final double BASIC_BUTTON_WIDTH = 110;
+    private static final double BASIC_BUTTON_HEIGHT = 25;
+    private static final double BASIC_RES_WIDTH = 1280;
+    private static final double BASIC_RES_HEIGHT = 768;
     private static final double WIDTH_POWER_UP = 800;
     private static final double HEIGHT_POWER_UP = 160;
     private static final double WIDTH_LEVEL = 800;
@@ -45,7 +52,9 @@ public class GameScreen extends Scene {
     private final DrawEntities drawEntities = new DrawEntities(inGameWidth, inGameHeight);
     private final PlayerInfo playerInfo = new PlayerInfo();
     private final DropShadow dropShadow = new DropShadow();
+    private final HBox infoBox = new HBox();
     private final Button pauseButton = new Button(PAUSE);
+    private final Button infoButton = new Button("Info");
     private final Label hp = new Label();
     private final Label shields = new Label();
     private final Label score = new Label();
@@ -61,7 +70,6 @@ public class GameScreen extends Scene {
                 pauseButton.setOnAction(e -> {
                     this.pause();
                 });
-                final Button infoButton = new Button("Info");
                 infoButton.setId("dark-blue");
                 infoButton.setFocusTraversable(false);
                 infoButton.setOnAction(e -> InfoBox.display("Info Box"));
@@ -80,22 +88,14 @@ public class GameScreen extends Scene {
                 this.hp.setTextFill(Color.GREEN);
                 this.shields.setTextFill(Color.BLUE);
                 this.score.setTextFill(Color.YELLOW);
-                this.hp.setId("score");
-                this.score.setId("score");
-                this.shields.setId("score");
 
                 final VBox verticalInfoBox = new VBox();
                 verticalInfoBox.setAlignment(Pos.CENTER);
                 verticalInfoBox.setSpacing(2);
-                final HBox infoBox = new HBox();
-                infoBox.setSpacing(12);
                 infoBox.getChildren().addAll(this.hp, this.shields);
                 verticalInfoBox.getChildren().addAll(infoBox, this.score);
                 infoBox.setAlignment(Pos.CENTER);
                 infoBox.setId("hpBox");
-                infoBox.setMinWidth(280);
-                infoBox.setMaxSize(280, 50);
-                infoBox.setMinHeight(50);
                 infoBox.setPadding(new Insets(0, 4, 0, 4));
                 
                 this.dropShadow.setColor(Color.DODGERBLUE);
@@ -123,6 +123,7 @@ public class GameScreen extends Scene {
                 this.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
                         inputHandler.release(event.getCode());
                 });
+                this.resize();
                 this.setRoot(this.root);
         }
 
@@ -139,7 +140,7 @@ public class GameScreen extends Scene {
     }
 
     void drawOnScreen(final List<Pair<Pair<String, Double>, Location>> listEntities) {
-        this.drawEntities.draw(this.backgroundLayer, listEntities, GameScreen.inGameHeight);
+        this.drawEntities.draw(this.backgroundLayer, listEntities);
     }
 
     void updateInfo(final int hp, final int shields, final int score) {
@@ -165,16 +166,16 @@ public class GameScreen extends Scene {
         final Label textLevelWon = new Label();
         
         textLevelWon.setId("FX2");
-        levelWon.setPrefSize(WIDTH_LEVEL, HEIGHT_LEVEL);
+        levelWon.setPrefSize(WIDTH_LEVEL * resConstantWidth, HEIGHT_LEVEL * resConstantHeight);
         levelWon.setAlignment(Pos.CENTER);
         textLevelWon.setEffect(dropShadow);
-        textLevelWon.setFont(Font.font(null, FontWeight.BOLD, 72));
+        textLevelWon.setFont(Font.font(null, FontWeight.BOLD, 72 * resConstantWidth));
         textLevelWon.setVisible(true);
         textLevelWon.setTextFill(Color.WHITE);
         textLevelWon.setText("Level " + nLevel + " completed");
         levelWon.getChildren().add(textLevelWon);
-        levelWon.setLayoutX((GameScreen.inGameWidth / 2) - (WIDTH_LEVEL / 2));
-        levelWon.setLayoutY((GameScreen.inGameHeight / 2) - (HEIGHT_LEVEL / 2));
+        levelWon.setLayoutX((GameScreen.inGameWidth / 2) - ((WIDTH_LEVEL * resConstantWidth) / 2));
+        levelWon.setLayoutY((GameScreen.inGameHeight / 2) - ((HEIGHT_LEVEL * resConstantHeight) / 2));
         this.root.getChildren().add(levelWon);
         this.showText(textLevelWon);
     }
@@ -184,15 +185,15 @@ public class GameScreen extends Scene {
         final Label powerUpText = new Label();
         
         powerUpText.setId("powerUp");
-        powerUpPane.setPrefSize(WIDTH_POWER_UP, HEIGHT_POWER_UP);
+        powerUpPane.setPrefSize(WIDTH_POWER_UP * resConstantWidth, HEIGHT_POWER_UP * resConstantHeight);
         powerUpPane.setAlignment(Pos.CENTER);
         powerUpText.setEffect(dropShadow);
-        powerUpText.setFont(Font.font(null, FontWeight.BOLD, 50));
+        powerUpText.setFont(Font.font(null, FontWeight.BOLD, 50 * resConstantWidth));
         powerUpText.setVisible(true);
         powerUpText.setTextFill(Color.LIGHTSKYBLUE);
         powerUpText.setText(powerUp);
         powerUpPane.getChildren().add(powerUpText);
-        powerUpPane.setLayoutX((GameScreen.inGameWidth / 2) - (WIDTH_POWER_UP / 2));
+        powerUpPane.setLayoutX((GameScreen.inGameWidth / 2) - ((WIDTH_POWER_UP * resConstantWidth)/ 2));
         this.root.getChildren().add(powerUpPane);
         this.showText(powerUpText);
     }
@@ -209,10 +210,28 @@ public class GameScreen extends Scene {
     static synchronized void setResolution(double width, double height, boolean fullScreen) {
         inGameWidth = width;
         inGameHeight = height;
+        resConstantWidth = GameScreen.inGameWidth / BASIC_RES_WIDTH;
+        resConstantHeight = GameScreen.inGameHeight / BASIC_RES_HEIGHT;
         isFullScreen  = fullScreen;
     }
 
-    public boolean isFullScreen() {
+    private void resize() {
+        this.infoBox.setMinWidth((280 * resConstantWidth));
+        this.infoBox.setMaxSize((280 * resConstantWidth), (50 * resConstantHeight));
+        this.infoBox.setMinHeight((50 * resConstantHeight));
+        this.infoBox.setSpacing(12 * resConstantWidth);
+        this.score.setFont(Font.font(null, FontWeight.BOLD, BASIC_FONT * resConstantWidth));
+        this.hp.setFont(Font.font(null, FontWeight.BOLD, BASIC_FONT * resConstantWidth));
+        this.shields.setFont(Font.font(null, FontWeight.BOLD, BASIC_FONT * resConstantWidth));
+        this.infoButton.setPrefSize(BASIC_BUTTON_WIDTH * resConstantWidth, BASIC_BUTTON_HEIGHT * resConstantHeight);        this.infoButton.setPrefSize(BASIC_BUTTON_WIDTH * resConstantWidth, BASIC_BUTTON_HEIGHT * resConstantHeight);
+        this.pauseButton.setPrefSize(BASIC_BUTTON_WIDTH * resConstantWidth, BASIC_BUTTON_HEIGHT * resConstantHeight);
+        this.infoButton.setFont(Font.font(15 * resConstantHeight));
+        this.infoButton.setOnMouseEntered(e -> this.infoButton.setFont(Font.font(15 * resConstantHeight)));
+        this.pauseButton.setOnMouseEntered(e -> this.pauseButton.setFont(Font.font(15 * resConstantHeight)));
+        this.pauseButton.setFont(Font.font(15 * resConstantHeight));
+    }
+
+    boolean isFullScreen() {
         return isFullScreen;
     }
     
@@ -221,6 +240,7 @@ public class GameScreen extends Scene {
         if (answer) {
             View.getController().abortGameLoop();
             InputHandler.getInputHandler().emptyList();
+            isFullScreen = false;
             this.mainStage.setScene(MainMenu.get(this.mainStage));      
         } else {
             InputHandler.getInputHandler().emptyList();
