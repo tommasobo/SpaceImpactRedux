@@ -44,7 +44,7 @@ public class InfoBox {
         
         final Label instructions = new Label();
         instructions.setTextAlignment(TextAlignment.CENTER);;
-        instructions.setText("W - Move up\nA - Move left\nS - Move down\nD - Move right\nSPACE - Fire\nBACK SPACE - Go back to the menu");
+        instructions.setText("W - Move up\nA - Move left\nS - Move down\nD - Move right\nSPACE - Fire\nBACK SPACE - Go back to the menu\nP - Pause\nESC - Exits");
         instructions.setId("whiteTextInfo");
         
         final Label creditsTo = new Label();

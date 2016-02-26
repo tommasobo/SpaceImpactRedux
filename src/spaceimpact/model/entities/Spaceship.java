@@ -25,13 +25,14 @@ public class Spaceship extends LivingEntity {
 		super.ID = EntityType.Spaceship;
 		super.currentshield = maxshield;
 		super.maxshield = maxshield;
-		this.currentlife = maxlife;
-		this.maxlife = maxlife;
-		this.velocity = velocity;
-		this.location = location;
-		this.direction = direction;
-		this.removable = false;
-		this.weapon = weapon;
+		super.currentlife = maxlife;
+		super.maxlife = maxlife;
+		super.velocity = velocity;
+		super.initvel = velocity;
+		super.location = location;
+		super.direction = direction;
+		super.removable = false;
+		super.weapon = weapon; 
 	}
 	
 	/* MAIN METHODS */

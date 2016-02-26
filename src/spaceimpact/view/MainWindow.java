@@ -42,8 +42,9 @@ public class MainWindow extends Application{
         final Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to exit the game?");
         if (View.getController().isGameLoopPaused()) {
             if (answer) {
-                this.mainWindow.close();
                 View.getController().abortGameLoop();
+                System.exit(0);
+                this.mainWindow.close();
             } else {
                 View.getController().resumeGameLoop();
             }

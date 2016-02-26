@@ -55,6 +55,11 @@ public interface Entity {
 	 */
 	EntityType getID();
 	
+	/**
+	 * Method set removable state as true
+	 */
+	public void setRemovable();
+	
 	/** 
 	 * Determine whether the entity must be removed from the model
 	 * @return boolean True if the entity need to be removed, false if it's still active
