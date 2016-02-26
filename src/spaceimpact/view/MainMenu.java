@@ -81,6 +81,7 @@ public class MainMenu extends Scene{
     
     public static MainMenu get(Stage mainWindow) {
         mainStage = mainWindow;
+        mainStage.setFullScreen(false);
         mainStage.setWidth(WIDTH);
         mainStage.setHeight(HEIGHT);
         mainStage.centerOnScreen();
