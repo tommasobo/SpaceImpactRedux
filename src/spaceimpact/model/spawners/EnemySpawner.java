@@ -105,8 +105,15 @@ public class EnemySpawner extends Spawner {
 	 * Set spawned entity life range
 	 * @param minlife Minimum life of the spawned entities
 	 * @param maxlife Maximum life of the spawned entities
+	 * @throws IllegalArgumentException if input values are negative
 	 */
-	public void setEntityLifeRange(final int minlife, final int maxlife) {
+	public void setEntityLifeRange(final int minlife, final int maxlife) throws IllegalArgumentException {
+		if (minlife < 0) {
+			throw new IllegalArgumentException("Enemy Spawner minimum spawn entity life cannot be set as negative");
+		}
+		if (maxlife < 0) {
+			throw new IllegalArgumentException("Enemy Spawner maximum spawn entity life cannot be set as negative");
+		}	
 		this.minlife = minlife;
 		this.maxlife = maxlife;	
 	}
@@ -115,8 +122,15 @@ public class EnemySpawner extends Spawner {
 	 * Set spawned entity velocity range
 	 * @param minvel MiniVelocity of the spawned entities
 	 * @param maxvel Maximum Velocity of the spawned entities
+	 * @throws IllegalArgumentException if input values are negative
 	 */
-	public void setEntityVelocityRange(final double minvel, final double maxvel) {
+	public void setEntityVelocityRange(final double minvel, final double maxvel) throws IllegalArgumentException {
+		if (minvel < 0) {
+			throw new IllegalArgumentException("Enemy Spawner minimum spawn entity velocity cannot be set as negative");
+		}
+		if (maxvel < 0) {
+			throw new IllegalArgumentException("Enemy Spawner maximum spawn entity velocity cannot be set as negative");
+		}
 		this.minvel = minvel;
 		this.maxvel = maxvel;	
 	}
@@ -125,8 +139,15 @@ public class EnemySpawner extends Spawner {
 	 * Set spawned entity damage range
 	 * @param mindamage Minimum amount of damage that a spawned entity can inflict
 	 * @param maxdamage Maximum amount of damage that a spawned entity can inflict
+	 * @throws IllegalArgumentException if input values are negative
 	 */
-	public void setEntityDamageRange(final int mindamage, final int maxdamage) {
+	public void setEntityDamageRange(final int mindamage, final int maxdamage) throws IllegalArgumentException {
+		if (mindamage < 0) {
+			throw new IllegalArgumentException("Enemy Spawner minimum entity damage cannot be set as negative");
+		}
+		if (maxdamage < 0) {
+			throw new IllegalArgumentException("Enemy Spawner maximum entity damage velocity cannot be set as negative");
+		}
 		this.mindamage = mindamage;
 		this.maxdamage = maxdamage;
 	}
@@ -134,8 +155,12 @@ public class EnemySpawner extends Spawner {
 	/**
 	 * Set Weapon cooldown time for spawned entity
 	 * @param cooldown Cooldown time as number of ticks
+	 * @throws IllegalArgumentException if input value is negative
 	 */
-	public void setCoolDownEntityWeapon(final int cooldown) {
+	public void setCoolDownEntityWeapon(final int cooldown) throws IllegalArgumentException {
+		if (cooldown < 0) {
+			throw new IllegalArgumentException("Enemy Spawner entity weapon's cooldown cannot be set as negative");
+		}
 		this.weaponcooldown = cooldown;	
 	}
 

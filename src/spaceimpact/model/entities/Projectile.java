@@ -41,7 +41,6 @@ public class Projectile implements Entity {
 
 	/**
 	 * Get the damage that the projectile inflicts
-	 * 
 	 * @return damage amount of damage as integer
 	 */
 	public int getDamage() {
@@ -50,7 +49,6 @@ public class Projectile implements Entity {
 
 	/**
 	 * Get the entity type that has shooted this projectile
-	 * 
 	 * @return EntityType that has shooted
 	 */
 	public EntityType getParentID() {
@@ -67,12 +65,22 @@ public class Projectile implements Entity {
 	}
 
 	@Override
-	public void setLocation(final Location location) {
+	public void setLocation(final Location location) throws IllegalArgumentException {
+		if (location == null) {
+			throw new IllegalArgumentException("Projectile's location cannot be set as null");
+		}
 		this.location = location;
 	}
 
 	@Override
-	public void update() {
+	public void update() throws IllegalStateException {
+		if (this.direction == null) {
+			throw new IllegalStateException("Cannot update projectile if his direction is undefined");
+		}
+		if(this.location == null) {
+			throw new IllegalStateException("Cannot update projectile if his location is undefined");
+		}
+			
 		this.direction.moveLocation(this.location, this.velocity);
 
 		if (this.location.getX() > 2) {

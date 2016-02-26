@@ -161,7 +161,10 @@ public class PowerUp implements Entity {
 	}
 	
 	@Override
-	public void setLocation(Location location) {
+	public void setLocation(Location location) throws IllegalArgumentException {
+		if (location == null) {
+			throw new IllegalArgumentException("Entity's location cannot be set as null");
+		}
 		this.location = location;
 	}
 			
@@ -171,7 +174,14 @@ public class PowerUp implements Entity {
 	}
 	
 	@Override
-	public void update() {
+	public void update() throws IllegalStateException {
+		if (this.direction == null) {
+			throw new IllegalStateException("Cannot update powerup if his direction is undefined");
+		}
+		if(this.location == null) {
+			throw new IllegalStateException("Cannot update powerup if his location is undefined");
+		}
+			
 		if (location.getX() < -0.30d) {
 			this.removable = true;
 		} else {

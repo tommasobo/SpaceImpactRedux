@@ -7,18 +7,17 @@ import spaceimpact.utilities.Pair;
 
 /**
  * Enumeration of possible Entity Types <br>
- * List of possibile types:<br>
+ * List of possible types:<br>
  * <b>Spaceship</b> As the player Entity<br>
  * <b>Enemy</b> The entities which the player has to destroy<br>
- * <b>Debris</b> The entities spawned in a collision or randomly as asteroids
- * <br>
- * <b>PowerUp</b> The entities with which the player can obtain ehnacements<br>
- * <b>Projectile</b> The entities spawned by a weapon. Can damage other living
- * entities<br>
+ * <b>Debris</b> The entities spawned in a collision or randomly as asteroids<br>
+ * <b>PowerUp</b> The entities with which the player can obtain enhancement<br>
+ * <b>Projectile</b> The entities spawned by a weapon. Can damage other living entities<br>
  *
  * @author Davide
  */
 public enum EntityType {
+	
 	Spaceship, Enemy, Debris, PowerUp, Projectile;
 
 	private static List<Pair<String, Integer>> projectilesRange = Arrays.asList(new Pair<>("diagonal-green.png", 13),
@@ -31,12 +30,10 @@ public enum EntityType {
 			new Pair<>("2.png", 24), new Pair<>("3.png", 36), new Pair<>("4.png", 48), new Pair<>("5.png", 60));
 
 	/**
-	 * Returns data to print the image of the entity. <br>
-	 *
-	 * @param e
-	 *            The given entity.
-	 * @return pair A Pair of String, Double. The string is the image URL from
-	 *         the "res" folder, the double is the rotation (degrees)
+	 * Returns data to print the image of the entity.<br>
+	 * @param e The given entity.
+	 * @return pair A Pair of String, Double. The string is the image URL from 
+	 * the "res" folder, the double is the rotation (degrees).
 	 */
 	public static Pair<String, Double> getImage(final Entity e) {
 		final StringBuilder s = new StringBuilder("/Entities/");
@@ -59,6 +56,12 @@ public enum EntityType {
 		return new Pair<String, Double>(s.toString(), Double.valueOf(rotation));
 	}
 
+	/**
+	 * Return the filename of the texture to use with the specified entity, current state of the entity can 
+	 * @param param as the parameters to search inside the range collection 
+	 * @param ranges range of pair that needs to be controlled
+	 * @return string as the filename of the texture to use
+	 */
 	private static String textChooser(final int param, final List<Pair<String, Integer>> ranges) {
 		for (final Pair<String, Integer> p : ranges) {
 			if (param < p.getSecond()) {
