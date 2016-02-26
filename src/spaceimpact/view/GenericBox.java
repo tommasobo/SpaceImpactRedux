@@ -1,23 +1,20 @@
 package spaceimpact.view;
 
 import javafx.stage.*;
+import spaceimpact.utilities.ImageLoader;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.geometry.*;
 
 public class GenericBox {
 
-    //Create variable
-    private static final String SEP = System.getProperty("file.separator");
-
     public static void display(final BoxType boxType, final String title, final String message, final String buttonMessage) {
         final Stage window = new Stage();
         if (boxType == BoxType.ERROR) {
-            window.getIcons().add(new Image("file:res" + SEP + "icons" + SEP + "error.png"));
+            window.getIcons().add(ImageLoader.getLoader().getImageFromPath("Icons/error.png"));
         } else {
-            window.getIcons().add(new Image("file:res" + SEP + "icons" + SEP + "success.png"));
+            window.getIcons().add(ImageLoader.getLoader().getImageFromPath("Icons/success.png"));
         }
         window.setResizable(false);
         window.centerOnScreen();
