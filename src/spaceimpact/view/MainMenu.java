@@ -40,6 +40,7 @@ public class MainMenu extends Scene{
         this.newGame.setMinWidth(vbox.getPrefWidth());
         this.newGame.setId("dark-blue");
         this.newGame.setOnAction(e -> {
+            InputHandler.getInputHandler().emptyList();
             View.getController().startGameLoop();
             final GameScreen gameScreen = new GameScreen();
             View.setGameScreen(gameScreen);
@@ -90,6 +91,7 @@ public class MainMenu extends Scene{
     private void closeProgram() {
         final Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to exit the game?");
         if (answer) {
+            System.exit(0);
             mainStage.close();
         }
     }
