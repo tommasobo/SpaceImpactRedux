@@ -122,6 +122,7 @@ public class GameOverScreen extends Scene{
 
     public static Scene get(Stage mainWindow){
         mainStage = mainWindow;
+        mainStage.setFullScreen(false);
         mainStage.setWidth(800);
         mainStage.setHeight(800);
         mainStage.centerOnScreen();

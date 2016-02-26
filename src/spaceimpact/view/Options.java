@@ -30,6 +30,9 @@ public class Options extends Scene{
     private static final int HARD_INT = 4;
     private static final String EXTREME = "Extreme";
     private static final int EXTREME_INT = 8;
+    private static final String LOWEST_RES = "1024x576";
+    private static final double LOWEST_RES_WIDTH = 1024;
+    private static final double LOWEST_RES_HEIGHT = 576;
     private static final double LOW_RES_WIDTH = 1280;
     private static final double LOW_RES_HEIGHT = 720;
     private static final String LOW_RES = "1280x720";
@@ -58,6 +61,7 @@ public class Options extends Scene{
         this.listDifficulties.add(new Pair<String, Integer>(HARD, HARD_INT));
         this.listDifficulties.add(new Pair<String, Integer>(EXTREME, EXTREME_INT));
         
+        this.listResolutions.add(new Pair<>(LOWEST_RES, new Pair<>(LOWEST_RES_WIDTH, LOWEST_RES_HEIGHT)));
         this.listResolutions.add(new Pair<>(LOW_RES, new Pair<>(LOW_RES_WIDTH, LOW_RES_HEIGHT)));
         this.listResolutions.add(new Pair<>(MID_RES, new Pair<>(MID_RES_WIDTH, MID_RES_HEIGHT)));
         this.listResolutions.add(new Pair<>(HIGH_RES, new Pair<>(HIGH_RES_WIDTH, HIGH_RES_HEIGHT)));
@@ -102,7 +106,7 @@ public class Options extends Scene{
         
         final HBox resolutionLayout = new HBox();
         resolutionLayout.setSpacing(10);
-        Text resolutionText = new Text("Resolution:");
+        Text resolutionText = new Text("In-Game Resolution:");
         resolutionText.setFill(Color.WHITE);
         this.listResolutions.forEach(e -> {
             resolution.getItems().add(e.getFirst());
