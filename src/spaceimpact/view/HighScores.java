@@ -48,7 +48,7 @@ public class HighScores extends Scene{
         listHighScores.setPadding(new Insets(10));
 
         final VBox layout = new VBox(10);
-        final Button back = new Button("Go back");
+        final Button back = new Button("Main Menu");
         final Button reset = new Button ("Reset HighScores");
         final StackPane bottomLayout = new StackPane();
         final HBox bottomBox = new HBox();

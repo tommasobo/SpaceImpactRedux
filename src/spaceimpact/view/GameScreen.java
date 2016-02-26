@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -27,8 +28,9 @@ import spaceimpact.utilities.Pair;
 
 public class GameScreen extends Scene {
 
-    private static final double WIDTH_GAME = 1280;
-    private static final double HEIGHT_GAME = 720;
+    private static double WIDTH_GAME = 1280;
+    private static double HEIGHT_GAME = 720;
+    private static boolean isFullScreen = false;
     private static final double WIDTH_POWER_UP = 800;
     private static final double HEIGHT_POWER_UP = 160;
     private static final double WIDTH_LEVEL = 800;
@@ -112,6 +114,10 @@ public class GameScreen extends Scene {
                 inputHandler.emptyList();
                 this.root.getChildren().addAll(this.backgroundLayer, topBox);
                 this.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+                        if (event.getCode() == KeyCode.BACK_SPACE) {
+                            View.getController().pauseGameLoop();
+                            this.backMenu();
+                        }
                         inputHandler.press(event.getCode());
                 });
                 this.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
@@ -138,6 +144,7 @@ public class GameScreen extends Scene {
         this.mainStage.setHeight(GameScreen.HEIGHT_GAME);
         this.mainStage.centerOnScreen();
         this.mainStage.setTitle("Space Impact Redux");
+        this.mainStage.setFullScreen(isFullScreen);
         return this;
     }
 
@@ -184,7 +191,29 @@ public class GameScreen extends Scene {
             public void run() {
                     Platform.runLater(() -> text.setVisible(false));
             }
-    }, DURATION_SHOW_TEXT, 1);
+        }, DURATION_SHOW_TEXT, 1);
+    }
+    
+    static synchronized void setResolution(double width, double height, boolean fullScreen) {
+        WIDTH_GAME = width;
+        HEIGHT_GAME = height;
+        isFullScreen  = fullScreen;
+    }
+
+    public boolean isFullScreen() {
+        return isFullScreen;
+    }
+    
+    private void backMenu() {
+        final Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to go back to the menu?");
+        if (answer) {
+            View.getController().abortGameLoop();
+            InputHandler.getInputHandler().emptyList();
+            this.mainStage.setScene(MainMenu.get(this.mainStage));      
+        } else {
+            InputHandler.getInputHandler().emptyList();
+            View.getController().resumeGameLoop();
+        }
     }
     
 }
