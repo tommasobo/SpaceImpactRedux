@@ -121,7 +121,7 @@ public class GameOverScreen extends Scene{
         this.name.setText("");
     }
 
-    public static Scene get(Stage mainWindow){
+    public static Scene get(final Stage mainWindow){
         mainStage = mainWindow;
         mainStage.setFullScreen(false);
         mainStage.setWidth(800);

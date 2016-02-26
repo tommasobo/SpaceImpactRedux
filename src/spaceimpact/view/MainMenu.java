@@ -48,9 +48,7 @@ public class MainMenu extends Scene{
             final GameScreen gameScreen = new GameScreen();
             View.setGameScreen(gameScreen);
             mainStage.setScene(gameScreen.get(mainStage));
-            if (gameScreen.isFullScreen()) {
-                mainStage.setFullScreen(true);
-            }
+            mainStage.setFullScreen(gameScreen.isFullScreen());
         });
         this.highScores.setMinWidth(vbox.getPrefWidth());
         this.highScores.setId("dark-blue");

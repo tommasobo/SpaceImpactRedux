@@ -185,6 +185,8 @@ public class Options extends Scene{
         }
         if (currentWidth == screenWidth && currentHeight == screenHeight) {
             this.fullScreen = true;
+        } else {
+            this.fullScreen = false;
         }
         return true;
     }

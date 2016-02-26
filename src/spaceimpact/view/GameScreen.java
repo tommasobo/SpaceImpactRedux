@@ -163,7 +163,7 @@ public class GameScreen extends Scene {
         return this;
     }
 
-    public void won(final int nLevel) {
+    void won(final int nLevel) {
         final StackPane levelWon = new StackPane();
         final Label textLevelWon = new Label();
         
@@ -200,7 +200,7 @@ public class GameScreen extends Scene {
         this.showText(powerUpText);
     }
     
-    private void showText(Label text) {
+    private void showText(final Label text) {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -209,7 +209,7 @@ public class GameScreen extends Scene {
         }, DURATION_SHOW_TEXT, 1);
     }
     
-    static synchronized void setResolution(double width, double height, boolean fullScreen) {
+    static synchronized void setResolution(final double width, final double height, final boolean fullScreen) {
         inGameWidth = width;
         inGameHeight = height;
         resConstantWidth = GameScreen.inGameWidth / BASIC_RES_WIDTH;

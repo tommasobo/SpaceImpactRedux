@@ -13,7 +13,7 @@ public class ConfirmBox {
     private static boolean answer;
     private static final String SEP = System.getProperty("file.separator");
 
-    public static boolean display(String title, String message) {
+    public static boolean display(final String title, final String message) {
         final Stage window = new Stage();
         window.getIcons().add(new Image("file:res" + SEP + "icons" + SEP + "alert.png"));
         window.setResizable(false);
