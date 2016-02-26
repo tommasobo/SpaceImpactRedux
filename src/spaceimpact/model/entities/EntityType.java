@@ -10,12 +10,13 @@ import spaceimpact.utilities.Pair;
  * List of possible types:<br>
  * <b>Spaceship</b> As the player Entity<br>
  * <b>Enemy</b> The entities which the player has to destroy<br>
- * <b>Debris</b> The entities spawned in a collision or randomly as asteroids<br>
+ * <b>Debris</b> The entities spawned in a collision or randomly as asteroids
+ * <br>
  * <b>PowerUp</b> The entities with which the player can obtain enhancement<br>
  * <b>Projectile</b> The entities spawned by a weapon. Can damage other living entities<br>
  */
 public enum EntityType {
-	
+
 	Spaceship, Enemy, Debris, PowerUp, Projectile;
 
 	private static List<Pair<String, Integer>> projectilesRange = Arrays.asList(new Pair<>("diagonal-green.png", 12),
@@ -34,7 +35,7 @@ public enum EntityType {
 	 * the "res" folder, the double is the rotation (degrees).
 	 */
 	public static Pair<String, Double> getImage(final Entity e) {
-		final StringBuilder s = new StringBuilder("/Entities/");
+		final StringBuilder s = new StringBuilder("Entities/");
 		double rotation = 0;
 		if (e instanceof Projectile) {
 			s.append("Projectiles/");
@@ -55,9 +56,13 @@ public enum EntityType {
 	}
 
 	/**
-	 * Return the filename of the texture to use with the specified entity, current state of the entity can 
-	 * @param param as the parameters to search inside the range collection 
-	 * @param ranges range of pair that needs to be controlled
+	 * Return the filename of the texture to use with the specified entity,
+	 * current state of the entity can
+	 * 
+	 * @param param
+	 *            as the parameters to search inside the range collection
+	 * @param ranges
+	 *            range of pair that needs to be controlled
 	 * @return string as the filename of the texture to use
 	 */
 	private static String textChooser(final int param, final List<Pair<String, Integer>> ranges) {

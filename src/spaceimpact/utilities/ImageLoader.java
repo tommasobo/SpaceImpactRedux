@@ -12,8 +12,6 @@ import javafx.scene.image.Image;
  * @author Tommaso Bonato
  */
 public class ImageLoader {
-	private static final String SEP = System.getProperty("file.separator");
-	private static final String LOGO = "icon.png";
 
 	private static ImageLoader IMAGELOADER = null;
 
@@ -37,7 +35,6 @@ public class ImageLoader {
 	 */
 	private ImageLoader() {
 		this.imagesMap = new HashMap<>();
-		this.getImageFromPath(ImageLoader.LOGO);
 	}
 
 	/**
@@ -48,19 +45,15 @@ public class ImageLoader {
 	 * @return Image found in that path.
 	 */
 	public Image getImageFromPath(final String path) {
-		if (!this.imagesMap.containsKey(path)) {
-			this.imagesMap.put(path, new Image("file:res/" + path));
+		try {
+			if (!this.imagesMap.containsKey(path)) {
+				this.imagesMap.put(path, new Image(ImageLoader.class.getResourceAsStream("/" + path)));
+			}
+			return this.imagesMap.get(path);
+		} catch (final Exception e) {
+			System.out.println("Error while loading " + path);
 		}
-		return this.imagesMap.get(path);
-	}
-
-	/**
-	 * Returns the logo of the game.
-	 *
-	 * @return an Image representing the logo of the game
-	 */
-	public Image getLogoImage() {
-		return this.imagesMap.get(ImageLoader.LOGO);
+		return null;
 	}
 
 }
