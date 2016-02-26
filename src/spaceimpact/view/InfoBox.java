@@ -4,7 +4,6 @@ import javafx.stage.*;
 import spaceimpact.utilities.ImageLoader;
 import javafx.scene.*;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -14,8 +13,7 @@ public class InfoBox {
 
     private static final double INFO_WIDTH = 520;
     private static final double INFO_HEIGHT = 650;
-    private static final String SEP = System.getProperty("file.separator");
-
+    
     public static void display() {
         final Stage window = new Stage();
         window.getIcons().add(ImageLoader.getLoader().getImageFromPath("Icons/info.png"));
