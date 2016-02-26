@@ -82,7 +82,8 @@ public class Projectile implements Entity {
 			
 		this.direction.moveLocation(this.location, this.velocity);
 
-		if (this.location.getX() > 2) {
+		if (this.location.getX() > 2d || this.location.getX() < -0.3d ||
+				this.location.getY() > 1.3d || this.location.getY() < -0.3d) {
 			this.removable = true;
 		}
 	}
@@ -90,6 +91,11 @@ public class Projectile implements Entity {
 	@Override
 	public EntityType getID() {
 		return this.ID;
+	}
+	
+	@Override
+	public void setRemovable() {
+		this.removable = true;
 	}
 
 	@Override
