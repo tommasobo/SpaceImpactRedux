@@ -33,6 +33,7 @@ public class Enemy extends LivingEntity {
 		super.currentlife = maxlife;
 		super.maxlife = maxlife;
 		super.velocity = velocity;
+		super.initvel = velocity;
 		super.location = new Location(location);
 		super.direction = direction;
 		super.removable = false;

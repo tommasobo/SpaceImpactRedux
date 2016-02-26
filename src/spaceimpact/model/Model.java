@@ -207,6 +207,9 @@ public class Model implements ModelInterface {
 
 		// spawn new entities if possible
 		this.lvl.spawn(this.enemylist, this.debrislist, this.poweruplist);
+		
+		System.out.println("No. Enemy: " + this.enemylist.size() + " | Debris: " + this.debrislist.size() + " | PowerUp: " + this.poweruplist.size() +
+				" | Proj Player: " + this.playerprojectilelist.size() + " | Proj Enemy: " + this.enemiesprojectilelist.size() + " | Dead: " + this.deadentities.size());
 
 		// verify game status
 		if ((this.enemylist.size() <= 0) && this.lvl.playerWin() && this.gamestatus.equals(GameStatus.Running)) {
@@ -266,6 +269,7 @@ public class Model implements ModelInterface {
 					.forEach(y -> {
 					if (x.collideWith(y) && !this.deadentities.contains(x)) {
 						y.looseLife(x.getDamage());
+						x.setRemovable();
 						if (y.toRemove()) { //KILL
 							this.debrislist.add(new Debris(DebrisType.Explosion, y.getLocation(), this.explosionlifetime));
 							this.deadentities.add(y);
@@ -287,6 +291,7 @@ public class Model implements ModelInterface {
 			.forEach(x -> {
 				if (x.collideWith(Model.player)) {
 					Model.player.looseLife(x.getDamage());
+					x.setRemovable();
 					if (Model.player.toRemove()) { //KILL
 						this.debrislist.add(new Debris(DebrisType.Explosion, Model.player.getLocation(), this.explosionlifetime));
 						this.gamestatus = GameStatus.Over;

@@ -93,6 +93,11 @@ public class Debris implements Entity {
 	}
 	
 	@Override
+	public void setRemovable() {
+		this.removable = true;	
+	}
+	
+	@Override
 	public boolean toRemove() {
 		return this.removable;
 	}

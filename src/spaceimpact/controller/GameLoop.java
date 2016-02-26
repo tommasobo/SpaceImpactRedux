@@ -282,6 +282,7 @@ public class GameLoop extends Thread {
 		final int enemyDelay = (int) ((9 - 0.36666 * Math.min(10, levelId)) * fps / this.diff);
 		final int debrisDelay = (int) ((this.diff * new Random().nextDouble() + 1.5) * fps);
 		final int powerupDelay = (int) ((7.5 + this.diff * levelId) * fps);
+		//final int powerupDelay = (int) (fps);
 		final double tmpvel = (0.135 + 0.015 * levelId) / fps;
 		final Level tmp = new Level(totalEnemiesToSpawn, maxEnemyPerSpawn, enemyDelay, debrisDelay, powerupDelay,
 				tmpvel);
