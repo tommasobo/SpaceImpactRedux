@@ -19,14 +19,11 @@ public class LevelCreator {
 		final int totalEnemiesToSpawn = 5 * (2 * levelId + diff);
 		final int maxEnemyPerSpawn = diff + (levelId - 1) / 2;
 		final int enemyDelay = (int) ((9 - 0.36666 * Math.min(10, levelId)) * fps / diff);
-		final int debrisDelay = (int) ((diff * (levelId + 1) * 0.02 + 2) * fps);
+		final int debrisDelay = (int) ((diff * levelId * 2) * fps);
 		final int powerupDelay = (int) ((7.5 + diff * levelId) * fps);
 		final double tmpvel = (0.135 + 0.015 * levelId) / fps;
 		
 		final Level tmp = new Level(totalEnemiesToSpawn, maxEnemyPerSpawn, enemyDelay, debrisDelay, powerupDelay, tmpvel);
-		tmp.getEnemySpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
-		tmp.getDebrisSpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
-		tmp.getPowerUpSpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
 		tmp.getEnemySpawner().setCoolDownEntityWeapon((int) ((1 - 0.1 * Math.min(5, levelId / 2)) * fps));
 		tmp.getEnemySpawner().setEntityDamageRange(5 * levelId, 10 * levelId);
 		tmp.getEnemySpawner().setEntityLifeRange(5 * levelId, 5 + 10 * levelId);

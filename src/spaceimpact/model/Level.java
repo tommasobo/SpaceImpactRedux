@@ -31,7 +31,8 @@ public class Level {
 	 * @param powerupdelay The delay between each powerup spawn event
 	 * @param globalvelocity The global default velocity of the game
 	 */
-	public Level(final int enemycount, final int maxenemyperspawn, final int enemydelay, final int debrisdelay, final int powerupdelay, final double globalvelocity) {
+	public Level(final int enemycount, final int maxenemyperspawn, final int enemydelay, 
+			final int debrisdelay, final int powerupdelay, final double globalvelocity) {
 		this.enemycount = enemycount;
 		this.velocity = globalvelocity;		
 		enemyspawner = new EnemySpawner(this.enemycount, maxenemyperspawn, enemydelay);
@@ -106,5 +107,5 @@ public class Level {
 	 */
 	public double getLevelVelocity() {
 		return this.velocity;
-	}
+	}	
 }
