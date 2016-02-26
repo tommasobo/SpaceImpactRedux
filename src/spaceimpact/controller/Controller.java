@@ -12,9 +12,9 @@ public final class Controller implements ControllerInterface {
 	private static final String HS_FILENAME = "hiscores";
 	private static final int HS_NSCORES = 10;
 
+	private final HighScoresManagerInterface hsManager;
 	private int fps = 60;
 	private Pair<String, Integer> diff = new Pair<>("Medium", 2);
-	private final HighScoresManagerInterface hsManager;
 	private Optional<GameLoop> gl;
 	private ViewInterface view;
 	private volatile int score;
@@ -22,6 +22,15 @@ public final class Controller implements ControllerInterface {
 	private Controller() {
 		this.hsManager = new HighScoresManager(Controller.HS_FILENAME, Controller.HS_NSCORES);
 		this.gl = Optional.empty();
+	}
+
+	/**
+	 * Start a new application
+	 */
+	public static void main(final String args[]) {
+		final Controller c = new Controller();
+		c.view = new View(c);
+		c.view.startView();
 	}
 
 	@Override
@@ -43,11 +52,6 @@ public final class Controller implements ControllerInterface {
 	}
 
 	@Override
-	public List<Pair<String, Integer>> getCurrentHighScores() {
-		return this.hsManager.getScores();
-	}
-
-	@Override
 	public void pauseGameLoop() {
 		if (this.gl.isPresent()) {
 			this.gl.get().pause();
@@ -59,17 +63,6 @@ public final class Controller implements ControllerInterface {
 		if (this.gl.isPresent()) {
 			this.gl.get().unPause();
 		}
-	}
-
-	@Override
-	public boolean emptyHighScores() {
-		this.hsManager.emptyScores();
-		try {
-			this.hsManager.saveData();
-		} catch (IllegalStateException | IOException e) {
-			return false;
-		}
-		return true;
 	}
 
 	@Override
@@ -88,18 +81,9 @@ public final class Controller implements ControllerInterface {
 		return this.gl.get().isRunning();
 	}
 
-	/**
-	 * Start a new application
-	 */
-	public static void main(final String args[]) {
-		final Controller c = new Controller();
-		c.view = new View(c);
-		c.view.startView();
-	}
-
 	@Override
-	public void setScore(final int s) {
-		this.score = s;
+	public List<Pair<String, Integer>> getCurrentHighScores() {
+		return this.hsManager.getScores();
 	}
 
 	@Override
@@ -111,6 +95,22 @@ public final class Controller implements ControllerInterface {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public boolean emptyHighScores() {
+		this.hsManager.emptyScores();
+		try {
+			this.hsManager.saveData();
+		} catch (IllegalStateException | IOException e) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public void setScore(final int s) {
+		this.score = s;
 	}
 
 	@Override

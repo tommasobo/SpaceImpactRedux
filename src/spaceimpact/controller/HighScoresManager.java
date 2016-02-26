@@ -17,7 +17,7 @@ import spaceimpact.utilities.Pair;
  * A manager for HighScores. It can save/load the data to/from the filesystem.
  */
 public class HighScoresManager implements HighScoresManagerInterface {
-
+	// this flag enables
 	private static final boolean REPORT_ERRORS_ON_WRITE = true;
 
 	private final String filename;
@@ -35,12 +35,12 @@ public class HighScoresManager implements HighScoresManagerInterface {
 	 */
 	public HighScoresManager(final String fileName, final int nscores) throws IllegalArgumentException {
 		if (nscores <= 0 || fileName.isEmpty()) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Wrong arguments! nscores must be > 0, fileName must be valid.");
 		}
 		this.cache = Optional.empty();
 		this.filename = fileName;
-		this.editedNotSaved = false;
 		this.numMaxScores = nscores;
+		this.editedNotSaved = false;
 	}
 
 	@Override
@@ -51,9 +51,9 @@ public class HighScoresManager implements HighScoresManagerInterface {
 		final List<Pair<String, Integer>> list = this.cache.get();
 		list.add(p);
 		this.sortList(list);
-		this.editedNotSaved = true;
 		this.removeExcessScores(list);
 		this.cache = Optional.of(list);
+		this.editedNotSaved = true;
 	}
 
 	@Override

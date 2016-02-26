@@ -46,6 +46,12 @@ public class GameLoop extends Thread {
 	 *
 	 * @param fps
 	 *            The number of frames per second
+	 * @param difficulty
+	 *            The difficulty multiplier
+	 * @param controller
+	 *            The Controller that created the GameLoop
+	 * @param view
+	 *            The View object
 	 */
 	public GameLoop(final int fps, final int difficulty, final ControllerInterface controller,
 			final ViewInterface view) {
@@ -60,10 +66,24 @@ public class GameLoop extends Thread {
 		this.score = 0;
 	}
 
+	/**
+	 * Private method. Checks the current game status.
+	 *
+	 * @param stat
+	 *            The status to be compared.
+	 * @return True if the game is currently in the given Status, false
+	 *         otherwise.
+	 */
 	private synchronized boolean isInState(final Status stat) {
 		return this.status == stat;
 	}
 
+	/**
+	 * Private method. Sets the game status.
+	 *
+	 * @param stat
+	 *            The target status.
+	 */
 	private synchronized void setState(final Status stat) {
 		this.status = stat;
 	}
@@ -163,58 +183,9 @@ public class GameLoop extends Thread {
 		this.controller.abortGameLoop();
 	}
 
-	private Pair<Optional<Direction>, Boolean> parseInputs() {
-		boolean n = false;
-		boolean s = false;
-		boolean e = false;
-		boolean w = false;
-		boolean shoot = false;
-		final List<Input> tmp = this.view.getInput();
-
-		for (final Input i : tmp) {
-			if (i == Input.W) {
-				n = true;
-			} else if (i == Input.S) {
-				s = true;
-			} else if (i == Input.A) {
-				w = true;
-			} else if (i == Input.D) {
-				e = true;
-			} else {
-				shoot = true;
-			}
-		}
-		Optional<Direction> d;
-		if (n) {
-			if (e) {
-				d = Optional.of(Direction.NE);
-			} else if (w) {
-				d = Optional.of(Direction.NW);
-			} else {
-				d = Optional.of(Direction.N);
-			}
-		} else if (s) {
-			if (e) {
-				d = Optional.of(Direction.SE);
-			} else if (w) {
-				d = Optional.of(Direction.SW);
-			} else {
-				d = Optional.of(Direction.S);
-			}
-		} else if (e) {
-			d = Optional.of(Direction.E);
-		} else if (w) {
-			d = Optional.of(Direction.W);
-		} else {
-			d = Optional.empty();
-		}
-
-		return new Pair<Optional<Direction>, Boolean>(d, shoot);
-	}
-
 	/**
 	 * Causes the GameLoop to resume. If it wasn't paused nothing happens.
-	 * Resume could be delayed up to a tic later.
+	 * Resume could be delayed up to 0.5 seconds later.
 	 */
 	public void unPause() {
 		if (this.isPaused()) {
@@ -252,6 +223,49 @@ public class GameLoop extends Thread {
 			throw new IllegalStateException();
 		}
 		return this.score;
+	}
+
+	/**
+	 * Private method. Parses the "concrete" inputs (keyboard) and produces an
+	 * optional direction (where the player wants to go) and a boolean (whether
+	 * the player wants to shoot or not).
+	 *
+	 * @return A Pair<Optional<Direction>, Boolean>. The boolean is true if the
+	 *         player pressed the key that allows to shoot, false otherwise. The
+	 *         Optional is empty if the player doesn't want to move (hasn't
+	 *         pressed a motion key), or contains a direction.
+	 */
+	private Pair<Optional<Direction>, Boolean> parseInputs() {
+		final List<Input> tmp = this.view.getInput();
+		final boolean n = tmp.contains(Input.W);
+		final boolean s = tmp.contains(Input.S);
+		final boolean e = tmp.contains(Input.D);
+		final boolean w = tmp.contains(Input.A);
+		final boolean shoot = tmp.contains(Input.SPACE);
+
+		Optional<Direction> d = Optional.empty();
+		if (n) {
+			if (e) {
+				d = Optional.of(Direction.NE);
+			} else if (w) {
+				d = Optional.of(Direction.NW);
+			} else {
+				d = Optional.of(Direction.N);
+			}
+		} else if (s) {
+			if (e) {
+				d = Optional.of(Direction.SE);
+			} else if (w) {
+				d = Optional.of(Direction.SW);
+			} else {
+				d = Optional.of(Direction.S);
+			}
+		} else if (e) {
+			d = Optional.of(Direction.E);
+		} else if (w) {
+			d = Optional.of(Direction.W);
+		}
+		return new Pair<Optional<Direction>, Boolean>(d, shoot);
 	}
 
 	/**

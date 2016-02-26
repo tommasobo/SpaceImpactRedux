@@ -28,23 +28,24 @@ public class DrawEntities {
 		this.imgl = ImageLoader.getLoader();
 		this.bg = new ImageView(this.imgl.getImageFromPath("images/gameBackground.png"));
 		this.bg2 = new ImageView(this.imgl.getImageFromPath("images/gameBackground.png"));
-		this.bg.setFitWidth(gameWidth);
-		this.bg.setFitHeight(gameHeight);
-		this.bg2.setFitWidth(gameWidth);
-		this.bg2.setFitHeight(gameHeight);
-		this.bg2.relocate(gameWidth, 0);
+		this.bg.setFitWidth(DrawEntities.gameWidth);
+		this.bg.setFitHeight(DrawEntities.gameHeight);
+		this.bg2.setFitWidth(DrawEntities.gameWidth);
+		this.bg2.setFitHeight(DrawEntities.gameHeight);
+		this.bg2.relocate(DrawEntities.gameWidth, 0);
 	}
 
 	/**
-	 * This method prints the list of images provided on the given layer
+	 * This method prints on the given layer the list of images provided.
 	 *
 	 * @param layer
 	 *            The Pane used for printing
 	 * @param listEntities
-	 *            A list of Pair<String, Location> that describes the entities
-	 *            to be drawn. The Location is the entity Location, the String
-	 *            is the path to the image (in URL form, starting from the res
-	 *            folder)
+	 *            A list of Pair<Pair<String, Double>,Location> that describes
+	 *            the entities to be drawn. The Location is the entity Location,
+	 *            the Pair<String, Double> describes the image chosen (the
+	 *            String is the image path relative from res folder (in URL
+	 *            form), the Double is the image rotation required).
 	 * @param heightGame
 	 *            The height of the game window
 	 */
@@ -57,34 +58,34 @@ public class DrawEntities {
 			final ImageView iv = new ImageView(this.imgl.getImageFromPath(p.getFirst().getFirst()));
 			iv.setPreserveRatio(true);
 			final Area area = p.getSecond().getArea();
-			iv.setFitHeight((heightGame * area.getHeight()));
+			iv.setFitHeight(heightGame * area.getHeight());
 			layer.getChildren().add(iv);
-			iv.setX((p.getSecond().getX() - (area.getWidth() / 2)) * heightGame);
-			iv.setY((p.getSecond().getY() - (area.getHeight() / 2)) * heightGame);
+			iv.setX((p.getSecond().getX() - area.getWidth() / 2) * heightGame);
+			iv.setY((p.getSecond().getY() - area.getHeight() / 2) * heightGame);
 			if (p.getFirst().getSecond().doubleValue() != 0d) {
 				iv.setRotate(p.getFirst().getSecond().doubleValue());
 			}
 		});
-		
+
 	}
-	
+
 	private void translateBackground() {
-	    final double x = this.bg.getLayoutX() - BACKGROUND_SPEED;
-	    if (x <= (-gameWidth)) {
-	        this.bg.relocate(gameWidth, 0);
-	    } else {
-	        this.bg.setLayoutX(x);
-	    }
-	    final double x2 = this.bg2.getLayoutX() - BACKGROUND_SPEED;
-	    if (x2 <= (-gameWidth)) {
-                this.bg2.relocate(gameWidth, 0);
-            } else {
-                this.bg2.setLayoutX(x2);
-            }
+		final double x = this.bg.getLayoutX() - DrawEntities.BACKGROUND_SPEED;
+		if (x <= -DrawEntities.gameWidth) {
+			this.bg.relocate(DrawEntities.gameWidth, 0);
+		} else {
+			this.bg.setLayoutX(x);
+		}
+		final double x2 = this.bg2.getLayoutX() - DrawEntities.BACKGROUND_SPEED;
+		if (x2 <= -DrawEntities.gameWidth) {
+			this.bg2.relocate(DrawEntities.gameWidth, 0);
+		} else {
+			this.bg2.setLayoutX(x2);
+		}
 	}
-	
-	static synchronized void setResolution(double width, double height) {
-	    gameHeight = height;
-	    gameWidth = width;
+
+	static synchronized void setResolution(final double width, final double height) {
+		DrawEntities.gameHeight = height;
+		DrawEntities.gameWidth = width;
 	}
 }

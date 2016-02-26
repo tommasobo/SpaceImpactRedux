@@ -5,38 +5,22 @@ import java.util.List;
 import spaceimpact.utilities.Pair;
 
 /**
- * Interface for a generic Controller The "main" method is inside the Controller
- * class.
+ * Interface for a generic Controller. The "main" method is inside the
+ * Controller class.
  */
 public interface ControllerInterface {
-
-	/**
-	 * Abort the "GameLoop" (force stop the current game). If no game is present
-	 * nothing happens
-	 */
-	void abortGameLoop();
-
-	/**
-	 * Returns the list of current highscores. If the current list cannot be
-	 * loaded, an empty list is returned. The returned list is a defensive copy.
-	 *
-	 * @return A List of scores (Pair<String, Integer>, a player name and a
-	 *         score)
-	 */
-	List<Pair<String, Integer>> getCurrentHighScores();
-
-	/**
-	 * Clears the list of highscores
-	 *
-	 * @return True if the operation was successful, false otherwise.
-	 */
-	boolean emptyHighScores();
 
 	/**
 	 * Starts the "GameLoop" (launch new game). If a game is already running
 	 * nothing happens.
 	 */
 	void startGameLoop();
+
+	/**
+	 * Abort the "GameLoop" (force stop the current game). If no game is present
+	 * nothing happens
+	 */
+	void abortGameLoop();
 
 	/**
 	 * Pauses the "GameLoop" (game pause). If the game is already paused nothing
@@ -64,6 +48,15 @@ public interface ControllerInterface {
 	boolean isGameLoopRunning();
 
 	/**
+	 * Returns the list of current highscores. If the current list cannot be
+	 * loaded, an empty list is returned. The returned list is a defensive copy.
+	 *
+	 * @return A List of scores (Pair<String, Integer>, a player name and a
+	 *         score)
+	 */
+	List<Pair<String, Integer>> getCurrentHighScores();
+
+	/**
 	 * * Saves the current score and player name to the highscores.
 	 *
 	 * @param s
@@ -73,16 +66,45 @@ public interface ControllerInterface {
 	boolean setCurrentPlayerName(String s);
 
 	/**
-	 * Set the game score
+	 * Clears the list of highscores
+	 *
+	 * @return True if the operation was successful, false otherwise.
+	 */
+	boolean emptyHighScores();
+
+	/**
+	 * Set the game score.
 	 *
 	 * @param score
-	 *            The score reached
+	 *            The score reached.
 	 */
 	void setScore(int score);
 
+	/**
+	 * Getter of the FPS (Frames Per Second) value.
+	 *
+	 * @return The current FPS value.
+	 */
 	int getFPS();
 
+	/**
+	 * Getter of the current difficulty (in String form).
+	 *
+	 * @return A String (the current difficulty).
+	 */
 	String getDifficulty();
 
+	/**
+	 * Setter for FPS (Frames Per Second) and difficulty. If this method is
+	 * never called default values are used.
+	 *
+	 * @param fps
+	 *            The desired number of frames per second.
+	 * @param diff
+	 *            A Pair<String, Integer>. The String is the human-readable
+	 *            difficulty setting, the Integer is the difficulty multiplier.
+	 * @throws IllegalArgumentException
+	 *             In case of invalid arguments.
+	 */
 	void setFPSDifficulty(int fps, Pair<String, Integer> diff) throws IllegalArgumentException;
 }

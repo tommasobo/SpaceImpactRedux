@@ -18,7 +18,7 @@ public interface HighScoresManagerInterface {
 	void addScore(final Pair<String, Integer> p);
 
 	/**
-	 * Removes all previous HighScores
+	 * Removes all previous HighScores (but doesn't save by default)
 	 */
 	void emptyScores();
 
@@ -30,7 +30,7 @@ public interface HighScoresManagerInterface {
 	List<Pair<String, Integer>> getScores();
 
 	/**
-	 * Saves data to disc.
+	 * Saves data.
 	 *
 	 * @throws IllegalStateException
 	 *             If there's no need of saving
