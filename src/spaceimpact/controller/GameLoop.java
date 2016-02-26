@@ -3,13 +3,10 @@ package spaceimpact.controller;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 import spaceimpact.model.Area;
 import spaceimpact.model.Direction;
 import spaceimpact.model.GameStatus;
-import spaceimpact.model.Level;
-import spaceimpact.model.LevelCreator;
 import spaceimpact.model.Location;
 import spaceimpact.model.Model;
 import spaceimpact.model.ModelInterface;
@@ -34,8 +31,8 @@ public class GameLoop extends Thread {
 
 	private final long ticLenght;
 	private final int fps;
-	private final ViewInterface view;
-	private final ControllerInterface controller;
+	private final ViewInterface v;
+	private final ControllerInterface ctrl;
 	private final int diff;
 	private volatile Status status;
 	private volatile int score;
@@ -43,9 +40,9 @@ public class GameLoop extends Thread {
 	private volatile ModelInterface model;
 
 	/**
-	 * Constructor for GameLoop
+	 * Constructor for GameLoop.
 	 *
-	 * @param fps
+	 * @param framespersecond
 	 *            The number of frames per second
 	 * @param difficulty
 	 *            The difficulty multiplier
@@ -54,16 +51,16 @@ public class GameLoop extends Thread {
 	 * @param view
 	 *            The View object
 	 */
-	public GameLoop(final int fps, final int difficulty, final ControllerInterface controller,
+	public GameLoop(final int framespersecond, final int difficulty, final ControllerInterface controller,
 			final ViewInterface view) {
 		this.status = Status.READY;
-		this.fps = fps;
-		this.ticLenght = 1000 / fps;
-		this.view = view;
+		this.fps = framespersecond;
+		this.ticLenght = 1000 / framespersecond;
+		this.v = view;
 		this.nLevel = 1;
 		this.diff = difficulty;
-		this.model = new Model(fps, this.nLevel, this.diff);
-		this.controller = controller;
+		this.model = new Model(framespersecond, this.nLevel, this.diff);
+		this.ctrl = controller;
 		this.score = 0;
 	}
 
@@ -126,7 +123,7 @@ public class GameLoop extends Thread {
 						timer = 0;
 						final Optional<String> s = this.model.getLatestPowerUp();
 						if (s.isPresent()) {
-							this.view.showText(s.get());
+							this.v.showText(s.get());
 						}
 					}
 					this.score += GameLoop.this.model.getScores() * this.diff / 2;
@@ -144,8 +141,8 @@ public class GameLoop extends Thread {
 					final Thread t = new Thread() {
 						@Override
 						public void run() {
-							GameLoop.this.view.draw(toDraw);
-							GameLoop.this.view.updateInfo(GameLoop.this.model.getPlayerLife(),
+							GameLoop.this.v.draw(toDraw);
+							GameLoop.this.v.updateInfo(GameLoop.this.model.getPlayerLife(),
 									GameLoop.this.model.getPlayerShield(), GameLoop.this.score);
 						}
 					};
@@ -168,7 +165,7 @@ public class GameLoop extends Thread {
 				} else if (this.model.getGameStatus() == GameStatus.Over) {
 					this.setState(Status.KILLED);
 				} else {
-					this.view.showText(this.nLevel);
+					this.v.showText(this.nLevel);
 					this.nLevel++;
 					this.model = new Model(this.fps, this.nLevel, this.diff);
 				}
@@ -180,8 +177,8 @@ public class GameLoop extends Thread {
 				}
 			}
 		}
-		this.controller.setScore(this.score);
-		this.controller.abortGameLoop();
+		this.ctrl.setScore(this.score);
+		this.ctrl.abortGameLoop();
 	}
 
 	/**
@@ -195,7 +192,7 @@ public class GameLoop extends Thread {
 	}
 
 	/**
-	 * Checks if the game is paused
+	 * Checks if the game is paused.
 	 *
 	 * @return True if the game is paused, false otherwise
 	 */
@@ -204,7 +201,7 @@ public class GameLoop extends Thread {
 	}
 
 	/**
-	 * Checks if the game is running
+	 * Checks if the game is running.
 	 *
 	 * @return True if the game is running, false otherwise
 	 */
@@ -213,7 +210,7 @@ public class GameLoop extends Thread {
 	}
 
 	/**
-	 * Getter of the final score
+	 * Getter of the final score.
 	 *
 	 * @return The game score
 	 * @throws IllegalStateException
@@ -237,7 +234,7 @@ public class GameLoop extends Thread {
 	 *         pressed a motion key), or contains a direction.
 	 */
 	private Pair<Optional<Direction>, Boolean> parseInputs() {
-		final List<Input> tmp = this.view.getInput();
+		final List<Input> tmp = this.v.getInput();
 		final boolean n = tmp.contains(Input.W);
 		final boolean s = tmp.contains(Input.S);
 		final boolean e = tmp.contains(Input.D);

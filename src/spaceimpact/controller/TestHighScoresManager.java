@@ -25,7 +25,7 @@ public class TestHighScoresManager {
 			System.out.println("First attempt failed, OK!");
 		}
 		try {
-			h = new HighScoresManager(fileName, -24);
+			h = new HighScoresManager(fileName, -1);
 			Assert.assertTrue("Created with wrong int!", false);
 		} catch (final Exception e) {
 			System.out.println("Second attempt failed, OK!");

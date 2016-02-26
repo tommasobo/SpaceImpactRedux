@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
  * Class used to read an image from file. It contains already the most important
  * icons of the game. It is designed using Singleton pattern.
  */
-public class ImageLoader {
+public final class ImageLoader {
 
 	private static ImageLoader il;
 	private final Map<String, Image> imagesMap;

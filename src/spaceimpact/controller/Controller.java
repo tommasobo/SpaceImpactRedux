@@ -8,6 +8,9 @@ import spaceimpact.utilities.Pair;
 import spaceimpact.view.View;
 import spaceimpact.view.ViewInterface;
 
+/**
+ * Implementation of ControllerInterface.
+ */
 public final class Controller implements ControllerInterface {
 	private static final String HS_FILENAME = "hiscores";
 	private static final int HS_NSCORES = 10;
@@ -25,7 +28,7 @@ public final class Controller implements ControllerInterface {
 	}
 
 	/**
-	 * Start a new application
+	 * Start a new application.
 	 */
 	public static void main(final String args[]) {
 		final Controller c = new Controller();
@@ -124,15 +127,15 @@ public final class Controller implements ControllerInterface {
 	}
 
 	@Override
-	public void setFPSDifficulty(final int fps, final Pair<String, Integer> diff) throws IllegalArgumentException {
-		if (diff.getSecond() <= 0 || diff.getFirst() == null || diff.getFirst().equals("")) {
+	public void setFPSDifficulty(final int f, final Pair<String, Integer> d) throws IllegalArgumentException {
+		if (d.getSecond() <= 0 || d.getFirst() == null || d.getFirst().equals("")) {
 			throw new IllegalArgumentException("Cannot set a difficulty <= 0 (or empty string)");
 		}
-		if (fps <= 0) {
+		if (f <= 0) {
 			throw new IllegalArgumentException("Cannot set fps <= 0");
 		}
-		this.diff = diff;
-		this.fps = fps;
+		this.diff = d;
+		this.fps = f;
 	}
 
 }

@@ -66,7 +66,7 @@ public interface ControllerInterface {
 	boolean setCurrentPlayerName(String s);
 
 	/**
-	 * Clears the list of highscores
+	 * Clears the list of highscores.
 	 *
 	 * @return True if the operation was successful, false otherwise.
 	 */
