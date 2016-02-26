@@ -33,7 +33,7 @@ public class GameScreen extends Scene {
     private static boolean isFullScreen = false;
     private static double resConstantWidth = 1;
     private static double resConstantHeight = 1;
-    private static final double BASIC_FONT = 16;
+    private static final double BASIC_FONT = 18;
     private static final double BASIC_BUTTON_WIDTH = 110;
     private static final double BASIC_BUTTON_HEIGHT = 25;
     private static final double BASIC_RES_WIDTH = 1280;
@@ -72,7 +72,7 @@ public class GameScreen extends Scene {
                 });
                 infoButton.setId("dark-blue");
                 infoButton.setFocusTraversable(false);
-                infoButton.setOnAction(e -> InfoBox.display("Info Box"));
+                infoButton.setOnAction(e -> InfoBox.display());
                 buttonGame.getChildren().addAll(pauseButton, infoButton);
                 buttonGame.setSpacing(10);
                 buttonGame.setAlignment(Pos.TOP_CENTER);
@@ -116,7 +116,9 @@ public class GameScreen extends Scene {
                         } else if (event.getCode() == KeyCode.P) {
                             this.pause();
                         } else if(event.getCode() == KeyCode.ESCAPE) {
-                            this.close();
+                            View.getController().pauseGameLoop();
+                            ClosureHandler.getClosureHandler();
+                            ClosureHandler.closeProgram(this.mainStage);
                         }
                         inputHandler.press(event.getCode());
                 });
@@ -245,21 +247,6 @@ public class GameScreen extends Scene {
         } else {
             InputHandler.getInputHandler().emptyList();
             View.getController().resumeGameLoop();
-        }
-    }
-    
-    private void close() {
-        View.getController().pauseGameLoop();
-        final Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to exit the game?");
-        if (View.getController().isGameLoopPaused()) {
-            if (answer) {
-                View.getController().abortGameLoop();
-                System.exit(0);
-                mainStage.close();
-            } else {
-                InputHandler.getInputHandler().emptyList();
-                View.getController().resumeGameLoop();
-            }
         }
     }
     

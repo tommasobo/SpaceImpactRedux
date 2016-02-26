@@ -41,7 +41,7 @@ public class Options extends Scene{
     private static final String MID_RES = "1600x900";
     private static final double HIGH_RES_WIDTH = 1920;
     private static final double HIGH_RES_HEIGHT = 1080;
-    private static final String HIGH_RES = "1920x10800";
+    private static final String HIGH_RES = "1920x1080";
     
     private final List<Pair<String, Integer>> listDifficulties = new LinkedList<>();
     private final List<Pair<String, Pair<Double, Double>>> listResolutions = new LinkedList<>();

@@ -11,16 +11,18 @@ import javafx.geometry.*;
 
 public class InfoBox {
 
+    private static final double INFO_WIDTH = 520;
+    private static final double INFO_HEIGHT = 650;
     private static final String SEP = System.getProperty("file.separator");
 
-    public static void display(String title) {
+    public static void display() {
         final Stage window = new Stage();
         window.getIcons().add(new Image("file:res" + SEP + "icons" + SEP + "info.png"));
         window.setResizable(false);
         window.centerOnScreen();
-        window.setTitle(title);
-        window.setMinWidth(500);
-        window.setMinHeight(650);
+        window.setTitle("Info Box");
+        window.setMinWidth(INFO_WIDTH);
+        window.setMinHeight(INFO_HEIGHT);
         
         final Logo logo = new Logo(220,55);
         
@@ -34,7 +36,7 @@ public class InfoBox {
         otherCredits.setText("Credits to");
         otherCredits.setId("titleInfo");
         
-        final VBox listDeveloper = new VBox(10);
+        final VBox listInfo = new VBox(10);
         final Label view = new Label("Tommaso Bonato (View)");
         view.setId("whiteText");
         final Label model = new Label("Davide Giacomini (Model)");
@@ -51,23 +53,23 @@ public class InfoBox {
         creditsTo.setText("Images released with a CC-BY 3.0 license from C-TOY \n(http://c-toy.blogspot.pt/), MillionthVector \n(http://millionthvector.blogspot.de), Bonsaiheldin\n(http://bonsaiheld.org), Qubodup and \nMartin Jelinek (jelinek.cz@gmail.com) | www.nyrthos.com.");
         creditsTo.setId("whiteTextInfo");
         
-        listDeveloper.getStylesheets().add("style.css");
-        listDeveloper.setAlignment(Pos.CENTER);
-        listDeveloper.setId("whiteTextInfo");
-        listDeveloper.setPadding(new Insets(10));
-        listDeveloper.getChildren().addAll(instructionTitle, instructions, label, view, model, controller, otherCredits, creditsTo);
+        listInfo.getStylesheets().add("style.css");
+        listInfo.setAlignment(Pos.CENTER);
+        listInfo.setId("whiteTextInfo");
+        listInfo.setPadding(new Insets(10));
+        listInfo.getChildren().addAll(instructionTitle, instructions, label, view, model, controller, otherCredits, creditsTo);
 
         final VBox layout = new VBox(10);
-        final StackPane descLayout = new StackPane();
+        final StackPane mainLayout = new StackPane();
         
-        layout.getChildren().addAll(logo.getLogo(), listDeveloper);
+        layout.getChildren().addAll(logo.getLogo(), listInfo);
         layout.setSpacing(10);
         layout.setPadding(new Insets(8));
         layout.setAlignment(Pos.TOP_CENTER);
 
-        descLayout.getChildren().addAll(layout);
-        descLayout.setId("infoPane");
-        final Scene scene = new Scene(descLayout);
+        mainLayout.getChildren().addAll(layout);
+        mainLayout.setId("infoPane");
+        final Scene scene = new Scene(mainLayout);
         scene.getStylesheets().add("style.css");
         window.setScene(scene);
         window.showAndWait();

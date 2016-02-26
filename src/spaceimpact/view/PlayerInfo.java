@@ -20,7 +20,9 @@ public class PlayerInfo {
         this.dropShadow.setBlurType(BlurType.GAUSSIAN);
     }
 
-    void update(Label hp, Label shields, Label score, int hpValue, int shieldsValue, int scoreValue) {       
+    void update(final Label hp, final Label shields, final Label score, 
+            final int hpValue, final int shieldsValue, final int scoreValue) {   
+        
         shields.setEffect(this.dropShadow);
         hp.setEffect(this.dropShadow);
         score.setEffect(this.dropShadow);
@@ -49,8 +51,7 @@ public class PlayerInfo {
             
         hp.setText("HP: " + Integer.toString(hpValue));
         shields.setText("SHIELDS: " + Integer.toString(shieldsValue));
-        score.setText("SCORE: " + Integer.toString(scoreValue));
-        
+        score.setText("SCORE: " + Integer.toString(scoreValue));     
     }
 
 }

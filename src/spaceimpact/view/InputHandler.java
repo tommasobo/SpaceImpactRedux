@@ -8,25 +8,17 @@ import spaceimpact.utilities.Input;
 
 public class InputHandler {
 
-	private static InputHandler INPUTHANDLER = null;
+	private static final InputHandler INPUTHANDLER = new InputHandler();
 	private boolean w = false;
 	private boolean s = false;
 	private boolean a = false;
 	private boolean d = false;
 	private boolean space = false;
 
-	private InputHandler() {
-	};
+	private InputHandler() {};
 
 	public static InputHandler getInputHandler() {
-		if (InputHandler.INPUTHANDLER == null) {
-			synchronized (InputHandler.class) {
-				if (InputHandler.INPUTHANDLER == null) {
-					InputHandler.INPUTHANDLER = new InputHandler();
-				}
-			}
-		}
-		return InputHandler.INPUTHANDLER;
+	    return InputHandler.INPUTHANDLER;
 	}
 
 	public List<Input> getList() {
