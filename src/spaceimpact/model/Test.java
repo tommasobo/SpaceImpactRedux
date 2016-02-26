@@ -11,11 +11,10 @@ import spaceimpact.model.spawners.Weapon;
 
 /**
  * JUnit test for Model
- * @author Davide
  */
 public class Test {
-
-	Spaceship ship = new Spaceship(100, 0.65, new Location(0.2, 0.4, new Area(0.125, 0.0972)), Direction.E, 100);
+	Weapon tmpweapon = new Weapon(EntityType.Spaceship, Direction.E, 10, 5, 1);
+	Spaceship ship = new Spaceship(100, 0.65, new Location(0.2, 0.4, new Area(0.125, 0.0972)), Direction.E, 100, tmpweapon);
 	Enemy enemy = new Enemy(100, 0.1, new Location(0.8, 0.4, new Area(0.125, 0.0972)), Direction.E);
 	
 	@org.junit.Test

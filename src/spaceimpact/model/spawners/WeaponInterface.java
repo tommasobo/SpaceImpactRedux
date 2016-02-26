@@ -6,11 +6,9 @@ import spaceimpact.model.Location;
 import spaceimpact.model.entities.Projectile;
 
 /** 
- * Weapon Interface
- * <br>
+ * Weapon Interface<br>
  * Weapon as projectiles factory. 
  * Provides method to enhance near all weapon parameters.
- * @author Davide
  */
 public interface WeaponInterface {
 

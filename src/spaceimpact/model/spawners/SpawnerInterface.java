@@ -8,7 +8,6 @@ import spaceimpact.model.entities.EntityType;
 
 /**
  * Generic Entity Spawner Interface
- * @author Davide
  */
 public interface SpawnerInterface {
 

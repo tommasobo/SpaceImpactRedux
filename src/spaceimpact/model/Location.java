@@ -1,9 +1,9 @@
 package spaceimpact.model;
 
-/** <i>Location</i> 
- * <p>
- * Point in a cartesian plane with x and y values.
- * @author Davide
+/** 
+ * Location<br>
+ * Define the center point and the area of an entity. 
+ * Center Point defined as x and y values in a cartesian plane.
  */
 public class Location {
 	

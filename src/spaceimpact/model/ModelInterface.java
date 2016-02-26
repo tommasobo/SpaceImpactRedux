@@ -6,8 +6,7 @@ import java.util.Optional;
 import spaceimpact.model.entities.Entity;
 
 /**
- * Interface for a generic model
- * <br>
+ * Interface for a generic model<br>
  * Defines the main methods of the class model, that's effectively 
  * the game itself with all active entities and all statistics.
  */
@@ -40,7 +39,7 @@ public interface ModelInterface {
 	int getScores();
 	
 	/**
-	 * Get Game Status
+	 * Get Game Status and reset it
 	 * @return GameStatus Current game status
 	 */
 	GameStatus getGameStatus();

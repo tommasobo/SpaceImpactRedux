@@ -10,7 +10,7 @@ import spaceimpact.model.entities.EntityType;
 import spaceimpact.model.entities.Projectile;
 
 /**
- * Weapon Class
+ * Weapon<br>
  * Factory to generate Projectile entities with a defined damage, location, direction<br>
  * <b>damage</b> Projectiles damages<br>
  * <b>projectilesvelocity</b> Projectiles velocity<br>
@@ -19,8 +19,6 @@ import spaceimpact.model.entities.Projectile;
  * <b>projectilescount</b> Number of shooted projectiles<br>
  * <b>cooldowntime</b> Total time (ticks) of Weapon's cooldown<br>
  * <b>cooldown</b> Current cooldown's countdown<br>
- * 
- * @author Davide
  */
 public class Weapon implements WeaponInterface {
 
@@ -61,44 +59,24 @@ public class Weapon implements WeaponInterface {
 		List<Direction> projectilesdir = new ArrayList<Direction>();
 				
 		projectilesdir.add(this.direction);
-				
-		if (projectilescount == 8) {
-			projectilesdir.add(this.direction.moveRight().moveRight());
-			projectilesdir.add(this.direction.moveLeft().moveLeft());
-			projectilesdir.add(this.direction.flip().moveLeft());
-			projectilesdir.add(this.direction.flip().moveRight());
-			projectilesdir.add(this.direction.moveLeft());
-			projectilesdir.add(this.direction.moveRight());
-			projectilesdir.add(this.direction.flip());
-		} else if (projectilescount == 7) {
-			projectilesdir.add(this.direction.moveLeft().moveLeft());
-			projectilesdir.add(this.direction.flip().moveLeft());
-			projectilesdir.add(this.direction.flip().moveRight());
-			projectilesdir.add(this.direction.moveLeft());
-			projectilesdir.add(this.direction.moveRight());
-			projectilesdir.add(this.direction.flip());
-		} else if (projectilescount == 6) {
-			projectilesdir.add(this.direction.flip().moveLeft());
-			projectilesdir.add(this.direction.flip().moveRight());
-			projectilesdir.add(this.direction.moveLeft());
-			projectilesdir.add(this.direction.moveRight());
-			projectilesdir.add(this.direction.flip());
-		} else if (projectilescount == 5) {
-			projectilesdir.add(this.direction.flip().moveLeft());
-			projectilesdir.add(this.direction.flip().moveRight());
-			projectilesdir.add(this.direction.moveLeft());
-			projectilesdir.add(this.direction.moveRight());
-		} else if (projectilescount == 4) {
-			projectilesdir.add(this.direction.flip());
-			projectilesdir.add(this.direction.moveLeft());
-			projectilesdir.add(this.direction.moveRight());	
-		} else if (projectilescount == 3) {
-			projectilesdir.add(this.direction.moveLeft());
-			projectilesdir.add(this.direction.moveRight());			
-		} else if (projectilescount == 2) {
+		if (this.projectilescount % 2 == 0 || this.projectilescount > 5) {
 			projectilesdir.add(this.direction.flip());
 		}
-		
+		if (this.projectilescount > 2) {
+			projectilesdir.add(this.direction.moveLeft());
+			projectilesdir.add(this.direction.moveRight());
+			if (this.projectilescount > 4) {
+				projectilesdir.add(this.direction.moveLeft().flip());
+				projectilesdir.add(this.direction.moveRight().flip());
+				if (this.projectilescount > 6) {
+					projectilesdir.add(this.direction.moveLeft().moveLeft());
+					if (this.projectilescount == 8) {
+						projectilesdir.add(this.direction.moveRight().moveRight());
+					}
+				}
+			}
+		}
+	
 		projectilesdir.stream().forEach(x -> {
 			projectiles.add(new Projectile(this.parentID, new Location(newlocarea), x, this.projectilesvelocity, this.damage));
 		});
@@ -137,7 +115,7 @@ public class Weapon implements WeaponInterface {
 	@Override
 	public void increaseDamage(final int increment) throws IllegalArgumentException {
 		if (increment < 0) {
-			throw new IllegalArgumentException("Weapon's damage cannot be increase by a negative amount");
+			throw new IllegalArgumentException("Weapon's damage cannot be increase by a negative amount.");
 		}	
 		if (this.damage + increment <= 60) {
 			this.damage += increment;
@@ -147,7 +125,7 @@ public class Weapon implements WeaponInterface {
 	@Override
 	public void decreaseCoolDown(final int decrement) throws IllegalArgumentException {
 		if (decrement < 0) {
-			throw new IllegalArgumentException("Weapon's damage cannot be increase by a negative amount");
+			throw new IllegalArgumentException("Weapon's damage cannot be increase by a negative amount.");
 		}
 		if (this.cooldowntime - decrement >= 0) {
 			this.cooldowntime -= decrement;

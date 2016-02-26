@@ -9,14 +9,12 @@ import spaceimpact.model.entities.Debris;
 import spaceimpact.model.entities.EntityType;
 
 /**
- * Debris Spanwer
- * <br>
+ * Debris Spanwer<br>
  * Define the Debris Spawner inside the Level.
- * @author Davide
  */
 public class DebrisSpawner extends Spawner {
 	
-	private double velocity = 1;
+	private final double velocity;
 	
 	/**
 	 * Debris Spawner Constructor
@@ -35,14 +33,14 @@ public class DebrisSpawner extends Spawner {
 		List<Debris> spawnedentities = new ArrayList<>();		
 		Random rnd = new Random();	
 		
-		if (rnd.nextInt(maxperspawn + 1) == 1) {			
+		if (rnd.nextInt(this.maxperspawn + 1) == 1) {			
 				//generate random location
 				double x = 1.8d + 0.2d * rnd.nextDouble();
 				double y = 0.15d + 0.70d * rnd.nextDouble();													
-				Location tmploc = new Location(x, y, area);
+				Location tmploc = new Location(x, y, this.area);
 
-				spawnedentities.add(new Debris(tmploc, velocity));
-				spawncount++;			
+				spawnedentities.add(new Debris(tmploc, this.velocity));
+				this.spawncount++;			
 		}				
 		return spawnedentities;
 	}

@@ -10,10 +10,9 @@ import spaceimpact.model.spawners.EnemySpawner;
 import spaceimpact.model.spawners.PowerUpSpawner;
 
 /**
- * Level of the Game
- * <br>
- * Defines all main variables of the level.
- * @author Davide
+ * Level of the Game<br>
+ * Defines all main variables of the level. 
+ * Contains all spawners and define maximum enemy count in the level.
  */
 public class Level {
 	
@@ -71,7 +70,7 @@ public class Level {
 	 * @return boolean True if the level is completed
 	 */
 	public boolean playerWin() {
-		return this.enemycount <= enemyspawner.getSpawnedEntitiesCount();
+		return this.enemycount <= this.enemyspawner.getSpawnedEntitiesCount();
 	}
 	
 	/**
@@ -90,14 +89,14 @@ public class Level {
 	 * @param poweruplist Current PowerUps List
 	 */
 	public void spawn(List<Enemy> enemylist, List<Debris> debrislist, List<PowerUp> poweruplist) {
-		if (enemyspawner.canSpawn()) {
-			enemylist.addAll(enemyspawner.spawn());
+		if (this.enemyspawner.canSpawn()) {
+			enemylist.addAll(this.enemyspawner.spawn());
 		}
-		if (debrisspawner.canSpawn()) {
-			debrislist.addAll(debrisspawner.spawn());
+		if (this.debrisspawner.canSpawn()) {
+			debrislist.addAll(this.debrisspawner.spawn());
 		}
-		if (powerupspawner.canSpawn()) {
-			poweruplist.addAll(powerupspawner.spawn());
+		if (this.powerupspawner.canSpawn()) {
+			poweruplist.addAll(this.powerupspawner.spawn());
 		}
 	}
 

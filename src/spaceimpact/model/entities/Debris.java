@@ -4,8 +4,7 @@ import spaceimpact.model.Direction;
 import spaceimpact.model.Location;
 
 /** 
- * Debris
- * <br>
+ * Debris<br>
  * There are four different debris types:<br>
  * <b>Explosion</b> that it's spawned when an entity dies, has a 
  * limited amount of life defined by a countdown.<br>
@@ -15,7 +14,6 @@ import spaceimpact.model.Location;
  * has a limited amount of life defined by a countdown.<br>
  * <b>Asteroid</b> that it's spawned randomly and moves across 
  * the gamescreen. He dies as soon as his x location is less than -0.30.<br>
- * @author Davide Giacomini
  */
 public class Debris implements Entity {
 	
@@ -115,7 +113,7 @@ public class Debris implements Entity {
 			
 	@Override
 	public EntityType getID() {
-		return ID;
+		return this.ID;
 	}
 	
 	@Override
@@ -143,7 +141,7 @@ public class Debris implements Entity {
 	
 	@Override
 	public String toString() {
-		return "[ " + this.ID + " -> X: " + this.location.getX() + 
+		return "[ " + this.ID + " | Type: " + this.type + " -> X: " + this.location.getX() + 
 				" | Y: " + this.location.getY() + " ]";		
 	}
 }

@@ -4,21 +4,20 @@ import spaceimpact.model.Direction;
 import spaceimpact.model.Location;
 
 /**
- * Projectile <br>
- * Spawned when an entity shoot, damage and velocity are 
- * defined by the weapon that shoot it.<br>
- * If collide with other living entities the projectile 
- * is destroyed and the damage is applied to the other entity.
- * @author Davide
+ * Projectile<br>
+ * Spawned when an entity shoot, damage and velocity are defined by the 
+ * weapon that shoot it.<br>
+ * If collide with other living entities the projectile is destroyed and 
+ * the damage is applied to the other entity.
  */
 public class Projectile implements Entity {
 
 	private final EntityType ID = EntityType.Projectile;
-	private final EntityType parentID; // EntityType that has shooted it
-	private final int damage;
-	private Location location;
+	private final EntityType parentID;
 	private final Direction direction;
 	private final double velocity;
+	private final int damage;
+	private Location location;
 	private boolean removable;
 
 	/**
@@ -67,7 +66,7 @@ public class Projectile implements Entity {
 	@Override
 	public void setLocation(final Location location) throws IllegalArgumentException {
 		if (location == null) {
-			throw new IllegalArgumentException("Projectile's location cannot be set as null");
+			throw new IllegalArgumentException("Projectile's location cannot be set as null.");
 		}
 		this.location = location;
 	}
@@ -75,10 +74,10 @@ public class Projectile implements Entity {
 	@Override
 	public void update() throws IllegalStateException {
 		if (this.direction == null) {
-			throw new IllegalStateException("Cannot update projectile if his direction is undefined");
+			throw new IllegalStateException("Cannot update projectile if his direction is undefined.");
 		}
 		if(this.location == null) {
-			throw new IllegalStateException("Cannot update projectile if his location is undefined");
+			throw new IllegalStateException("Cannot update projectile if his location is undefined.");
 		}
 			
 		this.direction.moveLocation(this.location, this.velocity);

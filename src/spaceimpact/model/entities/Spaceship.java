@@ -6,49 +6,11 @@ import spaceimpact.model.spawners.Weapon;
 
 /** 
  * Spaceship<br>
- * The entity that it's driven by the player.<br>
- * @author Davide
+ * The entity that it's driven by the player. Can be ehnanced.
+ * When his life goes equal or below zero the player loose and the game finishes.
  */
 public class Spaceship extends LivingEntity {
 		
-	/*CONSTRUCTORS*/
-	
-	/** 
-	 * Spaceship's Constructor (Maximum Life, Velocity, Location, Direction)
-	 * <br>
-	 * Set removable boolean as false.
-	 * Set currentlife with maxlife value.
-	 * @param maxlife Spaceship's Maximum Life 
-	 * @param velocity Spaceship's Velocity
-	 * @param location Spaceship's start location
-	 * @param direction Spaceship's start direction
-	*/
-	public Spaceship(int maxlife, double velocity, Location location, Direction direction){
-		super.ID = EntityType.Spaceship;
-		this.currentlife = maxlife;
-		this.maxlife = maxlife;
-		this.velocity = velocity;
-		this.location = location;
-		this.direction = direction;
-		this.removable = false;
-	}
-		
-	/** 
-	 * Spaceship's Constructor (Maximum Life, Velocity, Location, Direction, Max Shield)
-	 * <br>
-	 * Set currentshield with maxshield value.
-	 * @param maxlife Spaceship's Maximum Life Value
-	 * @param velocity Spaceship's Velocity
-	 * @param location Spaceship's start location
-	 * @param direction Spaceship's start direction
-	 * @param maxshield Spaceship's Maximum Shield Value
-	*/
-	public Spaceship(int maxlife, double velocity, Location location, Direction direction, int maxshield){
-		this(maxlife, velocity, location, direction);
-		super.currentshield = maxshield;
-		super.maxshield = maxshield;
-	}
-	
 	/** 
 	 * Spaceship's Constructor (Maximum Life, Velocity, Location, Direction, Max Shield, Weapon)
 	 * <br>
@@ -60,7 +22,15 @@ public class Spaceship extends LivingEntity {
 	 * @param weapon Spaceship's Weapon
 	*/
 	public Spaceship(int maxlife, double velocity, Location location, Direction direction, int maxshield, Weapon weapon){
-		this(maxlife, velocity, location, direction, maxshield);
+		super.ID = EntityType.Spaceship;
+		super.currentshield = maxshield;
+		super.maxshield = maxshield;
+		this.currentlife = maxlife;
+		this.maxlife = maxlife;
+		this.velocity = velocity;
+		this.location = location;
+		this.direction = direction;
+		this.removable = false;
 		this.weapon = weapon;
 	}
 	
@@ -69,13 +39,13 @@ public class Spaceship extends LivingEntity {
 	@Override
 	public void update() throws IllegalStateException {	
 		if (this.direction == null) {
-			throw new IllegalStateException("Cannot update projectile if his direction is undefined");
+			throw new IllegalStateException("Cannot update projectile if his direction is undefined.");
 		}
 		if(this.location == null) {
-			throw new IllegalStateException("Cannot update projectile if his location is undefined");
+			throw new IllegalStateException("Cannot update projectile if his location is undefined.");
 		}
 		if(this.weapon == null) {
-			throw new IllegalStateException("Cannot update projectile if his location is undefined");
+			throw new IllegalStateException("Cannot update projectile if his location is undefined.");
 		}	
 		coolDownWeapon();			
 	}
@@ -87,12 +57,12 @@ public class Spaceship extends LivingEntity {
 	 */
 	public void move(final Direction direction) throws IllegalArgumentException {
 		if (direction == null) {
-			throw new IllegalArgumentException("Cannot move spaceship if the direction of the movement is undefined");
+			throw new IllegalArgumentException("Cannot move spaceship if the direction of the movement is undefined.");
 		}
 			
 		this.direction = direction;			
-		updateLocation();
-		boundaryControl();
+		super.updateLocation();
+		this.boundaryControl();
 	}
 
 	/**

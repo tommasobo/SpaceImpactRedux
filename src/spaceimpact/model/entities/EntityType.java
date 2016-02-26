@@ -13,8 +13,6 @@ import spaceimpact.utilities.Pair;
  * <b>Debris</b> The entities spawned in a collision or randomly as asteroids<br>
  * <b>PowerUp</b> The entities with which the player can obtain enhancement<br>
  * <b>Projectile</b> The entities spawned by a weapon. Can damage other living entities<br>
- *
- * @author Davide
  */
 public enum EntityType {
 	
@@ -30,7 +28,7 @@ public enum EntityType {
 			new Pair<>("2.png", 24), new Pair<>("3.png", 36), new Pair<>("4.png", 48), new Pair<>("5.png", 60));
 
 	/**
-	 * Returns data to print the image of the entity.<br>
+	 * Returns data to print the image of the entity.
 	 * @param e The given entity.
 	 * @return pair A Pair of String, Double. The string is the image URL from 
 	 * the "res" folder, the double is the rotation (degrees).

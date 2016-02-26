@@ -13,8 +13,6 @@ import spaceimpact.model.Location;
  * <b>RestoreShield</b> Restore part of the player's shield.<br>
  * <b>IncrementSpeed</b> Increase player speed.<br>
  * <b>Heal</b> Restore part of the player's life.<br>
- * @author Davide
- *
  */
 public class PowerUp implements Entity {
 	
@@ -88,9 +86,9 @@ public class PowerUp implements Entity {
 
 	private final EntityType ID = EntityType.PowerUp; //entity type identifier
 	private final Enhancement plus; //Enhancement type
+	private final double velocity; //current debris velocity
 	private Direction direction = Direction.W; //direction of the entity
 	private Location location; //current position
-	private double velocity; //current debris velocity
 	private boolean removable; //determine if can be removed from gamescreen
 
 	/**
@@ -191,7 +189,7 @@ public class PowerUp implements Entity {
 	
 	@Override
 	public String toString() {
-		return "[ " + this.ID + " -> X: " + this.location.getX() + 
+		return "[ " + this.ID + " | Effect: " + this.plus + " -> X: " + this.location.getX() + 
 				" | Y: " + this.location.getY() + " | Enhancement: " + plus.toString() + " ]";		
 	}
 

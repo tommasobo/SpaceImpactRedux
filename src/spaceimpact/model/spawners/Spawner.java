@@ -4,8 +4,7 @@ import spaceimpact.model.Area;
 import spaceimpact.model.entities.EntityType;
 
 /**
- * Spawner Generic implementation
- * <br>
+ * Generic Spawner implementation<br>
  * <b>spawndelay</b> Delay between each Spawn<br>
  * <b>countdown</b> Internal timer for the spawn delay<br>
  * <b>spawncount</b> Spawn Count<br>
@@ -14,23 +13,21 @@ import spaceimpact.model.entities.EntityType;
  * <b>type</b> Entity Type to Spawn<br>
  * <b>area</b> Area occupied by the spawned entities<br>
  * <b>damage</b> Entities Projectiles damage<br>
- * 
- * @author Davide
  */
 public abstract class Spawner implements SpawnerInterface {
 
 	//spawn delay
-	protected int spawndelay = 0;
-	protected int countdown = 0;
+	protected int spawndelay;
+	protected int countdown;
 	
 	//spawn management
-	protected int spawncount = 0;
-	protected int maxperspawn = 0;
-	protected int maxspawn = 0;
+	protected int spawncount;
+	protected int maxperspawn;
+	protected int maxspawn;
 	
 	//entity definition
-	protected EntityType type = null;
-	protected Area area = null;		
+	protected EntityType type;
+	protected Area area = new Area(0.125, 0.0972); //default spawn area	
 
 	/**
 	 * Constructor for Generic Spawner
@@ -56,7 +53,7 @@ public abstract class Spawner implements SpawnerInterface {
 	
 	@Override
 	public boolean canSpawn() {
-		return countdown == 0;
+		return this.countdown == 0;
 	}
 
 	@Override
@@ -67,7 +64,7 @@ public abstract class Spawner implements SpawnerInterface {
 	@Override
 	public void setMaxEntitySpawns(final int max) throws IllegalArgumentException {
 		if (max <= 0) {
-			throw new IllegalArgumentException("Spawner maximum spawn count must be set with a value greater than zero");
+			throw new IllegalArgumentException("Spawner maximum spawn count must be set with a value greater than zero.");
 		}
 		this.maxspawn = max;
 	}
@@ -75,7 +72,7 @@ public abstract class Spawner implements SpawnerInterface {
 	@Override
 	public void setSpawnDelay(final int delay) throws IllegalArgumentException {
 		if (delay < 0) {
-			throw new IllegalArgumentException("Spawner spawn delay cannot be set as negative");
+			throw new IllegalArgumentException("Spawner spawn delay cannot be set as negative.");
 		}
 		this.spawndelay = delay;
 	}
@@ -83,7 +80,7 @@ public abstract class Spawner implements SpawnerInterface {
 	@Override
 	public void setSpawnedEntityType(final EntityType type) throws IllegalArgumentException {
 		if (type == null) {
-			throw new IllegalArgumentException("Spawner spawn entity type cannot be set as undefined");
+			throw new IllegalArgumentException("Spawner spawn entity type cannot be set as undefined.");
 		}
 		this.type = type;
 	}
@@ -91,7 +88,7 @@ public abstract class Spawner implements SpawnerInterface {
 	@Override
 	public void setSpawnedEntityArea(final Area area) throws IllegalArgumentException {		
 		if (area == null) {
-			throw new IllegalArgumentException("Spawner spawn entity area cannot be set as undefined");
+			throw new IllegalArgumentException("Spawner spawn entity area cannot be set as undefined.");
 		}
 		this.area = area;
 	}

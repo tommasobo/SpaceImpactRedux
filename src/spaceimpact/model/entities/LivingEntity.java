@@ -7,8 +7,7 @@ import spaceimpact.model.Location;
 import spaceimpact.model.spawners.Weapon;
 
 /** 
- * Living Entity
- * <br>
+ * Living Entity<br>
  * <b>location</b> as current location<br>
  * <b>currentlife</b> as the current life amount<br>
  * <b>maxlife</b> as the maximum life value reachable<br>
@@ -19,8 +18,6 @@ import spaceimpact.model.spawners.Weapon;
  * <b>direction</b> as the current direction of the entity<br>
  * <b>ID</b> as the entity type<br>
  * <b>weapon</b> as the current equipped weapon<br>
- * 
- * @author Davide
  */
 public abstract class LivingEntity implements Entity {
 
@@ -93,7 +90,7 @@ public abstract class LivingEntity implements Entity {
 			throw new IllegalArgumentException("The entity cannot receive a negative value of damage.");
 		}
 		
-		this.currentlife -= looseShield(damage);
+		this.currentlife -= this.looseShield(damage);
 		
 		if (this.currentlife <= 0) {
 			this.currentlife = 0;
@@ -139,7 +136,7 @@ public abstract class LivingEntity implements Entity {
 	*/
 	public void acquireLife(final int increment){
 		if (increment < 0) {
-			throw new IllegalArgumentException("The entity cannot acquire negative amount of life");
+			throw new IllegalArgumentException("The entity cannot acquire negative amount of life.");
 		}
 			
 		this.currentlife += increment;
@@ -158,7 +155,7 @@ public abstract class LivingEntity implements Entity {
 	*/
 	public void acquireShield(final int increment) throws IllegalArgumentException {
 		if (increment < 0) {
-			throw new IllegalArgumentException("The entity cannot acquire negative amount of shield");
+			throw new IllegalArgumentException("The entity cannot acquire negative amount of shield.");
 		}
 			
 		this.currentshield += increment;
@@ -177,7 +174,7 @@ public abstract class LivingEntity implements Entity {
 	*/
 	public void setWeapon(final Weapon weapon) throws IllegalArgumentException {
 		if (weapon == null) {
-			throw new IllegalArgumentException("Entity's weapon cannot be set if the new one is null");
+			throw new IllegalArgumentException("Entity's weapon cannot be set if the new one is null.");
 		}
 		this.weapon = weapon;
 	}
@@ -189,7 +186,7 @@ public abstract class LivingEntity implements Entity {
 	 */
 	public void setShield(final int maxvalueshield) throws IllegalArgumentException {
 		if (maxvalueshield < 0) {
-			throw new IllegalArgumentException("Entity's maximum shield cannot be set below 0");
+			throw new IllegalArgumentException("Entity's maximum shield cannot be set below 0.");
 		}
 		this.maxshield = maxvalueshield;
 	}
@@ -201,7 +198,7 @@ public abstract class LivingEntity implements Entity {
 	 */
 	public void setVelocity(final double velocity) throws IllegalArgumentException {
 		if (velocity < 0) {
-			throw new IllegalArgumentException("Entity's velocity cannot be set below 0");
+			throw new IllegalArgumentException("Entity's velocity cannot be set below 0.");
 		}
 		this.velocity = velocity;
 	}

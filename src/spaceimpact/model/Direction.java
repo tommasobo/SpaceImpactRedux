@@ -11,7 +11,6 @@ package spaceimpact.model;
  * <b>SouthWest (SW)</b><br>
  * <b>West (W)</b><br>
  * <b>NorthWest (NW)</b><br>
- * @author Davide
  */
 public enum Direction {
 
@@ -127,6 +126,5 @@ public enum Direction {
 	public Direction flip() {
 		return Direction.values()[(this.getIndex() + 4) % 8];
 	}
-
 }
 

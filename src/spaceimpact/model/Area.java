@@ -1,10 +1,8 @@
 package spaceimpact.model;
 
 /**
- * Area occupied by an entity
- * <br>
+ * Area occupied by an entity<br>
  * Defined by 2 doubles: Width and Height.
- * @author Davide
  */
 public class Area {
 		

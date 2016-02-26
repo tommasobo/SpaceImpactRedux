@@ -9,10 +9,8 @@ import spaceimpact.model.entities.Enemy;
 import spaceimpact.model.entities.EntityType;
 
 /**
- * Enemy Spanwer
- * <br>
+ * Enemy Spanwer<br>
  * Define the Enemy Spawner inside the Level.
- * @author Davide
  */
 public class EnemySpawner extends Spawner {
 	
@@ -65,16 +63,16 @@ public class EnemySpawner extends Spawner {
 		List<Enemy> spawnedentities = new ArrayList<>();
 		
 		Random rnd = new Random();	
-		int tospawn = rnd.nextInt(maxperspawn) + 1;
+		int tospawn = rnd.nextInt(this.maxperspawn) + 1;
 		
 		for(int i = 0; i < tospawn; i++) {	
-			if (spawncount < maxspawn) {			
+			if (this.spawncount < this.maxspawn) {			
 				//generate random life in range
-				int newlife = minlife + rnd.nextInt(maxlife - minlife + 1) ;
+				int newlife = this.minlife + rnd.nextInt(this.maxlife - this.minlife + 1) ;
 				//generate random velocity
-				double vel = minvel + (maxvel - minvel) * rnd.nextDouble();			
+				double vel = this.minvel + (this.maxvel - this.minvel) * rnd.nextDouble();			
 				//random damage in range
-				int newdamage = mindamage + rnd.nextInt(maxdamage - mindamage + 1) ;	
+				int newdamage = this.mindamage + rnd.nextInt(this.maxdamage - this.mindamage + 1) ;	
 				//generate random location
 				double x = 1.8d + 0.2d * rnd.nextDouble();
 				double y = 0.15d + 0.70d * rnd.nextDouble();
@@ -88,12 +86,12 @@ public class EnemySpawner extends Spawner {
 				} else {
 					dir = Direction.NW;
 				}	
-				Location tmploc = new Location(x, y, area);
+				Location tmploc = new Location(x, y, this.area);
 				//random weapon
-				Weapon tmpweapon = new Weapon(type, dir, weaponcooldown, newdamage, maxvel * 1.5);
+				Weapon tmpweapon = new Weapon(this.type, dir, this.weaponcooldown, newdamage, this.maxvel * 1.5);
 				
 				spawnedentities.add(new Enemy(newlife, vel, tmploc, dir, 0, tmpweapon));
-				spawncount++;			
+				this.spawncount++;			
 			} else {
 				return spawnedentities;
 			}
@@ -109,10 +107,10 @@ public class EnemySpawner extends Spawner {
 	 */
 	public void setEntityLifeRange(final int minlife, final int maxlife) throws IllegalArgumentException {
 		if (minlife < 0) {
-			throw new IllegalArgumentException("Enemy Spawner minimum spawn entity life cannot be set as negative");
+			throw new IllegalArgumentException("Enemy Spawner minimum spawn entity life cannot be set as negative.");
 		}
 		if (maxlife < 0) {
-			throw new IllegalArgumentException("Enemy Spawner maximum spawn entity life cannot be set as negative");
+			throw new IllegalArgumentException("Enemy Spawner maximum spawn entity life cannot be set as negative.");
 		}	
 		this.minlife = minlife;
 		this.maxlife = maxlife;	
@@ -126,10 +124,10 @@ public class EnemySpawner extends Spawner {
 	 */
 	public void setEntityVelocityRange(final double minvel, final double maxvel) throws IllegalArgumentException {
 		if (minvel < 0) {
-			throw new IllegalArgumentException("Enemy Spawner minimum spawn entity velocity cannot be set as negative");
+			throw new IllegalArgumentException("Enemy Spawner minimum spawn entity velocity cannot be set as negative.");
 		}
 		if (maxvel < 0) {
-			throw new IllegalArgumentException("Enemy Spawner maximum spawn entity velocity cannot be set as negative");
+			throw new IllegalArgumentException("Enemy Spawner maximum spawn entity velocity cannot be set as negative.");
 		}
 		this.minvel = minvel;
 		this.maxvel = maxvel;	
@@ -143,10 +141,10 @@ public class EnemySpawner extends Spawner {
 	 */
 	public void setEntityDamageRange(final int mindamage, final int maxdamage) throws IllegalArgumentException {
 		if (mindamage < 0) {
-			throw new IllegalArgumentException("Enemy Spawner minimum entity damage cannot be set as negative");
+			throw new IllegalArgumentException("Enemy Spawner minimum entity damage cannot be set as negative.");
 		}
 		if (maxdamage < 0) {
-			throw new IllegalArgumentException("Enemy Spawner maximum entity damage velocity cannot be set as negative");
+			throw new IllegalArgumentException("Enemy Spawner maximum entity damage velocity cannot be set as negative.");
 		}
 		this.mindamage = mindamage;
 		this.maxdamage = maxdamage;
@@ -159,7 +157,7 @@ public class EnemySpawner extends Spawner {
 	 */
 	public void setCoolDownEntityWeapon(final int cooldown) throws IllegalArgumentException {
 		if (cooldown < 0) {
-			throw new IllegalArgumentException("Enemy Spawner entity weapon's cooldown cannot be set as negative");
+			throw new IllegalArgumentException("Enemy Spawner entity weapon's cooldown cannot be set as negative.");
 		}
 		this.weaponcooldown = cooldown;	
 	}

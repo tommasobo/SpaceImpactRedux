@@ -10,14 +10,12 @@ import spaceimpact.model.entities.PowerUp;
 import spaceimpact.model.entities.PowerUp.Enhancement;
 
 /**
- * PowerUp Spanwer
- * <br>
+ * PowerUp Spanwer<br>
  * Define the PowerUp Spawner inside the Level.
- * @author Davide
  */
 public class PowerUpSpawner extends Spawner {
 	
-	private double velocity = 1;
+	private final double velocity;
 		
 	/**
 	 * PowerUp Spawner Constructor
@@ -36,11 +34,11 @@ public class PowerUpSpawner extends Spawner {
 		List<PowerUp> spawnedentities = new ArrayList<>();		
 		Random rnd = new Random();	
 		
-		if (rnd.nextInt(maxperspawn + 1) == 1) {			
+		if (rnd.nextInt(this.maxperspawn + 1) == 1) {			
 				//generate random location
 				double x = 1.8d + 0.2d * rnd.nextDouble();
 				double y = 0.15d + 0.70d * rnd.nextDouble();												
-				Location tmploc = new Location(x, y, area);
+				Location tmploc = new Location(x, y, this.area);
 				
 				//generate powerup effects RANDOMLY
 				int rndplus = rnd.nextInt(Enhancement.values().length);
@@ -58,8 +56,8 @@ public class PowerUpSpawner extends Spawner {
 					tmpplus = Enhancement.Heal;
 				}
 				
-				spawnedentities.add(new PowerUp(tmpplus, tmploc, velocity));
-				spawncount++;			
+				spawnedentities.add(new PowerUp(tmpplus, tmploc, this.velocity));
+				this.spawncount++;			
 		}				
 		return spawnedentities;
 	}	

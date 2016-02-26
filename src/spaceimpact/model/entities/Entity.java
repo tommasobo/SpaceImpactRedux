@@ -3,10 +3,8 @@ package spaceimpact.model.entities;
 import spaceimpact.model.Location;
 
 /** 
- * General Entity Interface
- * <br>
+ * Generic Entity Interface<br>
  * Define default methods for all entities inside the model.
- * @author Davide
  */
 public interface Entity {
 	
@@ -28,7 +26,7 @@ public interface Entity {
 	 * @param otherEntity	First entity.
 	 * @return true if collide, otherwise false.
 	 */
-	default Boolean collideWith(Entity otherEntity) {
+	default Boolean collideWith(final Entity otherEntity) {
 		
 		if (otherEntity.getLocation().equals(this.getLocation())) {
 			return true;

@@ -10,10 +10,8 @@ import spaceimpact.model.Location;
 import spaceimpact.model.spawners.Weapon;
 
 /** 
- * Enemy
- * <br>
+ * Enemy<br>
  * Defines Computer driven Enemy Ship.
- * @author Davide
  */
 public class Enemy extends LivingEntity {
 	
@@ -89,10 +87,10 @@ public class Enemy extends LivingEntity {
 		if(this.weapon == null) {
 			throw new IllegalStateException("Cannot update enemy if his location is undefined");
 		}		
-		coolDownWeapon();
-		generateRandomMovement();
-		updateLocation();
-		boundaryControl();
+		super.coolDownWeapon();
+		this.generateRandomMovement();
+		super.updateLocation();
+		this.boundaryControl();
 	}
 	
 	/**
@@ -122,19 +120,19 @@ public class Enemy extends LivingEntity {
 				
 		if (this.location.getX() < -0.3d) {
 			this.location.setX(-0.25d);
-			this.setDirection(getRandomDirection(this.direction));
+			this.setDirection(this.getRandomDirection(this.direction));
 		}
 		if (this.location.getY() > 1.3d) {
 			this.location.setY(1.25d);
-			this.setDirection(getRandomDirection(this.direction));
+			this.setDirection(this.getRandomDirection(this.direction));
 		}
 		if(this.location.getY() < -0.3d) {
 			this.location.setY(-0.25d);
-			this.setDirection(getRandomDirection(this.direction));
+			this.setDirection(this.getRandomDirection(this.direction));
 		}
 		if (this.location.getX() > 2d) {
 			this.location.setX(1.95);
-			this.setDirection(getRandomDirection(this.direction));
+			this.setDirection(this.getRandomDirection(this.direction));
 		}
 	}
 	
