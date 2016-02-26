@@ -7,14 +7,18 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.geometry.*;
 
-public class ErrorBox {
+public class GenericBox {
 
     //Create variable
     private static final String SEP = System.getProperty("file.separator");
 
-    public static void display(String title, String message) {
+    public static void display(BoxType boxType, String title, String message, String buttonMessage) {
         final Stage window = new Stage();
-        window.getIcons().add(new Image("file:res" + SEP + "icons" + SEP + "error.png"));
+        if (boxType == BoxType.ERROR) {
+            window.getIcons().add(new Image("file:res" + SEP + "icons" + SEP + "error.png"));
+        } else {
+            window.getIcons().add(new Image("file:res" + SEP + "icons" + SEP + "success.png"));
+        }
         window.setResizable(false);
         window.centerOnScreen();
         window.initModality(Modality.APPLICATION_MODAL);

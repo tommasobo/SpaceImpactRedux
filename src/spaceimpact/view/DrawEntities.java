@@ -18,21 +18,25 @@ public class DrawEntities {
 	private final ImageView bg;
 	private final ImageView bg2;
 	private static final double BACKGROUND_SPEED = 150 / View.getController().getFPS();
-	private static double gameWidth = 1280;
-	private static double gameHeight = 720;
+	private double gameWidth = 1280;
+	private double gameHeight = 720;
 
 	/**
 	 * Constructor for DrawEntities
+	 * @param inGameHeight 
+	 * @param inGameWidth 
 	 */
-	public DrawEntities() {
+	public DrawEntities(double inGameWidth, double inGameHeight) {
+	    this.gameWidth = inGameWidth;
+	    this.gameHeight = inGameHeight;
 		this.imgl = ImageLoader.getLoader();
 		this.bg = new ImageView(this.imgl.getImageFromPath("images/gameBackground.png"));
 		this.bg2 = new ImageView(this.imgl.getImageFromPath("images/gameBackground.png"));
-		this.bg.setFitWidth(DrawEntities.gameWidth);
-		this.bg.setFitHeight(DrawEntities.gameHeight);
-		this.bg2.setFitWidth(DrawEntities.gameWidth);
-		this.bg2.setFitHeight(DrawEntities.gameHeight);
-		this.bg2.relocate(DrawEntities.gameWidth, 0);
+		this.bg.setFitWidth(this.gameWidth);
+		this.bg.setFitHeight(this.gameHeight);
+		this.bg2.setFitWidth(this.gameWidth);
+		this.bg2.setFitHeight(this.gameHeight);
+		this.bg2.relocate(this.gameWidth, 0);
 	}
 
 	/**
@@ -71,21 +75,17 @@ public class DrawEntities {
 
 	private void translateBackground() {
 		final double x = this.bg.getLayoutX() - DrawEntities.BACKGROUND_SPEED;
-		if (x <= -DrawEntities.gameWidth) {
-			this.bg.relocate(DrawEntities.gameWidth, 0);
+		if (x <= -this.gameWidth) {
+			this.bg.relocate(this.gameWidth, 0);
 		} else {
 			this.bg.setLayoutX(x);
 		}
 		final double x2 = this.bg2.getLayoutX() - DrawEntities.BACKGROUND_SPEED;
-		if (x2 <= -DrawEntities.gameWidth) {
-			this.bg2.relocate(DrawEntities.gameWidth, 0);
+		if (x2 <= -this.gameWidth) {
+			this.bg2.relocate(this.gameWidth, 0);
 		} else {
 			this.bg2.setLayoutX(x2);
 		}
 	}
 
-	static synchronized void setResolution(final double width, final double height) {
-		DrawEntities.gameHeight = height;
-		DrawEntities.gameWidth = width;
-	}
 }

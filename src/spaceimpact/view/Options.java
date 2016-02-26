@@ -136,7 +136,7 @@ public class Options extends Scene{
         
         back.setOnAction(e -> mainStage.setScene(MainMenu.get(mainStage)));
         save.setOnAction(e -> {
-            ErrorBox.display("Success", "Settings saved");
+            GenericBox.display(BoxType.SUCCESS, "Success", "Settings saved", "Ok");
             this.save();       
         });
     }
@@ -168,9 +168,8 @@ public class Options extends Scene{
                 currentHeight = this.listResolutions.get(i).getSecond().getSecond();
                 if (this.checkRes(currentWidth, currentHeight)) {
                     GameScreen.setResolution(currentWidth, currentHeight, this.fullScreen);  
-                    DrawEntities.setResolution(currentWidth, currentHeight);
                 } else {
-                    ErrorBox.display("Error", "Your screen is too small for this resolution!");
+                    GenericBox.display(BoxType.ERROR, "Error", "Your screen is too small for this resolution!", "Back to settings");
                     break;
                 }
             }

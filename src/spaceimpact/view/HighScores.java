@@ -110,7 +110,7 @@ public class HighScores extends Scene{
             if (View.getController().emptyHighScores()) {
                 HighScores.listHighScores.getChildren().clear();
             } else {
-                ErrorBox.display("Error", "An error occurred while emptying the scores");
+                GenericBox.display(BoxType.ERROR, "Error", "An error occurred while emptying the scores", "Continue");
             }
             mainStage.setScene(HighScores.get(mainStage));
         }

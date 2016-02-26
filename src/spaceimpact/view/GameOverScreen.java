@@ -46,7 +46,7 @@ public class GameOverScreen extends Scene{
                 this.saved.setTextFill(Color.GREEN);
                 this.saved.setVisible(true);
                 if (!View.getController().setCurrentPlayerName(name.getText())) {
-                    ErrorBox.display("Error", "An error occurred while saving the score");
+                    GenericBox.display(BoxType.ERROR, "Error", "An error occurred while saving the score", "Continue");
                 }
             }
         });
