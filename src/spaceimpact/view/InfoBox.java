@@ -1,6 +1,7 @@
 package spaceimpact.view;
 
 import javafx.stage.*;
+import spaceimpact.utilities.ImageLoader;
 import javafx.scene.*;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -17,7 +18,7 @@ public class InfoBox {
 
     public static void display() {
         final Stage window = new Stage();
-        window.getIcons().add(new Image("file:res" + SEP + "icons" + SEP + "info.png"));
+        window.getIcons().add(ImageLoader.getLoader().getImageFromPath("Icons/info.png"));
         window.setResizable(false);
         window.centerOnScreen();
         window.setTitle("Info Box");
