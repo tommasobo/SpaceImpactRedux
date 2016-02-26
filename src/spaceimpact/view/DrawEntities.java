@@ -50,11 +50,8 @@ public class DrawEntities {
 	 *            the Pair<String, Double> describes the image chosen (the
 	 *            String is the image path relative from res folder (in URL
 	 *            form), the Double is the image rotation required).
-	 * @param heightGame
-	 *            The height of the game window
 	 */
-	public void draw(final Pane layer, final List<Pair<Pair<String, Double>, Location>> listEntities,
-			final double heightGame) {
+	public void draw(final Pane layer, final List<Pair<Pair<String, Double>, Location>> listEntities) {
 		layer.getChildren().clear();
 		this.translateBackground();
 		layer.getChildren().addAll(this.bg, this.bg2);
@@ -62,10 +59,10 @@ public class DrawEntities {
 			final ImageView iv = new ImageView(this.imgl.getImageFromPath(p.getFirst().getFirst()));
 			iv.setPreserveRatio(true);
 			final Area area = p.getSecond().getArea();
-			iv.setFitHeight(heightGame * area.getHeight());
+			iv.setFitHeight(this.gameHeight * area.getHeight());
 			layer.getChildren().add(iv);
-			iv.setX((p.getSecond().getX() - area.getWidth() / 2) * heightGame);
-			iv.setY((p.getSecond().getY() - area.getHeight() / 2) * heightGame);
+			iv.setX((p.getSecond().getX() - area.getWidth() / 2) * this.gameHeight);
+			iv.setY((p.getSecond().getY() - area.getHeight() / 2) * this.gameHeight);
 			if (p.getFirst().getSecond().doubleValue() != 0d) {
 				iv.setRotate(p.getFirst().getSecond().doubleValue());
 			}
