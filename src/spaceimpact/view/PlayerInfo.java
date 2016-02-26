@@ -33,12 +33,17 @@ public class PlayerInfo {
         } else if (hpValue <= HALF_HP) {
             this.dropShadow.setColor(Color.ORANGE);
             hp.setTextFill(Color.ORANGE);
+        } else {
+            this.dropShadow.setColor(Color.LAWNGREEN);
+            hp.setTextFill(Color.GREEN);
         }
         
         if (shieldsValue <= CRITICAL_HP) {
             shields.setTextFill(Color.RED);
         } else if (shieldsValue <= HALF_HP) {
             shields.setTextFill(Color.ORANGE);
+        } else {
+            shields.setTextFill(Color.BLUE);
         }
         
         if (scoreValue >= MIN_VALUE && scoreValue <= MID_VALUE) {
