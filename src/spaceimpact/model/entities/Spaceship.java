@@ -67,15 +67,29 @@ public class Spaceship extends LivingEntity {
 	/* MAIN METHODS */
 	
 	@Override
-	public void update() {		
+	public void update() throws IllegalStateException {	
+		if (this.direction == null) {
+			throw new IllegalStateException("Cannot update projectile if his direction is undefined");
+		}
+		if(this.location == null) {
+			throw new IllegalStateException("Cannot update projectile if his location is undefined");
+		}
+		if(this.weapon == null) {
+			throw new IllegalStateException("Cannot update projectile if his location is undefined");
+		}	
 		coolDownWeapon();			
 	}
 	
 	/** 
 	 * Move the entity in the specified direction
 	 * @param direction Direction of the movement
+	 * @throws IllegalArgumentException if the input direction is null
 	 */
-	public void move(final Direction direction) {
+	public void move(final Direction direction) throws IllegalArgumentException {
+		if (direction == null) {
+			throw new IllegalArgumentException("Cannot move spaceship if the direction of the movement is undefined");
+		}
+			
 		this.direction = direction;			
 		updateLocation();
 		boundaryControl();
@@ -98,7 +112,6 @@ public class Spaceship extends LivingEntity {
 			this.location.setX(1.70);
 		}
 	}
-
 	
 	/* GETTERS */
 	

@@ -90,7 +90,7 @@ public abstract class LivingEntity implements Entity {
 	*/
 	public void looseLife(final int damage) throws IllegalArgumentException {
 		if (damage < 0) {
-			throw new IllegalArgumentException("The entity cannot receive a negative value of damage");
+			throw new IllegalArgumentException("The entity cannot receive a negative value of damage.");
 		}
 		
 		this.currentlife -= looseShield(damage);
@@ -108,16 +108,16 @@ public abstract class LivingEntity implements Entity {
 	 * <br>
 	 * @param damage Amount of damage as integer
 	 * @return damage Amount of remaining damage as integer (maybe some of it was absorbed by the shield)
-	 * @throws IllegalArgumentException If damage value is negative
 	*/
-	public int looseShield(int damage){
+	public int looseShield(int damage){	
 		
 		int originalshield = currentshield;
 		int filtereddamage = 0;
 		
 		currentshield -= damage;
 		
-		if (originalshield != currentshield && currentshield < 0) { //if shield value is less than 0 return the absolute value of shield and set currentshield to 0
+		//if shield value is less than 0 return the absolute value of shield and set currentshield to 0
+		if (originalshield != currentshield && currentshield < 0) { 
 			filtereddamage = Math.abs(currentshield);
 			currentshield = 0;
 		} else if (originalshield != currentshield && currentshield > 0 ){ //if the shield value is greater that 0 and was decreased
@@ -173,37 +173,56 @@ public abstract class LivingEntity implements Entity {
 	/** 
 	 * Setter for Entity Weapon
 	 * @param weapon Weapon to equip
+	 * @throws IllegalArgumentException if the input weapon is null
 	*/
-	public void setWeapon(final Weapon weapon) {
+	public void setWeapon(final Weapon weapon) throws IllegalArgumentException {
+		if (weapon == null) {
+			throw new IllegalArgumentException("Entity's weapon cannot be set if the new one is null");
+		}
 		this.weapon = weapon;
 	}
 			
 	/** 
 	 * Setter method for entity shield
 	 * @param maxvalueshield the maximum shield value
+	 * @throws IllegalArgumentException if the input value is negative
 	 */
-	public void setShield(final int maxvalueshield) {		
+	public void setShield(final int maxvalueshield) throws IllegalArgumentException {
+		if (maxvalueshield < 0) {
+			throw new IllegalArgumentException("Entity's maximum shield cannot be set below 0");
+		}
 		this.maxshield = maxvalueshield;
 	}
 	
 	/** 
 	 * Setter method for entity velocity
 	 * @param velocity velocity of the entity as double
+	 * @throws IllegalArgumentException if the input value is negative
 	 */
-	public void setVelocity(final double velocity) {
+	public void setVelocity(final double velocity) throws IllegalArgumentException {
+		if (velocity < 0) {
+			throw new IllegalArgumentException("Entity's velocity cannot be set below 0");
+		}
 		this.velocity = velocity;
 	}
 	
 	/** 
 	 * Setter method for entity direction
 	 * @param direction as new entity direction
+	 * @throws IllegalArgumentException if the input value is null
 	 */
-	public void setDirection(Direction direction) {
+	public void setDirection(Direction direction) throws IllegalArgumentException {
+		if (direction == null) {
+			throw new IllegalArgumentException("Entity's direction cannot be set as null");
+		}
 		this.direction = direction;	
 	}
 	
 	@Override
-	public void setLocation(final Location location) {
+	public void setLocation(final Location location) throws IllegalArgumentException {
+		if (location == null) {
+			throw new IllegalArgumentException("Entity's location cannot be set as null");
+		}
 		this.location = location;		
 	}
 				

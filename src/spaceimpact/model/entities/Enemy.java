@@ -79,12 +79,17 @@ public class Enemy extends LivingEntity {
 	/*MAIN METHODS */
 	
 	@Override
-	public void update() {	
-				
-		if (this.weapon != null) {
-			coolDownWeapon();			
-		}	
-		
+	public void update() throws IllegalStateException {			
+		if (this.direction == null) {
+			throw new IllegalStateException("Cannot update enemy if his direction is undefined");
+		}
+		if(this.location == null) {
+			throw new IllegalStateException("Cannot update enemy if his location is undefined");
+		}
+		if(this.weapon == null) {
+			throw new IllegalStateException("Cannot update enemy if his location is undefined");
+		}		
+		coolDownWeapon();
 		generateRandomMovement();
 		updateLocation();
 		boundaryControl();
@@ -114,8 +119,7 @@ public class Enemy extends LivingEntity {
 	 * Control that the ship does not go over the screen boundaries
 	 */
 	public void boundaryControl() {	
-		
-		//se è in un angolo non farlo bloccare setta una direzione specificata che non lo blocchi		
+				
 		if (this.location.getX() < -0.3d) {
 			this.location.setX(-0.25d);
 			this.setDirection(getRandomDirection(this.direction));
@@ -140,8 +144,14 @@ public class Enemy extends LivingEntity {
 	 * Return one directions excluding currdirection
 	 * @param currdirection Current direction that must not be returned
 	 * @return direction New Random Direction
+	 * @throws IllegalArgumentException if the input currdirection is null
 	 */
-	Direction getRandomDirection(final Direction currdirection) {
+	Direction getRandomDirection(final Direction currdirection) throws IllegalArgumentException {
+		
+		if (currdirection == null) {
+			throw new IllegalArgumentException("Cannot randomly generate a new direction if the input currentdirection is null.");
+		}
+		
 		List<Direction> dirlist = new ArrayList<Direction>(Arrays.asList(Direction.values()));
 		dirlist.remove(currdirection);			
 		Random rnd = new Random();

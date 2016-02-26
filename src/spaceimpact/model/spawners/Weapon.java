@@ -135,14 +135,20 @@ public class Weapon implements WeaponInterface {
 	}
 
 	@Override
-	public void increaseDamage(final int increment) {
+	public void increaseDamage(final int increment) throws IllegalArgumentException {
+		if (increment < 0) {
+			throw new IllegalArgumentException("Weapon's damage cannot be increase by a negative amount");
+		}	
 		if (this.damage + increment <= 60) {
 			this.damage += increment;
 		}
 	}
 
 	@Override
-	public void decreaseCoolDown(final int decrement) {
+	public void decreaseCoolDown(final int decrement) throws IllegalArgumentException {
+		if (decrement < 0) {
+			throw new IllegalArgumentException("Weapon's damage cannot be increase by a negative amount");
+		}
 		if (this.cooldowntime - decrement >= 0) {
 			this.cooldowntime -= decrement;
 		}

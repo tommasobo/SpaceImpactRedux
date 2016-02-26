@@ -32,23 +32,24 @@ import spaceimpact.model.spawners.Weapon;
  */
 public class Model implements ModelInterface {
 
+	//DEBUG prints if TRUE
 	private final boolean DEBUG = false;
 	
 	// game variables
 	private GameStatus gamestatus = GameStatus.Running;
-	private final int framerate;
-	private int playerscores = 0;
-	private Level lvl = null;
 	private Optional<String> latestpowerup = Optional.empty();
-
+	private final int framerate;
+	private int playerscores;
+	private Level lvl;
+	
 	// entities collections
-	static Spaceship player = null;
-	List<Enemy> enemylist = null;
-	List<Debris> debrislist = null;
-	List<Projectile> playerprojectilelist = null;
-	List<Projectile> enemiesprojectilelist = null;
-	List<Entity> deadentities = null;
-	List<PowerUp> poweruplist = null;
+	static Spaceship player;
+	List<Enemy> enemylist;
+	List<Debris> debrislist;
+	List<Projectile> playerprojectilelist;
+	List<Projectile> enemiesprojectilelist;
+	List<Entity> deadentities;
+	List<PowerUp> poweruplist;
 	
 	/**
 	 * Inizializate all collections and start the level <br>
@@ -68,10 +69,11 @@ public class Model implements ModelInterface {
 		}
 
 		// inizializate main variables
-		this.framerate = framerate;
 		this.gamestatus = GameStatus.Running;
-		this.lvl = level;
-		latestpowerup = Optional.empty();
+		this.latestpowerup = Optional.empty();
+		this.framerate = framerate;
+		this.playerscores = 0;	
+		this.lvl = level;	
 		
 		// inizializate entities collections
 		this.enemylist = new ArrayList<>();
@@ -117,7 +119,7 @@ public class Model implements ModelInterface {
 	@Override
 	public void informInputs(final Optional<Direction> direction, final boolean shoot) throws IllegalStateException {
 		if (Model.player == null) {
-			throw new IllegalStateException("player is NULL!!");
+			throw new IllegalStateException("Player cannot receive inputs because it's NULL!!");
 		}
 
 		if (direction.isPresent()) {
@@ -134,8 +136,15 @@ public class Model implements ModelInterface {
 	}
 
 	@Override
-	public void updateAll() {
+	public void updateAll() throws IllegalStateException {
 
+		if (Model.player == null) {
+			throw new IllegalStateException("Model cannot update player if it's null.");
+		}
+		if (this.lvl == null) {
+			throw new IllegalStateException("Model cannot update level if it's null.");
+		}
+		
 		// update player
 		Model.player.update();
 
@@ -199,8 +208,14 @@ public class Model implements ModelInterface {
 
 	/**
 	 * Remove all dead entities from the model
+	 * @throws IllegalStateException If the model's deadentities collection is null
 	 */
-	private void deadEntityCollector() {
+	private void deadEntityCollector() throws IllegalStateException {
+		
+		if (this.deadentities == null) {
+			throw new IllegalStateException("Model cannot clean dead entities because the list is null.");
+		}
+		
 		this.deadentities.forEach(x -> {
 			if (x.getID().equals(EntityType.Spaceship)) {
 				this.gamestatus = GameStatus.Over;
@@ -230,7 +245,7 @@ public class Model implements ModelInterface {
 	}
 
 	/**
-	 * Control Collisions
+	 * Control Collisions between player, projectiles, enemies and powerups
 	 */
 	private void controlCollisions() {
 
@@ -301,7 +316,7 @@ public class Model implements ModelInterface {
 						printDBG("Enemy has collided with the player and he's dead!");
 					} else {
 						this.debrislist.add(new Debris(DebrisType.Hit, x.getLocation(), 10));
-						printDBG("Enemy has collided with the player and he's dead!");
+						printDBG("Enemy has collided with the player!");
 					}
 				}
 			});
@@ -324,13 +339,16 @@ public class Model implements ModelInterface {
 
 	/**
 	 * Decide if the current enemy can shoot
-	 * 
-	 * @param enemy
-	 *            Enemy entity that could eventually shoot
+	 * @param enemy Enemy entity that could eventually shoot
 	 * @return boolean True mean that the enemy can shoot, false that it cannot.
+	 * @throws IllegalArgumentException If the enemy is null
 	 */
-	private boolean enemyShoot(final Enemy enemy) {
+	private boolean enemyShoot(final Enemy enemy) throws IllegalArgumentException {
 
+		if (enemy == null ) {
+			throw new IllegalArgumentException("Enemy cannot shoot because it's null.");
+		}
+		
 		if (enemy.canShoot()) {
 			final Random rnd = new Random();
 			final double tmp = rnd.nextDouble();
@@ -383,8 +401,7 @@ public class Model implements ModelInterface {
 	@Override
 	public Optional<String> getLatestPowerUp() {
 		Optional<String> tmp = Optional.empty();
-		if (latestpowerup.isPresent()) {
-			
+		if (latestpowerup.isPresent()) {			
 			if (Model.player.getWeapon().getProjectilesCount() >= 8) {
 				tmp = Optional.of("Weapon maxed out!");
 			} else {
