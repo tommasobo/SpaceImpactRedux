@@ -12,7 +12,7 @@ public class GenericBox {
     //Create variable
     private static final String SEP = System.getProperty("file.separator");
 
-    public static void display(BoxType boxType, String title, String message, String buttonMessage) {
+    public static void display(final BoxType boxType, final String title, final String message, final String buttonMessage) {
         final Stage window = new Stage();
         if (boxType == BoxType.ERROR) {
             window.getIcons().add(new Image("file:res" + SEP + "icons" + SEP + "error.png"));

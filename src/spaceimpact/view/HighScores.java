@@ -63,16 +63,16 @@ public class HighScores extends Scene{
         bottomBox.getChildren().addAll(back, reset);
         bottomLayout.getChildren().add(bottomBox);
         
-        final StackPane descLayout = new StackPane();
+        final StackPane mainLayout = new StackPane();
             
         layout.getChildren().addAll(logo.getLogo(), mainTitle, listHighScores);
         layout.setSpacing(10);
         layout.setPadding(new Insets(8));
         layout.setAlignment(Pos.TOP_CENTER);
 
-        descLayout.getChildren().addAll(layout, bottomLayout);
-        descLayout.setId("infoPane");
-        this.setRoot(descLayout);
+        mainLayout.getChildren().addAll(layout, bottomLayout);
+        mainLayout.setId("infoPane");
+        this.setRoot(mainLayout);
         this.getStylesheets().add("style.css");
         back.setOnAction(e -> {
             listHighScores.getChildren().clear();
@@ -97,7 +97,7 @@ public class HighScores extends Scene{
         }     
     }
 
-    public static Scene get(Stage mainWindow){
+    public static Scene get(final Stage mainWindow){
         showHighScores();
         mainStage = mainWindow;
         mainStage.setTitle("Space Impact Redux - High Scores");  
