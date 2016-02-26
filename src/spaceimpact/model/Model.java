@@ -8,6 +8,7 @@ import java.util.Random;
 
 import spaceimpact.model.entities.Debris;
 import spaceimpact.model.entities.Debris.DebrisType;
+import spaceimpact.model.entities.PowerUp.Enhancement;
 import spaceimpact.model.entities.Enemy;
 import spaceimpact.model.entities.Entity;
 import spaceimpact.model.entities.EntityType;
@@ -32,7 +33,7 @@ import spaceimpact.model.spawners.Weapon;
 public class Model implements ModelInterface {
 
 	//DEBUG prints if TRUE
-	private final boolean DEBUG = true;
+	private final boolean DEBUG = false;
 	
 	// game variables
 	private GameStatus gamestatus = GameStatus.Running;
@@ -469,7 +470,8 @@ public class Model implements ModelInterface {
 	public Optional<String> getLatestPowerUp() {
 		Optional<String> tmp = Optional.empty();
 		if (this.latestpowerup.isPresent()) {			
-			if (Model.player.getWeapon().getProjectilesCount() >= 8) {
+			if (Model.player.getWeapon().getProjectilesCount() >= 8 && 
+			        this.latestpowerup.equals(Enhancement.AddProjectile.getString())) {
 				tmp = Optional.of("Weapon maxed out!");
 			} else {
 				tmp = this.latestpowerup;

@@ -201,9 +201,7 @@ public abstract class LivingEntity implements Entity {
 		if (velocity < 0) {
 			throw new IllegalArgumentException("Entity's velocity cannot be set below 0.");
 		}
-		System.out.println("User current velocity diff is: " + (velocity / this.initvel));
 		if ((velocity / this.initvel) <= 3) {
-			System.out.println("Player velocity increased by 15%.");
 			this.velocity = velocity;
 		}		
 	}
