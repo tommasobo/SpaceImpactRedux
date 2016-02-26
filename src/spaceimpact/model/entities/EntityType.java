@@ -21,7 +21,7 @@ import spaceimpact.utilities.Pair;
 public enum EntityType {
 	Spaceship, Enemy, Debris, PowerUp, Projectile;
 
-	private static List<Pair<String, Integer>> projectilesRange = Arrays.asList(new Pair<>("diagonal-green.png", 13),
+	private static List<Pair<String, Integer>> projectilesRange = Arrays.asList(new Pair<>("diagonal-green.png", 12),
 			new Pair<>("beam_blue.png", 25), new Pair<>("beam_red.png", 35), new Pair<>("fireball.png", 50));
 
 	private static List<Pair<String, Integer>> enemyDmgRange = Arrays.asList(new Pair<>("A", 15), new Pair<>("B", 30),
@@ -61,7 +61,7 @@ public enum EntityType {
 
 	private static String textChooser(final int param, final List<Pair<String, Integer>> ranges) {
 		for (final Pair<String, Integer> p : ranges) {
-			if (param < p.getSecond()) {
+			if (param <= p.getSecond()) {
 				return p.getFirst();
 			}
 		}

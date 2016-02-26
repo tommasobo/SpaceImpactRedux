@@ -108,7 +108,7 @@ public class GameLoop extends Thread {
 							this.view.showText(s.get());
 						}
 					}
-					this.score += GameLoop.this.model.getScores();
+					this.score += GameLoop.this.model.getScores() * this.diff / 2;
 					final List<Pair<Pair<String, Double>, Location>> toDraw = new LinkedList<>();
 					final Location pl = this.model.getPlayerLocation();
 					toDraw.add(new Pair<>(new Pair<>("/Entities/Player.png", 0d), new Location(pl)));
@@ -265,10 +265,10 @@ public class GameLoop extends Thread {
 	private Level createLevel(final int levelId, final int fps) {
 		final int totalEnemiesToSpawn = 5 * (2 * levelId + this.diff);
 		final int maxEnemyPerSpawn = this.diff + (levelId - 1) / 2;
-		final int enemyDelay = (int) ((2.25 - 0.09166 * Math.min(10, levelId)) * fps * this.diff);
+		final int enemyDelay = (int) ((9 - 0.36666 * Math.min(10, levelId)) * fps / this.diff);
 		final int debrisDelay = (int) ((this.diff * new Random().nextDouble() + 1.5) * fps);
 		final int powerupDelay = (int) ((7.5 + this.diff * levelId) * fps);
-		final double tmpvel = this.diff * (0.0675 + 0.0075 * levelId) / fps;
+		final double tmpvel = (0.135 + 0.015 * levelId) / fps;
 		final Level tmp = new Level(totalEnemiesToSpawn, maxEnemyPerSpawn, enemyDelay, debrisDelay, powerupDelay,
 				tmpvel);
 		tmp.getEnemySpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
