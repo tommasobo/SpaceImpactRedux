@@ -5,6 +5,10 @@ import java.util.List;
 
 import spaceimpact.utilities.Pair;
 
+/**
+ * Interface for an High Score Manager. Once implemented it can be used to
+ * save/load the highscores list.
+ */
 public interface HighScoresManagerInterface {
 
 	/**
@@ -18,7 +22,7 @@ public interface HighScoresManagerInterface {
 	void addScore(final Pair<String, Integer> p);
 
 	/**
-	 * Removes all previous HighScores (but doesn't save by default)
+	 * Removes all previous HighScores (but doesn't save by default).
 	 */
 	void emptyScores();
 

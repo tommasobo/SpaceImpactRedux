@@ -32,6 +32,8 @@ public class HighScoresManager implements HighScoresManagerInterface {
 	 *            The name of the file used for writing/reading scores
 	 * @param nscores
 	 *            The number of highscores saved
+	 * @throws IllegalArgumentException
+	 *             If the fileName is empty or nscores are <= 0.
 	 */
 	public HighScoresManager(final String fileName, final int nscores) throws IllegalArgumentException {
 		if (nscores <= 0 || fileName.isEmpty()) {
