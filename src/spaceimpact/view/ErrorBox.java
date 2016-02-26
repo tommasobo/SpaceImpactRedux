@@ -14,7 +14,7 @@ public class ErrorBox {
 
     public static void display(String title, String message) {
         final Stage window = new Stage();
-        window.getIcons().add(new Image("file:res" + SEP + "icons" + SEP + "alert.png"));
+        window.getIcons().add(new Image("file:res" + SEP + "icons" + SEP + "error.png"));
         window.setResizable(false);
         window.centerOnScreen();
         window.initModality(Modality.APPLICATION_MODAL);

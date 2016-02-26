@@ -29,11 +29,12 @@ public class GameOverScreen extends Scene{
         final VBox mainLayout = new VBox();
         mainLayout.setAlignment(Pos.CENTER);
         
-        ImageView gameOver = new ImageView(ImageLoader.getLoader().getImageFromPath("images/gameOver.jpg"));
+        ImageView gameOver = new ImageView(ImageLoader.getLoader().getImageFromPath("images/gameOver.gif"));
         gameOver.setFitWidth(500);
         gameOver.setFitHeight(250);
 
         this.name.setFocusTraversable(false);
+        this.enter.setFocusTraversable(false);
         final Label insertName = new Label("Insert your name: ");
         insertName.setId("whiteText");
         this.enter.setId("dark-blue");
@@ -56,6 +57,7 @@ public class GameOverScreen extends Scene{
         insertLayout.setPadding(new Insets(100, 0 ,70 ,0));
         
         final Button retry = new Button("Retry");
+        retry.setFocusTraversable(false);
         retry.setId("dark-blue");
         retry.setOnAction(e -> {
             this.resetSaved();
@@ -65,17 +67,26 @@ public class GameOverScreen extends Scene{
             View.getController().startGameLoop();   
         });
         final Button exit = new Button("Exit");
+        exit.setFocusTraversable(false);
         final Button mainMenu = new Button("Menu");
+        mainMenu.setFocusTraversable(false);
         mainMenu.setId("dark-blue");
         mainMenu.setOnAction(e -> {
             this.resetSaved();
             mainStage.setScene(MainMenu.get(mainStage));
         });
         exit.setId("dark-blue");
-        exit.setOnAction(e -> this.closeProgram());
+        exit.setOnAction(e -> {
+            this.resetSaved();
+            this.closeProgram();
+        });
         final Button hiScores = new Button("High Scores");
+        hiScores.setFocusTraversable(false);
         hiScores.setId("dark-blue");
-        hiScores.setOnAction(e -> mainStage.setScene(HighScores.get(mainStage)));
+        hiScores.setOnAction(e -> {
+            this.resetSaved();
+            mainStage.setScene(HighScores.get(mainStage));
+        });
         final HBox bottomLayout = new HBox();
         bottomLayout.setPadding(new Insets(150, 0 , 10, 0));
         bottomLayout.setSpacing(25);

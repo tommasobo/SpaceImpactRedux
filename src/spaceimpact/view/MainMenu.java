@@ -15,7 +15,6 @@ public class MainMenu extends Scene{
     private static final double WIDTH_LOGO = 600;
     private static final double HEIGHT_LOGO = 200;
     private static final double BUTTON_WIDTH = 250;
-    private static final String SEP = System.getProperty("file.separator");
     
     private static final MainMenu mainScene = new MainMenu();
     private static Stage mainStage;
@@ -45,6 +44,9 @@ public class MainMenu extends Scene{
             final GameScreen gameScreen = new GameScreen();
             View.setGameScreen(gameScreen);
             mainStage.setScene(gameScreen.get(mainStage));
+            if (gameScreen.isFullScreen()) {
+                mainStage.setFullScreen(true);
+            }
         });
         this.highScores.setMinWidth(vbox.getPrefWidth());
         this.highScores.setId("dark-blue");
@@ -78,6 +80,9 @@ public class MainMenu extends Scene{
     
     public static MainMenu get(Stage mainWindow) {
         mainStage = mainWindow;
+        mainStage.setWidth(WIDTH);
+        mainStage.setHeight(HEIGHT);
+        mainStage.centerOnScreen();
         mainStage.setTitle("Space Impact Redux - Menu");    
         return mainScene;
     }

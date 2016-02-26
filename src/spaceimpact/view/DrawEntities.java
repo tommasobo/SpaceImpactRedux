@@ -18,7 +18,8 @@ public class DrawEntities {
 	private final ImageView bg;
 	private final ImageView bg2;
 	private static final double BACKGROUND_SPEED = 150 / View.getController().getFPS();
-	private static final double GAME_WIDTH = 1280;
+	private static double gameWidth = 1280;
+	private static double gameHeight = 720;
 
 	/**
 	 * Constructor for DrawEntities
@@ -27,9 +28,11 @@ public class DrawEntities {
 		this.imgl = ImageLoader.getLoader();
 		this.bg = new ImageView(this.imgl.getImageFromPath("images/gameBackground.png"));
 		this.bg2 = new ImageView(this.imgl.getImageFromPath("images/gameBackground.png"));
-		this.bg.setFitWidth(GAME_WIDTH);
-		this.bg2.setFitWidth(GAME_WIDTH);
-		this.bg2.relocate(GAME_WIDTH, 0);
+		this.bg.setFitWidth(gameWidth);
+		this.bg.setFitHeight(gameHeight);
+		this.bg2.setFitWidth(gameWidth);
+		this.bg2.setFitHeight(gameHeight);
+		this.bg2.relocate(gameWidth, 0);
 	}
 
 	/**
@@ -67,16 +70,21 @@ public class DrawEntities {
 	
 	private void translateBackground() {
 	    final double x = this.bg.getLayoutX() - BACKGROUND_SPEED;
-	    if (x <= (-GAME_WIDTH)) {
-	        this.bg.relocate(GAME_WIDTH, 0);
+	    if (x <= (-gameWidth)) {
+	        this.bg.relocate(gameWidth, 0);
 	    } else {
 	        this.bg.setLayoutX(x);
 	    }
 	    final double x2 = this.bg2.getLayoutX() - BACKGROUND_SPEED;
-	    if (x2 <= (-GAME_WIDTH)) {
-                this.bg2.relocate(GAME_WIDTH, 0);
+	    if (x2 <= (-gameWidth)) {
+                this.bg2.relocate(gameWidth, 0);
             } else {
                 this.bg2.setLayoutX(x2);
             }
+	}
+	
+	static synchronized void setResolution(double width, double height) {
+	    gameHeight = height;
+	    gameWidth = width;
 	}
 }

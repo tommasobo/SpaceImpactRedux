@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.geometry.*;
 
 public class InfoBox {
@@ -42,7 +43,8 @@ public class InfoBox {
         controller.setId("whiteText");
         
         final Label instructions = new Label();
-        instructions.setText("W - Move up\nA - Move left\nS - Move down\nD - Move right\nSPACE - Fire");
+        instructions.setTextAlignment(TextAlignment.CENTER);;
+        instructions.setText("W - Move up\nA - Move left\nS - Move down\nD - Move right\nSPACE - Fire\nBACK SPACE - Go back to the menu");
         instructions.setId("whiteTextInfo");
         
         final Label creditsTo = new Label();

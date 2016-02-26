@@ -76,7 +76,8 @@ public class InputHandler {
 			this.d = action;
 		} else if (code == KeyCode.SPACE) {
 			this.space = action;
-		}
+		}      
+		
 	}
 
 }
