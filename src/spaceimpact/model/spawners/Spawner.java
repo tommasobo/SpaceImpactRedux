@@ -65,22 +65,34 @@ public abstract class Spawner implements SpawnerInterface {
 	}
 	
 	@Override
-	public void setMaxEntitySpawns(final int max) {
+	public void setMaxEntitySpawns(final int max) throws IllegalArgumentException {
+		if (max <= 0) {
+			throw new IllegalArgumentException("Spawner maximum spawn count must be set with a value greater than zero");
+		}
 		this.maxspawn = max;
 	}
 	
 	@Override
-	public void setSpawnDelay(final int delay) {
+	public void setSpawnDelay(final int delay) throws IllegalArgumentException {
+		if (delay < 0) {
+			throw new IllegalArgumentException("Spawner spawn delay cannot be set as negative");
+		}
 		this.spawndelay = delay;
 	}
 	
 	@Override
-	public void setSpawnedEntityType(final EntityType type) {
+	public void setSpawnedEntityType(final EntityType type) throws IllegalArgumentException {
+		if (type == null) {
+			throw new IllegalArgumentException("Spawner spawn entity type cannot be set as undefined");
+		}
 		this.type = type;
 	}
 	
 	@Override
-	public void setSpawnedEntityArea(final Area area) {		
+	public void setSpawnedEntityArea(final Area area) throws IllegalArgumentException {		
+		if (area == null) {
+			throw new IllegalArgumentException("Spawner spawn entity area cannot be set as undefined");
+		}
 		this.area = area;
 	}
 	

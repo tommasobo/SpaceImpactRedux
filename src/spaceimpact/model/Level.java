@@ -13,7 +13,6 @@ import spaceimpact.model.spawners.PowerUpSpawner;
  * Level of the Game
  * <br>
  * Defines all main variables of the level.
- * 
  * @author Davide
  */
 public class Level {

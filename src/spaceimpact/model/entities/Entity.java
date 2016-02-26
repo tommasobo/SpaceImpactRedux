@@ -19,8 +19,9 @@ public interface Entity {
 	/** 
 	 * Setter method for entity location
 	 * @param location new entity location
+	 * @throws IllegalArgumentException if the input location is null
 	 */
-	void setLocation(final Location location);
+	void setLocation(final Location location) throws IllegalArgumentException;
 				
 	/** 
 	 * Verify if there is a collision between the current.
@@ -46,8 +47,9 @@ public interface Entity {
 		
 	/** 
 	 * Update the entity entirely and execute specific methods
+	 * @throws IllegalStateException if Entity location and/or direction and/or weapon (in case of LivingEntity) are undefined
 	 */
-	void update();
+	void update() throws IllegalStateException;
 	
 	/** 
 	 * Get ID of the current entity

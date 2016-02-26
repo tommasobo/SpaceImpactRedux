@@ -20,7 +20,7 @@ import spaceimpact.model.Location;
 public class Debris implements Entity {
 	
 	/**
-	 * The type of the debris<br>
+	 * The possible debris types
 	 */
 	public enum DebrisType {
 		Explosion {
@@ -105,7 +105,11 @@ public class Debris implements Entity {
 	}
 	
 	@Override
-	public void setLocation(Location location) {
+	public void setLocation(Location location) throws IllegalArgumentException {
+		if (location == null) {
+			throw new IllegalArgumentException("Cannot set debris location as null");
+		}
+		
 		this.location = location;
 	}
 			
@@ -115,7 +119,14 @@ public class Debris implements Entity {
 	}
 	
 	@Override
-	public void update() {
+	public void update() throws IllegalStateException {
+		if (this.direction == null) {
+			throw new IllegalStateException("Cannot update debris if his direction is undefined");
+		}
+		if(this.location == null) {
+			throw new IllegalStateException("Cannot update debris if his location is undefined");
+		}
+			
 		if (!this.type.equals(DebrisType.Asteroid)) {
 			this.countdown--;
 			if (this.countdown <= 0) {
