@@ -9,6 +9,7 @@ import spaceimpact.model.Area;
 import spaceimpact.model.Direction;
 import spaceimpact.model.GameStatus;
 import spaceimpact.model.Level;
+import spaceimpact.model.LevelCreator;
 import spaceimpact.model.Location;
 import spaceimpact.model.Model;
 import spaceimpact.model.ModelInterface;
@@ -61,7 +62,7 @@ public class GameLoop extends Thread {
 		this.view = view;
 		this.nLevel = 1;
 		this.diff = difficulty;
-		this.model = new Model(fps, this.createLevel(this.nLevel, fps), true);
+		this.model = new Model(fps, this.nLevel, this.diff);
 		this.controller = controller;
 		this.score = 0;
 	}
@@ -169,7 +170,7 @@ public class GameLoop extends Thread {
 				} else {
 					this.view.showText(this.nLevel);
 					this.nLevel++;
-					this.model = new Model(this.fps, this.createLevel(this.nLevel, this.fps), false);
+					this.model = new Model(this.fps, this.nLevel, this.diff);
 				}
 			} else {
 				try {
@@ -267,33 +268,4 @@ public class GameLoop extends Thread {
 		}
 		return new Pair<Optional<Direction>, Boolean>(d, shoot);
 	}
-
-	/**
-	 * Private method, creates a new Level (the difficulty depends on the number
-	 * of levels completed before)
-	 *
-	 * @param levelId
-	 *            The number of level (i.e. 1 for first level, 2 for second...)
-	 * @return The created level.
-	 */
-	private Level createLevel(final int levelId, final int fps) {
-		final int totalEnemiesToSpawn = 5 * (2 * levelId + this.diff);
-		final int maxEnemyPerSpawn = this.diff + (levelId - 1) / 2;
-		final int enemyDelay = (int) ((9 - 0.36666 * Math.min(10, levelId)) * fps / this.diff);
-		final int debrisDelay = (int) ((this.diff * new Random().nextDouble() + 1.5) * fps);
-		final int powerupDelay = (int) ((7.5 + this.diff * levelId) * fps);
-		//final int powerupDelay = (int) (fps);
-		final double tmpvel = (0.135 + 0.015 * levelId) / fps;
-		final Level tmp = new Level(totalEnemiesToSpawn, maxEnemyPerSpawn, enemyDelay, debrisDelay, powerupDelay,
-				tmpvel);
-		tmp.getEnemySpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
-		tmp.getDebrisSpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
-		tmp.getPowerUpSpawner().setSpawnedEntityArea(new Area(0.125, 0.0972));
-		tmp.getEnemySpawner().setCoolDownEntityWeapon((int) ((1 - 0.1 * Math.min(5, levelId / 2)) * fps));
-		tmp.getEnemySpawner().setEntityDamageRange(5 * levelId, 10 * levelId);
-		tmp.getEnemySpawner().setEntityLifeRange(5 * levelId, 5 + 10 * levelId);
-		tmp.getEnemySpawner().setEntityVelocityRange(tmpvel, tmpvel * 1.5);
-		return tmp;
-	}
-
 }

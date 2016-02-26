@@ -1,6 +1,7 @@
 package spaceimpact.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -55,18 +56,21 @@ public class Model implements ModelInterface {
 	private final int sparklelifetime;
 	
 	/**
-	 * Inizializate all collections and start the level <br>
+	 * Inizializate all collections and start the level<br>
 	 * Level difficulty is defined by the maximum number of enemy spawn 
-	 * @param framerate Framerate of the game
-	 * @param level Level to play
-	 * @param reset If true the player Spaceship must be restore to default initial state
-	 * @throws IllegalArgumentException If one or more inputs are null
+	 * @param framerate Frame rate of the game
+	 * @param levelId The current level identified
+	 * @param diff Difficulty level of the game
+	 * @throws IllegalArgumentException If frame rate is negative or levelId is below 1 or diff is not a valid value.
 	 */
-	public Model(final int framerate, final Level level, final boolean reset) throws IllegalArgumentException {
+	public Model(final int framerate, final int levelId, final int diff) throws IllegalArgumentException {
 
-		if (level == null) {
-			throw new IllegalArgumentException("Model cannot work properly without a defined level.");
-		}		
+		if (!Arrays.asList(1,2,4,8).contains(diff)) {
+			throw new IllegalArgumentException("Model cannot work properly if specified difficulty has an unexpected value.");
+		}
+		if (levelId < 0) {
+			throw new IllegalArgumentException("Model cannot create a level with a levelid below one.");
+		}
 		if (framerate < 0) {
 			throw new IllegalArgumentException("Model cannot work properly with a negative framerate.");					
 		}
@@ -76,7 +80,7 @@ public class Model implements ModelInterface {
 		this.latestpowerup = Optional.empty();
 		this.framerate = framerate;
 		this.playerscores = 0;	
-		this.lvl = level;	
+		this.lvl = LevelCreator.createLevel(framerate, levelId, diff);	
 		
 		// inizializate entities collections
 		this.enemylist = new ArrayList<>();
@@ -92,7 +96,7 @@ public class Model implements ModelInterface {
 		this.sparklelifetime = framerate;
 		
 		// fill player using level
-		if (Model.player == null || reset) {
+		if (Model.player == null || levelId == 1) {
 			final Location tmploc = new Location(0.1, 0.5, new Area(0.125, 0.0972));
 			final Weapon tmpweapon = new Weapon(EntityType.Spaceship, Direction.E, framerate, 10, this.lvl.getLevelVelocity() * 2);
 			Model.player = new Spaceship(100, this.lvl.getLevelVelocity() * 1.8, tmploc, Direction.E, 100, tmpweapon);
@@ -209,7 +213,7 @@ public class Model implements ModelInterface {
 		this.lvl.spawn(this.enemylist, this.debrislist, this.poweruplist);
 		
 		System.out.println("No. Enemy: " + this.enemylist.size() + " | Debris: " + this.debrislist.size() + " | PowerUp: " + this.poweruplist.size() +
-				" | Proj Player: " + this.playerprojectilelist.size() + " | Proj Enemy: " + this.enemiesprojectilelist.size() + " | Dead: " + this.deadentities.size());
+				" | Proj P: " + this.playerprojectilelist.size() + " | Proj E: " + this.enemiesprojectilelist.size() + " | Dead: " + this.deadentities.size());
 
 		// verify game status
 		if ((this.enemylist.size() <= 0) && this.lvl.playerWin() && this.gamestatus.equals(GameStatus.Running)) {
