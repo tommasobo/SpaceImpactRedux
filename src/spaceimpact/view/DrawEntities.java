@@ -18,22 +18,17 @@ public class DrawEntities {
 	private final ImageView bg;
 	private final ImageView bg2;
 	private static final double BACKGROUND_SPEED = 150 / View.getController().getFPS();
-	private final double gameWidth;
-	private final double gameHeight;
 	private double gameWidth;
 	private double gameHeight;
 
 	/**
-	 * Constructor for DrawEntities.
-	 *
-	 * @param inGameHeight
-	 *            The height (in pixels)
-	 * @param inGameWidth
-	 *            The width (in pixels)
+	 * Constructor for DrawEntities
+	 * @param inGameHeight 
+	 * @param inGameWidth 
 	 */
-	public DrawEntities(final double inGameWidth, final double inGameHeight) {
-		this.gameWidth = inGameWidth;
-		this.gameHeight = inGameHeight;
+	public DrawEntities(double inGameWidth, double inGameHeight) {
+	    this.gameWidth = inGameWidth;
+	    this.gameHeight = inGameHeight;
 		this.imgl = ImageLoader.getLoader();
 		this.bg = new ImageView(this.imgl.getImageFromPath("images/gameBackground.png"));
 		this.bg2 = new ImageView(this.imgl.getImageFromPath("images/gameBackground.png"));
