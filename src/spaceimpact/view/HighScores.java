@@ -21,9 +21,9 @@ public class HighScores extends Scene{
     
     private static final int WIDTH_LOGO_HIGHSCORS = 450;
     private static final int HEIGTH_LOGO_HIGHSCORES = 150;
-    private final static VBox listHighScores = new VBox(10);
+    private static final VBox listHighScores = new VBox(10); 
+    private static final HighScores MAINSCENE = new HighScores();
     
-    private static final HighScores mainScene = new HighScores();
     private static Stage mainStage;
 
     public HighScores() {
@@ -101,7 +101,7 @@ public class HighScores extends Scene{
         showHighScores();
         mainStage = mainWindow;
         mainStage.setTitle("Space Impact Redux - High Scores");  
-        return mainScene;
+        return MAINSCENE;
     }
     
     private void resetHighScores() {

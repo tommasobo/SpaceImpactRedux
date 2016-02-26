@@ -78,7 +78,8 @@ public class GameOverScreen extends Scene{
         exit.setId("dark-blue");
         exit.setOnAction(e -> {
             this.resetSaved();
-            this.closeProgram();
+            ClosureHandler.getClosureHandler();
+            ClosureHandler.closeProgram(mainStage);
         });
         final Button hiScores = new Button("High Scores");
         hiScores.setFocusTraversable(false);
@@ -128,13 +129,5 @@ public class GameOverScreen extends Scene{
         mainStage.centerOnScreen();
         mainStage.setTitle("Space Impact Redux - Game Over");  
         return mainScene;
-    }
-    
-    private void closeProgram() {
-        final Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to exit the game?");
-        if (answer) {
-            System.exit(0);
-            mainStage.close();
-        }
     }
 }

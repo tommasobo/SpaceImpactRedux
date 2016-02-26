@@ -1,7 +1,6 @@
 package spaceimpact.view;
 
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -27,30 +26,10 @@ public class MainWindow extends Application{
             if (View.getController().isGameLoopRunning()) {
                 View.getController().pauseGameLoop();
             }
-            this.closeProgram();
+            ClosureHandler.closeProgram(this.mainWindow);
         });
         
-        this.setScene(MainMenu.get(this.mainWindow));
+        this.mainWindow.setScene(MainMenu.get(this.mainWindow));
         this.mainWindow.show();
-    }
-    
-    public void setScene(final Scene scene) {
-        this.mainWindow.setScene(scene);
-    }
-    
-    private void closeProgram() {
-        final Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to exit the game?");
-        if (View.getController().isGameLoopPaused()) {
-            if (answer) {
-                View.getController().abortGameLoop();
-                System.exit(0);
-                this.mainWindow.close();
-            } else {
-                View.getController().resumeGameLoop();
-            }
-        }
-        if (answer) {
-            this.mainWindow.close();
-        }
     }
 }

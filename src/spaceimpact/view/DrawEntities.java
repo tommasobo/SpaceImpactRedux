@@ -18,8 +18,8 @@ public class DrawEntities {
 	private final ImageView bg;
 	private final ImageView bg2;
 	private static final double BACKGROUND_SPEED = 150 / View.getController().getFPS();
-	private double gameWidth = 1280;
-	private double gameHeight = 720;
+	private double gameWidth;
+	private double gameHeight;
 
 	/**
 	 * Constructor for DrawEntities

@@ -27,6 +27,7 @@ public class MainMenu extends Scene{
 
     private MainMenu() {   
         super(new StackPane(), WIDTH, HEIGHT);
+        
         final StackPane logoBox = new StackPane();
         final Logo logo = new Logo(WIDTH_LOGO, HEIGHT_LOGO);
         logoBox.setAlignment(Pos.TOP_CENTER);
@@ -36,6 +37,8 @@ public class MainMenu extends Scene{
         final VBox vbox = new VBox(newGame, highScores, options, info, exit);
         vbox.setPrefWidth(BUTTON_WIDTH);
         vbox.setAlignment(Pos.BOTTOM_CENTER);
+        vbox.setSpacing(10);
+        vbox.setPadding(new Insets(170));
 
         this.newGame.setMinWidth(vbox.getPrefWidth());
         this.newGame.setId("dark-blue");
@@ -53,7 +56,7 @@ public class MainMenu extends Scene{
         this.highScores.setId("dark-blue");
         this.highScores.setOnAction(e -> {
             mainStage.setScene(HighScores.get(MainMenu.mainStage));
-        }); //Modificare
+        }); 
         this.options.setMinWidth(vbox.getPrefWidth());
         this.options.setId("dark-blue");
         this.options.setOnAction(e -> {
@@ -61,22 +64,19 @@ public class MainMenu extends Scene{
             Options.update();
         });
         this.info.setMinWidth(vbox.getPrefWidth());
-        this.info.setOnAction(e -> InfoBox.display("Info Box")); //Modificare
+        this.info.setOnAction(e -> InfoBox.display()); 
         this.info.setId("dark-blue");
         this.exit.setMinWidth(vbox.getPrefWidth());
-        this.exit.setOnAction(e -> this.closeProgram()); //Modificare
-        this.exit.setId("dark-blue");
-            
-        vbox.setSpacing(10);
-        vbox.setPadding(new Insets(170));
+        ClosureHandler.getClosureHandler();
+        this.exit.setOnAction(e -> ClosureHandler.closeProgram(mainStage)); 
+        this.exit.setId("dark-blue");               
             
         final StackPane layout = new StackPane();
         layout.getChildren().addAll(logoBox, vbox);
-        this.setRoot(layout);
         layout.setId("mainPane");
-           
-        this.getStylesheets().add("style.css");
         
+        this.setRoot(layout);         
+        this.getStylesheets().add("style.css");
     }
     
     public static MainMenu get(Stage mainWindow) {
@@ -87,14 +87,6 @@ public class MainMenu extends Scene{
         mainStage.centerOnScreen();
         mainStage.setTitle("Space Impact Redux - Menu");    
         return mainScene;
-    }
-    
-    private void closeProgram() {
-        final Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to exit the game?");
-        if (answer) {
-            System.exit(0);
-            mainStage.close();
-        }
     }
 
 }

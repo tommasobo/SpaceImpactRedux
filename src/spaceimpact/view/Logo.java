@@ -4,9 +4,8 @@ import javafx.scene.image.ImageView;
 import spaceimpact.utilities.ImageLoader;
 
 /**
- * Class showing the main logo of space invaders game.
+ * Class showing the main logo of space invaders redux.
  *
- * @author Tommaso Bonato
  */
 public final class Logo {
 

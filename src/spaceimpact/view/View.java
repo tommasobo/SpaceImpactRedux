@@ -11,7 +11,7 @@ import spaceimpact.utilities.Pair;
 
 public class View implements ViewInterface {
 
-	private static ControllerInterface c;
+	private static ControllerInterface controller;
 	private final InputHandler inputHandler = InputHandler.getInputHandler();
 	private static GameScreen gameScreen;
 
@@ -20,11 +20,7 @@ public class View implements ViewInterface {
 	}
 
 	private synchronized void setController(final ControllerInterface controller) {
-		View.c = controller;
-	}
-
-	public static ControllerInterface getController() {
-		return View.c;
+		View.controller = controller;
 	}
 
 	@Override
@@ -42,16 +38,9 @@ public class View implements ViewInterface {
 		Platform.runLater(() -> View.gameScreen.drawOnScreen(listEntities));
 	}
 	
+	@Override
 	public void updateInfo(final int hp, final int shields, final int score) {
 	    Platform.runLater(() -> View.gameScreen.updateInfo(hp, shields, score));
-	}
-	
-	public void won(final int nLevel) {
-	    Platform.runLater(() -> View.gameScreen.won(nLevel));
-	}
-
-	static void setGameScreen(final GameScreen gamescreen) {
-	    View.gameScreen = gamescreen;
 	}
 
     @Override
@@ -62,6 +51,14 @@ public class View implements ViewInterface {
     @Override
     public void showText(String powerUp) {
         Platform.runLater(() -> View.gameScreen.powerUp(powerUp));    
+    }
+    
+    static void setGameScreen(final GameScreen gamescreen) {
+        View.gameScreen = gamescreen;
+    }
+    
+    static ControllerInterface getController() {
+        return View.controller;
     }
 	
 }
