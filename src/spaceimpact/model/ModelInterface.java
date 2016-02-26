@@ -63,13 +63,15 @@ public interface ModelInterface {
 	 * <br>
 	 * @param direction Optional of Direction of the movement
 	 * @param shoot True if user shoot
+	 * @throws IllegalStateException if the player inside the model is null
 	 */
-	void informInputs(Optional<Direction> direction, boolean shoot);
+	void informInputs(Optional<Direction> direction, boolean shoot) throws IllegalStateException;
 	
 	/** 
 	 * Force complete update of the model
 	 * <br>
 	 * All active entities are moved by one tick.
+	 * @throws IllegalStateException if the player and/or the level of the model are null.
 	 */
-	void updateAll();
+	void updateAll() throws IllegalStateException;
 }
