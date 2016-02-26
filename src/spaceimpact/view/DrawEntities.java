@@ -36,7 +36,7 @@ public class DrawEntities {
 		this.bg.setFitHeight(this.gameHeight);
 		this.bg2.setFitWidth(this.gameWidth);
 		this.bg2.setFitHeight(this.gameHeight);
-		this.bg2.relocate(this.gameWidth, 0);
+		this.bg2.relocate(this.gameWidth - 1, 0);
 	}
 
 	/**
@@ -73,13 +73,13 @@ public class DrawEntities {
 	private void translateBackground() {
 		final double x = this.bg.getLayoutX() - DrawEntities.BACKGROUND_SPEED;
 		if (x <= -this.gameWidth) {
-			this.bg.relocate(this.gameWidth, 0);
+			this.bg.relocate(this.gameWidth - 2, 0);
 		} else {
 			this.bg.setLayoutX(x);
 		}
 		final double x2 = this.bg2.getLayoutX() - DrawEntities.BACKGROUND_SPEED;
 		if (x2 <= -this.gameWidth) {
-			this.bg2.relocate(this.gameWidth, 0);
+			this.bg2.relocate(this.gameWidth - 1, 0);
 		} else {
 			this.bg2.setLayoutX(x2);
 		}
