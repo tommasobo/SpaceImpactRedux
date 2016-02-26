@@ -32,7 +32,7 @@ import spaceimpact.model.spawners.Weapon;
 public class Model implements ModelInterface {
 
 	//DEBUG prints if TRUE
-	private final boolean DEBUG = false;
+	private final boolean DEBUG = true;
 	
 	// game variables
 	private GameStatus gamestatus = GameStatus.Running;
@@ -212,8 +212,9 @@ public class Model implements ModelInterface {
 		// spawn new entities if possible
 		this.lvl.spawn(this.enemylist, this.debrislist, this.poweruplist);
 		
-		System.out.println("No. Enemy: " + this.enemylist.size() + " | Debris: " + this.debrislist.size() + " | PowerUp: " + this.poweruplist.size() +
-				" | Proj P: " + this.playerprojectilelist.size() + " | Proj E: " + this.enemiesprojectilelist.size() + " | Dead: " + this.deadentities.size());
+		printDBG("No. Enemy: " + this.enemylist.size() + " | Debris: " + this.debrislist.size() + 
+				" | PowerUp: " + this.poweruplist.size() +  " | Proj P: " + this.playerprojectilelist.size() + 
+				" | Proj E: " + this.enemiesprojectilelist.size() + " | Dead: " + this.deadentities.size());
 
 		// verify game status
 		if ((this.enemylist.size() <= 0) && this.lvl.playerWin() && this.gamestatus.equals(GameStatus.Running)) {
@@ -264,31 +265,34 @@ public class Model implements ModelInterface {
 	 */
 	private void controlCollisions() {
 
-		// player projectiles with enemy
+		//new debris list to avoid concurrent modification in foreach
+		List<Debris> newdebris = new ArrayList<Debris>();
+		
+		//player projectiles with enemy
 		if ((this.enemylist.size() > 0) && (this.playerprojectilelist.size() > 0)) {
 			this.playerprojectilelist.stream()
 			.filter(x -> x.toRemove() == false)
 			.forEach(x -> this.enemylist.stream()
 					.filter(y -> y.toRemove() == false)
 					.forEach(y -> {
-					if (x.collideWith(y) && !this.deadentities.contains(x)) {
-						y.looseLife(x.getDamage());
-						x.setRemovable();
-						if (y.toRemove()) { //KILL
-							this.debrislist.add(new Debris(DebrisType.Explosion, y.getLocation(), this.explosionlifetime));
-							this.deadentities.add(y);
-							this.playerscores += 10;
-							this.printDBG("Player kill enemy: " + y.toString());
-						} else { //HIT
-							this.debrislist.add(new Debris(DebrisType.Hit, y.getLocation(), this.hitlifetime));
-							this.printDBG("Player hit enemy: " + y.toString());
-						}
-						this.deadentities.add(x);
+						if (x.collideWith(y) && !this.deadentities.contains(x)) {
+							y.looseLife(x.getDamage());
+							x.setRemovable();
+							if (y.toRemove()) { //KILL
+								newdebris.add(new Debris(DebrisType.Explosion, y.getLocation(), this.explosionlifetime));
+								this.deadentities.add(y);
+								this.playerscores += 10;
+								this.printDBG("Player kill enemy: " + y.toString());
+							} else { //HIT
+								newdebris.add(new Debris(DebrisType.Hit, y.getLocation(), this.hitlifetime));
+								this.printDBG("Player hit enemy: " + y.toString());
+							}
+							this.deadentities.add(x);
 					}
 			}));
 		}
 
-		// enemy projectiles with player
+		//enemy projectiles with player
 		if (this.enemiesprojectilelist.size() > 0) {
 			this.enemiesprojectilelist.stream()
 			.filter(x -> x.toRemove() == false)
@@ -297,12 +301,12 @@ public class Model implements ModelInterface {
 					Model.player.looseLife(x.getDamage());
 					x.setRemovable();
 					if (Model.player.toRemove()) { //KILL
-						this.debrislist.add(new Debris(DebrisType.Explosion, Model.player.getLocation(), this.explosionlifetime));
+						newdebris.add(new Debris(DebrisType.Explosion, Model.player.getLocation(), this.explosionlifetime));
 						this.gamestatus = GameStatus.Over;
 						this.deadentities.add(Model.player);
 						this.printDBG("Player is dead!");
 					} else { //HIT
-						this.debrislist.add(new Debris(DebrisType.Hit, Model.player.getLocation(), this.hitlifetime));
+						newdebris.add(new Debris(DebrisType.Hit, Model.player.getLocation(), this.hitlifetime));
 						this.printDBG("Player is hit!");
 					}
 					this.deadentities.add(x);
@@ -310,7 +314,7 @@ public class Model implements ModelInterface {
 			});
 		}
 
-		// enemy with player or viceversa
+		//enemy with player or viceversa
 		if ((this.enemylist.size() > 0) && (Model.player.toRemove() == false)) {
 			this.enemylist.stream()
 			.filter(x -> x.toRemove() == false)
@@ -319,39 +323,85 @@ public class Model implements ModelInterface {
 					Model.player.looseLife(20);
 					x.looseLife(20);
 					if (Model.player.toRemove()) {
-						this.debrislist.add(new Debris(DebrisType.Explosion, Model.player.getLocation(), this.explosionlifetime));
+						newdebris.add(new Debris(DebrisType.Explosion, Model.player.getLocation(), this.explosionlifetime));
 						this.gamestatus = GameStatus.Over;
 						this.deadentities.add(Model.player);
 						this.printDBG("Player is dead!");
 					} else {
-						this.debrislist.add(new Debris(DebrisType.Hit, Model.player.getLocation(), this.hitlifetime));
+						newdebris.add(new Debris(DebrisType.Hit, Model.player.getLocation(), this.hitlifetime));
 						this.printDBG("Player has collided with an enemy!");
 					}
 					if (x.toRemove()) {
-						this.debrislist.add(new Debris(DebrisType.Explosion, x.getLocation(), this.explosionlifetime));
+						newdebris.add(new Debris(DebrisType.Explosion, x.getLocation(), this.explosionlifetime));
 						this.deadentities.add(x);
 						this.printDBG("Enemy has collided with the player and he's dead!");
 					} else {
-						this.debrislist.add(new Debris(DebrisType.Hit, x.getLocation(), this.hitlifetime));
+						newdebris.add(new Debris(DebrisType.Hit, x.getLocation(), this.hitlifetime));
 						this.printDBG("Enemy has collided with the player!");
 					}
 				}
 			});
 		}
+		
+		//player projectiles with asteroids
+		if ((this.debrislist.size() > 0) && (this.playerprojectilelist.size() > 0)) {
+			this.playerprojectilelist.stream()
+			.filter(x -> x.toRemove() == false)
+			.forEach(x -> this.debrislist.stream()
+					.filter(y -> y.toRemove() == false)
+					.filter(y -> y.getType().equals(DebrisType.Asteroid))
+					.forEach(y -> {
+						if (x.collideWith(y) && !this.deadentities.contains(x) && !this.deadentities.contains(y)) {							
+							x.setRemovable();
+							y.setRemovable();
+							newdebris.add(new Debris(DebrisType.Explosion, x.getLocation(), this.explosionlifetime));
+							this.deadentities.add(x);
+							this.deadentities.add(y);							
+					}
+			}));
+		}
 
-		// player with powerup
+		//player with powerup
 		if ((this.poweruplist.size() > 0) && (Model.player.toRemove() == false)) {
-			this.poweruplist.stream().filter(x -> x.toRemove() == false).forEach(x -> {
+			this.poweruplist.stream()
+			.filter(x -> x.toRemove() == false)
+			.forEach(x -> {
 				if (x.collideWith(Model.player)) {			
 					x.applyEnhancement(Model.player);
 					x.setRemovable();
-					this.debrislist.add(new Debris(DebrisType.Sparkle, Model.player.getLocation(), this.sparklelifetime));
+					newdebris.add(new Debris(DebrisType.Sparkle, Model.player.getLocation(), this.sparklelifetime));
 					this.latestpowerup = Optional.of(x.getEnhancement().getString());
 					this.printDBG("Player get PowerUp: " + x.toString());						
 					this.deadentities.add(x);
 				}
 			});
 		}
+				
+		//player with asteroids
+		if ((this.debrislist.size() > 0) && (Model.player.toRemove() == false)) {
+			this.debrislist.stream()
+			.filter(x -> x.toRemove() == false)
+			.filter(x -> x.getType().equals(DebrisType.Asteroid))
+			.forEach(x -> {
+				if (x.collideWith(Model.player)) {
+					Model.player.looseLife(10);
+					x.setRemovable();
+					if (Model.player.toRemove()) { //KILL
+						newdebris.add(new Debris(DebrisType.Explosion, Model.player.getLocation(), this.explosionlifetime));
+						this.gamestatus = GameStatus.Over;
+						this.deadentities.add(Model.player);
+						this.printDBG("Player is dead!");
+					} else { //HIT
+						newdebris.add(new Debris(DebrisType.Hit, Model.player.getLocation(), this.hitlifetime));
+						this.printDBG("Player is hit!");
+					}
+					this.deadentities.add(x);
+				}
+			});
+		}	
+				
+		//add new spawned debris to the model list
+		this.debrislist.addAll(newdebris);
 	}
 
 	/**
