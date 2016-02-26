@@ -28,8 +28,8 @@ import spaceimpact.utilities.Pair;
 
 public class GameScreen extends Scene {
 
-    private static double WIDTH_GAME = 1280;
-    private static double HEIGHT_GAME = 720;
+    private static double inGameWidth = 1280;
+    private static double inGameHeight = 720;
     private static boolean isFullScreen = false;
     private static final double WIDTH_POWER_UP = 800;
     private static final double HEIGHT_POWER_UP = 160;
@@ -42,7 +42,7 @@ public class GameScreen extends Scene {
     private Stage mainStage;
     private final Group root = new Group();
     private final Pane backgroundLayer = new Pane();
-    private final DrawEntities drawEntities = new DrawEntities();
+    private final DrawEntities drawEntities = new DrawEntities(inGameWidth, inGameHeight);
     private final PlayerInfo playerInfo = new PlayerInfo();
     private final DropShadow dropShadow = new DropShadow();
     private final Button pauseButton = new Button(PAUSE);
@@ -139,7 +139,7 @@ public class GameScreen extends Scene {
     }
 
     void drawOnScreen(final List<Pair<Pair<String, Double>, Location>> listEntities) {
-        this.drawEntities.draw(this.backgroundLayer, listEntities, GameScreen.HEIGHT_GAME);
+        this.drawEntities.draw(this.backgroundLayer, listEntities, GameScreen.inGameHeight);
     }
 
     void updateInfo(final int hp, final int shields, final int score) {
@@ -152,8 +152,8 @@ public class GameScreen extends Scene {
 
     public GameScreen get(final Stage mainWindow) {
         this.mainStage = mainWindow;
-        this.mainStage.setWidth(GameScreen.WIDTH_GAME);
-        this.mainStage.setHeight(GameScreen.HEIGHT_GAME);
+        this.mainStage.setWidth(GameScreen.inGameWidth);
+        this.mainStage.setHeight(GameScreen.inGameHeight);
         this.mainStage.centerOnScreen();
         this.mainStage.setTitle("Space Impact Redux");
         this.mainStage.setFullScreen(isFullScreen);
@@ -173,8 +173,8 @@ public class GameScreen extends Scene {
         textLevelWon.setTextFill(Color.WHITE);
         textLevelWon.setText("Level " + nLevel + " completed");
         levelWon.getChildren().add(textLevelWon);
-        levelWon.setLayoutX((GameScreen.WIDTH_GAME / 2) - (WIDTH_LEVEL / 2));
-        levelWon.setLayoutY((GameScreen.HEIGHT_GAME / 2) - (HEIGHT_LEVEL / 2));
+        levelWon.setLayoutX((GameScreen.inGameWidth / 2) - (WIDTH_LEVEL / 2));
+        levelWon.setLayoutY((GameScreen.inGameHeight / 2) - (HEIGHT_LEVEL / 2));
         this.root.getChildren().add(levelWon);
         this.showText(textLevelWon);
     }
@@ -192,7 +192,7 @@ public class GameScreen extends Scene {
         powerUpText.setTextFill(Color.LIGHTSKYBLUE);
         powerUpText.setText(powerUp);
         powerUpPane.getChildren().add(powerUpText);
-        powerUpPane.setLayoutX((GameScreen.WIDTH_GAME / 2) - (WIDTH_POWER_UP / 2));
+        powerUpPane.setLayoutX((GameScreen.inGameWidth / 2) - (WIDTH_POWER_UP / 2));
         this.root.getChildren().add(powerUpPane);
         this.showText(powerUpText);
     }
@@ -207,8 +207,8 @@ public class GameScreen extends Scene {
     }
     
     static synchronized void setResolution(double width, double height, boolean fullScreen) {
-        WIDTH_GAME = width;
-        HEIGHT_GAME = height;
+        inGameWidth = width;
+        inGameHeight = height;
         isFullScreen  = fullScreen;
     }
 
