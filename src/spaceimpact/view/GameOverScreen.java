@@ -132,6 +132,7 @@ public class GameOverScreen extends Scene{
     private void closeProgram() {
         final Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to exit the game?");
         if (answer) {
+            System.exit(0);
             mainStage.close();
         }
     }

@@ -45,6 +45,7 @@ public class GameScreen extends Scene {
     private final DrawEntities drawEntities = new DrawEntities();
     private final PlayerInfo playerInfo = new PlayerInfo();
     private final DropShadow dropShadow = new DropShadow();
+    private final Button pauseButton = new Button(PAUSE);
     private final Label hp = new Label();
     private final Label shields = new Label();
     private final Label score = new Label();
@@ -54,21 +55,16 @@ public class GameScreen extends Scene {
                 super(new StackPane());
 
                 final HBox buttonGame = new HBox();
-                final Button pauseButton = new Button(PAUSE);
                 pauseButton.setId("dark-blue");
                 pauseButton.setDefaultButton(false);
-                pauseButton.setOnMousePressed(e -> {
-                        if (pauseButton.getText().equals(GameScreen.PAUSE)) {
-                                View.getController().pauseGameLoop();
-                                pauseButton.setText(GameScreen.RESUME);
-                        } else {
-                                View.getController().resumeGameLoop();
-                                pauseButton.setText(GameScreen.PAUSE);
-                        }
+                pauseButton.setFocusTraversable(false);
+                pauseButton.setOnAction(e -> {
+                    this.pause();
                 });
                 final Button infoButton = new Button("Info");
                 infoButton.setId("dark-blue");
-                infoButton.setOnMousePressed(e -> InfoBox.display("Info Box"));
+                infoButton.setFocusTraversable(false);
+                infoButton.setOnAction(e -> InfoBox.display("Info Box"));
                 buttonGame.getChildren().addAll(pauseButton, infoButton);
                 buttonGame.setSpacing(10);
                 buttonGame.setAlignment(Pos.TOP_CENTER);
@@ -117,6 +113,10 @@ public class GameScreen extends Scene {
                         if (event.getCode() == KeyCode.BACK_SPACE) {
                             View.getController().pauseGameLoop();
                             this.backMenu();
+                        } else if (event.getCode() == KeyCode.P) {
+                            this.pause();
+                        } else if(event.getCode() == KeyCode.ESCAPE) {
+                            this.close();
                         }
                         inputHandler.press(event.getCode());
                 });
@@ -125,6 +125,18 @@ public class GameScreen extends Scene {
                 });
                 this.setRoot(this.root);
         }
+
+    private void pause() {
+        if (View.getController().isGameLoopPaused()) {
+            InputHandler.getInputHandler().emptyList();
+            View.getController().resumeGameLoop();
+            this.pauseButton.setText(PAUSE);
+        } else {
+            View.getController().pauseGameLoop();
+            this.pauseButton.setText(RESUME);
+        }
+        
+    }
 
     void drawOnScreen(final List<Pair<Pair<String, Double>, Location>> listEntities) {
         this.drawEntities.draw(this.backgroundLayer, listEntities, GameScreen.HEIGHT_GAME);
@@ -213,6 +225,21 @@ public class GameScreen extends Scene {
         } else {
             InputHandler.getInputHandler().emptyList();
             View.getController().resumeGameLoop();
+        }
+    }
+    
+    private void close() {
+        View.getController().pauseGameLoop();
+        final Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to exit the game?");
+        if (View.getController().isGameLoopPaused()) {
+            if (answer) {
+                View.getController().abortGameLoop();
+                System.exit(0);
+                mainStage.close();
+            } else {
+                InputHandler.getInputHandler().emptyList();
+                View.getController().resumeGameLoop();
+            }
         }
     }
     
