@@ -29,6 +29,7 @@ public abstract class LivingEntity implements Entity {
 	protected int currentshield = 0; //current shield
 	protected int maxshield = 0; //max shield
 	protected double velocity = 0; //how much the entity moves in a tick
+	protected double initvel = 0; //initial entity velocity
 	protected boolean removable = false; //determine if the spaceship is alive
 	protected Weapon weapon; //current weapon
 		
@@ -200,7 +201,11 @@ public abstract class LivingEntity implements Entity {
 		if (velocity < 0) {
 			throw new IllegalArgumentException("Entity's velocity cannot be set below 0.");
 		}
-		this.velocity = velocity;
+		System.out.println("User current velocity diff is: " + (velocity / this.initvel));
+		if ((velocity / this.initvel) <= 3) {
+			System.out.println("Player velocity increased by 15%.");
+			this.velocity = velocity;
+		}		
 	}
 	
 	/** 
@@ -221,6 +226,11 @@ public abstract class LivingEntity implements Entity {
 			throw new IllegalArgumentException("Entity's location cannot be set as null");
 		}
 		this.location = location;		
+	}
+	
+	@Override
+	public void setRemovable() {
+		this.removable = true;
 	}
 				
 	/*GETTERS*/
