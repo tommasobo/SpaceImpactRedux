@@ -231,7 +231,7 @@ public class GameScreen extends Scene {
         this.pauseButton.setFont(Font.font(15 * resConstantHeight));
     }
 
-    public boolean isFullScreen() {
+    boolean isFullScreen() {
         return isFullScreen;
     }
     
@@ -240,6 +240,7 @@ public class GameScreen extends Scene {
         if (answer) {
             View.getController().abortGameLoop();
             InputHandler.getInputHandler().emptyList();
+            isFullScreen = false;
             this.mainStage.setScene(MainMenu.get(this.mainStage));      
         } else {
             InputHandler.getInputHandler().emptyList();
