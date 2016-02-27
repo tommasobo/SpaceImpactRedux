@@ -18,38 +18,66 @@ import spaceimpact.model.Location;
 public class Debris implements Entity {
 	
 	/**
-	 * The possible debris types
+	 * The possible debris types.
 	 */
 	public enum DebrisType {
+	    /**
+	     * Explosion Debris.
+	     */
 		Explosion {
+		    /**
+             * Return texture filename to the debris type.
+             * @return String Texture Filename
+             */
 			public String getImageName() {
 				return "explosion.gif";
 			}
 		},
+		/**
+         * Hit Debris, spawned when an entity is damaged but it's still alive.
+         */
 		Hit {
+		    /**
+             * Return texture filename to the debris type.
+             * @return String Texture Filename
+             */
 			public String getImageName() {
 				return "hit.gif";
 			}
 		},
+		/**
+         * Sparkle Debris, spawned when player gets powerup.
+         */
 		Sparkle {
+		    /**
+             * Return texture filename to the debris type.
+             * @return String Texture Filename
+             */
 			public String getImageName() {
 				return "sparkle.gif";
 			}
 		},
+		/**
+         * Asteroid Debris, spawned randomly moves to West with a constant velocity.
+         */
 		Asteroid {
+		    /**
+		     * Return texture filename to the debris type.
+		     * @return String Texture Filename
+		     */
 			public String getImageName() {
 				return "asteroid.gif";
 			}
 		};
 		
 		/**
-		 * Return the texture filename referred to the debris type
+		 * Return the texture filename referred to the debris type.
 		 * @return string As the filename of the image linked to the debris type
 		 */
 		public abstract String getImageName();
 	}
 
-	private final EntityType ID = EntityType.Debris; //entity type identifier
+	private final EntityType id = EntityType.Debris; //entity type identifier
 	private final DebrisType type; //Debris Type
 	private Direction direction = Direction.W; //direction of the entity
 	private Location location; //current position
@@ -58,34 +86,34 @@ public class Debris implements Entity {
 	private boolean removable; //determine if can be removed from gamescreen
 
 	/**
-	 * Constructor For Asteroid
-	 * @param location Starting Location of the Asteroid
-	 * @param velocity Velocity of the Asteroid
+	 * Constructor For Asteroid.
+	 * @param startlocation Starting Location of the Asteroid
+	 * @param initvelocity Velocity of the Asteroid
 	 */
-	public Debris(final Location location, final double velocity) {
+	public Debris(final Location startlocation, final double initvelocity) {
 		this.type = DebrisType.Asteroid;
 		this.removable = false;
-		this.location = new Location(location);
-		this.velocity = velocity;
+		this.location = new Location(startlocation);
+		this.velocity = initvelocity;
 		this.countdown = 0;
 	}
 	
 	/**
-	 * Constructor for Static Debris
-	 * @param type DebrisType of the Debris
-	 * @param location Starting Location of the Debris
-	 * @param countdown Lifetime of the Debris
+	 * Constructor for Static Debris.
+	 * @param inittype DebrisType of the Debris
+	 * @param startlocation Starting Location of the Debris
+	 * @param initcountdown Lifetime of the Debris
 	 */
-	public Debris(final DebrisType type, final Location location, final int countdown) {
-		this.type = type;
+	public Debris(final DebrisType inittype, final Location startlocation, final int initcountdown) {
+		this.type = inittype;
 		this.removable = false;
-		this.location = new Location(location);
+		this.location = new Location(startlocation);
 		this.velocity = 0;
-		this.countdown = countdown;
+		this.countdown = initcountdown;
 	}
 	
 	/**
-	 * Getter for DebrisType
+	 * Getter for DebrisType.
 	 * @return DebrisType As the type of the debris
 	 */
 	public DebrisType getType() {
@@ -108,17 +136,16 @@ public class Debris implements Entity {
 	}
 	
 	@Override
-	public void setLocation(Location location) throws IllegalArgumentException {
-		if (location == null) {
+	public void setLocation(final Location newlocation) throws IllegalArgumentException {
+		if (newlocation == null) {
 			throw new IllegalArgumentException("Cannot set debris location as null");
-		}
-		
-		this.location = location;
+		}	
+		this.location = newlocation;
 	}
 			
 	@Override
 	public EntityType getID() {
-		return this.ID;
+		return this.id;
 	}
 	
 	@Override
@@ -126,7 +153,7 @@ public class Debris implements Entity {
 		if (this.direction == null) {
 			throw new IllegalStateException("Cannot update debris if his direction is undefined");
 		}
-		if(this.location == null) {
+		if (this.location == null) {
 			throw new IllegalStateException("Cannot update debris if his location is undefined");
 		}
 			
@@ -146,7 +173,6 @@ public class Debris implements Entity {
 	
 	@Override
 	public String toString() {
-		return "[ " + this.ID + " | Type: " + this.type + " -> X: " + this.location.getX() + 
-				" | Y: " + this.location.getY() + " ]";		
+		return "[ " + this.id + " | Type: " + this.type + " -> X: " + this.location.getX() + " | Y: " + this.location.getY() + " ]";		
 	}
 }

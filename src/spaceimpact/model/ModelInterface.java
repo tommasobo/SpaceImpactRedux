@@ -13,53 +13,51 @@ import spaceimpact.model.entities.Entity;
 public interface ModelInterface {
 	
 	/** 
-	 * Return player spaceship life
+	 * Return player spaceship life.
 	 * <br>
 	 * @return integer as current player's life. 
 	 */
 	int getPlayerLife();
 	
 	/** 
-	 * Return player spaceship shield
+	 * Return player spaceship shield.
 	 * <br>
 	 * @return integer as current player's shield. 
 	 */
 	int getPlayerShield();
 		
 	/** 
-	 * Return player location
+	 * Return player location.
 	 * <br>
 	 * @return Location as current player's location. 
 	 */
 	Location getPlayerLocation();
 	
-	/** Getter method to get player score
+	/** Getter method to get player score.
 	 * @return amount of remaining shield as integer
 	 */
 	int getScores();
 	
 	/**
-	 * Get Game Status and reset it
+	 * Get Game Status and reset it.
 	 * @return GameStatus Current game status
 	 */
 	GameStatus getGameStatus();
 	
 	/**
-	 * Return latest PowerUp acquired by the player
+	 * Return latest PowerUp acquired by the player.
 	 * @return string As Optional of String if the player has acquired a powerup and it's not been already signaled
 	 */
 	Optional<String> getLatestPowerUp();
 	
 	/** 
-	 * Return the full list of entities except for player
-	 * <br>
+	 * Return the full list of entities except for player.<br>
 	 * @return List of model.Entity entire collection of entities currently active in the model 
 	 */
 	List<Entity> getEntitiesToDraw();
 	
 	/** 
-	 * Inform model about user inputs
-	 * <br>
+	 * Inform model about user inputs.<br>
 	 * @param direction Optional of Direction of the movement
 	 * @param shoot True if user shoot
 	 * @throws IllegalStateException if the player inside the model is null

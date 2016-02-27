@@ -23,19 +23,19 @@ public class Level {
 	private PowerUpSpawner powerupspawner;
 	
 	/**
-	 * Level Constructor
-	 * @param enemycount The Maximum number of enemy spawn in the level
-	 * @param maxenemyperspawn The maximum number of enemy spawn per spawn event
-	 * @param enemydelay The delay between each enemy spawn event
+	 * Level Constructor.
+	 * @param initenemycount The Maximum number of enemy spawn in the level
+	 * @param initmaxenemyperspawn The maximum number of enemy spawn per spawn event
+	 * @param initenemydelay The delay between each enemy spawn event
 	 * @param debrisdelay The delay between each debris spawn event
 	 * @param powerupdelay The delay between each powerup spawn event
 	 * @param globalvelocity The global default velocity of the game
 	 */
-	public Level(final int enemycount, final int maxenemyperspawn, final int enemydelay, 
+	public Level(final int initenemycount, final int initmaxenemyperspawn, final int initenemydelay, 
 			final int debrisdelay, final int powerupdelay, final double globalvelocity) {
-		this.enemycount = enemycount;
+		this.enemycount = initenemycount;
 		this.velocity = globalvelocity;		
-		enemyspawner = new EnemySpawner(this.enemycount, maxenemyperspawn, enemydelay);
+		enemyspawner = new EnemySpawner(this.enemycount, initmaxenemyperspawn, initenemydelay);
 		debrisspawner = new DebrisSpawner(debrisdelay, globalvelocity);
 		powerupspawner = new PowerUpSpawner(powerupdelay, globalvelocity);
 	}
@@ -43,7 +43,7 @@ public class Level {
 	//SPAWNERS GETTERS
 		
 	/**
-	 * Get the level Enemy Spawner
+	 * Get the level Enemy Spawner.
 	 * @return enemyspawner The Enemy spawner of the level
 	 */
 	public EnemySpawner getEnemySpawner() {
@@ -51,7 +51,7 @@ public class Level {
 	}
 	
 	/**
-	 * Get the level Debris Spawner
+	 * Get the level Debris Spawner.
 	 * @return debrisspawner The Debris spawner of the level
 	 */
 	public DebrisSpawner getDebrisSpawner() {
@@ -59,7 +59,7 @@ public class Level {
 	}
 	
 	/**
-	 * Get the level PowerUp Spawner
+	 * Get the level PowerUp Spawner.
 	 * @return powerupspawner The PowerUp spawner of the level
 	 */
 	public PowerUpSpawner getPowerUpSpawner() {
@@ -67,7 +67,7 @@ public class Level {
 	}
 	
 	/**
-	 * Verify if the player has completed the level
+	 * Verify if the player has completed the level.
 	 * @return boolean True if the level is completed
 	 */
 	public boolean playerWin() {
@@ -75,7 +75,7 @@ public class Level {
 	}
 	
 	/**
-	 * Update Internal Spawners
+	 * Update Internal Spawners.
 	 */
 	public void update() {
 		this.enemyspawner.update();
@@ -84,12 +84,12 @@ public class Level {
 	}
 		
 	/**
-	 * Spawn entities and add them to input lists
+	 * Spawn entities and add them to input lists.
 	 * @param enemylist Current Enemies List
 	 * @param debrislist Current Debris List
 	 * @param poweruplist Current PowerUps List
 	 */
-	public void spawn(List<Enemy> enemylist, List<Debris> debrislist, List<PowerUp> poweruplist) {
+	public void spawn(final List<Enemy> enemylist, final List<Debris> debrislist, final List<PowerUp> poweruplist) {
 		if (this.enemyspawner.canSpawn()) {
 			enemylist.addAll(this.enemyspawner.spawn());
 		}
@@ -102,7 +102,7 @@ public class Level {
 	}
 
 	/**
-	 * Getter for Global Leve Velocity
+	 * Getter for Global Leve Velocity.
 	 * @return double As current global level velocity
 	 */
 	public double getLevelVelocity() {

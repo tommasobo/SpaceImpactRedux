@@ -7,7 +7,7 @@ import spaceimpact.model.Location;
 import spaceimpact.model.spawners.Weapon;
 
 /** 
- * Living Entity<br>
+ * Living Entity.<br>
  * <b>location</b> as current location<br>
  * <b>currentlife</b> as the current life amount<br>
  * <b>maxlife</b> as the maximum life value reachable<br>
@@ -36,14 +36,14 @@ public abstract class LivingEntity implements Entity {
 	/*ACTIONS*/
 		
 	/**
-	 * Update the entity Location
+	 * Update the entity Location.
 	 */
 	protected void updateLocation() {		
 		this.direction.moveLocation(this.location, this.velocity);	
 	}
 		
 	/**
-	 * Verify if weapon is ready to shoot
+	 * Verify if weapon is ready to shoot.
 	 * @return boolean True if the weapon does not need cooldown, false if it does.
 	 */
 	public boolean canShoot() {
@@ -69,7 +69,7 @@ public abstract class LivingEntity implements Entity {
 	}
 	
 	/**
-	 * CoolDown Weapon if equipped
+	 * CoolDown Weapon if equipped.
 	 */
 	protected void coolDownWeapon() {
 		if (this.weapon != null) {
@@ -107,7 +107,7 @@ public abstract class LivingEntity implements Entity {
 	 * @param damage Amount of damage as integer
 	 * @return damage Amount of remaining damage as integer (maybe some of it was absorbed by the shield)
 	*/
-	public int looseShield(int damage){	
+	public int looseShield(final int damage) {
 		
 		int originalshield = currentshield;
 		int filtereddamage = 0;
@@ -118,7 +118,7 @@ public abstract class LivingEntity implements Entity {
 		if (originalshield != currentshield && currentshield < 0) { 
 			filtereddamage = Math.abs(currentshield);
 			currentshield = 0;
-		} else if (originalshield != currentshield && currentshield > 0 ){ //if the shield value is greater that 0 and was decreased
+		} else if (originalshield != currentshield && currentshield > 0) { //if the shield value is greater that 0 and was decreased
 			return 0;
 		} else if (originalshield == currentshield && currentshield == 0) { //if there is no shield return full damage
 			return damage;
@@ -135,7 +135,7 @@ public abstract class LivingEntity implements Entity {
 	 * @param increment Amount of life to add as integer
 	 * @throws IllegalArgumentException If increment value is negative
 	*/
-	public void acquireLife(final int increment){
+	public void acquireLife(final int increment) {
 		if (increment < 0) {
 			throw new IllegalArgumentException("The entity cannot acquire negative amount of life.");
 		}
@@ -169,19 +169,19 @@ public abstract class LivingEntity implements Entity {
 	/*SETTERS*/
 	
 	/** 
-	 * Setter for Entity Weapon
-	 * @param weapon Weapon to equip
+	 * Setter for Entity Weapon.
+	 * @param newweapon Weapon to equip
 	 * @throws IllegalArgumentException if the input weapon is null
 	*/
-	public void setWeapon(final Weapon weapon) throws IllegalArgumentException {
-		if (weapon == null) {
+	public void setWeapon(final Weapon newweapon) throws IllegalArgumentException {
+		if (newweapon == null) {
 			throw new IllegalArgumentException("Entity's weapon cannot be set if the new one is null.");
 		}
-		this.weapon = weapon;
+		this.weapon = newweapon;
 	}
 			
 	/** 
-	 * Setter method for entity shield
+	 * Setter method for entity shield.
 	 * @param maxvalueshield the maximum shield value
 	 * @throws IllegalArgumentException if the input value is negative
 	 */
@@ -193,37 +193,37 @@ public abstract class LivingEntity implements Entity {
 	}
 	
 	/** 
-	 * Setter method for entity velocity
-	 * @param velocity velocity of the entity as double
+	 * Setter method for entity velocity.
+	 * @param newvelocity velocity of the entity as double
 	 * @throws IllegalArgumentException if the input value is negative
 	 */
-	public void setVelocity(final double velocity) throws IllegalArgumentException {
-		if (velocity < 0) {
+	public void setVelocity(final double newvelocity) throws IllegalArgumentException {
+		if (newvelocity < 0) {
 			throw new IllegalArgumentException("Entity's velocity cannot be set below 0.");
 		}
-		if ((velocity / this.initvel) <= 3) {
-			this.velocity = velocity;
+		if ((newvelocity / this.initvel) <= 3) {
+			this.velocity = newvelocity;
 		}		
 	}
 	
 	/** 
-	 * Setter method for entity direction
-	 * @param direction as new entity direction
+	 * Setter method for entity direction.
+	 * @param newdirection as new entity direction
 	 * @throws IllegalArgumentException if the input value is null
 	 */
-	public void setDirection(Direction direction) throws IllegalArgumentException {
-		if (direction == null) {
+	public void setDirection(final Direction newdirection) throws IllegalArgumentException {
+		if (newdirection == null) {
 			throw new IllegalArgumentException("Entity's direction cannot be set as null");
 		}
-		this.direction = direction;	
+		this.direction = newdirection;	
 	}
 	
 	@Override
-	public void setLocation(final Location location) throws IllegalArgumentException {
-		if (location == null) {
+	public void setLocation(final Location newlocation) throws IllegalArgumentException {
+		if (newlocation == null) {
 			throw new IllegalArgumentException("Entity's location cannot be set as null");
 		}
-		this.location = location;		
+		this.location = newlocation;		
 	}
 	
 	@Override
@@ -234,7 +234,7 @@ public abstract class LivingEntity implements Entity {
 	/*GETTERS*/
 			
 	/** 
-	 * Getter method to get remaining life
+	 * Getter method to get remaining life.
 	 * @return amount of remaining life as integer
 	 */
 	public int getRemainingLife() {
@@ -242,7 +242,7 @@ public abstract class LivingEntity implements Entity {
 	}
 		
 	/** 
-	 * Getter method for Direction
+	 * Getter method for Direction.
 	 * @return Direction
 	 */
 	public Direction getDirection() {
@@ -250,7 +250,7 @@ public abstract class LivingEntity implements Entity {
 	}
 	
 	/**
-	 * Getter for current equipped weapon
+	 * Getter for current equipped weapon.
 	 * @return weapon Current equipped weapon
 	 */
 	public Weapon getWeapon() {
@@ -258,7 +258,7 @@ public abstract class LivingEntity implements Entity {
 	}
 	
 	/**
-	 * Getter for maximum entity life
+	 * Getter for maximum entity life.
 	 * @return maxlife maximum entity life
 	 */
 	public int getMaximumLife() {
@@ -284,7 +284,7 @@ public abstract class LivingEntity implements Entity {
 		
 	@Override
 	public String toString() {
-		if (this.ID.equals(EntityType.Spaceship)){
+		if (this.ID.equals(EntityType.Spaceship)) {
 			Spaceship tmp = (Spaceship) this;
 			return "[ " + tmp.ID + " -> X: " + tmp.location.getX() + " | Y: " + tmp.location.getY() + " | Direction: " + tmp.getDirection() + " | Life: " + tmp.getRemainingLife() + " | Shield: " + tmp.getRemainingShield() + " ]";			
 		} else {

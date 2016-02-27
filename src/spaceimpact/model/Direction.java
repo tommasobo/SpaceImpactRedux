@@ -1,7 +1,7 @@
 package spaceimpact.model;
 
 /**
- * Enumeration for the 4 possible directions of the entities <br>
+ * Enumeration for the 4 possible directions of the entities.<br>
  * List of Possible Direction:<br>
  * <b>North (N)</b><br>
  * <b>NorthEast (NE)</b><br>
@@ -14,68 +14,92 @@ package spaceimpact.model;
  */
 public enum Direction {
 
+    /**
+     * North.
+     */
 	N(0) {
 		@Override
 		public void moveLocation(final Location loc, final double v) {
 			loc.setY(loc.getY() - v);
 		}
 	},
+    /**
+     * North East.
+     */
 	NE(1) {
 		@Override
 		public void moveLocation(final Location loc, final double v) {
-			Direction.N.moveLocation(loc, v * DIAGONALVEL);
-			Direction.E.moveLocation(loc, v * DIAGONALVEL);
+			Direction.N.moveLocation(loc, v * diagonalVel);
+			Direction.E.moveLocation(loc, v * diagonalVel);
 		}
 	},
+    /**
+     * East.
+     */
 	E(2) {
 		@Override
 		public void moveLocation(final Location loc, final double v) {
 			loc.setX(loc.getX() + v);
 		}
 	},
+	 /**
+     * South East.
+     */
 	SE(3) {
 		@Override
 		public void moveLocation(final Location loc, final double v) {
-			Direction.S.moveLocation(loc, v * DIAGONALVEL);
-			Direction.E.moveLocation(loc, v * DIAGONALVEL);
+			Direction.S.moveLocation(loc, v * diagonalVel);
+			Direction.E.moveLocation(loc, v * diagonalVel);
 		}
 	},
+	 /**
+     * South.
+     */
 	S(4) {
 		@Override
 		public void moveLocation(final Location loc, final double v) {
 			loc.setY(loc.getY() + v);
 		}
 	},
+    /**
+     * South West.
+     */
 	SW(5) {
 		@Override
 		public void moveLocation(final Location loc, final double v) {
-			Direction.S.moveLocation(loc, v * DIAGONALVEL);
-			Direction.W.moveLocation(loc, v * DIAGONALVEL);
+			Direction.S.moveLocation(loc, v * diagonalVel);
+			Direction.W.moveLocation(loc, v * diagonalVel);
 		}
 	},
+	 /**
+     * West.
+     */
 	W(6) {
 		@Override
 		public void moveLocation(final Location loc, final double v) {
 			loc.setX(loc.getX() - v);
 		}
 	},
+	 /**
+     * North West.
+     */
 	NW(7) {
 		@Override
 		public void moveLocation(final Location loc, final double v) {
-			Direction.N.moveLocation(loc, v * DIAGONALVEL);
-			Direction.W.moveLocation(loc, v * DIAGONALVEL);
+			Direction.N.moveLocation(loc, v * diagonalVel);
+			Direction.W.moveLocation(loc, v * diagonalVel);
 		}
 	};
 
 	private int index; // internal index
-	private final static double DIAGONALVEL = 0.7071;
+	private static double diagonalVel = 0.7071; //velocity of diagonal movement
 
 	/**
 	 * Constructor
-	 * @param index index of the Direction
+	 * @param initindex index of the Direction
 	 */
-	private Direction(final int index) {
-		this.index = index;
+	Direction(final int initindex) {
+		this.index = initindex;
 	}
 
 	/**
@@ -87,7 +111,7 @@ public enum Direction {
 	public abstract void moveLocation(final Location loc, final double d);
 	
 	/**
-	 * Return the angle of the direction as degrees value
+	 * Return the angle of the direction as degrees value.
 	 * @return degrees angle of the direction as degrees value
 	 */
 	public double getRotation() {
@@ -103,7 +127,7 @@ public enum Direction {
 	}
 
 	/**
-	 * Move Direction to Left by 45 degrees
+	 * Move Direction to Left by 45 degrees.
 	 * @return Direction Return the current direction moved to left by 45 degrees
 	 */
 	public Direction moveLeft() {
@@ -111,7 +135,7 @@ public enum Direction {
 	}
 
 	/**
-	 * Move Direction to Right by 45 degrees
+	 * Move Direction to Right by 45 degrees.
 	 * @return Direction Return the current direction moved to right by 45 degrees
 	 */
 
@@ -120,7 +144,7 @@ public enum Direction {
 	}
 
 	/**
-	 * Flip the direction by 180 degrees
+	 * Flip the direction by 180 degrees.
 	 * @return Direction Return the current direction flipped by 180 degrees
 	 */
 	public Direction flip() {

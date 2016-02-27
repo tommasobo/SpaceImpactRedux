@@ -18,14 +18,14 @@ public class PowerUpSpawner extends Spawner {
 	private final double velocity;
 		
 	/**
-	 * PowerUp Spawner Constructor
+	 * PowerUp Spawner Constructor.
 	 * <br>
 	 * @param delay Delay between each spawn
-	 * @param velocity Velocity of the Powerup
+	 * @param initvelocity Velocity of the Powerup
 	 */
-	public PowerUpSpawner(final int delay, final double velocity) {
+	public PowerUpSpawner(final int delay, final double initvelocity) {
 		super(EntityType.PowerUp, 1, delay);
-		this.velocity = velocity;
+		this.velocity = initvelocity;
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class PowerUpSpawner extends Spawner {
 		if (rnd.nextInt(this.maxperspawn + 1) == 1) {			
 				//generate random location
 				double x = 1.8d + 0.2d * rnd.nextDouble();
-				double y = 0.15d + 0.70d * rnd.nextDouble();												
+				double y = 0.15d + 0.70d * rnd.nextDouble();
 				Location tmploc = new Location(x, y, this.area);
 				
 				//generate powerup effects RANDOMLY

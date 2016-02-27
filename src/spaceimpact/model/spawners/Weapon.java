@@ -10,7 +10,7 @@ import spaceimpact.model.entities.EntityType;
 import spaceimpact.model.entities.Projectile;
 
 /**
- * Weapon<br>
+ * Weapon.<br>
  * Factory to generate Projectile entities with a defined damage, location, direction<br>
  * <b>damage</b> Projectiles damages<br>
  * <b>projectilesvelocity</b> Projectiles velocity<br>
@@ -31,20 +31,20 @@ public class Weapon implements WeaponInterface {
 	private int projectilescount;
 		
 	/**
-	 * Weapon's Constructor (Shooter Entity Type, Direction, Cooldown time, Damage, velocity)
+	 * Weapon's Constructor. (Shooter Entity Type, Direction, Cooldown time, Damage, velocity)
 	 * @param shooter EntityType of who the owner of the weapon
-	 * @param direction Direction of the shooted projectiles
-	 * @param damage value of the damage
+	 * @param initdirection Direction of the shooted projectiles
+	 * @param initdamage value of the damage
 	 * @param velocity projectile velocity
-	 * @param cooldowntime total countdown time for cooldown
+	 * @param initcooldowntime total countdown time for cooldown
 	 */
-	public Weapon(final EntityType shooter, final Direction direction, final int cooldowntime, final int damage, final double velocity) {
+	public Weapon(final EntityType shooter, final Direction initdirection, final int initcooldowntime, final int initdamage, final double velocity) {
 		this.parentID = shooter;
-		this.direction = direction;
-		this.damage = damage;
+		this.direction = initdirection;
+		this.damage = initdamage;
 		this.projectilesvelocity = velocity;
 		this.projectilescount = 1;
-		this.cooldowntime = cooldowntime;
+		this.cooldowntime = initcooldowntime;
 		this.cooldown = 0;
 	}
 	
@@ -86,11 +86,7 @@ public class Weapon implements WeaponInterface {
 
 	@Override
 	public boolean isReadyToShoot() {
-		if (this.cooldown == 0) {
-			return true;
-		} else {
-			return false;	
-		}
+		return this.cooldown == 0;
 	}
 	
 	@Override

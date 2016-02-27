@@ -17,39 +17,57 @@ import spaceimpact.model.Location;
 public class PowerUp implements Entity {
 	
 	/**
-	 * All possible PowerUps enhancements
+	 * All possible PowerUps enhancements.
 	 */
 	public enum Enhancement {
+	    /**
+	     * Increment number of weapon's shooted projectile per fire.
+	     */
 		AddProjectile {
 			@Override
 			public String getImageName() {
 				return "addprojectile.gif";
 			}
 		},
+		/**
+		 * Decrease CoolDown time of the Weapon.
+		 */
 		CoolDownDecreased {
 			@Override
 			public String getImageName() {
 				return "cooldown.gif";
 			}
 		},
+		/**
+		 * Increment Weapon damage.
+		 */
 		IncrementDamage {
 			@Override
 			public String getImageName() {
 				return "damage.gif";
 			}
 		},
+		/**
+		 * Heal Player.
+		 */
 		Heal {
 			@Override
 			public String getImageName() {
 				return "heal.gif";
 			}
 		},
+		/**
+		 * Restore Player's Shield.
+		 */
 		RestoreShield {
 			@Override
 			public String getImageName() {
 				return "shield.gif";
 			}
 		},
+		/**
+		 * Increment Player's Speed.
+		 */
 		IncrementSpeed {
 			@Override
 			public String getImageName() {
@@ -58,7 +76,7 @@ public class PowerUp implements Entity {
 		};
 		
 		/**
-		 * Return the Description of the Enhancement
+		 * Return the Description of the Enhancement.
 		 * @return string Effect Description
 		 */
 		public String getString() {
@@ -78,13 +96,13 @@ public class PowerUp implements Entity {
 		}
 		
 		/**
-		 * Return the texture filename referred to the enhancement
+		 * Return the texture filename referred to the enhancement.
 		 * @return string As the filename of the image linked to the enhancement
 		 */
 		public abstract String getImageName();
 	}
 
-	private final EntityType ID = EntityType.PowerUp; //entity type identifier
+	private final EntityType id = EntityType.PowerUp; //entity type identifier
 	private final Enhancement plus; //Enhancement type
 	private final double velocity; //current debris velocity
 	private Direction direction = Direction.W; //direction of the entity
@@ -92,20 +110,20 @@ public class PowerUp implements Entity {
 	private boolean removable; //determine if can be removed from gamescreen
 
 	/**
-	 * PowerUp Constructor
-	 * @param plus Define the effects of the PowerUp
-	 * @param location Define the starting location of the PowerUp
-	 * @param velocity Define the velocity of the PowerUp
+	 * PowerUp Constructor.
+	 * @param newplus Define the effects of the PowerUp
+	 * @param newlocation Define the starting location of the PowerUp
+	 * @param newvelocity Define the velocity of the PowerUp
 	 */
-	public PowerUp(final Enhancement plus, final Location location, final double velocity) {
-		this.plus = plus;
-		this.location = new Location(location);
-		this.velocity = velocity;
+	public PowerUp(final Enhancement newplus, final Location newlocation, final double newvelocity) {
+		this.plus = newplus;
+		this.location = new Location(newlocation);
+		this.velocity = newvelocity;
 		this.removable = false;
 	}
 	
 	/**
-	 * Apply PowerUp enhancement to Player Spaceship
+	 * Apply PowerUp enhancement to Player Spaceship.
 	 * @param player As the player Spaceship to enhance
 	 * @throws IllegalStateException If player's weapon is null
 	 * @throws IllegalArgumentException If player spaceship is null
@@ -134,7 +152,7 @@ public class PowerUp implements Entity {
 	}
 	
 	/**
-	 * Return PowerUp Effect
+	 * Return PowerUp Effect.
 	 * @return plus The effects of this PowerUp
 	 */
 	public Enhancement getEnhancement() {
@@ -142,7 +160,7 @@ public class PowerUp implements Entity {
 	}
 	
 	/**
-	 * Method set removable state as true
+	 * Method set removable state as true.
 	 */
 	public void setRemovable() {
 		this.removable = true;
@@ -159,16 +177,16 @@ public class PowerUp implements Entity {
 	}
 	
 	@Override
-	public void setLocation(Location location) throws IllegalArgumentException {
-		if (location == null) {
+	public void setLocation(final Location newlocation) throws IllegalArgumentException {
+		if (newlocation == null) {
 			throw new IllegalArgumentException("Entity's location cannot be set as null");
 		}
-		this.location = location;
+		this.location = newlocation;
 	}
 			
 	@Override
 	public EntityType getID() {
-		return this.ID;
+		return this.id;
 	}
 	
 	@Override
@@ -176,7 +194,7 @@ public class PowerUp implements Entity {
 		if (this.direction == null) {
 			throw new IllegalStateException("Cannot update powerup if his direction is undefined");
 		}
-		if(this.location == null) {
+		if (this.location == null) {
 			throw new IllegalStateException("Cannot update powerup if his location is undefined");
 		}
 			
@@ -189,8 +207,8 @@ public class PowerUp implements Entity {
 	
 	@Override
 	public String toString() {
-		return "[ " + this.ID + " | Effect: " + this.plus + " -> X: " + this.location.getX() + 
-				" | Y: " + this.location.getY() + " | Enhancement: " + plus.toString() + " ]";		
+		return "[ " + this.id + " | Effect: " + this.plus + " -> X: " + this.location.getX() 
+		       + " | Y: " + this.location.getY() + " | Enhancement: " + plus.toString() + " ]";		
 	}
 
 }

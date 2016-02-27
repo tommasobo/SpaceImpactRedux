@@ -12,7 +12,7 @@ import spaceimpact.model.Location;
  */
 public class Projectile implements Entity {
 
-	private final EntityType ID = EntityType.Projectile;
+	private final EntityType id = EntityType.Projectile;
 	private final EntityType parentID;
 	private final Direction direction;
 	private final double velocity;
@@ -21,25 +21,25 @@ public class Projectile implements Entity {
 	private boolean removable;
 
 	/**
-	 * Projectile Constructor
-	 * @param parentID As the EntityType of the shooter
-	 * @param location As the starting location of the projectile
-	 * @param direction As the direction of the projectile
-	 * @param velocity As the velocity of the projectile
-	 * @param damage As the damage of the projectile
+	 * Projectile Constructor.
+	 * @param initparentid As the EntityType of the shooter
+	 * @param initlocation As the starting location of the projectile
+	 * @param initdirection As the direction of the projectile
+	 * @param initvelocity As the velocity of the projectile
+	 * @param initdamage As the damage of the projectile
 	 */
-	public Projectile(final EntityType parentID, final Location location, final Direction direction,
-			final double velocity, final int damage) {
+	public Projectile(final EntityType initparentid, final Location initlocation, final Direction initdirection,
+			final double initvelocity, final int initdamage) {
 		this.removable = false;
-		this.parentID = parentID;
-		this.damage = damage;
-		this.location = location;
-		this.velocity = velocity;
-		this.direction = direction;
+		this.parentID = initparentid;
+		this.damage = initdamage;
+		this.location = initlocation;
+		this.velocity = initvelocity;
+		this.direction = initdirection;
 	}
 
 	/**
-	 * Get the damage that the projectile inflicts
+	 * Get the damage that the projectile inflicts.
 	 * @return damage amount of damage as integer
 	 */
 	public int getDamage() {
@@ -47,7 +47,7 @@ public class Projectile implements Entity {
 	}
 
 	/**
-	 * Get the entity type that has shooted this projectile
+	 * Get the entity type that has shooted this projectile.
 	 * @return EntityType that has shooted
 	 */
 	public EntityType getParentID() {
@@ -59,16 +59,20 @@ public class Projectile implements Entity {
 		return this.location;
 	}
 
+	/**
+	 * Get Projectile current direction.
+	 * @return direction Current projectile direction 
+	 */
 	public Direction getDirection() {
 		return this.direction;
 	}
 
 	@Override
-	public void setLocation(final Location location) throws IllegalArgumentException {
-		if (location == null) {
+	public void setLocation(final Location newlocation) throws IllegalArgumentException {
+		if (newlocation == null) {
 			throw new IllegalArgumentException("Projectile's location cannot be set as null.");
 		}
-		this.location = location;
+		this.location = newlocation;
 	}
 
 	@Override
@@ -76,21 +80,21 @@ public class Projectile implements Entity {
 		if (this.direction == null) {
 			throw new IllegalStateException("Cannot update projectile if his direction is undefined.");
 		}
-		if(this.location == null) {
+		if (this.location == null) {
 			throw new IllegalStateException("Cannot update projectile if his location is undefined.");
 		}
 			
 		this.direction.moveLocation(this.location, this.velocity);
 
-		if (this.location.getX() > 2d || this.location.getX() < -0.3d ||
-				this.location.getY() > 1.3d || this.location.getY() < -0.3d) {
+		if (this.location.getX() > 2d || this.location.getX() < -0.3d 
+		        || this.location.getY() > 1.3d || this.location.getY() < -0.3d) {
 			this.removable = true;
 		}
 	}
 
 	@Override
 	public EntityType getID() {
-		return this.ID;
+		return this.id;
 	}
 	
 	@Override
@@ -105,7 +109,7 @@ public class Projectile implements Entity {
 	
 	@Override
 	public String toString() {
-		return "[ " + this.ID + " -> X: " + this.location.getX() + " | Y: " + this.location.getY() + " | Direction: "
+		return "[ " + this.id + " -> X: " + this.location.getX() + " | Y: " + this.location.getY() + " | Direction: "
 				+ this.direction + " | Velocity: " + this.velocity + " | Damage: " + this.damage + " | WhoShooted: "
 				+ this.parentID + " ]";
 	}

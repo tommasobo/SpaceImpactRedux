@@ -33,7 +33,7 @@ import spaceimpact.model.spawners.Weapon;
 public class Model implements ModelInterface {
 
 	//DEBUG prints if TRUE
-	private final boolean DEBUG = false;
+	private final boolean debug = false;
 	
 	// game variables
 	private GameStatus gamestatus = GameStatus.Running;
@@ -43,13 +43,13 @@ public class Model implements ModelInterface {
 	private Level lvl;
 	
 	// entities collections
-	static Spaceship player;
-	List<Enemy> enemylist;
-	List<Debris> debrislist;
-	List<Projectile> playerprojectilelist;
-	List<Projectile> enemiesprojectilelist;
-	List<Entity> deadentities;
-	List<PowerUp> poweruplist;
+	private static Spaceship player;
+	private List<Enemy> enemylist;
+	private List<Debris> debrislist;
+	private List<Projectile> playerprojectilelist;
+	private List<Projectile> enemiesprojectilelist;
+	private List<Entity> deadentities;
+	private List<PowerUp> poweruplist;
 	
 	//static entities lifetime
 	private final int hitlifetime;
@@ -57,31 +57,31 @@ public class Model implements ModelInterface {
 	private final int sparklelifetime;
 	
 	/**
-	 * Inizializate all collections and start the level<br>
+	 * Inizializate all collections and start the level.<br>
 	 * Level difficulty is defined by the maximum number of enemy spawn 
-	 * @param framerate Frame rate of the game
-	 * @param levelId The current level identified
-	 * @param diff Difficulty level of the game
+	 * @param initframerate Frame rate of the game
+	 * @param initlevelId The current level identified
+	 * @param initdiff Difficulty level of the game
 	 * @throws IllegalArgumentException If frame rate is negative or levelId is below 1 or diff is not a valid value.
 	 */
-	public Model(final int framerate, final int levelId, final int diff) throws IllegalArgumentException {
+	public Model(final int initframerate, final int initlevelId, final int initdiff) throws IllegalArgumentException {
 
-		if (!Arrays.asList(1,2,4,8).contains(diff)) {
+		if (!Arrays.asList(1, 2, 4, 8).contains(initdiff)) {
 			throw new IllegalArgumentException("Model cannot work properly if specified difficulty has an unexpected value.");
 		}
-		if (levelId < 0) {
+		if (initlevelId < 0) {
 			throw new IllegalArgumentException("Model cannot create a level with a levelid below one.");
 		}
-		if (framerate < 0) {
+		if (initframerate < 0) {
 			throw new IllegalArgumentException("Model cannot work properly with a negative framerate.");					
 		}
 
 		// inizializate main variables
 		this.gamestatus = GameStatus.Running;
 		this.latestpowerup = Optional.empty();
-		this.framerate = framerate;
+		this.framerate = initframerate;
 		this.playerscores = 0;	
-		this.lvl = LevelCreator.createLevel(framerate, levelId, diff);	
+		this.lvl = LevelCreator.createLevel(initframerate, initlevelId, initdiff);	
 		
 		// inizializate entities collections
 		this.enemylist = new ArrayList<>();
@@ -92,14 +92,14 @@ public class Model implements ModelInterface {
 		this.deadentities = new ArrayList<>();
 		
 		//static entities lifetime
-		this.hitlifetime = framerate / 4;
-		this.explosionlifetime = framerate / 2;
-		this.sparklelifetime = framerate * 2;
+		this.hitlifetime = initframerate / 4;
+		this.explosionlifetime = initframerate / 2;
+		this.sparklelifetime = initframerate * 2;
 		
 		// fill player using level
-		if (Model.player == null || levelId == 1) {
+		if (Model.player == null || initlevelId == 1) {
 			final Location tmploc = new Location(0.1, 0.5, new Area(0.125, 0.0972));
-			final Weapon tmpweapon = new Weapon(EntityType.Spaceship, Direction.E, framerate, 10, this.lvl.getLevelVelocity() * 2);
+			final Weapon tmpweapon = new Weapon(EntityType.Spaceship, Direction.E, initframerate, 10, this.lvl.getLevelVelocity() * 2);
 			Model.player = new Spaceship(100, this.lvl.getLevelVelocity() * 1.8, tmploc, Direction.E, 100, tmpweapon);
 		}
 	}
@@ -213,9 +213,9 @@ public class Model implements ModelInterface {
 		// spawn new entities if possible
 		this.lvl.spawn(this.enemylist, this.debrislist, this.poweruplist);
 		
-		printDBG("No. Enemy: " + this.enemylist.size() + " | Debris: " + this.debrislist.size() + 
-				" | PowerUp: " + this.poweruplist.size() +  " | Proj P: " + this.playerprojectilelist.size() + 
-				" | Proj E: " + this.enemiesprojectilelist.size() + " | Dead: " + this.deadentities.size());
+		printDBG("No. Enemy: " + this.enemylist.size() + " | Debris: " + this.debrislist.size() 
+		+ " | PowerUp: " + this.poweruplist.size() +  " | Proj P: " + this.playerprojectilelist.size() 
+		+ " | Proj E: " + this.enemiesprojectilelist.size() + " | Dead: " + this.deadentities.size());
 
 		// verify game status
 		if ((this.enemylist.size() <= 0) && this.lvl.playerWin() && this.gamestatus.equals(GameStatus.Running)) {
@@ -272,9 +272,9 @@ public class Model implements ModelInterface {
 		//player projectiles with enemy
 		if ((this.enemylist.size() > 0) && (this.playerprojectilelist.size() > 0)) {
 			this.playerprojectilelist.stream()
-			.filter(x -> x.toRemove() == false)
+			.filter(x -> !x.toRemove())
 			.forEach(x -> this.enemylist.stream()
-					.filter(y -> y.toRemove() == false)
+					.filter(y -> !y.toRemove())
 					.forEach(y -> {
 						if (x.collideWith(y) && !this.deadentities.contains(x)) {
 							y.looseLife(x.getDamage());
@@ -296,7 +296,7 @@ public class Model implements ModelInterface {
 		//enemy projectiles with player
 		if (this.enemiesprojectilelist.size() > 0) {
 			this.enemiesprojectilelist.stream()
-			.filter(x -> x.toRemove() == false)
+			.filter(x -> !x.toRemove())
 			.forEach(x -> {
 				if (x.collideWith(Model.player)) {
 					Model.player.looseLife(x.getDamage());
@@ -316,9 +316,9 @@ public class Model implements ModelInterface {
 		}
 
 		//enemy with player or viceversa
-		if ((this.enemylist.size() > 0) && (Model.player.toRemove() == false)) {
+		if ((this.enemylist.size() > 0) && !Model.player.toRemove()) {
 			this.enemylist.stream()
-			.filter(x -> x.toRemove() == false)
+			.filter(x -> !x.toRemove())
 			.forEach(x -> {
 				if (x.collideWith(Model.player)) {
 					Model.player.looseLife(20);
@@ -347,9 +347,9 @@ public class Model implements ModelInterface {
 		//player projectiles with asteroids
 		if ((this.debrislist.size() > 0) && (this.playerprojectilelist.size() > 0)) {
 			this.playerprojectilelist.stream()
-			.filter(x -> x.toRemove() == false)
+			.filter(x -> !x.toRemove())
 			.forEach(x -> this.debrislist.stream()
-					.filter(y -> y.toRemove() == false)
+					.filter(y -> !y.toRemove())
 					.filter(y -> y.getType().equals(DebrisType.Asteroid))
 					.forEach(y -> {
 						if (x.collideWith(y) && !this.deadentities.contains(x) && !this.deadentities.contains(y)) {							
@@ -363,9 +363,9 @@ public class Model implements ModelInterface {
 		}
 
 		//player with powerup
-		if ((this.poweruplist.size() > 0) && (Model.player.toRemove() == false)) {
+		if ((this.poweruplist.size() > 0) && !Model.player.toRemove()) {
 			this.poweruplist.stream()
-			.filter(x -> x.toRemove() == false)
+			.filter(x -> !x.toRemove())
 			.forEach(x -> {
 				if (x.collideWith(Model.player)) {			
 					x.applyEnhancement(Model.player);
@@ -379,9 +379,9 @@ public class Model implements ModelInterface {
 		}
 				
 		//player with asteroids
-		if ((this.debrislist.size() > 0) && (Model.player.toRemove() == false)) {
+		if ((this.debrislist.size() > 0) && !Model.player.toRemove()) {
 			this.debrislist.stream()
-			.filter(x -> x.toRemove() == false)
+			.filter(x -> !x.toRemove())
 			.filter(x -> x.getType().equals(DebrisType.Asteroid))
 			.forEach(x -> {
 				if (x.collideWith(Model.player)) {
@@ -413,7 +413,7 @@ public class Model implements ModelInterface {
 	 */
 	private boolean enemyShoot(final Enemy enemy) throws IllegalArgumentException {
 
-		if (enemy == null ) {
+		if (enemy == null) {
 			throw new IllegalArgumentException("Enemy cannot shoot because it's null.");
 		}
 		
@@ -449,7 +449,7 @@ public class Model implements ModelInterface {
 	@Override
 	public Location getPlayerLocation() {
 		if (Model.player == null) {
-			return new Location(0, 0, new Area(0.1, 0.1));
+			return new Location(0.5, 0.5, new Area(0.1, 0.1));
 		}
 		return Model.player.getLocation();
 	}
@@ -470,14 +470,14 @@ public class Model implements ModelInterface {
 	public Optional<String> getLatestPowerUp() {
 		Optional<String> tmp = Optional.empty();
 		if (this.latestpowerup.isPresent()) {			
-			if (Model.player.getWeapon().getProjectilesCount() >= 8 && 
-			        this.latestpowerup.get().contains(Enhancement.AddProjectile.getString())) {
+			if (Model.player.getWeapon().getProjectilesCount() >= 8 
+			        && this.latestpowerup.get().contains(Enhancement.AddProjectile.getString())) {
 				tmp = Optional.of("Weapon maxed out!");
-			} else if ((Model.player.getVelocity() / this.lvl.getLevelVelocity()) > 3d && 
-                    this.latestpowerup.get().contains(Enhancement.IncrementSpeed.getString())) {
+			} else if ((Model.player.getVelocity() / this.lvl.getLevelVelocity()) > 3d 
+			        && this.latestpowerup.get().contains(Enhancement.IncrementSpeed.getString())) {
 			    tmp = Optional.of("Engines maxed out!");
-			} else if ((Model.player.getWeapon().getDamage()) > 60 && 
-                    this.latestpowerup.get().contains(Enhancement.IncrementDamage.getString())) {
+			} else if ((Model.player.getWeapon().getDamage()) > 60 
+			        && this.latestpowerup.get().contains(Enhancement.IncrementDamage.getString())) {
 			    tmp = Optional.of("Damage maxed out!");
 			} else {
 				tmp = this.latestpowerup;
@@ -493,7 +493,9 @@ public class Model implements ModelInterface {
 	 * Function to print information during DEBUG
 	 * @param str Message to print
 	 */
-	private void printDBG(String str) {
-		if (DEBUG) { System.out.println(str);}
+	private void printDBG(final String str) {
+		if (debug) { 
+		    System.out.println(str);
+		}
 	}
 }

@@ -12,7 +12,7 @@ import spaceimpact.model.spawners.Weapon;
 public class Spaceship extends LivingEntity {
 		
 	/** 
-	 * Spaceship's Constructor (Maximum Life, Velocity, Location, Direction, Max Shield, Weapon)
+	 * Spaceship's Constructor. (Maximum Life, Velocity, Location, Direction, Max Shield, Weapon)
 	 * <br>
 	 * @param maxlife Spaceship's Maximum Life Value
 	 * @param velocity Spaceship's Velocity
@@ -21,9 +21,9 @@ public class Spaceship extends LivingEntity {
 	 * @param maxshield Spaceship's Maximum Shield Value
 	 * @param weapon Spaceship's Weapon
 	*/
-	public Spaceship(int maxlife, double velocity, Location location, Direction direction, int maxshield, Weapon weapon){
+	public Spaceship(final int maxlife, final double velocity, final Location location, final Direction direction, final int maxshield, final Weapon weapon) {
 		super.ID = EntityType.Spaceship;
-		super.currentshield = maxshield;
+		super.currentshield = maxshield; 
 		super.maxshield = maxshield;
 		super.currentlife = maxlife;
 		super.maxlife = maxlife;
@@ -42,17 +42,17 @@ public class Spaceship extends LivingEntity {
 		if (this.direction == null) {
 			throw new IllegalStateException("Cannot update projectile if his direction is undefined.");
 		}
-		if(this.location == null) {
+		if (this.location == null) {
 			throw new IllegalStateException("Cannot update projectile if his location is undefined.");
 		}
-		if(this.weapon == null) {
+		if (this.weapon == null) {
 			throw new IllegalStateException("Cannot update projectile if his location is undefined.");
 		}	
 		coolDownWeapon();			
 	}
 	
 	/** 
-	 * Move the entity in the specified direction
+	 * Move the entity in the specified direction.
 	 * @param direction Direction of the movement
 	 * @throws IllegalArgumentException if the input direction is null
 	 */
@@ -76,7 +76,7 @@ public class Spaceship extends LivingEntity {
 		if (this.location.getY() > 0.91) {
 			this.location.setY(0.91);
 		}
-		if(this.location.getY() < 0.05) {
+		if (this.location.getY() < 0.05) {
 			this.location.setY(0.05);
 		}
 		if (this.location.getX() > 1.70) {
@@ -87,7 +87,7 @@ public class Spaceship extends LivingEntity {
 	/* GETTERS */
 	
 	/** 
-	 * Getter method to get remaining shield
+	 * Getter method to get remaining shield.
 	 * @return currentshield Amount of remaining shield as integer
 	 */
 	public int getRemainingShield() {
@@ -95,7 +95,7 @@ public class Spaceship extends LivingEntity {
 	}
 	
 	/**
-	 * Getter method to get velocity
+	 * Getter method to get velocity.
 	 * @return velocity Current spaceship Velocity
 	 */
 	public double getVelocity() {

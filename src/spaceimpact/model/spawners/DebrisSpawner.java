@@ -17,14 +17,14 @@ public class DebrisSpawner extends Spawner {
 	private final double velocity;
 	
 	/**
-	 * Debris Spawner Constructor
+	 * Debris Spawner Constructor.
 	 * <br>
 	 * @param delay Delay between each spawn
-	 * @param velocity Velocity of the debris
+	 * @param initvelocity Velocity of the debris
 	 */
-	public DebrisSpawner(final int delay, final double velocity) {
+	public DebrisSpawner(final int delay, final double initvelocity) {
 		super(EntityType.Debris, 1, delay);
-		this.velocity = velocity;
+		this.velocity = initvelocity;
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class DebrisSpawner extends Spawner {
 		if (rnd.nextInt(this.maxperspawn + 1) == 1) {			
 				//generate random location
 				double x = 1.8d + 0.2d * rnd.nextDouble();
-				double y = 0.15d + 0.70d * rnd.nextDouble();													
+				double y = 0.15d + 0.70d * rnd.nextDouble();
 				Location tmploc = new Location(x, y, this.area);
 
 				spawnedentities.add(new Debris(tmploc, this.velocity));

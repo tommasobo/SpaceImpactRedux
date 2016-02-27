@@ -21,43 +21,43 @@ public interface WeaponInterface {
 	List<Projectile> shoot(final Location loc);
 	
 	/**
-	 * Control if Weapon is ready to shoot or need to cool down
+	 * Control if Weapon is ready to shoot or need to cool down.
 	 * @return boolean True if the weapon is ready to shoot, False if needs to cool down
 	 */
 	boolean isReadyToShoot();
 	
 	/**
-	 * CoolDown the Weapon
+	 * CoolDown the Weapon.
 	 */
 	void coolDown();
 	
 	/**
-	 * Getter for Weapon Damage
+	 * Getter for Weapon Damage.
 	 * @return int As the current damage value
 	 */
 	int getDamage();
 	
 	/**
-	 * Increase number of shooted projectiles
+	 * Increase number of shooted projectiles.
 	 */
 	void increaseProjectiles();
 	
 	/**
-	 * Increase power (projectiles damage) of the weapon
+	 * Increase power (projectiles damage) of the weapon.
 	 * @param increment As the damage increment (Integer)
 	 * @throws IllegalArgumentException if the increment value is negative
 	 */
 	void increaseDamage(final int increment) throws IllegalArgumentException;
 	
 	/**
-	 * Decrease cooldown time of the weapon
+	 * Decrease cooldown time of the weapon.
 	 * @param decrement As the decrement (in ticks) in the cooldown countdown
 	 * @throws IllegalArgumentException if the decrement value is negative
 	 */
 	void decreaseCoolDown(final int decrement) throws IllegalArgumentException;
 	
 	/**
-	 * Getter for Weapon Current Number of Shooted Projectiles
+	 * Getter for Weapon Current Number of Shooted Projectiles.
 	 * @return projectiles Number of Shooted Projectiles
 	 */
 	int getProjectilesCount();

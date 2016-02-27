@@ -11,67 +11,67 @@ public class Location {
 	private double y;
 	private Area area;
 	
-	/** Costructor with one parameters
+	/** Costructor with one parameters.
 	 * Create a new Location with the same fields as the input Location
 	 * @param loc input location
 	 */
-	public Location(final Location loc) {	
+	public Location(final Location loc) {
 		this.x = loc.x;
 		this.y = loc.y;
 		this.area = new Area(loc.area);
 	}
 		
-	/** Costructor with params
+	/** Costructor with params.
 	 * Set location with input parameters
-	 * @param x abscissa value
-	 * @param y ordinate value
-	 * @param area Area occupied by the entity
+	 * @param initx abscissa value
+	 * @param inity ordinate value
+	 * @param initarea Area occupied by the entity
 	 */
-	public Location(final double x, final double y, final Area area) {		
-		this.x = x;
-		this.y = y;
-		this.area = area;
+	public Location(final double initx, final double inity, final Area initarea) {		
+		this.x = initx;
+		this.y = inity;
+		this.area = initarea;
 	}
 	
-	/** Getter of x coordinate of the Location
+	/** Getter of x coordinate of the Location.
 	 * @return x abscissa value
 	 */
-	public double getX(){
+	public double getX() {
 		return this.x;
 	}
 	
-	/** Getter of y coordinate of the Location
+	/** Getter of y coordinate of the Location.
 	 * @return y ordinate value
 	 */
-	public double getY(){
+	public double getY() {
 		return this.y;
 	}
 	
-	/** Getter of the Area of the Location
+	/** Getter of the Area of the Location.
 	 * @return area as an Area
 	 */
-	public Area getArea(){
+	public Area getArea() {
 		return this.area;
 	}
 	
-	/** Setter of x coordinate of the Location
-	 * @param x abscissa value
+	/** Setter of x coordinate of the Location.
+	 * @param newx abscissa value
 	 */
-	public void setX(final double x){
-		this.x = x;
+	public void setX(final double newx) {
+		this.x = newx;
 	}
 	
-	/** Setter of y coordinate of the Location
-	 * @param y ordinate value
+	/** Setter of y coordinate of the Location.
+	 * @param newy ordinate value
 	 */
-	public void setY(final double y){
-		this.y = y;
+	public void setY(final double newy) {
+		this.y = newy;
 	}
 	
-	/** Setter of the Area of the Location
-	 * @param area as the new Area
+	/** Setter of the Area of the Location.
+	 * @param newarea as the new Area
 	 */
-	public void setArea(final Area area){
-		this.area = area;
+	public void setArea(final Area newarea) {
+		this.area = newarea;
 	}
 }

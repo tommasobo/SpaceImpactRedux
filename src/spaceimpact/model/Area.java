@@ -10,7 +10,7 @@ public class Area {
 	private final double h;
 	
 	/**
-	 * Constructor that do a protective copy of the input area
+	 * Constructor that do a protective copy of the input area.
 	 * @param area Input Area to copy
 	 */
 	public Area(final Area area) {
@@ -19,7 +19,7 @@ public class Area {
 	}
 	
 	/**
-	 * Constructor to create a new Area
+	 * Constructor to create a new Area.
 	 * @param width Width of the Area as double
 	 * @param height Height of the Area as double
 	 */
@@ -29,7 +29,7 @@ public class Area {
 	}
 	
 	/**
-	 * Getter for Area's Width 
+	 * Getter for Area's Width.
 	 * @return w Width of the Area
 	 */
 	public double getWidth() {
@@ -37,7 +37,7 @@ public class Area {
 	}
 	
 	/**
-	 * Getter for Area's Height 
+	 * Getter for Area's Height.
 	 * @return h Height of the Area
 	 */
 	public double getHeight() {

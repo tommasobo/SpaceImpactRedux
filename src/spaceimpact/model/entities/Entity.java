@@ -9,13 +9,13 @@ import spaceimpact.model.Location;
 public interface Entity {
 	
 	/** 
-	 * Getter method for Location
+	 * Getter method for Location.
 	 * @return Location
 	 */
 	Location getLocation();
 		
 	/** 
-	 * Setter method for entity location
+	 * Setter method for entity location.
 	 * @param location new entity location
 	 * @throws IllegalArgumentException if the input location is null
 	 */
@@ -35,8 +35,8 @@ public interface Entity {
 		double var1 = Math.abs(otherEntity.getLocation().getX() - this.getLocation().getX());
 		double var2 = Math.abs(otherEntity.getLocation().getY() - this.getLocation().getY());
 		
-		if (var1 < (otherEntity.getLocation().getArea().getWidth() + this.getLocation().getArea().getWidth()) / 2 && 
-			var2 < (otherEntity.getLocation().getArea().getHeight() + this.getLocation().getArea().getHeight()) / 2) {
+		if (var1 < (otherEntity.getLocation().getArea().getWidth() + this.getLocation().getArea().getWidth()) / 2 
+		        && var2 < (otherEntity.getLocation().getArea().getHeight() + this.getLocation().getArea().getHeight()) / 2) {
 			return true;
 		}
 		
@@ -44,24 +44,24 @@ public interface Entity {
 	}
 		
 	/** 
-	 * Update the entity entirely and execute specific methods
+	 * Update the entity entirely and execute specific methods.
 	 * @throws IllegalStateException if Entity location and/or direction and/or weapon (in case of LivingEntity) are undefined
 	 */
 	void update() throws IllegalStateException;
 	
 	/** 
-	 * Get ID of the current entity
+	 * Get ID of the current entity.
 	 * @return entitytype the identifier of the type of this entity.
 	 */
 	EntityType getID();
 	
 	/**
-	 * Method set removable state as true
+	 * Method set removable state as true.
 	 */
-	public void setRemovable();
+	void setRemovable();
 	
 	/** 
-	 * Determine whether the entity must be removed from the model
+	 * Determine whether the entity must be removed from the model.
 	 * @return boolean True if the entity need to be removed, false if it's still active
 	 */
 	boolean toRemove();

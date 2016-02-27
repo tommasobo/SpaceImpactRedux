@@ -23,39 +23,40 @@ public class EnemySpawner extends Spawner {
 	private int weaponcooldown = 30;
 	
 	/**
-	 * Constructor for EnemySpawner
+	 * Constructor for EnemySpawner.
 	 * @param spawnlimit Maximum Spawn Counts
 	 * @param maxperspawn Max Concurrent Entity in a Spawn
 	 * @param spawndelay Delay between each spawn (ticks)
-	 * @param maxperspawn Max Concurrent Entity in a Spawn
 	 */
-	public EnemySpawner(final int spawnlimit,int maxperspawn, int spawndelay) {
+	public EnemySpawner(final int spawnlimit, final int maxperspawn, final int spawndelay) {
 		super(EntityType.Enemy, maxperspawn, spawndelay);
 		super.maxspawn = spawnlimit;
 	}
 	
 	/**
-	 * Complete Constructor for EnemySpawner
+	 * Complete Constructor for EnemySpawner.
 	 * @param max Maximum Spawn Counts
 	 * @param maxperspawn Max Concurrent Entity in a Spawn
 	 * @param spawndelay Delay between each spawn (ticks)
-	 * @param minlife Spanwed Entity Mimimum Life
-	 * @param maxlife Spanwed Entity Maximum Life
-	 * @param minvel Spanwed Entity Mimimum Velocity
-	 * @param maxvel Spanwed Entity Maximum Velocity
-	 * @param mindamage Spawned Entity Mimimum Damage
-	 * @param maxdamage Spawned Entity Maximum Damage
-	 * @param weaponcooldown Spawned Entity Weapon's CoolDown
+	 * @param initminlife Spanwed Entity Mimimum Life
+	 * @param initmaxlife Spanwed Entity Maximum Life
+	 * @param initminvel Spanwed Entity Mimimum Velocity
+	 * @param initmaxvel Spanwed Entity Maximum Velocity
+	 * @param initmindamage Spawned Entity Mimimum Damage
+	 * @param initmaxdamage Spawned Entity Maximum Damage
+	 * @param initweaponcooldown Spawned Entity Weapon's CoolDown
 	 */
-	public EnemySpawner(int max, int maxperspawn, int spawndelay, int minlife, int maxlife, double minvel, double maxvel, int mindamage, int maxdamage, int weaponcooldown) {
+	public EnemySpawner(final int max, final int maxperspawn, final int spawndelay, final int initminlife, 
+	        final int initmaxlife, final double initminvel, final double initmaxvel, final int initmindamage, 
+	        final int initmaxdamage, final int initweaponcooldown) {
 		this(max, maxperspawn, spawndelay);
-		this.minlife = minlife;
-		this.maxlife = maxlife;
-		this.minvel = minvel;
-		this.maxvel = maxvel;
-		this.mindamage = mindamage;
-		this.maxdamage = maxdamage;
-		this.weaponcooldown = weaponcooldown;
+		this.minlife = initminlife;
+		this.maxlife = initmaxlife;
+		this.minvel = initminvel;
+		this.maxvel = initmaxvel;
+		this.mindamage = initmindamage;
+		this.maxdamage = initmaxdamage;
+		this.weaponcooldown = initweaponcooldown;
 	}
 
 	@Override
@@ -65,14 +66,14 @@ public class EnemySpawner extends Spawner {
 		Random rnd = new Random();	
 		int tospawn = rnd.nextInt(this.maxperspawn) + 1;
 		
-		for(int i = 0; i < tospawn; i++) {	
+		for (int i = 0; i < tospawn; i++) {	
 			if (this.spawncount < this.maxspawn) {			
 				//generate random life in range
-				int newlife = this.minlife + rnd.nextInt(this.maxlife - this.minlife + 1) ;
+				int newlife = this.minlife + rnd.nextInt(this.maxlife - this.minlife + 1);
 				//generate random velocity
 				double vel = this.minvel + (this.maxvel - this.minvel) * rnd.nextDouble();			
 				//random damage in range
-				int newdamage = this.mindamage + rnd.nextInt(this.maxdamage - this.mindamage + 1) ;	
+				int newdamage = this.mindamage + rnd.nextInt(this.maxdamage - this.mindamage + 1);	
 				//generate random location
 				double x = 1.8d + 0.2d * rnd.nextDouble();
 				double y = 0.15d + 0.70d * rnd.nextDouble();
@@ -100,58 +101,58 @@ public class EnemySpawner extends Spawner {
 	}
 	
 	/**
-	 * Set spawned entity life range
-	 * @param minlife Minimum life of the spawned entities
-	 * @param maxlife Maximum life of the spawned entities
+	 * Set spawned entity life range.
+	 * @param newminlife Minimum life of the spawned entities
+	 * @param newmaxlife Maximum life of the spawned entities
 	 * @throws IllegalArgumentException if input values are negative
 	 */
-	public void setEntityLifeRange(final int minlife, final int maxlife) throws IllegalArgumentException {
-		if (minlife < 0) {
+	public void setEntityLifeRange(final int newminlife, final int newmaxlife) throws IllegalArgumentException {
+		if (newminlife < 0) {
 			throw new IllegalArgumentException("Enemy Spawner minimum spawn entity life cannot be set as negative.");
 		}
-		if (maxlife < 0) {
+		if (newmaxlife < 0) {
 			throw new IllegalArgumentException("Enemy Spawner maximum spawn entity life cannot be set as negative.");
 		}	
-		this.minlife = minlife;
-		this.maxlife = maxlife;	
+		this.minlife = newminlife;
+		this.maxlife = newmaxlife;	
 	}
 		
 	/**
-	 * Set spawned entity velocity range
-	 * @param minvel MiniVelocity of the spawned entities
-	 * @param maxvel Maximum Velocity of the spawned entities
+	 * Set spawned entity velocity range.
+	 * @param initminvel MiniVelocity of the spawned entities
+	 * @param initmaxvel Maximum Velocity of the spawned entities
 	 * @throws IllegalArgumentException if input values are negative
 	 */
-	public void setEntityVelocityRange(final double minvel, final double maxvel) throws IllegalArgumentException {
-		if (minvel < 0) {
+	public void setEntityVelocityRange(final double initminvel, final double initmaxvel) throws IllegalArgumentException {
+		if (initminvel < 0) {
 			throw new IllegalArgumentException("Enemy Spawner minimum spawn entity velocity cannot be set as negative.");
 		}
-		if (maxvel < 0) {
+		if (initmaxvel < 0) {
 			throw new IllegalArgumentException("Enemy Spawner maximum spawn entity velocity cannot be set as negative.");
 		}
-		this.minvel = minvel;
-		this.maxvel = maxvel;	
+		this.minvel = initminvel;
+		this.maxvel = initmaxvel;	
 	}
 	
 	/**
-	 * Set spawned entity damage range
-	 * @param mindamage Minimum amount of damage that a spawned entity can inflict
-	 * @param maxdamage Maximum amount of damage that a spawned entity can inflict
+	 * Set spawned entity damage range.
+	 * @param initmindamage Minimum amount of damage that a spawned entity can inflict
+	 * @param initmaxdamage Maximum amount of damage that a spawned entity can inflict
 	 * @throws IllegalArgumentException if input values are negative
 	 */
-	public void setEntityDamageRange(final int mindamage, final int maxdamage) throws IllegalArgumentException {
-		if (mindamage < 0) {
+	public void setEntityDamageRange(final int initmindamage, final int initmaxdamage) throws IllegalArgumentException {
+		if (initmindamage < 0) {
 			throw new IllegalArgumentException("Enemy Spawner minimum entity damage cannot be set as negative.");
 		}
-		if (maxdamage < 0) {
+		if (initmaxdamage < 0) {
 			throw new IllegalArgumentException("Enemy Spawner maximum entity damage velocity cannot be set as negative.");
 		}
-		this.mindamage = mindamage;
-		this.maxdamage = maxdamage;
+		this.mindamage = initmindamage;
+		this.maxdamage = initmaxdamage;
 	}
 	
 	/**
-	 * Set Weapon cooldown time for spawned entity
+	 * Set Weapon cooldown time for spawned entity.
 	 * @param cooldown Cooldown time as number of ticks
 	 * @throws IllegalArgumentException if input value is negative
 	 */

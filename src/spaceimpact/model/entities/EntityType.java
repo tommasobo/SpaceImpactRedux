@@ -17,7 +17,26 @@ import spaceimpact.utilities.Pair;
  */
 public enum EntityType {
 
-	Spaceship, Enemy, Debris, PowerUp, Projectile;
+    /**
+     * Player Ship.
+     */
+	Spaceship,
+	/**
+     * Enemy Ship.
+     */
+	Enemy,
+	/**
+     * Asteroids, Visual Effects.
+     */
+	Debris,
+	/**
+     * Enhancement.
+     */
+	PowerUp,
+	/**
+     * Projectile.
+     */
+	Projectile;
 
 	private static List<Pair<String, Integer>> projectilesRange = Arrays.asList(new Pair<>("diagonal-green.png", 12),
 			new Pair<>("beam_blue.png", 25), new Pair<>("beam_red.png", 35), new Pair<>("fireball.png", 50));

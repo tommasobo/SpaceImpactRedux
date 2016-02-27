@@ -4,7 +4,7 @@ import spaceimpact.model.Area;
 import spaceimpact.model.entities.EntityType;
 
 /**
- * Generic Spawner implementation<br>
+ * Generic Spawner implementation.<br>
  * <b>spawndelay</b> Delay between each Spawn<br>
  * <b>countdown</b> Internal timer for the spawn delay<br>
  * <b>spawncount</b> Spawn Count<br>
@@ -30,15 +30,15 @@ public abstract class Spawner implements SpawnerInterface {
 	protected Area area = new Area(0.125, 0.0972); //default spawn area	
 
 	/**
-	 * Constructor for Generic Spawner
-	 * @param type Entity Type to Spawn 
-	 * @param maxperspawn Max Concurrent Entity in a Spawn
-	 * @param spawndelay Delay between each spawn (ticks)
+	 * Constructor for Generic Spawner.
+	 * @param inittype Entity Type to Spawn 
+	 * @param initmaxperspawn Max Concurrent Entity in a Spawn
+	 * @param initspawndelay Delay between each spawn (ticks)
 	 */
-	public Spawner(EntityType type, int maxperspawn, int spawndelay) {
-		this.type = type;
-		this.maxperspawn = maxperspawn;
-		this.spawndelay = spawndelay;
+	public Spawner(final EntityType inittype, final int initmaxperspawn, final int initspawndelay) {
+		this.type = inittype;
+		this.maxperspawn = initmaxperspawn;
+		this.spawndelay = initspawndelay;
 		this.spawncount = 0;
 		this.countdown = 0;
 	}
@@ -78,19 +78,19 @@ public abstract class Spawner implements SpawnerInterface {
 	}
 	
 	@Override
-	public void setSpawnedEntityType(final EntityType type) throws IllegalArgumentException {
-		if (type == null) {
+	public void setSpawnedEntityType(final EntityType newtype) throws IllegalArgumentException {
+		if (newtype == null) {
 			throw new IllegalArgumentException("Spawner spawn entity type cannot be set as undefined.");
 		}
-		this.type = type;
+		this.type = newtype;
 	}
 	
 	@Override
-	public void setSpawnedEntityArea(final Area area) throws IllegalArgumentException {		
-		if (area == null) {
+	public void setSpawnedEntityArea(final Area newarea) throws IllegalArgumentException {		
+		if (newarea == null) {
 			throw new IllegalArgumentException("Spawner spawn entity area cannot be set as undefined.");
 		}
-		this.area = area;
+		this.area = newarea;
 	}
 	
 }

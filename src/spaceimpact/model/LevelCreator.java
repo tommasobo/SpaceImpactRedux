@@ -4,7 +4,7 @@ package spaceimpact.model;
  * Level Creator<br>
  * Create a new level at request. Implemeted with Factory Pattern.
  */
-public class LevelCreator {
+class LevelCreator {
 
 	/**
 	 * Static method that creates a new Level (the difficulty depends on the number
@@ -14,7 +14,7 @@ public class LevelCreator {
 	 * @param diff Difficulty of the level.
 	 * @return level The created level.
 	 */
-	static public Level createLevel(final int fps, final int levelId, final int diff) {
+	static Level createLevel(final int fps, final int levelId, final int diff) {
 
 		final int totalEnemiesToSpawn = 5 * (2 * levelId + diff);
 		final int maxEnemyPerSpawn = diff + (levelId - 1) / 2;
