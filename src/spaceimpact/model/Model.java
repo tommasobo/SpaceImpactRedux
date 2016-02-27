@@ -473,6 +473,12 @@ public class Model implements ModelInterface {
 			if (Model.player.getWeapon().getProjectilesCount() >= 8 && 
 			        this.latestpowerup.equals(Enhancement.AddProjectile.getString())) {
 				tmp = Optional.of("Weapon maxed out!");
+			} else if ((Model.player.getVelocity() / this.lvl.getLevelVelocity()) > 3d && 
+                    this.latestpowerup.equals(Enhancement.IncrementSpeed.getString())) {
+			    tmp = Optional.of("Engines maxed out!");
+			} else if ((Model.player.getWeapon().getDamage()) > 60 && 
+                    this.latestpowerup.equals(Enhancement.IncrementDamage.getString())) {
+			    tmp = Optional.of("Damage maxed out!");
 			} else {
 				tmp = this.latestpowerup;
 			}
