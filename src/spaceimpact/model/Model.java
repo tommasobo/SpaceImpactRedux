@@ -94,7 +94,7 @@ public class Model implements ModelInterface {
 		//static entities lifetime
 		this.hitlifetime = framerate / 4;
 		this.explosionlifetime = framerate / 2;
-		this.sparklelifetime = framerate;
+		this.sparklelifetime = framerate * 2;
 		
 		// fill player using level
 		if (Model.player == null || levelId == 1) {
@@ -471,13 +471,13 @@ public class Model implements ModelInterface {
 		Optional<String> tmp = Optional.empty();
 		if (this.latestpowerup.isPresent()) {			
 			if (Model.player.getWeapon().getProjectilesCount() >= 8 && 
-			        this.latestpowerup.equals(Enhancement.AddProjectile.getString())) {
+			        this.latestpowerup.get().contains(Enhancement.AddProjectile.getString())) {
 				tmp = Optional.of("Weapon maxed out!");
 			} else if ((Model.player.getVelocity() / this.lvl.getLevelVelocity()) > 3d && 
-                    this.latestpowerup.equals(Enhancement.IncrementSpeed.getString())) {
+                    this.latestpowerup.get().contains(Enhancement.IncrementSpeed.getString())) {
 			    tmp = Optional.of("Engines maxed out!");
 			} else if ((Model.player.getWeapon().getDamage()) > 60 && 
-                    this.latestpowerup.equals(Enhancement.IncrementDamage.getString())) {
+                    this.latestpowerup.get().contains(Enhancement.IncrementDamage.getString())) {
 			    tmp = Optional.of("Damage maxed out!");
 			} else {
 				tmp = this.latestpowerup;
