@@ -14,8 +14,8 @@ public class PlayerInfo {
 
     private static final int CRITICAL_HP = 20;
     private static final int HALF_HP = 50;
-    private static final int MIN_VALUE = 100;
-    private static final int MID_VALUE = 700;
+    private static final int MIN_VALUE = 500;
+    private static final int MID_VALUE = 1000;
     private final DropShadow dropShadow = new DropShadow();
 
     /**
