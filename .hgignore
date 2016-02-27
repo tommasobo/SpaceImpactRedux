@@ -1,0 +1,7 @@
+syntax: glob
+*.class
+*.ucls
+*bin/*
+*doc/*
+hiscores
+.DS_Store
