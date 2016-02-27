@@ -1,19 +1,32 @@
 package spaceimpact.view;
 
-import javafx.stage.*;
-import spaceimpact.utilities.ImageLoader;
-import javafx.scene.*;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.geometry.*;
+import javafx.stage.Stage;
+import spaceimpact.utilities.ImageLoader;
 
-public class InfoBox {
+/**
+ * A simple box with all the current instructions about the game. It also shows
+ * the credits.
+ *
+ */
+public final class InfoBox {
 
     private static final double INFO_WIDTH = 520;
     private static final double INFO_HEIGHT = 650;
-    
+
+    private InfoBox() {
+    };
+
+    /**
+     * It shows the box.
+     */
     public static void display() {
         final Stage window = new Stage();
         window.getIcons().add(ImageLoader.getLoader().getImageFromPath("Icons/info.png"));
@@ -22,9 +35,9 @@ public class InfoBox {
         window.setTitle("Info Box");
         window.setMinWidth(INFO_WIDTH);
         window.setMinHeight(INFO_HEIGHT);
-        
-        final Logo logo = new Logo(220,55);
-        
+
+        final Logo logo = new Logo(220, 55);
+
         final Text label = new Text();
         label.setText("Developed and Created by");
         label.setId("titleInfo");
@@ -34,33 +47,36 @@ public class InfoBox {
         final Text otherCredits = new Text();
         otherCredits.setText("Credits to");
         otherCredits.setId("titleInfo");
-        
+
         final VBox listInfo = new VBox(10);
         final Label view = new Label("Tommaso Bonato (View)");
         view.setId("whiteText");
         final Label model = new Label("Davide Giacomini (Model)");
         model.setId("whiteText");
-        final Label controller = new Label("Nicola Cielo (Controller)");
+        final Label controller = new Label("Nicola Cielo Lugaresi Secci (Controller)");
         controller.setId("whiteText");
-        
+
         final Label instructions = new Label();
-        instructions.setTextAlignment(TextAlignment.CENTER);;
-        instructions.setText("W - Move up\nA - Move left\nS - Move down\nD - Move right\nSPACE - Fire\nBACK SPACE - Go back to the menu\nP - Pause\nESC - Exits");
+        instructions.setTextAlignment(TextAlignment.CENTER);
+        instructions.setText(
+                "W - Move up\nA - Move left\nS - Move down\nD - Move right\nSPACE - Fire\nBACK SPACE - Go back to the menu\nP - Pause\nESC - Exit");
         instructions.setId("whiteTextInfo");
-        
+
         final Label creditsTo = new Label();
-        creditsTo.setText("Images released with a CC-BY 3.0 license from C-TOY \n(http://c-toy.blogspot.pt/), MillionthVector \n(http://millionthvector.blogspot.de), Bonsaiheldin\n(http://bonsaiheld.org), Qubodup and \nMartin Jelinek (jelinek.cz@gmail.com) | www.nyrthos.com.");
+        creditsTo.setText(
+                "Images released with a CC-BY 3.0 license from C-TOY \n(http://c-toy.blogspot.pt/), MillionthVector \n(http://millionthvector.blogspot.de), Bonsaiheldin\n(http://bonsaiheld.org), Qubodup and \nMartin Jelinek (jelinek.cz@gmail.com) | www.nyrthos.com.");
         creditsTo.setId("whiteTextInfo");
-        
+
         listInfo.getStylesheets().add("style.css");
         listInfo.setAlignment(Pos.CENTER);
         listInfo.setId("whiteTextInfo");
         listInfo.setPadding(new Insets(10));
-        listInfo.getChildren().addAll(instructionTitle, instructions, label, view, model, controller, otherCredits, creditsTo);
+        listInfo.getChildren().addAll(instructionTitle, instructions, label, view, model, controller, otherCredits,
+                creditsTo);
 
         final VBox layout = new VBox(10);
         final StackPane mainLayout = new StackPane();
-        
+
         layout.getChildren().addAll(logo.getLogo(), listInfo);
         layout.setSpacing(10);
         layout.setPadding(new Insets(8));
