@@ -41,14 +41,7 @@ public interface SpawnerInterface {
 	 * @return entitycount Currently total entities spawned
 	 */
 	int getSpawnedEntitiesCount();
-	
-	/**
-	 * Set maximum entity spawn count.
-	 * @param max Maximum spawn count
-	 * @throws IllegalArgumentException if max input value is not greater than zero
-	 */
-	void setMaxEntitySpawns(final int max) throws IllegalArgumentException;
-	
+		
 	/**
 	 * Set spawned entity type.
 	 * @param type Type of entity to spawn

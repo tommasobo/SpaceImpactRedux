@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import spaceimpact.model.Direction;
-import spaceimpact.model.Location;
 import spaceimpact.model.entities.Enemy;
 import spaceimpact.model.entities.EntityType;
 
@@ -13,30 +12,41 @@ import spaceimpact.model.entities.EntityType;
  * Define the Enemy Spawner inside the Level.
  */
 public class EnemySpawner extends Spawner {
+    
+    private static final double PROJECTILEMULTIPLIER = 1.5;
+    private static final int DEFAULTCOOLDOWN = 30;
 	
+    //spawner limits
+    private int maxperspawn;
+    private int maxspawn;
+
+    //enemy spawn variables
 	private int minlife = 1;
 	private int maxlife = 1;
 	private int mindamage = 1;
 	private int maxdamage = 10;
-	private double minvel = 0.1d;
+	private double minvel = 1;
 	private double maxvel = 1;
-	private int weaponcooldown = 30;
+	private int weaponcooldown = DEFAULTCOOLDOWN;
+		
+	/* CONSTRUCTORS */
 	
-	/**
-	 * Constructor for EnemySpawner.
-	 * @param spawnlimit Maximum Spawn Counts
-	 * @param maxperspawn Max Concurrent Entity in a Spawn
-	 * @param spawndelay Delay between each spawn (ticks)
-	 */
-	public EnemySpawner(final int spawnlimit, final int maxperspawn, final int spawndelay) {
-		super(EntityType.Enemy, maxperspawn, spawndelay);
-		super.maxspawn = spawnlimit;
-	}
+    /**
+     * Constructor for EnemySpawner.
+     * @param spawnlimit Maximum Spawn Counts
+     * @param initmaxperspawn Max Concurrent Entity in a Spawn
+     * @param initspawndelay Delay between each spawn (ticks)
+     */
+    public EnemySpawner(final int spawnlimit, final int initmaxperspawn, final int initspawndelay) {
+        super(EntityType.Enemy, initspawndelay);
+        this.maxspawn = spawnlimit;
+        this.maxperspawn = initmaxperspawn;
+    }
 	
 	/**
 	 * Complete Constructor for EnemySpawner.
 	 * @param max Maximum Spawn Counts
-	 * @param maxperspawn Max Concurrent Entity in a Spawn
+	 * @param initmaxperspawn Max Concurrent Entity in a Spawn
 	 * @param spawndelay Delay between each spawn (ticks)
 	 * @param initminlife Spanwed Entity Mimimum Life
 	 * @param initmaxlife Spanwed Entity Maximum Life
@@ -46,10 +56,10 @@ public class EnemySpawner extends Spawner {
 	 * @param initmaxdamage Spawned Entity Maximum Damage
 	 * @param initweaponcooldown Spawned Entity Weapon's CoolDown
 	 */
-	public EnemySpawner(final int max, final int maxperspawn, final int spawndelay, final int initminlife, 
+	public EnemySpawner(final int max, final int initmaxperspawn, final int spawndelay, final int initminlife, 
 	        final int initmaxlife, final double initminvel, final double initmaxvel, final int initmindamage, 
 	        final int initmaxdamage, final int initweaponcooldown) {
-		this(max, maxperspawn, spawndelay);
+		this(max, initmaxperspawn, spawndelay);
 		this.minlife = initminlife;
 		this.maxlife = initmaxlife;
 		this.minvel = initminvel;
@@ -67,16 +77,13 @@ public class EnemySpawner extends Spawner {
 		int tospawn = rnd.nextInt(this.maxperspawn) + 1;
 		
 		for (int i = 0; i < tospawn; i++) {	
-			if (this.spawncount < this.maxspawn) {			
+			if (this.getSpawnedEntitiesCount() < this.maxspawn) {			
 				//generate random life in range
 				int newlife = this.minlife + rnd.nextInt(this.maxlife - this.minlife + 1);
 				//generate random velocity
 				double vel = this.minvel + (this.maxvel - this.minvel) * rnd.nextDouble();			
 				//random damage in range
 				int newdamage = this.mindamage + rnd.nextInt(this.maxdamage - this.mindamage + 1);	
-				//generate random location
-				double x = 1.8d + 0.2d * rnd.nextDouble();
-				double y = 0.15d + 0.70d * rnd.nextDouble();
 				//random location NW SW W
 				Direction dir = null;			
 				int rndvalue = rnd.nextInt(3);				
@@ -87,18 +94,29 @@ public class EnemySpawner extends Spawner {
 				} else {
 					dir = Direction.NW;
 				}	
-				Location tmploc = new Location(x, y, this.area);
 				//random weapon
-				Weapon tmpweapon = new Weapon(this.type, dir, this.weaponcooldown, newdamage, this.maxvel * 1.5);
+				Weapon tmpweapon = new Weapon(this.getType(), dir, this.weaponcooldown, newdamage, this.maxvel * PROJECTILEMULTIPLIER);
 				
-				spawnedentities.add(new Enemy(newlife, vel, tmploc, dir, 0, tmpweapon));
-				this.spawncount++;			
+				spawnedentities.add(new Enemy(newlife, vel, this.generateRandomLocation(), dir, tmpweapon));
+				this.incrementSpawnCount();			
 			} else {
 				return spawnedentities;
 			}
 		}				
 		return spawnedentities;
 	}
+	
+	/**
+     * Set maximum entity spawn count.
+     * @param max Maximum spawn count
+     * @throws IllegalArgumentException if max input value is not greater than zero
+     */
+    public void setMaxEntitySpawns(final int max) throws IllegalArgumentException {
+        if (max <= 0) {
+            throw new IllegalArgumentException("Spawner maximum spawn count must be set with a value greater than zero.");
+        }
+        this.maxspawn = max;
+    }	   
 	
 	/**
 	 * Set spawned entity life range.

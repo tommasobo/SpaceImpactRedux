@@ -16,6 +16,9 @@ import spaceimpact.model.Location;
  * the gamescreen. He dies as soon as his x location is less than -0.30.<br>
  */
 public class Debris implements Entity {
+    
+    //Movement Limits
+    private static final double WLIMIT = -0.30d;
 	
 	/**
 	 * The possible debris types.
@@ -163,7 +166,7 @@ public class Debris implements Entity {
 				this.removable = true;
 			} 
 		} else {
-			if (location.getX() < -0.30d) {
+			if (location.getX() < WLIMIT) {
 				this.removable = true;
 			} else if (this.velocity > 0) {		
 				this.direction.moveLocation(this.location, this.velocity);

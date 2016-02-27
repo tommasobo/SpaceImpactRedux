@@ -22,6 +22,9 @@ import spaceimpact.model.entities.Projectile;
  */
 public class Weapon implements WeaponInterface {
 
+    //damage limit of the weapon
+    private static final double MAXDAMAGE = 60;
+    
 	private final EntityType parentID;
 	private final Direction direction;
 	private double projectilesvelocity;
@@ -113,7 +116,7 @@ public class Weapon implements WeaponInterface {
 		if (increment < 0) {
 			throw new IllegalArgumentException("Weapon's damage cannot be increase by a negative amount.");
 		}	
-		if (this.damage + increment <= 60) {
+		if (this.damage + increment <= MAXDAMAGE) {
 			this.damage += increment;
 		}
 	}

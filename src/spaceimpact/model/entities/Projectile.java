@@ -12,6 +12,11 @@ import spaceimpact.model.Location;
  */
 public class Projectile implements Entity {
 
+    //Movement Limits
+    private static final double NLIMIT = 2;
+    private static final double ELIMIT = 1.3;
+    private static final double SWLIMIT = -0.30;
+    
 	private final EntityType id = EntityType.Projectile;
 	private final EntityType parentID;
 	private final Direction direction;
@@ -86,8 +91,8 @@ public class Projectile implements Entity {
 			
 		this.direction.moveLocation(this.location, this.velocity);
 
-		if (this.location.getX() > 2d || this.location.getX() < -0.3d 
-		        || this.location.getY() > 1.3d || this.location.getY() < -0.3d) {
+		if (this.location.getX() > NLIMIT || this.location.getX() < SWLIMIT 
+		        || this.location.getY() > ELIMIT || this.location.getY() < SWLIMIT) {
 			this.removable = true;
 		}
 	}

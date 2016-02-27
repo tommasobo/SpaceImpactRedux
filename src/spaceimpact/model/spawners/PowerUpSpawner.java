@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import spaceimpact.model.Location;
 import spaceimpact.model.entities.EntityType;
 import spaceimpact.model.entities.PowerUp;
 import spaceimpact.model.entities.PowerUp.Enhancement;
@@ -24,7 +23,7 @@ public class PowerUpSpawner extends Spawner {
 	 * @param initvelocity Velocity of the Powerup
 	 */
 	public PowerUpSpawner(final int delay, final double initvelocity) {
-		super(EntityType.PowerUp, 1, delay);
+		super(EntityType.PowerUp, delay);
 		this.velocity = initvelocity;
 	}
 
@@ -34,13 +33,8 @@ public class PowerUpSpawner extends Spawner {
 		List<PowerUp> spawnedentities = new ArrayList<>();		
 		Random rnd = new Random();	
 		
-		if (rnd.nextInt(this.maxperspawn + 1) == 1) {			
-				//generate random location
-				double x = 1.8d + 0.2d * rnd.nextDouble();
-				double y = 0.15d + 0.70d * rnd.nextDouble();
-				Location tmploc = new Location(x, y, this.area);
-				
-				//generate powerup effects RANDOMLY
+		if (rnd.nextInt(2) == 1) {	
+				//generate power up effects RANDOMLY
 				int rndplus = rnd.nextInt(Enhancement.values().length);
 				
 				Enhancement tmpplus = Enhancement.AddProjectile;			
@@ -56,8 +50,8 @@ public class PowerUpSpawner extends Spawner {
 					tmpplus = Enhancement.Heal;
 				}
 				
-				spawnedentities.add(new PowerUp(tmpplus, tmploc, this.velocity));
-				this.spawncount++;			
+				spawnedentities.add(new PowerUp(tmpplus, this.generateRandomLocation(), this.velocity));
+				this.incrementSpawnCount();			
 		}				
 		return spawnedentities;
 	}	
