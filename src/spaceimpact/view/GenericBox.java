@@ -9,6 +9,8 @@ import javafx.geometry.*;
 
 public class GenericBox {
 
+    private static final double MIN_WIDTH = 350;
+    
     public static void display(final BoxType boxType, final String title, final String message, final String buttonMessage) {
         final Stage window = new Stage();
         if (boxType == BoxType.ERROR) {
@@ -33,6 +35,7 @@ public class GenericBox {
         });
 
         final VBox layout = new VBox(10);
+        layout.setMinWidth(350);
         final HBox layoutButton = new HBox(50);
         
         layoutButton.getChildren().addAll(yesButton);
@@ -41,6 +44,7 @@ public class GenericBox {
         layoutButton.setAlignment(Pos.CENTER);
 
         //Add buttons
+        layout.setMinWidth(MIN_WIDTH);
         layout.getChildren().addAll(label, layoutButton);
         layout.setAlignment(Pos.CENTER);
         final Scene scene = new Scene(layout);

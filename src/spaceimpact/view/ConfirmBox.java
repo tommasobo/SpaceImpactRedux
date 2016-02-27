@@ -10,6 +10,7 @@ import javafx.geometry.*;
 public class ConfirmBox {
 
     //Create variable
+    private static final double MIN_WIDTH = 350;
     private static boolean answer;
 
     public static boolean display(final String title, final String message) {
@@ -19,7 +20,7 @@ public class ConfirmBox {
         window.centerOnScreen();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
-        window.setMinWidth(350);
+        window.setMinWidth(MIN_WIDTH);
         Label label = new Label();
         label.setText(message);
 
@@ -46,6 +47,7 @@ public class ConfirmBox {
         layoutButton.setAlignment(Pos.CENTER);
 
         //Add buttons
+        layout.setMinWidth(MIN_WIDTH);
         layout.getChildren().addAll(label, layoutButton);
         layout.setAlignment(Pos.CENTER);
         final Scene scene = new Scene(layout);

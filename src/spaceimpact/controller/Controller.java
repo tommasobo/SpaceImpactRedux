@@ -17,7 +17,7 @@ public final class Controller implements ControllerInterface {
 
 	private final HighScoresManagerInterface hsManager;
 	private int fps = 60;
-	private Pair<String, Integer> diff = new Pair<>("Medium", 2);
+	private Pair<String, Integer> diff = new Pair<>("Normal", 2);
 	private Optional<GameLoop> gl;
 	private ViewInterface view;
 	private volatile int score;

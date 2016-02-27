@@ -91,7 +91,6 @@ public class Options extends Scene{
         difficultLayout.setSpacing(10);
         Text difficultText = new Text("Difficulty");
         difficultText.setFill(Color.WHITE);
-        difficult.setValue(NORMAL);
         this.listDifficulties.forEach(e -> {
             difficult.getItems().add(e.getFirst());
         });
