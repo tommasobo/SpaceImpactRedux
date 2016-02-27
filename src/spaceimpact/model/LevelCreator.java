@@ -19,7 +19,7 @@ public class LevelCreator {
 		final int totalEnemiesToSpawn = 5 * (2 * levelId + diff);
 		final int maxEnemyPerSpawn = diff + (levelId - 1) / 2;
 		final int enemyDelay = (int) ((9 - 0.36666 * Math.min(10, levelId)) * fps / diff);
-		final int debrisDelay = (int) ((diff * levelId * 2) * fps);
+		final int debrisDelay = 6 * fps / (diff * levelId);
 		final int powerupDelay = (int) ((7.5 + diff * levelId) * fps);
 		final double tmpvel = (0.135 + 0.015 * levelId) / fps;
 		
