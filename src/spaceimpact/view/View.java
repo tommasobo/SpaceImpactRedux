@@ -28,10 +28,10 @@ public class View implements ViewInterface {
 		Application.launch(MainWindow.class);
 	}
 
-	@Override
-	public List<Input> getInput() {
-		return this.inputHandler.getList();
-	}
+    @Override
+    public List<Input> getInput() {
+        return this.inputHandler.getList();
+    }
 
 	@Override
 	public void draw(final List<Pair<Pair<String, Double>, Location>> listEntities) {
