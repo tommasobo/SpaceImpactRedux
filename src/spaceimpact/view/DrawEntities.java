@@ -73,14 +73,12 @@ public class DrawEntities {
 	private void translateBackground() {
 		final double x = this.bg.getLayoutX() - DrawEntities.BACKGROUND_SPEED;
 		if (x <= (-this.gameWidth + 1)) {
-		    System.out.println("1");
 			this.bg.relocate(this.gameWidth, 0);
 		} else {
 			this.bg.setLayoutX(x);
 		}
 		final double x2 = this.bg2.getLayoutX() - DrawEntities.BACKGROUND_SPEED;
 		if (x2 <= (-this.gameWidth + 1)) {
-		    System.out.println("2");
 			this.bg2.relocate(this.gameWidth,0);
 		} else {
 			this.bg2.setLayoutX(x2);
