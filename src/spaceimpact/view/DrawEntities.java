@@ -32,9 +32,9 @@ public class DrawEntities {
 		this.imgl = ImageLoader.getLoader();
 		this.bg = new ImageView(this.imgl.getImageFromPath("images/gameBackground.png"));
 		this.bg2 = new ImageView(this.imgl.getImageFromPath("images/gameBackground.png"));
-		this.bg.setFitWidth(this.gameWidth);
+		this.bg.setFitWidth(this.gameWidth + BACKGROUND_SPEED);
 		this.bg.setFitHeight(this.gameHeight);
-		this.bg2.setFitWidth(this.gameWidth);
+		this.bg2.setFitWidth(this.gameWidth + BACKGROUND_SPEED);
 		this.bg2.setFitHeight(this.gameHeight);
 		this.bg2.relocate(this.gameWidth, 0);
 	}
