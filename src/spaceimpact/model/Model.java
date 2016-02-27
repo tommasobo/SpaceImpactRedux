@@ -35,6 +35,10 @@ public class Model implements ModelInterface {
 	//DEBUG prints if TRUE
 	private final boolean debug = false;
 	
+	//Player default velocity multiplier
+	private static final double PLAYERVELOCITYMULTIPLIER = 1.8;
+	private static final int ENTITYCOLLISIONDAMAGE = 20;
+	
 	// game variables
 	private GameStatus gamestatus = GameStatus.Running;
 	private Optional<String> latestpowerup = Optional.empty();
@@ -100,7 +104,7 @@ public class Model implements ModelInterface {
 		if (Model.player == null || initlevelId == 1) {
 			final Location tmploc = new Location(0.1, 0.5, new Area(0.125, 0.0972));
 			final Weapon tmpweapon = new Weapon(EntityType.Spaceship, Direction.E, initframerate, 10, this.lvl.getLevelVelocity() * 2);
-			Model.player = new Spaceship(100, this.lvl.getLevelVelocity() * 1.8, tmploc, Direction.E, 100, tmpweapon);
+			Model.player = new Spaceship(100, this.lvl.getLevelVelocity() * PLAYERVELOCITYMULTIPLIER, tmploc, Direction.E, 100, tmpweapon);
 		}
 	}
 
@@ -321,8 +325,8 @@ public class Model implements ModelInterface {
 			.filter(x -> !x.toRemove())
 			.forEach(x -> {
 				if (x.collideWith(Model.player)) {
-					Model.player.looseLife(20);
-					x.looseLife(20);
+					Model.player.looseLife(ENTITYCOLLISIONDAMAGE);
+					x.looseLife(ENTITYCOLLISIONDAMAGE);
 					if (Model.player.toRemove()) {
 						newdebris.add(new Debris(DebrisType.Explosion, Model.player.getLocation(), this.explosionlifetime));
 						this.gamestatus = GameStatus.Over;
@@ -449,7 +453,7 @@ public class Model implements ModelInterface {
 	@Override
 	public Location getPlayerLocation() {
 		if (Model.player == null) {
-			return new Location(0.5, 0.5, new Area(0.1, 0.1));
+			return null;
 		}
 		return Model.player.getLocation();
 	}
@@ -476,7 +480,7 @@ public class Model implements ModelInterface {
 			} else if ((Model.player.getVelocity() / this.lvl.getLevelVelocity()) > 3d 
 			        && this.latestpowerup.get().contains(Enhancement.IncrementSpeed.getString())) {
 			    tmp = Optional.of("Engines maxed out!");
-			} else if ((Model.player.getWeapon().getDamage()) > 60 
+			} else if ((Model.player.getWeapon().getDamage()) > 60
 			        && this.latestpowerup.get().contains(Enhancement.IncrementDamage.getString())) {
 			    tmp = Optional.of("Damage maxed out!");
 			} else {

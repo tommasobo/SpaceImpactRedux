@@ -15,10 +15,19 @@ import spaceimpact.model.spawners.Weapon;
  */
 public class Enemy extends LivingEntity {
 	
+    //Movement Limits
+    private static final double NLIMIT = 1.3; //north limit
+    private static final double NMAX = 1.25; //north max value if exceed limit
+    private static final double ELIMIT = 2; //east limit
+    private static final double EMAX = 1.95; //east west max value if exceed limit
+    private static final double SWLIMIT = -0.3; //south west limit
+    private static final double SWMAX = -0.25; //south west value if exceed limit
+    private static final double RANDOMMOVEMENTPROBABILITY = 0.0070;
+    
 	/*CONSTRUCTORS*/
 	
 	/** 
-	 * Enemy's Constructor (Maximum Life, Velocity, Location, Direction)
+	 * Enemy's Constructor (Maximum Life, Velocity, Location, Direction, Weapon)
 	 * <br>
 	 *  Set isalive boolean as true.
 	 *  Set currentlife with maximumlife value.
@@ -27,70 +36,31 @@ public class Enemy extends LivingEntity {
 	 * @param velocity Enemy's Velocity
 	 * @param location Location of the Enemy Ship
 	 * @param direction Direction of the Enemy Ship
+	 * @param weapon Weapon of the Enemy Ship
 	*/
-	public Enemy(final int maxlife, final double velocity, final Location location, final Direction direction) {
-		super.ID = EntityType.Enemy;
-		super.currentlife = maxlife;
-		super.maxlife = maxlife;
-		super.velocity = velocity;
-		super.initvel = velocity;
-		super.location = new Location(location);
-		super.direction = direction;
-		super.removable = false;
+	public Enemy(final int maxlife, final double velocity, final Location location, final Direction direction, final Weapon weapon) {
+		super(EntityType.Enemy, maxlife, velocity);
+		this.setLocation(new Location(location));
+		this.setDirection(direction);
+		this.setWeapon(weapon);
 	}
-		
-	/** 
-	 * Enemy's Constructor (Maximum Life, Velocity, Location, Direction, Maximum Shield)
-	 * <br>
-	 *  Set isalive boolean as true.
-	 *  Set currentlife with maximumlife value.
-	 *  Set currentshield with maximumshield value.
-	 * @param maxlife Enemy's Maximum Life Value
-	 * @param velocity Enemy's Velocity
-	 * @param location Location of the Enemy Ship
-	 * @param direction Direction of the Enemy Ship
-	 * @param maxshield Enemy's Maximum Shield Value
-	*/
-	public Enemy(final int maxlife, final double velocity, final Location location, final Direction direction, final int maxshield) {
-		this(maxlife, velocity, location, direction);
-		super.currentshield = maxshield;
-		super.maxshield = maxshield;	
-	}
-	
-	/** 
-	 * Enemy's Constructor (Maximum Life, Velocity, Location, Direction, Maximum Shield, Weapon)
-	 * <br>
-	 *  Set isalive boolean as true.
-	 *  Set currentlife with maximumlife value.
-	 *  Set currentshield with maximumshield value.
-	 * @param maxlife Enemy's Maximum Life Value
-	 * @param velocity Enemy's Velocity
-	 * @param location Location of the Enemy Ship
-	 * @param direction Direction of the Enemy Ship
-	 * @param maxshield Enemy's Maximum Shield Value
-	 * @param weapon Enemy's Weapon
-	*/
-	public Enemy(final int maxlife, final double velocity, final Location location, final Direction direction, final int maxshield, final Weapon weapon) {
-		this(maxlife, velocity, location, direction, maxshield);
-		super.weapon = weapon;
-	}
-	
+				
 	/*MAIN METHODS */
 	
 	@Override
 	public void update() throws IllegalStateException {			
-		if (this.direction == null) {
+		if (this.getDirection() == null) {
 			throw new IllegalStateException("Cannot update enemy if his direction is undefined");
 		}
-		if (this.location == null) {
+		if (this.getLocation() == null) {
 			throw new IllegalStateException("Cannot update enemy if his location is undefined");
 		}
-		if (this.weapon == null) {
+		if (this.getWeapon() == null) {
 			throw new IllegalStateException("Cannot update enemy if his location is undefined");
 		}		
-		super.coolDownWeapon();
+		this.coolDownWeapon();
 		this.generateRandomMovement();
-		super.updateLocation();
+		this.updateLocation();
 		this.boundaryControl();
 	}
 	
@@ -102,13 +72,13 @@ public class Enemy extends LivingEntity {
 		
 		Random rnd = new Random();	
 		
-		if (rnd.nextDouble() < 0.0070) {
+		if (rnd.nextDouble() < RANDOMMOVEMENTPROBABILITY) {
 			
 			int dirrnd = rnd.nextInt(2);
 			if (dirrnd == 0) {
-				this.direction = this.direction.moveLeft();
+				this.setDirection(this.getDirection().moveLeft());
 			} else if (dirrnd == 1) {
-				this.direction = this.direction.moveRight();
+				this.setDirection(this.getDirection().moveRight());
 			}		
 		}
 	}
@@ -118,21 +88,21 @@ public class Enemy extends LivingEntity {
 	 */
 	public void boundaryControl() {	
 				
-		if (this.location.getX() < -0.3d) {
-			this.location.setX(-0.25d);
-			this.setDirection(this.getRandomDirection(this.direction));
+		if (this.getLocation().getX() < SWLIMIT) {
+			this.getLocation().setX(SWMAX);
+			this.setDirection(this.getRandomDirection(this.getDirection()));
 		}
-		if (this.location.getY() > 1.3d) {
-			this.location.setY(1.25d);
-			this.setDirection(this.getRandomDirection(this.direction));
+		if (this.getLocation().getY() > NLIMIT) {
+			this.getLocation().setY(NMAX);
+			this.setDirection(this.getRandomDirection(this.getDirection()));
 		}
-		if (this.location.getY() < -0.3d) {
-			this.location.setY(-0.25d);
-			this.setDirection(this.getRandomDirection(this.direction));
+		if (this.getLocation().getY() < SWLIMIT) {
+			this.getLocation().setY(SWMAX);
+			this.setDirection(this.getRandomDirection(this.getDirection()));
 		}
-		if (this.location.getX() > 2d) {
-			this.location.setX(1.95);
-			this.setDirection(this.getRandomDirection(this.direction));
+		if (this.getLocation().getX() > ELIMIT) {
+			this.getLocation().setX(EMAX);
+			this.setDirection(this.getRandomDirection(this.getDirection()));
 		}
 	}
 	

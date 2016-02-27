@@ -13,7 +13,7 @@ package spaceimpact.model;
  * <b>NorthWest (NW)</b><br>
  */
 public enum Direction {
-
+    
     /**
      * North.
      */
@@ -29,8 +29,8 @@ public enum Direction {
 	NE(1) {
 		@Override
 		public void moveLocation(final Location loc, final double v) {
-			Direction.N.moveLocation(loc, v * diagonalVel);
-			Direction.E.moveLocation(loc, v * diagonalVel);
+			Direction.N.moveLocation(loc, v * DIAGONALVELOCITY);
+			Direction.E.moveLocation(loc, v * DIAGONALVELOCITY);
 		}
 	},
     /**
@@ -48,8 +48,8 @@ public enum Direction {
 	SE(3) {
 		@Override
 		public void moveLocation(final Location loc, final double v) {
-			Direction.S.moveLocation(loc, v * diagonalVel);
-			Direction.E.moveLocation(loc, v * diagonalVel);
+			Direction.S.moveLocation(loc, v * DIAGONALVELOCITY);
+			Direction.E.moveLocation(loc, v * DIAGONALVELOCITY);
 		}
 	},
 	 /**
@@ -67,8 +67,8 @@ public enum Direction {
 	SW(5) {
 		@Override
 		public void moveLocation(final Location loc, final double v) {
-			Direction.S.moveLocation(loc, v * diagonalVel);
-			Direction.W.moveLocation(loc, v * diagonalVel);
+			Direction.S.moveLocation(loc, v * DIAGONALVELOCITY);
+			Direction.W.moveLocation(loc, v * DIAGONALVELOCITY);
 		}
 	},
 	 /**
@@ -86,13 +86,16 @@ public enum Direction {
 	NW(7) {
 		@Override
 		public void moveLocation(final Location loc, final double v) {
-			Direction.N.moveLocation(loc, v * diagonalVel);
-			Direction.W.moveLocation(loc, v * diagonalVel);
+			Direction.N.moveLocation(loc, v * DIAGONALVELOCITY);
+			Direction.W.moveLocation(loc, v * DIAGONALVELOCITY);
 		}
 	};
-
-	private int index; // internal index
-	private static double diagonalVel = 0.7071; //velocity of diagonal movement
+    
+    //velocity of diagonal movement
+    private static final double DIAGONALVELOCITY = 0.7071;
+    //internal index
+    private int index; 
+    
 
 	/**
 	 * Constructor

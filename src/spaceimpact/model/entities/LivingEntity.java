@@ -21,18 +21,31 @@ import spaceimpact.model.spawners.Weapon;
  */
 public abstract class LivingEntity implements Entity {
 
-	protected Direction direction; //current entity direction
-	protected EntityType ID; //entityType
-	protected Location location; //current position
-	protected int currentlife = 0; //current life
-	protected int maxlife = 0; //max life 
-	protected int currentshield = 0; //current shield
-	protected int maxshield = 0; //max shield
-	protected double velocity = 0; //how much the entity moves in a tick
-	protected double initvel = 0; //initial entity velocity
-	protected boolean removable = false; //determine if the spaceship is alive
-	protected Weapon weapon; //current weapon
+	private Direction direction = null; //current entity direction
+	private EntityType id = null; //entityType
+	private Location location = null; //current position
+	private int currentlife = 0; //current life
+	private int maxlife = 0; //max life 
+	private double velocity = 0; //how much the entity moves in a tick
+	private double initvel = 0; //initial entity velocity
+	private boolean removable = false; //determine if the spaceship is alive
+	private Weapon weapon = null; //current weapon
 		
+	/**
+	 * Generic Living Entity Constructor.
+	 * @param initid EntityType of the Living Entity
+	 * @param initmaxlife Maximum life value of the Living Entity
+	 * @param initvelocity Velocity of the Living Entity
+	 */
+	public LivingEntity(final EntityType initid, final int initmaxlife, final double initvelocity) {
+	    this.id = initid;
+	    this.maxlife = initmaxlife;
+	    this.currentlife = initmaxlife;
+	    this.initvel = initvelocity;
+	    this.velocity = initvelocity;
+	    this.removable = false;
+	}
+	
 	/*ACTIONS*/
 		
 	/**
@@ -62,9 +75,9 @@ public abstract class LivingEntity implements Entity {
 	*/
 	public List<Projectile> attack() throws IllegalStateException {
 		if (this.weapon == null) {
-			throw new IllegalStateException("Entity " + this.ID + " cannot shoot without a gun.");			
+			throw new IllegalStateException("Entity " + this.id + " cannot shoot without a gun.");			
 		}
-			
+		
 		return this.weapon.shoot(new Location(this.location));
 	}
 	
@@ -91,40 +104,12 @@ public abstract class LivingEntity implements Entity {
 			throw new IllegalArgumentException("The entity cannot receive a negative value of damage.");
 		}
 		
-		this.currentlife -= this.looseShield(damage);
+		this.currentlife -= damage;
 		
 		if (this.currentlife <= 0) {
 			this.currentlife = 0;
 			this.removable = true;
 		}			
-	}
-
-	/** 
-	 * Absorb damage
-	 * <br>
-	 * The damage is decrease by the currentshield value.
-	 * <br>
-	 * @param damage Amount of damage as integer
-	 * @return damage Amount of remaining damage as integer (maybe some of it was absorbed by the shield)
-	*/
-	public int looseShield(final int damage) {
-		
-		int originalshield = currentshield;
-		int filtereddamage = 0;
-		
-		currentshield -= damage;
-		
-		//if shield value is less than 0 return the absolute value of shield and set currentshield to 0
-		if (originalshield != currentshield && currentshield < 0) { 
-			filtereddamage = Math.abs(currentshield);
-			currentshield = 0;
-		} else if (originalshield != currentshield && currentshield > 0) { //if the shield value is greater that 0 and was decreased
-			return 0;
-		} else if (originalshield == currentshield && currentshield == 0) { //if there is no shield return full damage
-			return damage;
-		}
-					
-		return filtereddamage;
 	}
 		
 	/** 
@@ -146,26 +131,7 @@ public abstract class LivingEntity implements Entity {
 			this.currentlife = this.maxlife;
 		}
 	}
-		
-	/** Increment entity shield
-	 * <br>
-	 * Increase current shield by the increment amount. If currentshield is greater than the maxshield then 
-	 * the currentshield is set to maxshield.
-	 * @param increment Amount of shield to add as integer
-	 * @throws IllegalArgumentException If increment value is negative
-	*/
-	public void acquireShield(final int increment) throws IllegalArgumentException {
-		if (increment < 0) {
-			throw new IllegalArgumentException("The entity cannot acquire negative amount of shield.");
-		}
 			
-		this.currentshield += increment;
-			
-		if (this.currentshield > this.maxshield) {
-			this.currentshield = this.maxshield;
-		}
-	}
-	
 	/*SETTERS*/
 	
 	/** 
@@ -179,19 +145,7 @@ public abstract class LivingEntity implements Entity {
 		}
 		this.weapon = newweapon;
 	}
-			
-	/** 
-	 * Setter method for entity shield.
-	 * @param maxvalueshield the maximum shield value
-	 * @throws IllegalArgumentException if the input value is negative
-	 */
-	public void setShield(final int maxvalueshield) throws IllegalArgumentException {
-		if (maxvalueshield < 0) {
-			throw new IllegalArgumentException("Entity's maximum shield cannot be set below 0.");
-		}
-		this.maxshield = maxvalueshield;
-	}
-	
+				
 	/** 
 	 * Setter method for entity velocity.
 	 * @param newvelocity velocity of the entity as double
@@ -265,6 +219,14 @@ public abstract class LivingEntity implements Entity {
 		return this.maxlife;
 	}
 	
+	/**
+     * Getter method to get velocity.
+     * @return velocity Current spaceship Velocity
+     */
+    public double getVelocity() {
+        return this.velocity;
+    }
+    
 	@Override	
 	public Location getLocation() {
 		return this.location;
@@ -272,7 +234,7 @@ public abstract class LivingEntity implements Entity {
 				
 	@Override
 	public EntityType getID() {
-		return this.ID;
+		return this.id;
 	}
 	
 	/*OTHER METHODS*/
@@ -284,12 +246,7 @@ public abstract class LivingEntity implements Entity {
 		
 	@Override
 	public String toString() {
-		if (this.ID.equals(EntityType.Spaceship)) {
-			Spaceship tmp = (Spaceship) this;
-			return "[ " + tmp.ID + " -> X: " + tmp.location.getX() + " | Y: " + tmp.location.getY() + " | Direction: " + tmp.getDirection() + " | Life: " + tmp.getRemainingLife() + " | Shield: " + tmp.getRemainingShield() + " ]";			
-		} else {
-			return "[ " + this.ID + " -> X: " + this.location.getX() + " | Y: " + this.location.getY() + " | Direction: " + this.getDirection() + " | Life: " + this.getRemainingLife() + " ]";		
-		}
+	    return "[ " + this.id + " -> X: " + this.location.getX() + " | Y: " + this.location.getY() + " | Direction: " + this.getDirection() + " | Life: " + this.getRemainingLife() + " ]";		
 	}
 }
 

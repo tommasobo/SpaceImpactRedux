@@ -4,8 +4,14 @@ package spaceimpact.model;
  * Level Creator<br>
  * Create a new level at request. Implemeted with Factory Pattern.
  */
-class LevelCreator {
+public final class LevelCreator {
 
+    /**
+     * Private Constructor.
+     */
+    private LevelCreator() {       
+    }
+    
 	/**
 	 * Static method that creates a new Level (the difficulty depends on the number
 	 * of levels completed before). In increases the levelId count at each creation 

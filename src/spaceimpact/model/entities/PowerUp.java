@@ -16,6 +16,15 @@ import spaceimpact.model.Location;
  */
 public class PowerUp implements Entity {
 	
+    //Movement Limits
+    private static final double WLIMIT = -0.30d;
+    //Enhancements values
+    private static final double VELOCITYINCREMENT = 1.15;
+    private static final int SHIELDINCREMENT = 20;
+    private static final int LIFEINCREMENT = 10;
+    private static final int DAMAGEINCREMENT = 2;
+    private static final int COOLDOWNDECREMENT = 2;
+    
 	/**
 	 * All possible PowerUps enhancements.
 	 */
@@ -139,15 +148,15 @@ public class PowerUp implements Entity {
 		if (this.plus.equals(Enhancement.AddProjectile)) {
 			player.getWeapon().increaseProjectiles();
 		} else if (this.plus.equals(Enhancement.CoolDownDecreased)) {
-			player.getWeapon().decreaseCoolDown(2);
+			player.getWeapon().decreaseCoolDown(COOLDOWNDECREMENT);
 		} else if (this.plus.equals(Enhancement.IncrementDamage)) {
-			player.getWeapon().increaseDamage(2);
+			player.getWeapon().increaseDamage(DAMAGEINCREMENT);
 		} else if (this.plus.equals(Enhancement.Heal)) {
-			player.acquireLife(10);
+			player.acquireLife(LIFEINCREMENT);
 		} else if (this.plus.equals(Enhancement.RestoreShield)) {
-			player.acquireShield(20);
+			player.acquireShield(SHIELDINCREMENT);
 		} else {
-			player.setVelocity(player.getVelocity() * 1.15);
+			player.setVelocity(player.getVelocity() * VELOCITYINCREMENT);
 		}
 	}
 	
@@ -198,7 +207,7 @@ public class PowerUp implements Entity {
 			throw new IllegalStateException("Cannot update powerup if his location is undefined");
 		}
 			
-		if (location.getX() < -0.30d) {
+		if (location.getX() < WLIMIT) {
 			this.removable = true;
 		} else {
 			this.direction.moveLocation(this.location, this.velocity);		
