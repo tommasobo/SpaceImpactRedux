@@ -18,7 +18,7 @@ public final class ClosureHandler {
      * 
      * @return The singleton instance of the class.
      */
-    public static ClosureHandler getClosureHandler() {
+    static ClosureHandler getClosureHandler() {
         return ClosureHandler.CLOSUREHANDLER;
     }
 
@@ -30,7 +30,7 @@ public final class ClosureHandler {
      * @param mainWindow
      *            The current window of the application
      */
-    public static void closeProgram(final Stage mainWindow) {
+    static void closeProgram(final Stage mainWindow) {
         final Boolean answer = ConfirmBox.display("Alert", "Are you sure you want to exit the game?");
         if (View.getController().isGameLoopPaused()) {
             if (answer) {

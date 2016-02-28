@@ -35,8 +35,7 @@ public final class GenericBox {
      * @param buttonMessage
      *            The text of the button
      */
-    public static void display(final BoxType boxType, final String title, final String message,
-            final String buttonMessage) {
+    static void display(final BoxType boxType, final String title, final String message, final String buttonMessage) {
         final Stage window = new Stage();
         if (boxType == BoxType.ERROR) {
             window.getIcons().add(ImageLoader.getLoader().getImageFromPath("Icons/error.png"));

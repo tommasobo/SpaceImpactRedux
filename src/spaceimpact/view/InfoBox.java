@@ -27,7 +27,7 @@ public final class InfoBox {
     /**
      * It shows the box.
      */
-    public static void display() {
+    static void display() {
         final Stage window = new Stage();
         window.getIcons().add(ImageLoader.getLoader().getImageFromPath("Icons/info.png"));
         window.setResizable(false);
