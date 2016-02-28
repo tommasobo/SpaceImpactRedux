@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import spaceimpact.model.Direction;
 import spaceimpact.model.ModelInterface;
+import spaceimpact.utilities.Input;
 import spaceimpact.utilities.Pair;
 import spaceimpact.view.ViewInterface;
 
@@ -16,6 +18,7 @@ public final class Controller implements ControllerInterface {
     private static final int HS_NSCORES = 10;
 
     private final HighScoresManagerInterface hsManager;
+    private final InputParserInterface inputParser;
     private int fps = 60;
     private Pair<String, Integer> diff = new Pair<>("Normal", 2);
     private Optional<GameLoop> gl;
@@ -29,6 +32,36 @@ public final class Controller implements ControllerInterface {
     public Controller() {
         this.hsManager = new HighScoresManager(Controller.HS_FILENAME, Controller.HS_NSCORES);
         this.gl = Optional.empty();
+        this.inputParser = list -> {
+            final boolean n = list.contains(Input.W);
+            final boolean s = list.contains(Input.S);
+            final boolean e = list.contains(Input.D);
+            final boolean w = list.contains(Input.A);
+            final boolean shoot = list.contains(Input.SPACE);
+            Optional<Direction> d = Optional.empty();
+            if (n) {
+                if (e) {
+                    d = Optional.of(Direction.NE);
+                } else if (w) {
+                    d = Optional.of(Direction.NW);
+                } else {
+                    d = Optional.of(Direction.N);
+                }
+            } else if (s) {
+                if (e) {
+                    d = Optional.of(Direction.SE);
+                } else if (w) {
+                    d = Optional.of(Direction.SW);
+                } else {
+                    d = Optional.of(Direction.S);
+                }
+            } else if (e) {
+                d = Optional.of(Direction.E);
+            } else if (w) {
+                d = Optional.of(Direction.W);
+            }
+            return new Pair<Optional<Direction>, Boolean>(d, shoot);
+        };
     }
 
     @Override
@@ -41,7 +74,7 @@ public final class Controller implements ControllerInterface {
         if (this.gl.isPresent()) {
             throw new IllegalStateException();
         }
-        final GameLoop game = new GameLoop(this.fps, this.diff.getSecond(), this, this.view);
+        final GameLoop game = new GameLoop(this.fps, this.diff.getSecond(), this, this.view, this.inputParser);
         this.gl = Optional.of(game);
         game.start();
     }
