@@ -149,7 +149,7 @@ public class GameOverScreen extends Scene {
      *            The current Stage of the game that needs to be used.
      * @return The current scene.
      */
-    public static Scene get(final Stage mainWindow) {
+    static Scene get(final Stage mainWindow) {
         mainStage = mainWindow;
         mainStage.setFullScreen(false);
         mainStage.setWidth(WINDOW_SIZE);
