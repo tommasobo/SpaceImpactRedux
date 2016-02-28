@@ -19,7 +19,13 @@ import spaceimpact.model.entities.EntityType;
  */
 public abstract class Spawner implements SpawnerInterface {
 
+    //default area for entities
     private static final Area DEFAULTAREA = new Area(0.125, 0.0972);
+    //default spawn location coordinates (out of boundaries to spawn enemy in not visible area)
+    private static final double XMINSPAWN = 1.8; 
+    private static final double XSPAWNAREA = 0.2;
+    private static final double YMINSPAWN = 0.15;
+    private static final double YSPAWNAREA = 0.70;
     
 	//spawn delay
     private int spawndelay;
@@ -64,15 +70,15 @@ public abstract class Spawner implements SpawnerInterface {
     protected void incrementSpawnCount() {
         this.spawncount++;
     }
-    
+        
     /**
      * Generate Random Entity Spawn Location.
      * @return tmparea Random generated spawn location
      */
     protected Location generateRandomLocation() {
         Random rnd = new Random();
-        double x = 1.8d + 0.2d * rnd.nextDouble();
-        double y = 0.15d + 0.70d * rnd.nextDouble();
+        double x = XMINSPAWN + XSPAWNAREA * rnd.nextDouble();
+        double y = YMINSPAWN + YSPAWNAREA * rnd.nextDouble();
         return new Location(x, y, this.area);
     }
 

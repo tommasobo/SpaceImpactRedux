@@ -118,7 +118,7 @@ public enum Direction {
 	 * @return degrees angle of the direction as degrees value
 	 */
 	public double getRotation() {
-		return ((this.getIndex() + 6) % 8) * 45.0;
+		return ((this.getIndex() + 6) % Direction.values().length) * 45.0;
 	}
 
 	/**
@@ -134,7 +134,7 @@ public enum Direction {
 	 * @return Direction Return the current direction moved to left by 45 degrees
 	 */
 	public Direction moveLeft() {
-		return Direction.values()[(this.getIndex() + 1) % 8];
+		return Direction.values()[(this.getIndex() + 1) % Direction.values().length];
 	}
 
 	/**
@@ -143,7 +143,7 @@ public enum Direction {
 	 */
 
 	public Direction moveRight() {
-		return Direction.values()[(this.getIndex() + 7) % 8];
+		return Direction.values()[(this.getIndex() + 7) % Direction.values().length];
 	}
 
 	/**
@@ -151,7 +151,7 @@ public enum Direction {
 	 * @return Direction Return the current direction flipped by 180 degrees
 	 */
 	public Direction flip() {
-		return Direction.values()[(this.getIndex() + 4) % 8];
+		return Direction.values()[(this.getIndex() + 4) % Direction.values().length];
 	}
 }
 
