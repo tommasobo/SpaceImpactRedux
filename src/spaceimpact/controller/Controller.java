@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import spaceimpact.model.Direction;
-import spaceimpact.model.ModelInterface;
 import spaceimpact.utilities.Input;
 import spaceimpact.utilities.Pair;
 import spaceimpact.view.ViewInterface;
@@ -23,7 +22,6 @@ public final class Controller implements ControllerInterface {
     private Pair<String, Integer> diff = new Pair<>("Normal", 2);
     private Optional<GameLoop> gl;
     private ViewInterface view;
-    private ModelInterface model;
     private volatile int score;
 
     /**
