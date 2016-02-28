@@ -28,6 +28,8 @@ public class GameLoop extends Thread {
         READY, RUNNING, PAUSED, KILLED;
     }
 
+    private static final int PAUSE_SLEEPMS = 500;
+
     private final long ticLenght;
     private final int fps;
     private final int diff;
@@ -174,7 +176,7 @@ public class GameLoop extends Thread {
                 }
             } else {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(GameLoop.PAUSE_SLEEPMS);
                 } catch (final InterruptedException e) {
                     this.setState(Status.KILLED);
                 }
