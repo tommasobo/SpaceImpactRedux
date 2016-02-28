@@ -91,7 +91,7 @@ public final class MainMenu extends Scene {
      *            The Stage to place this Scene.
      * @return The current Scene.
      */
-    public static MainMenu get(final Stage mainWindow) {
+    static MainMenu get(final Stage mainWindow) {
         mainStage = mainWindow;
         mainStage.setFullScreen(false);
         mainStage.setWidth(WIDTH);

@@ -120,7 +120,7 @@ public class HighScores extends Scene {
      *            The Stage to place this Scene.
      * @return The current Scene.
      */
-    public static Scene get(final Stage mainWindow) {
+    static Scene get(final Stage mainWindow) {
         showHighScores();
         mainStage = mainWindow;
         mainStage.setTitle("Space Impact Redux - High Scores");

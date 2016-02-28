@@ -20,7 +20,7 @@ public final class Logo {
      * @param heigth
      *            Height of the logo.
      */
-    public Logo(final double width, final double heigth) {
+    Logo(final double width, final double heigth) {
         this.logo.setFitHeight(heigth);
         this.logo.setFitWidth(width);
     }
@@ -30,7 +30,7 @@ public final class Logo {
      * 
      * @return An ImageView of the logo.
      */
-    public ImageView getLogo() {
+    ImageView getLogo() {
         return this.logo;
     }
 

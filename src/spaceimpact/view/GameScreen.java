@@ -113,9 +113,18 @@ public class GameScreen extends Scene {
         topLayout.getChildren().add(verticalInfoBox);
         topBox.setId("gameScreen");
 
+        this.root.getChildren().addAll(this.backgroundLayer, topBox);
+        this.getInput();
+        this.resize();
+        this.setRoot(this.root);
+    }
+
+    /**
+     * Private method responsible for getting the inputs from the user.
+     */
+    private void getInput() {
         final InputHandler inputHandler = InputHandler.getInputHandler();
         inputHandler.emptyList();
-        this.root.getChildren().addAll(this.backgroundLayer, topBox);
         this.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.BACK_SPACE) {
                 View.getController().pauseGameLoop();
@@ -132,8 +141,6 @@ public class GameScreen extends Scene {
         this.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
             inputHandler.release(event.getCode());
         });
-        this.resize();
-        this.setRoot(this.root);
     }
 
     /**
@@ -190,7 +197,7 @@ public class GameScreen extends Scene {
      *            The Stage to place this Scene.
      * @return The current Scene.
      */
-    public GameScreen get(final Stage mainWindow) {
+    GameScreen get(final Stage mainWindow) {
         this.mainStage = mainWindow;
         this.mainStage.setWidth(GameScreen.inGameWidth);
         this.mainStage.setHeight(GameScreen.inGameHeight);

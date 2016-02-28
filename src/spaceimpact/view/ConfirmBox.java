@@ -32,7 +32,7 @@ public final class ConfirmBox {
      *            The message of the dialog box.
      * @return The choice of the user where true equals yes and false equals no.
      */
-    public static boolean display(final String title, final String message) {
+    static boolean display(final String title, final String message) {
         final Stage window = new Stage();
         window.getIcons().add(ImageLoader.getLoader().getImageFromPath("Icons/alert.png"));
         window.setResizable(false);
@@ -40,7 +40,7 @@ public final class ConfirmBox {
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setMinWidth(MIN_WIDTH);
-        
+
         final Label label = new Label();
         label.setText(message);
 
