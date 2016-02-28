@@ -2,6 +2,7 @@ package spaceimpact.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,7 +19,7 @@ public class TestGameLoop {
     @Test
     public void test1() {
         this.var = 0;
-        final GameLoop gl = new GameLoop(10, 2, this.dummyController, this.dummyView);
+        final GameLoop gl = new GameLoop(10, 2, this.dummyController, this.dummyView, this.dummyParser);
         gl.start();
         try {
             Thread.sleep(1000);
@@ -41,7 +42,7 @@ public class TestGameLoop {
     @Test
     public void test2() {
         this.var = 0;
-        final GameLoop gl = new GameLoop(60, 2, this.dummyController, this.dummyView);
+        final GameLoop gl = new GameLoop(60, 2, this.dummyController, this.dummyView, this.dummyParser);
         gl.start();
         try {
             Thread.sleep(10000);
@@ -58,7 +59,7 @@ public class TestGameLoop {
     @Test
     public void test3() {
         this.var = 0;
-        final GameLoop gl = new GameLoop(50, 2, this.dummyController, this.dummyView);
+        final GameLoop gl = new GameLoop(50, 2, this.dummyController, this.dummyView, this.dummyParser);
         gl.start();
         try {
             Thread.sleep(1000);
@@ -181,4 +182,6 @@ public class TestGameLoop {
         public void setView(final ViewInterface v) {
         }
     };
+
+    private final InputParserInterface dummyParser = inputList -> new Pair(Optional.empty(), Boolean.FALSE);
 }
