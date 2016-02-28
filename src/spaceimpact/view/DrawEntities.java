@@ -54,7 +54,7 @@ public class DrawEntities {
      *            String is the image path relative from res folder (in URL
      *            form), the Double is the image rotation required).
      */
-    public void draw(final Pane layer, final List<Pair<Pair<String, Double>, Location>> listEntities) {
+    void draw(final Pane layer, final List<Pair<Pair<String, Double>, Location>> listEntities) {
         layer.getChildren().clear();
         this.translateBackground();
         layer.getChildren().addAll(this.bg, this.bg2);
