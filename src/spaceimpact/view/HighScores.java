@@ -28,7 +28,6 @@ public class HighScores extends Scene {
 
     private static final int WIDTH_LOGO_HIGHSCORS = 450;
     private static final int HEIGTH_LOGO_HIGHSCORES = 150;
-    private static final double WINDOW_SIZE = 800;
     private static final HighScores MAINSCENE = new HighScores();
 
     private static VBox listHighScores;
