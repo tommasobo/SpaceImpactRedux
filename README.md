@@ -5,7 +5,11 @@ Multiple deisgn patterns were used during the development of the game and we foc
 
 Note: The project was originally developed on bitbucket ( https://bitbucket.org/DavideGia/oop15-tommaso-bonato-nicola-cielo-lugaresi-secci-davide )
 
-![Alt text](http://i.imgur.com/D9s7g9o.png)
+<p align="center">
+<img src="http://i.imgur.com/D9s7g9o.png"><br>
+Main Menu<br><br>
 
-![Alt text](http://i.imgur.com/hO6bG0q.png)
+<img src="http://i.imgur.com/hO6bG0q.png">
+In Game
 
+</p>
