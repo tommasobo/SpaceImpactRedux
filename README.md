@@ -4,3 +4,8 @@ A clone of the classic game "Space Impact" developed in Java using JavaFX as the
 Multiple deisgn patterns were used during the development of the game and we focused on making the code as extendible as possible.
 
 Note: The project was originally developed on bitbucket ( https://bitbucket.org/DavideGia/oop15-tommaso-bonato-nicola-cielo-lugaresi-secci-davide )
+
+![Alt text](http://i.imgur.com/D9s7g9o.png)
+
+![Alt text](http://i.imgur.com/hO6bG0q.png)
+
